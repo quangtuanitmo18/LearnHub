@@ -1,0 +1,46 @@
+<%- include('partials/header', { title: 'Payment Successful' }) %>
+
+  <div class="header" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+    <h1>🎉 Payment Successful!</h1>
+  </div>
+  
+  <div class="content">
+    <p>Hello <strong><%= username %></strong>,</p>
+    
+    <p>Great news! Your payment has been successfully processed. You now have full access to your purchased courses.</p>
+    
+    <div class="info-box" style="background: #d4edda; border-left: 4px solid #28a745;">
+      <h3 style="color: #155724;">✓ Payment Confirmed</h3>
+      <p style="margin-bottom: 0;"><strong>Order Code:</strong> <%= orderCode %></p>
+      <p style="margin-bottom: 0;"><strong>Amount Paid:</strong> <%= formatCurrency(totalAmount) %></p>
+      <p style="margin-bottom: 0;"><strong>Payment Date:</strong> <%= formatDate(paidAt) %></p>
+    </div>
+    
+    <h3 style="color: #11998e;">Your Courses</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th class="text-right">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach(function(item) { %>
+        <tr>
+          <td><%= item.title %></td>
+          <td class="text-right"><%= formatCurrency(item.price) %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <p>Start learning now! Access your courses from your dashboard.</p>
+    </div>
+    
+    <p style="margin-top: 30px; color: #666; font-size: 14px;">
+      Thank you for choosing us. Happy learning! 📚
+    </p>
+  </div>
+
+<%- include('partials/footer', { companyName: companyName }) %>

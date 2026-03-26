@@ -5,40 +5,680 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
-  moduleFormat    = "cjs"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
+
+enum UserType {
+  FACEBOOK
+  GOOGLE
+  DEFAULT
+}
+
+enum CategoryStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum LessonType {
+  VIDEO
+  ARTICLE
+  QUIZ
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  SINGLE_CHOICE
+  TRUE_FALSE
+}
+
+enum CouponDiscountType {
+  PERCENT
+  FIXED
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum OrderType {
+  COURSE
+  MEMBERSHIP
+}
+
+enum PaymentMethod {
+  STRIPE
+  BANK_TRANSFER
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+}
+
+
+enum MembershipPlan {
+  NONE
+  COPPER
+  SILVER
+  GOLD
+  DIAMOND
+}
+
+enum ReactionType {
+  LIKE
+  LOVE
+  CARE
+  FUN
+  WOW
+  SAD
+  ANGRY
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     Post[]
-  tokens    RefreshToken[]
+  id                   String          @id @default(uuid())
+  username             String
+  email                String          @unique
+  password             String?
+  status               UserStatus      @default(INACTIVE)
+  avatar               String?
+  userType             UserType        @default(DEFAULT)
+  plan                 MembershipPlan  @default(NONE)
+  planStartDate        DateTime?
+  planEndDate          DateTime?
+  isMembership         Boolean         @default(false)
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  otpCode              String?
+  otpExpires           DateTime?
+  isEmailVerified      Boolean         @default(false)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @default(now())
+
+  // relations
+  roles         Role[]
+  courses       Course[]
+  carts         Cart[]
+  orders        Order[]
+  reviews       Review[]
+  blogs         Blog[]
+  comments      Comment[]
+  commentReactions CommentReaction[]
+  notifications NotificationRecipient[]
+  media         Media[]
+  lessonProgress UserLessonProgress[]
+
+  @@index([email], name: "idx_user_email")
+  @@index([resetPasswordToken], name: "idx_user_reset_token")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  permissions String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  // relations
+  users User[]
+
+  @@index([name], name: "idx_role_name")
+}
+
+model Blog {
+  id          String     @id @default(uuid())
+  title       String?
+  slug        String?    @unique
+  content     String?
+  excerpt     String?
+  thumbnail   String
+  status      BlogStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // relations
+  author     User?     @relation(fields: [authorId], references: [id])
+  authorId   String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  @@index([title], name: "idx_blog_title")
+  @@index([slug], name: "idx_blog_slug")
+  @@index([status], name: "idx_blog_status")
+  @@index([authorId], name: "idx_blog_author")
+  @@index([categoryId], name: "idx_blog_category")
+}
+
+
+model Category {
+  id        String         @id @default(uuid())
+  name      String         @unique
+  slug      String         @unique
+  status    CategoryStatus @default(ACTIVE)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  // relations
+  courses Course[]
+  blogs   Blog[]
+
+  @@index([name], name: "idx_category_name")
+  @@index([slug], name: "idx_category_slug")
+}
+
+model Course {
+  id          String        @id @default(uuid())
+  title       String?
+  slug        String?       @unique
+  description String?
+  excerpt     String?
+  introUrl    String?
+  price       Decimal?      @default(0)
+  oldPrice    Decimal?      @default(0)
+  isFree      Boolean?      @default(false)
+  status      CourseStatus? @default(DRAFT)
+  view        Int?          @default(0)
+  sold        Int?          @default(0)
+  level       CourseLevel?
+  info        Json?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Media relations
+  image         Media?  @relation("CourseImage", fields: [imageId], references: [id])
+  imageId       String?
+  previewImages Media[] @relation("CoursePreviewImages")
+
+  // relations
+  author     User?       @relation(fields: [authorId], references: [id])
+  authorId   String?
+  category   Category?   @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  chapters   Chapter[]
+  lessons    Lesson[]
+  lessonProgress UserLessonProgress[]
+  coupons    Coupon[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+  reviews    Review[]
+
+  @@index([title], name: "idx_course_title")
+  @@index([slug], name: "idx_course_slug")
+  @@index([authorId], name: "idx_course_author")
+  @@index([categoryId], name: "idx_course_category")
+  @@index([imageId], name: "idx_course_image")
+}
+
+model Chapter {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  order       Int
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // relations
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+  lessons  Lesson[]
+
+  @@index([courseId], name: "idx_chapter_course")
+  @@index([order], name: "idx_chapter_order")
+}
+
+model Lesson {
+  id          String     @id @default(uuid())
+  type        LessonType
+  title       String
+  description String?
+  slug        String?    @unique
+  order       Int        @default(0)
+  published   Boolean    @default(false)
+  durationSec Int?       // Denormalized duration for quick access
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations - content based on type
+  quiz    LessonQuiz?
+  article LessonArticle?
+  video   LessonVideo?
+
+  // course relations
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId String
+  comments  Comment[]
+  userProgress UserLessonProgress[]
+
+  @@index([type])
+  @@index([courseId], name: "idx_lesson_course")
+  @@index([chapterId], name: "idx_lesson_chapter")
+  @@index([order], name: "idx_lesson_order")
+}
+
+model LessonArticle {
+  lessonId String @id
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  content     String
+  durationSec Int?   // Reading time in seconds
+}
+
+model LessonVideo {
+  lessonId String @id
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  url         String
+  durationSec Int?
+}
+
+model LessonQuiz {
+  lessonId String @id
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  durationSec Int? // Time limit for quiz in seconds
+  passScore   Int?
+  maxAttempts Int?
+
+  questions QuizQuestion[]
+  attempts  QuizAttempt[]
+}
+
+model QuizQuestion {
+  id     String     @id @default(uuid())
+  quizId String
+  quiz   LessonQuiz @relation(fields: [quizId], references: [lessonId], onDelete: Cascade)
+
+  type        QuestionType
+  text        String
+  explanation String?
+  order       Int          @default(0)
+  points      Int          @default(1) // Points for this question
+
+  options        QuizOption[]
+  attemptAnswers QuizAttemptAnswer[]
+
+  @@index([quizId, order])
+}
+
+model QuizOption {
+  id         String       @id @default(uuid())
+  questionId String
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  text      String
+  order     Int     @default(0)
+  isCorrect Boolean @default(false)
+
+  @@index([questionId, order])
+}
+
+// ==================== QUIZ ATTEMPTS ====================
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  EXPIRED
+}
+
+model QuizAttempt {
+  id String @id @default(uuid())
+
+  lessonId String
+  quiz     LessonQuiz @relation(fields: [lessonId], references: [lessonId], onDelete: Cascade)
+
+  userId    String
+  attemptNo Int
+  status    AttemptStatus @default(IN_PROGRESS)
+
+  startedAt   DateTime  @default(now())
+  expiresAt   DateTime?
+  submittedAt DateTime?
+
+  score        Float?
+  maxScore     Float?
+  passed       Boolean?
+  correctCount Int?
+  totalCount   Int?
+
+  answers QuizAttemptAnswer[]
+
+  @@unique([lessonId, userId, attemptNo])
+  @@index([lessonId, userId])
+  @@index([status, expiresAt])
+}
+
+model QuizAttemptAnswer {
+  id String @id @default(uuid())
+
+  attemptId String
+  attempt   QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+
+  questionId String
+  question   QuizQuestion @relation(fields: [questionId], references: [id])
+
+  selectedOptionIds String[] @default([])
+
+  isCorrect        Boolean?
+  earnedScore      Float?
+
+  @@unique([attemptId, questionId])
+  @@index([questionId])
+}
+
+// ==================== ARTICLE (STANDALONE - for Blog/non-Lesson articles) ====================
+
+model Article {
+  id          String   @id @default(uuid())
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ==================== MEDIA ====================
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum MediaStatus {
+  UPLOADING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Media {
+  id        String      @id @default(uuid())
+  userId    String
+
+  // Upload info
+  filename  String
+  size      BigInt
+  mimetype  String      // image/jpeg, video/mp4, ...
+
+  // Type classification
+  type      MediaType   // IMAGE | VIDEO
+
+  // Storage / CDN
+  storageKey     String      @unique  // Main key for UI (image or thumbnail)
+  thumbnailKey   String?              // For video (or image if needed)
+  cdnBaseUrl     String               // e.g., https://cdn.example.com
+
+  // Video HLS
+  hlsPlaylistKey String?              // videos/abc123/playlist.m3u8
+  duration       Float?               // seconds
+
+  status         MediaStatus @default(UPLOADING)
+  errorMessage   String?
+
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  user           User        @relation(fields: [userId], references: [id])
+
+  // Course relations
+  courseImages        Course[] @relation("CourseImage")
+  coursePreviewImages Course[] @relation("CoursePreviewImages")
+
+  @@index([userId], name: "idx_media_user")
+  @@index([status], name: "idx_media_status")
+  @@index([type], name: "idx_media_type")
+  @@index([createdAt], name: "idx_media_created")
+
+}
+
+model Coupon {
+  id                String             @id @default(uuid())
+  title             String
+  code              String             @unique
+  discountType      CouponDiscountType
+  discountValue     Decimal
+  minPurchaseAmount Decimal?
+  maxUses           Int?
+  usedCount         Int                @default(0)
+  startDate         DateTime?
+  endDate           DateTime?
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  // relations - implicit many-to-many (Prisma auto-creates join table)
+  courses Course[]
+
+  @@index([code], name: "idx_coupon_code")
+  @@index([isActive], name: "idx_coupon_active")
+  @@index([startDate, endDate], name: "idx_coupon_dates")
+}
+
+model Cart {
+  id         String   @id @default(uuid())
+  totalPrice Decimal  @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // relations
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  items  CartItem[]
+
+  @@index([userId], name: "idx_cart_user")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
   title     String
-  content   String
-  authorId  Int
+  price     Decimal
+  oldPrice  Decimal?
+  thumbnail String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  // relations
+  cart     Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId   String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+
+  @@unique([cartId, courseId], name: "unique_cart_course")
+  @@index([cartId], name: "idx_cart_item_cart")
+  @@index([courseId], name: "idx_cart_item_course")
 }
 
-model RefreshToken {
-  token     String   @unique
-  userId    Int
-  expiresAt DateTime
+model Order {
+  id             String          @id @default(uuid())
+  code           String          @unique
+  orderType      OrderType       @default(COURSE)
+  couponCode     String?
+  subTotal       Decimal         @default(0)
+  totalDiscount  Decimal         @default(0)
+  totalAmount    Decimal         @default(0)
+  paymentMethod  PaymentMethod
+  status         OrderStatus     @default(PENDING)
+  // Membership specific fields (only used when orderType is MEMBERSHIP)
+  membershipPlan MembershipPlan?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  // relations
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  items  OrderItem[]
+
+  @@index([userId], name: "idx_order_user")
+  @@index([code], name: "idx_order_code")
+  @@index([status], name: "idx_order_status")
+  @@index([orderType], name: "idx_order_type")
+  @@index([createdAt], name: "idx_order_created")
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  title     String
+  price     Decimal
+  oldPrice  Decimal?
+  thumbnail String?
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  updatedAt DateTime @updatedAt
+
+  // relations
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId  String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+
+  @@index([orderId], name: "idx_order_item_order")
+  @@index([courseId], name: "idx_order_item_course")
+}
+
+model Review {
+  id        String       @id @default(uuid())
+  star      Int
+  content   String
+  status    ReviewStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  // relations
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+
+  @@index([userId], name: "idx_review_user")
+  @@index([courseId], name: "idx_review_course")
+  @@index([status], name: "idx_review_status")
+}
+
+// ==================== NOTIFICATION ====================
+
+enum NotificationType {
+  COURSE
+  PAYMENT
+  SYSTEM
+}
+
+model Notification {
+  id        String       @id @default(uuid())
+  type      NotificationType
+  title     String
+  message   String
+  data      Json?
+  createdAt DateTime         @default(now())
+
+  recipients NotificationRecipient[]
+
+  @@index([type], name: "idx_notification_type")
+  @@index([createdAt], name: "idx_notification_created")
+}
+
+model NotificationRecipient {
+  id        String       @id @default(uuid())
+  notificationId String
+  userId         String
+  isRead         Boolean   @default(false)
+  readAt         DateTime?
+  createdAt      DateTime  @default(now())
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([notificationId, userId])
+  @@index([userId, isRead], name: "idx_recipient_user_read")
+  @@index([userId, createdAt], name: "idx_recipient_user_created")
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  lessonId   String
+  lesson     Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  parentId   String?
+  parent     Comment? @relation("Children", fields: [parentId], references: [id], onDelete: Cascade)
+  children   Comment[] @relation("Children")
+  content    String
+  level      Int            @default(0)
+  status     CommentStatus  @default(APPROVED)
+  reactions  CommentReaction[]
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@index([lessonId], name: "idx_comment_lesson")
+  @@index([parentId], name: "idx_comment_parent")
+  @@index([userId], name: "idx_comment_user")
+  @@index([status], name: "idx_comment_status")
+}
+
+model CommentReaction {
+  id        String       @id @default(uuid())
+  commentId String
+  comment   Comment      @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  type      ReactionType
+
+  @@unique([commentId, userId], name: "unique_comment_user_reaction")
+  @@index([commentId], name: "idx_comment_reaction_comment")
+  @@index([userId], name: "idx_comment_reaction_user")
+}
+
+model UserLessonProgress {
+  id          String    @id @default(uuid())
+  userId      String
+  lessonId    String
+  courseId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  course Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId], name: "unique_user_lesson_progress")
+  @@index([userId], name: "idx_user_lesson_progress_user")
+  @@index([lessonId], name: "idx_user_lesson_progress_lesson")
+  @@index([courseId], name: "idx_user_lesson_progress_course")
 }

@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api-client";
-import { AxiosResponse, AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 // Generic API response type
 export interface ApiResponse<T = unknown> {

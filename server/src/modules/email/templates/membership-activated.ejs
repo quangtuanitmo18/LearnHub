@@ -1,0 +1,50 @@
+<%- include('partials/header', { title: 'Membership Activated' }) %>
+
+  <%
+    const planColors = {
+      COPPER: '#b87333',
+      SILVER: '#c0c0c0',
+      GOLD: '#ffd700',
+      DIAMOND: '#b9f2ff'
+    };
+    const planColor = planColors[plan] || '#667eea';
+    const headerStyle = `background: linear-gradient(135deg, ${planColor} 0%, #667eea 100%);`;
+    const infoBoxStyle = `background: #f0f7ff; border-left: 4px solid ${planColor};`;
+    const planNameStyle = `color: ${planColor}; font-weight: bold;`;
+  %>
+
+  <div class="header" style="<%= headerStyle %>">
+    <h1>👑 Welcome to <%= plan %> Membership!</h1>
+  </div>
+  
+  <div class="content">
+    <p>Hello <strong><%= username %></strong>,</p>
+    
+    <p>Congratulations! Your <strong><%= plan %></strong> membership has been successfully activated. You now have unlimited access to all our premium content!</p>
+    
+    <div class="info-box" style="<%= infoBoxStyle %>">
+      <h3 style="color: #333;">Membership Details</h3>
+      <p><strong>Plan:</strong> <span style="<%= planNameStyle %>"><%= plan %></span></p>
+      <p><strong>Order Code:</strong> <%= orderCode %></p>
+      <p><strong>Amount Paid:</strong> <%= formatCurrency(totalAmount) %></p>
+      <p><strong>Valid From:</strong> <%= formatDate(planStartDate) %></p>
+      <p style="margin-bottom: 0;"><strong>Valid Until:</strong> <%= formatDate(planEndDate) %></p>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <h3>🎁 Your Membership Benefits</h3>
+      <ul style="text-align: left; display: inline-block;">
+        <li>Unlimited access to all courses</li>
+        <li>Early access to new content</li>
+        <li>Premium support</li>
+        <li>Downloadable resources</li>
+        <li>Certificate of completion</li>
+      </ul>
+    </div>
+    
+    <p style="margin-top: 30px; color: #666; font-size: 14px;">
+      Enjoy your membership! If you have any questions, feel free to reach out to our support team.
+    </p>
+  </div>
+
+<%- include('partials/footer', { companyName: companyName }) %>

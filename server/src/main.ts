@@ -1,27 +1,58 @@
+import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
+import { SocketIOAdapter } from './modules/notification/adapters/socket-io.adapter';
+
+// Enable BigInt serialization to JSON
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true, // Enable raw body for Stripe webhook signature verification
+  });
+  const configService = app.get(ConfigService);
+
+  // Setup WebSocket adapter
+  app.useWebSocketAdapter(new SocketIOAdapter(app, configService));
+
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Tự động loại bỏ các field không được khai báo decorator trong DTO
-      forbidNonWhitelisted: true, // Nếu có field không được khai báo decorator trong DTO mà client truyền lên thì báo lỗi
-      transform: true, // Tự động chuyển đổi dữ liệu sang kiểu được khai báo trong DTO
+      transform: true,
       transformOptions: {
         enableImplicitConversion: true,
       },
-      exceptionFactory: (validationErrors) => {
-        return new UnprocessableEntityException(
-          validationErrors.map((error) => ({
-            field: error.property,
-            error: Object.values(error.constraints as any).join(', '),
-          })),
-        );
-      },
+      whitelist: true,
     }),
   );
-  await app.listen(process.env.PORT ?? 3000);
+
+  // Set a global prefix for all routes.
+  app.setGlobalPrefix('api');
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
+  // Enable API versioning with URI-based versioning and set default version to "1".
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: ['1'],
+    // Uncomment the following line to set multiple default versions.
+    // defaultVersion: ["1", "2"],
+  });
+
+  const port = configService.get<number>('PORT') || 3000;
+
+  await app.listen(port);
+
+  console.log(`🚀 Application is running on: http://localhost:${port}`);
+  console.log(`🔌 WebSocket server is running on: ws://localhost:${port}`);
 }
-bootstrap();
+
+bootstrap().catch((error) => {
+  console.error('❌ Error starting the application:', error);
+  process.exit(1);
+});

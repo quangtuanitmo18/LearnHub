@@ -1,0 +1,44 @@
+<%- include('partials/header', { title: 'Email Verification' }) %>
+
+  <div class="header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+    <h1>✉️ Email Verification</h1>
+  </div>
+  
+  <div class="content">
+    <p>Hello <strong><%= username %></strong>,</p>
+    
+    <p>Thank you for registering with us! To complete your registration, please verify your email address using the OTP code below.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <p style="margin-bottom: 20px; font-size: 16px;">Your verification code is:</p>
+      <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 20px 40px; border-radius: 10px; display: inline-block;">
+        <span style="font-family: 'Courier New', monospace; font-size: 36px; font-weight: bold; color: #ffffff; letter-spacing: 8px;"><%= otpCode %></span>
+      </div>
+    </div>
+    
+    <div class="info-box" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+      <h3 style="color: #856404;">⏰ Important</h3>
+      <p style="margin-bottom: 0;">This verification code will expire in <strong><%= expiresIn %></strong>. Please use it before it expires.</p>
+    </div>
+    
+    <div class="info-box" style="background: #f0f7ff; border-left: 4px solid #28a745;">
+      <h3 style="color: #333;">How to Verify</h3>
+      <ol style="margin-bottom: 0;">
+        <li>Copy the 6-digit code above</li>
+        <li>Go back to the verification page</li>
+        <li>Enter the code in the verification form</li>
+        <li>Click "Verify" to complete your registration</li>
+      </ol>
+    </div>
+    
+    <div class="info-box" style="background: #f8d7da; border-left: 4px solid #dc3545;">
+      <h3 style="color: #721c24;">🔒 Security Notice</h3>
+      <p style="margin-bottom: 0;">If you didn't create an account with us, please ignore this email. Someone may have entered your email address by mistake.</p>
+    </div>
+    
+    <p style="margin-top: 30px; color: #666; font-size: 14px;">
+      If you're having trouble, please contact our support team for assistance.
+    </p>
+  </div>
+
+<%- include('partials/footer', { companyName: companyName }) %>

@@ -33,7 +33,10 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/only-throw-error': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-enum-comparison': 'off',
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
 );
+// Unsafe return of a value of type `any`.
