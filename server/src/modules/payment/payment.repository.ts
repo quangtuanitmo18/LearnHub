@@ -8,6 +8,7 @@ import {
 import { OrderStatus, OrderType } from 'src/shared/constants/order.constant';
 import { MembershipDuration } from 'src/shared/constants/user.constant';
 import { PrismaService } from 'src/shared/services/prisma.service';
+import Stripe from 'stripe';
 import { EmailQueueService } from '../email/services';
 import { NotificationService } from '../notification/notification.service';
 import { OrderQueueService } from '../order/services/order-queue.service';
