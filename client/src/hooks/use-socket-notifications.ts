@@ -1,16 +1,15 @@
 'use client';
 
-import { useEffect, useCallback, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { notificationKeys } from '@/hooks/use-notifications';
 import {
+  SOCKET_EVENTS,
   connectNotificationSocket,
   disconnectNotificationSocket,
-  SOCKET_EVENTS,
 } from '@/lib/socket';
 import { useIsAuthenticated } from '@/stores/auth-store';
-import { notificationKeys } from '@/hooks/use-notifications';
 import type { NotificationCount } from '@/types/notification';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useRef } from 'react';
 
 // Types for socket events based on BE response
 export interface NewCourseEvent {
@@ -44,14 +43,6 @@ export function useSocketNotifications(options: UseSocketNotificationsOptions = 
   const queryClient = useQueryClient();
   const isAuthenticated = useIsAuthenticated();
   const socketConnectedRef = useRef(false);
-
-  // Get access token from localStorage
-  const getAccessToken = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('access_token');
-    }
-    return null;
-  }, []);
 
   // Handle notification count update
   const handleNotificationCount = useCallback(
@@ -112,8 +103,7 @@ export function useSocketNotifications(options: UseSocketNotificationsOptions = 
       return;
     }
 
-    const accessToken = getAccessToken();
-    const socket = connectNotificationSocket(accessToken || undefined);
+    const socket = connectNotificationSocket();
 
     // Connection event handlers
     socket.on(SOCKET_EVENTS.CONNECT, () => {
@@ -144,13 +134,7 @@ export function useSocketNotifications(options: UseSocketNotificationsOptions = 
       socket.off(SOCKET_EVENTS.NEW_COURSE);
       socket.off(SOCKET_EVENTS.NEW_NOTIFICATION);
     };
-  }, [
-    isAuthenticated,
-    getAccessToken,
-    handleNotificationCount,
-    handleNewCourse,
-    handleNewNotification,
-  ]);
+  }, [isAuthenticated, handleNotificationCount, handleNewCourse, handleNewNotification]);
 
   // Disconnect on unmount
   useEffect(() => {

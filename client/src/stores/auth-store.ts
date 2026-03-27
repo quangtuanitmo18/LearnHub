@@ -39,28 +39,28 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading });
       },
 
-      // Fetch current user from /auth/me
+      // Fetch current user from /auth/me (cookie sent automatically)
       getCurrentUser: async () => {
         try {
-          const token = getTokenFromStorage();
-          if (!token) {
-            set({ isLoading: false, user: null });
-            return;
-          }
-
           const userData = await AuthService.getAuthMe();
-
           set({ user: userData, isLoading: false });
         } catch {
-          // Clear invalid token
-          clearTokenFromStorage();
           set({ user: null, isLoading: false });
         }
       },
 
-      // Logout function using NextAuth
+      // Logout: call server to clear cookies, then reset state
       logout: async () => {
-        clearTokenFromStorage();
+        try {
+          await AuthService.logout();
+        } catch {
+          // Ignore logout errors
+        }
+        // Clean up any legacy localStorage tokens
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+        }
         set({ user: null, isLoading: false });
       },
 
@@ -87,18 +87,3 @@ export const useCanPerformAction = (
   resource: string,
   action: 'create' | 'read' | 'update' | 'delete',
 ) => useAuthStore((state) => state.canPerformAction(resource, action));
-
-// Token management helpers (only store tokens, not user data)
-function getTokenFromStorage(): string | null {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('access_token');
-  }
-  return null;
-}
-
-function clearTokenFromStorage(): void {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-  }
-}

@@ -1,24 +1,29 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import {
-  LoginBodyDto,
-  RegisterBodyDto,
-  UpdateProfileDto,
-  ChangePasswordDto,
-  ForgotPasswordDto,
-  ResetPasswordDto,
-  VerifyOtpDto,
-  ResendOtpDto,
-  GoogleAuthDto,
-  FacebookAuthDto,
-} from './dto/auth.dto';
-import { PrismaService } from 'src/shared/services/prisma.service';
-import { EmailQueueService } from '../email/services';
-import { AuthQueueService } from './services';
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
-import { JwtService } from '@nestjs/jwt';
+import { Response as ExpressResponse } from 'express';
 import { OAuth2Client } from 'google-auth-library';
+import { PrismaService } from 'src/shared/services/prisma.service';
+import { EmailQueueService } from '../email/services';
+import {
+  ChangePasswordDto,
+  FacebookAuthDto,
+  ForgotPasswordDto,
+  GoogleAuthDto,
+  LoginBodyDto,
+  RegisterBodyDto,
+  ResendOtpDto,
+  ResetPasswordDto,
+  UpdateProfileDto,
+  VerifyOtpDto,
+} from './dto/auth.dto';
+import { AuthQueueService } from './services';
 
 @Injectable()
 export class AuthService {
@@ -41,8 +46,7 @@ export class AuthService {
       userType,
       type: 'access',
     };
-    const secret =
-      this.configService.get<string>('JWT_ACCESS_SECRET') || 'access-secret';
+    const secret = this.configService.get<string>('jwt.accessSecret');
 
     return await this.jwtService.signAsync(payload, {
       secret,
@@ -55,7 +59,7 @@ export class AuthService {
       sub: userId,
       type: 'refresh',
     };
-    const secret = this.configService.get<string>('JWT_REFRESH_SECRET');
+    const secret = this.configService.get<string>('jwt.refreshSecret');
 
     return await this.jwtService.signAsync(payload, {
       secret,
@@ -360,7 +364,7 @@ export class AuthService {
 
     // Check and update membership status if expired
     let isMembership = (user as any).isMembership || false;
-    const planEndDate = (user as any).planEndDate;
+    const planEndDate = (user as any).planEndDate as string | Date | null;
 
     // If user has membership but it's expired, update the status
     if (isMembership && planEndDate && new Date(planEndDate) < new Date()) {
@@ -834,5 +838,92 @@ export class AuthService {
       console.error('Facebook authentication error:', error);
       throw new BadRequestException('Failed to authenticate with Facebook');
     }
+  }
+
+  /**
+   * Refresh access token using a valid refresh token
+   */
+  async refreshAccessToken(refreshTokenValue: string) {
+    try {
+      const secret = this.configService.get<string>('jwt.refreshSecret');
+      const payload = await this.jwtService.verifyAsync(refreshTokenValue, {
+        secret,
+      });
+
+      if (payload.type !== 'refresh') {
+        throw new UnauthorizedException('Invalid token type');
+      }
+
+      const user = await this.prismaService.user.findUnique({
+        where: { id: payload.sub },
+        include: {
+          roles: {
+            select: { id: true, name: true, permissions: true },
+          },
+        },
+      });
+
+      if (!user || user.status !== 'ACTIVE') {
+        throw new UnauthorizedException('User not found or inactive');
+      }
+
+      const [accessToken, newRefreshToken] = await Promise.all([
+        this.generateAccessToken(user.id, user.userType),
+        this.generateRefreshToken(user.id),
+      ]);
+
+      return { accessToken, refreshToken: newRefreshToken };
+    } catch (error) {
+      if (error instanceof UnauthorizedException) throw error;
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+  }
+
+  /**
+   * Set auth tokens as HttpOnly cookies on the response
+   */
+  setAuthCookies(
+    res: ExpressResponse,
+    accessToken: string,
+    refreshToken: string,
+  ): void {
+    const isProduction = this.configService.get('NODE_ENV') === 'production';
+
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'strict',
+      path: '/api/v1/auth/refresh',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+  }
+
+  /**
+   * Clear auth cookies on logout
+   */
+  clearAuthCookies(res: ExpressResponse): void {
+    const isProduction = this.configService.get('NODE_ENV') === 'production';
+
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    res.clearCookie('refresh_token', {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'strict',
+      path: '/api/v1/auth/refresh',
+    });
   }
 }

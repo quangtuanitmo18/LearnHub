@@ -1,6 +1,7 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { SocketIOAdapter } from './modules/notification/adapters/socket-io.adapter';
 
@@ -18,6 +19,9 @@ async function bootstrap() {
   // Setup WebSocket adapter
   app.useWebSocketAdapter(new SocketIOAdapter(app, configService));
 
+  // Enable cookie parsing for HttpOnly cookie auth
+  app.use(cookieParser());
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -30,10 +34,13 @@ async function bootstrap() {
 
   // Set a global prefix for all routes.
   app.setGlobalPrefix('api');
+  const corsOrigin =
+    configService.get<string>('CORS_ORIGIN') || 'http://localhost:4000';
   app.enableCors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: corsOrigin.split(',').map((o) => o.trim()),
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   });
 
   // Enable API versioning with URI-based versioning and set default version to "1".

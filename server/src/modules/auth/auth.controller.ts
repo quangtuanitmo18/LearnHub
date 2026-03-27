@@ -1,23 +1,33 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import {
-  RegisterBodyDto,
-  LoginBodyDto,
-  UpdateProfileDto,
-  ChangePasswordDto,
-  ForgotPasswordDto,
-  ResetPasswordDto,
-  VerifyOtpDto,
-  ResendOtpDto,
-  GoogleAuthDto,
-  FacebookAuthDto,
-} from './dto/auth.dto';
-import { Public } from 'src/shared/decorators/public.decorator';
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Req,
+  Res,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
 import {
   CurrentUser,
   type JwtPayload,
 } from 'src/shared/decorators/current-user.decorator';
+import { Public } from 'src/shared/decorators/public.decorator';
 import { ResponseMessage } from 'src/shared/decorators/response-message.decorator';
+import { AuthService } from './auth.service';
+import {
+  ChangePasswordDto,
+  FacebookAuthDto,
+  ForgotPasswordDto,
+  GoogleAuthDto,
+  LoginBodyDto,
+  RegisterBodyDto,
+  ResendOtpDto,
+  ResetPasswordDto,
+  UpdateProfileDto,
+  VerifyOtpDto,
+} from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -33,8 +43,20 @@ export class AuthController {
   @Public()
   @Post('login')
   @ResponseMessage('Login successful')
-  login(@Body() body: LoginBodyDto) {
-    return this.authService.login(body);
+  async login(
+    @Body() body: LoginBodyDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.authService.login(body);
+
+    // Set HttpOnly cookies
+    this.authService.setAuthCookies(
+      res,
+      result.accessToken,
+      result.refreshToken,
+    );
+
+    return result;
   }
 
   @Get('me')
@@ -92,15 +114,77 @@ export class AuthController {
   @Public()
   @Post('google')
   @ResponseMessage('Google authentication successful')
-  googleAuth(@Body() googleAuthDto: GoogleAuthDto) {
-    return this.authService.googleAuth(googleAuthDto);
+  async googleAuth(
+    @Body() googleAuthDto: GoogleAuthDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.authService.googleAuth(googleAuthDto);
+
+    // Set cookies if login was successful (has tokens)
+    if ('accessToken' in result && result.accessToken) {
+      this.authService.setAuthCookies(
+        res,
+        result.accessToken,
+        result.refreshToken,
+      );
+    }
+
+    return result;
   }
 
   @Public()
   @Post('facebook')
   @ResponseMessage('Facebook authentication successful')
-  facebookAuth(@Body() facebookAuthDto: FacebookAuthDto) {
-    return this.authService.facebookAuth(facebookAuthDto);
+  async facebookAuth(
+    @Body() facebookAuthDto: FacebookAuthDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.authService.facebookAuth(facebookAuthDto);
+
+    // Set cookies if login was successful (has tokens)
+    if ('accessToken' in result && result.accessToken) {
+      this.authService.setAuthCookies(
+        res,
+        result.accessToken,
+        result.refreshToken,
+      );
+    }
+
+    return result;
+  }
+
+  @Public()
+  @Post('refresh')
+  @ResponseMessage('Token refreshed successfully')
+  async refreshToken(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    // Read refresh token from cookie or body
+    const refreshTokenValue: string | undefined =
+      req.cookies?.refresh_token || req.body?.refreshToken;
+
+    if (!refreshTokenValue) {
+      throw new BadRequestException('Refresh token is required');
+    }
+
+    const result = await this.authService.refreshAccessToken(refreshTokenValue);
+
+    // Set new cookies
+    this.authService.setAuthCookies(
+      res,
+      result.accessToken,
+      result.refreshToken,
+    );
+
+    return result;
+  }
+
+  @Post('logout')
+  @ResponseMessage('Logged out successfully')
+  logout(@Res({ passthrough: true }) res: Response) {
+    this.authService.clearAuthCookies(res);
+    return { message: 'Logged out successfully' };
   }
 }
 

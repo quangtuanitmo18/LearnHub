@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { Socket } from 'socket.io';
 
 export interface AuthenticatedSocket extends Socket {
@@ -78,6 +78,20 @@ export class WsAuthMiddleware {
       return socket.handshake.auth.token;
     }
 
+    // Try to get token from HttpOnly cookie
+    const cookieHeader = socket.handshake.headers.cookie;
+    if (cookieHeader) {
+      const cookies = Object.fromEntries(
+        cookieHeader.split(';').map((c) => {
+          const [key, ...val] = c.trim().split('=');
+          return [key, val.join('=')];
+        }),
+      );
+      if (cookies.access_token) {
+        return cookies.access_token;
+      }
+    }
+
     return null;
   }
 
@@ -86,11 +100,8 @@ export class WsAuthMiddleware {
    */
   private async verifyToken(token: string): Promise<any> {
     try {
-      const secret =
-        this.configService.get<string>('jwt.accessSecret') ||
-        this.configService.get<string>('JWT_ACCESS_SECRET') ||
-        'access-secret';
-      return this.jwtService.verify(token, { secret });
+      const secret = this.configService.get<string>('jwt.accessSecret');
+      return await this.jwtService.verifyAsync(token, { secret });
     } catch (error) {
       this.logger.error(`Token verification failed: ${error.message}`);
       return null;

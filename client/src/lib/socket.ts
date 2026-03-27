@@ -36,17 +36,17 @@ let notificationSocket: Socket | null = null;
 /**
  * Get or create the notification socket instance
  */
-export function getNotificationSocket(accessToken?: string): Socket {
+export function getNotificationSocket(): Socket {
   if (!notificationSocket) {
     notificationSocket = io(`${SOCKET_URL}${NOTIFICATION_NAMESPACE}`, {
       autoConnect: false,
+      withCredentials: true,
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       timeout: 20000,
       transports: ['websocket', 'polling'],
-      auth: accessToken ? { token: accessToken } : undefined,
     });
   }
 
@@ -56,13 +56,8 @@ export function getNotificationSocket(accessToken?: string): Socket {
 /**
  * Connect to notification socket
  */
-export function connectNotificationSocket(accessToken?: string): Socket {
-  const socket = getNotificationSocket(accessToken);
-
-  // Update auth token if provided
-  if (accessToken) {
-    socket.auth = { token: accessToken };
-  }
+export function connectNotificationSocket(): Socket {
+  const socket = getNotificationSocket();
 
   if (!socket.connected) {
     socket.connect();
@@ -107,17 +102,17 @@ const subscribedVideoIds = new Set<string>();
 /**
  * Get or create the video socket instance
  */
-export function getVideoSocket(accessToken?: string): Socket {
+export function getVideoSocket(): Socket {
   if (!videoSocket) {
     videoSocket = io(`${SOCKET_URL}${VIDEO_NAMESPACE}`, {
       autoConnect: false,
+      withCredentials: true,
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       timeout: 20000,
       transports: ['websocket', 'polling'],
-      auth: accessToken ? { token: accessToken } : undefined,
     });
 
     // Auto-resubscribe on reconnect
@@ -152,13 +147,8 @@ export function getVideoSocket(accessToken?: string): Socket {
 /**
  * Connect to video socket
  */
-export function connectVideoSocket(accessToken?: string): Socket {
-  const socket = getVideoSocket(accessToken);
-
-  // Update auth token if provided
-  if (accessToken) {
-    socket.auth = { token: accessToken };
-  }
+export function connectVideoSocket(): Socket {
+  const socket = getVideoSocket();
 
   if (!socket.connected) {
     socket.connect();

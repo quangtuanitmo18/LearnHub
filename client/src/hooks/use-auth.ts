@@ -1,18 +1,18 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { signOut, signIn } from 'next-auth/react';
-import { AuthService } from '@/services/auth';
-import { useAuthStore } from '@/stores/auth-store';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { ROUTE_CONFIG } from '@/configs/routes';
 import {
-  UpdateProfileRequest,
+  AuthService,
   ChangePasswordRequest,
   ForgotPasswordRequest,
-  ResetPasswordRequest,
-  RegisterRequest,
   LoginRequest,
+  RegisterRequest,
+  ResetPasswordRequest,
+  UpdateProfileRequest,
 } from '@/services/auth';
-import { ROUTE_CONFIG } from '@/configs/routes';
+import { useAuthStore } from '@/stores/auth-store';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 // Query keys for auth
 export const authKeys = {
@@ -140,14 +140,11 @@ export function useSocialAuth(mode: 'login' | 'register') {
       const hasAccessToken = 'accessToken' in response && response.accessToken;
 
       if (hasAccessToken) {
-        // Login flow - store tokens and get user
-        const authResponse = response as {
-          accessToken: string;
-          refreshToken: string;
-        };
+        // Login flow - cookies are set by the server response
+        // Clean up any legacy localStorage tokens
         if (typeof window !== 'undefined') {
-          localStorage.setItem('access_token', authResponse.accessToken);
-          localStorage.setItem('refresh_token', authResponse.refreshToken);
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
         }
         await getCurrentUser();
         toast.success('Login successful!');
@@ -186,9 +183,11 @@ export function useLogin() {
     mutationFn: (credentials: LoginRequest) => AuthService.login(credentials),
     onSuccess: async (response) => {
       if (response && response.accessToken) {
+        // Cookies are set by the server response
+        // Clean up any legacy localStorage tokens
         if (typeof window !== 'undefined') {
-          localStorage.setItem('access_token', response.accessToken);
-          localStorage.setItem('refresh_token', response.refreshToken);
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
         }
         await getCurrentUser();
         toast.success('Login successful!');

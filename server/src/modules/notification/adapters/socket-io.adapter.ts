@@ -1,7 +1,7 @@
-import { IoAdapter } from '@nestjs/platform-socket.io';
 import { INestApplicationContext, Logger } from '@nestjs/common';
-import { ServerOptions } from 'socket.io';
 import { ConfigService } from '@nestjs/config';
+import { IoAdapter } from '@nestjs/platform-socket.io';
+import { ServerOptions } from 'socket.io';
 
 export class SocketIOAdapter extends IoAdapter {
   private readonly logger = new Logger(SocketIOAdapter.name);
@@ -14,13 +14,15 @@ export class SocketIOAdapter extends IoAdapter {
   }
 
   createIOServer(port: number, options?: Partial<ServerOptions>): any {
-    // Get CORS configuration from config service or use defaults
-    const corsOrigin = this.configService.get<string>('cors.origin') || '*';
+    // Get CORS configuration from env (same as main.ts)
+    const corsOrigin =
+      this.configService.get<string>('CORS_ORIGIN') || 'http://localhost:4000';
+    const origins = corsOrigin.split(',').map((o) => o.trim());
 
     const serverOptions: Partial<ServerOptions> = {
       ...options,
       cors: {
-        origin: corsOrigin,
+        origin: origins,
         credentials: true,
         methods: ['GET', 'POST'],
       },

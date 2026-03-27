@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 // Custom parameter serializer for arrays
 const customParamsSerializer = (params: Record<string, unknown>) => {
@@ -26,64 +26,109 @@ const customParamsSerializer = (params: Record<string, unknown>) => {
 };
 
 // API configuration
+// - Browser: uses relative path → Next.js rewrites proxy to backend (same-origin, cookies auto-sent)
+// - Server (SSR/RSC): uses absolute URL → calls NestJS directly (no cookies needed for public endpoints)
+const getBaseURL = () => {
+  if (typeof window !== 'undefined') {
+    // Browser: relative path lets Next.js rewrites handle proxying
+    return '/api/v1';
+  }
+  // Server: need absolute URL since there's no browser context
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/v1';
+};
+
 const API_CONFIG = {
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://learnhub-server.vercel.app/api/v1',
-  timeout: 10000, // 10 seconds
+  baseURL: getBaseURL(),
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
   paramsSerializer: customParamsSerializer,
 };
 
 // Create the main Axios instance
 export const apiClient: AxiosInstance = axios.create(API_CONFIG);
 
-// Request interceptor
-apiClient.interceptors.request.use(
-  (config) => {
-    // Add auth token if available
-    const token = getAuthToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+// Flag to prevent multiple simultaneous refresh attempts
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (value?: unknown) => void;
+  reject: (reason?: unknown) => void;
+}> = [];
+
+const processQueue = (error: unknown | null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve();
     }
+  });
+  failedQueue = [];
+};
 
-    return config;
-  },
-  (error) => {
-    console.error('Request interceptor error:', error);
-    return Promise.reject(error);
-  },
-);
-
-// Response interceptor
+// Response interceptor with token refresh logic
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error: AxiosError) => {
-    // Handle common error scenarios
-    if (error.response?.status === 401) {
-      handleUnauthorized();
+  async (error: AxiosError) => {
+    const originalRequest = error.config;
+
+    // If 401 and not already retrying
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !(originalRequest as typeof originalRequest & { _retry?: boolean })._retry
+    ) {
+      // Don't retry refresh or login endpoints
+      if (
+        originalRequest.url?.includes('/auth/refresh') ||
+        originalRequest.url?.includes('/auth/login')
+      ) {
+        handleUnauthorized();
+        return Promise.reject(error);
+      }
+
+      if (isRefreshing) {
+        // Queue this request until refresh completes
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then(() => apiClient(originalRequest));
+      }
+
+      (originalRequest as typeof originalRequest & { _retry?: boolean })._retry = true;
+      isRefreshing = true;
+
+      try {
+        // Attempt to refresh tokens (cookie sent automatically)
+        await apiClient.post('/auth/refresh');
+
+        processQueue(null);
+        // Retry the original request (new cookie is already set by server)
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        processQueue(refreshError);
+        handleUnauthorized();
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
     }
 
     return Promise.reject(error);
   },
 );
 
-// Helper functions
-function getAuthToken(): string | null {
-  // Get token from simple localStorage (not Zustand persist storage)
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('access_token');
-  }
-  return null;
-}
-
 function handleUnauthorized(): void {
-  // Clear auth tokens
   if (typeof window !== 'undefined') {
+    // Clean up any legacy localStorage tokens
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    // Redirect to login page
-    // window.location.href = "/auth/sign-in";
+
+    // Redirect to login if not already there
+    if (!window.location.pathname.startsWith('/auth/')) {
+      window.location.href = '/auth/sign-in';
+    }
   }
 }
 
