@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 interface LessonArticleContentProps {
   title: string;
@@ -8,40 +8,35 @@ interface LessonArticleContentProps {
 }
 
 // Lesson article content component - Arrow function
-const LessonArticleContent = ({
-  title,
-  content,
-}: LessonArticleContentProps) => {
+const LessonArticleContent = ({ title, content }: LessonArticleContentProps) => {
   const getCurrentDate = () => {
     const now = new Date();
     const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
+      year: 'numeric',
+      month: 'long',
     };
-    return `Updated ${now.toLocaleDateString("en-US", options)}`;
+    return `Updated ${now.toLocaleDateString('en-US', options)}`;
   };
 
   return (
-    <div className="w-full h-full bg-white">
+    <div className="h-full w-full bg-white">
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto h-full flex flex-col">
+      <div className="mx-auto flex h-full max-w-4xl flex-col">
         {/* Article Header */}
-        <div className="px-4 sm:px-6 pt-6 sm:pt-8 md:pt-12 pb-4 sm:pb-6 md:pb-8 shrink-0">
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 leading-tight">
+        <div className="shrink-0 px-4 pt-6 pb-4 sm:px-6 sm:pt-8 sm:pb-6 md:pt-12 md:pb-8">
+          <h1 className="mb-2 text-xl leading-tight font-bold text-gray-900 sm:mb-3 sm:text-2xl md:mb-4 md:text-3xl lg:text-4xl">
             {title}
           </h1>
-          <p className="text-gray-500 text-sm sm:text-base">
-            {getCurrentDate()}
-          </p>
+          <p className="text-sm text-gray-500 sm:text-base">{getCurrentDate()}</p>
         </div>
 
         {/* Article Content */}
         <div className="flex-1 overflow-hidden">
           <div
-            className="h-full overflow-y-auto px-4 sm:px-6 pb-6 sm:pb-8 md:pb-12"
+            className="h-full overflow-y-auto px-4 pb-6 sm:px-6 sm:pb-8 md:pb-12"
             style={{
-              scrollbarWidth: "thin",
-              scrollbarColor: "#CBD5E0 #F7FAFC",
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#CBD5E0 #F7FAFC',
             }}
           >
             <div

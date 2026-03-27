@@ -1,5 +1,8 @@
 import { IsEnum, IsOptional, IsDateString, IsBoolean } from 'class-validator';
-import { MembershipPlan, type MembershipPlanType } from 'src/shared/constants/user.constant';
+import {
+  MembershipPlan,
+  type MembershipPlanType,
+} from 'src/shared/constants/user.constant';
 
 export class UpdateMembershipDto {
   @IsEnum(MembershipPlan)

@@ -1,27 +1,25 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import {
   CategoriesFilterParams,
   CategoriesListResponse,
   CreateCategoryRequest,
   ICategory,
   UpdateCategoryRequest,
-} from "@/types/category";
+} from '@/types/category';
 
 const ENDPOINTS = {
-  CATEGORIES: "/categories",
-  CATEGORIES_ALL: "/categories/all",
+  CATEGORIES: '/categories',
+  CATEGORIES_ALL: '/categories/all',
   CATEGORY: (id: string) => `/categories/${id}`,
 } as const;
 
 export class CategoriesService {
   // Get categories with pagination
-  static async getCategories(
-    params: CategoriesFilterParams
-  ): Promise<CategoriesListResponse> {
+  static async getCategories(params: CategoriesFilterParams): Promise<CategoriesListResponse> {
     try {
       return await ApiService.get<CategoriesListResponse>(
         ENDPOINTS.CATEGORIES,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
     } catch {
       return {
@@ -39,9 +37,7 @@ export class CategoriesService {
   // Get all categories
   static async getAllCategories(): Promise<ICategory[]> {
     try {
-      const response = await ApiService.get<{ categories: ICategory[] }>(
-        ENDPOINTS.CATEGORIES_ALL
-      );
+      const response = await ApiService.get<{ categories: ICategory[] }>(ENDPOINTS.CATEGORIES_ALL);
       return response.categories || [];
     } catch {
       return [];
@@ -54,34 +50,27 @@ export class CategoriesService {
   }
 
   // Create category
-  static async createCategory(
-    categoryData: CreateCategoryRequest
-  ): Promise<ICategory> {
-    return ApiService.post<ICategory, CreateCategoryRequest>(
-      ENDPOINTS.CATEGORIES,
-      categoryData
-    );
+  static async createCategory(categoryData: CreateCategoryRequest): Promise<ICategory> {
+    return ApiService.post<ICategory, CreateCategoryRequest>(ENDPOINTS.CATEGORIES, categoryData);
   }
 
   // Update category
-  static async updateCategory(
-    categoryData: UpdateCategoryRequest
-  ): Promise<ICategory> {
+  static async updateCategory(categoryData: UpdateCategoryRequest): Promise<ICategory> {
     const { id, ...updateData } = categoryData;
-    return ApiService.put<ICategory, Omit<UpdateCategoryRequest, "id">>(
+    return ApiService.put<ICategory, Omit<UpdateCategoryRequest, 'id'>>(
       ENDPOINTS.CATEGORY(id),
-      updateData
+      updateData,
     );
   }
 
   // Patch category
   static async patchCategory(
     id: string,
-    categoryData: Partial<CreateCategoryRequest>
+    categoryData: Partial<CreateCategoryRequest>,
   ): Promise<ICategory> {
     return ApiService.patch<ICategory, Partial<CreateCategoryRequest>>(
       ENDPOINTS.CATEGORY(id),
-      categoryData
+      categoryData,
     );
   }
 
@@ -92,10 +81,9 @@ export class CategoriesService {
 
   // Bulk operations
   static async bulkDeleteCategories(categoryIds: string[]): Promise<void> {
-    return ApiService.delete<void, { ids: string[] }>(
-      `${ENDPOINTS.CATEGORIES}/bulk-delete`,
-      { ids: categoryIds }
-    );
+    return ApiService.delete<void, { ids: string[] }>(`${ENDPOINTS.CATEGORIES}/bulk-delete`, {
+      ids: categoryIds,
+    });
   }
 }
 

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 
 // Custom parameter serializer for arrays
 const customParamsSerializer = (params: Record<string, unknown>) => {
@@ -27,12 +27,10 @@ const customParamsSerializer = (params: Record<string, unknown>) => {
 
 // API configuration
 const API_CONFIG = {
-  baseURL:
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://learnhub-server.vercel.app/api/v1",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://learnhub-server.vercel.app/api/v1',
   timeout: 10000, // 10 seconds
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
   paramsSerializer: customParamsSerializer,
 };
@@ -52,9 +50,9 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error("Request interceptor error:", error);
+    console.error('Request interceptor error:', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -67,23 +65,23 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // Helper functions
 function getAuthToken(): string | null {
   // Get token from simple localStorage (not Zustand persist storage)
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("access_token");
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('access_token');
   }
   return null;
 }
 
 function handleUnauthorized(): void {
   // Clear auth tokens
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     // Redirect to login page
     // window.location.href = "/auth/sign-in";
   }

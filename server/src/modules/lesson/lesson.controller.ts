@@ -1,34 +1,30 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Put,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
-import { LessonService } from './lesson.service';
+import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
+import { ResponseMessage } from 'src/shared/decorators/response-message.decorator';
+import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
+import { UserLessonProgressService } from '../user-lesson-progress/user-lesson-progress.service';
 import {
   CreateLessonDto,
-  UpdateLessonDto,
   ReorderLessonsDto,
+  UpdateLessonDto,
 } from './dto/lesson.dto';
-import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
-import { ResponseMessage } from 'src/shared/decorators/response-message.decorator';
-import { PermissionGuard } from 'src/shared/guards/permission.guard';
-import { RequirePermissions } from 'src/shared/decorators/permission.decorator';
-import { PERMISSIONS } from 'src/shared/configs/permission';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
-import { UserLessonProgressService } from '../user-lesson-progress/user-lesson-progress.service';
+import { LessonService } from './lesson.service';
 
 @Controller('lessons')
 export class LessonController {
   constructor(
     private readonly lessonService: LessonService,
     private readonly userLessonProgressService: UserLessonProgressService,
-  ) { }
+  ) {}
 
   @Post()
   @ResponseMessage('Lesson created successfully')
@@ -78,7 +74,6 @@ export class LessonController {
     return this.lessonService.deleteLesson(id);
   }
 
-
   @Post(':lessonId/progress/toggle')
   @ResponseMessage('Lesson progress toggled successfully')
   async toggleProgress(
@@ -87,7 +82,6 @@ export class LessonController {
   ) {
     return this.userLessonProgressService.toggleProgress(userId, lessonId);
   }
-
 
   @Get(':lessonId/progress')
   @ResponseMessage('Lesson progress retrieved successfully')

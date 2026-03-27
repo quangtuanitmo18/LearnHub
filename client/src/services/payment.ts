@@ -1,4 +1,4 @@
-import ApiService from "@/lib/api-service";
+import ApiService from '@/lib/api-service';
 
 export interface CreateStripeCheckoutRequest {
   orderCode: string;
@@ -15,13 +15,10 @@ export class PaymentService {
    * Create Stripe checkout session
    */
   static async createStripeCheckout(
-    data: CreateStripeCheckoutRequest
+    data: CreateStripeCheckoutRequest,
   ): Promise<CreateStripeCheckoutResponse> {
-    return ApiService.post<CreateStripeCheckoutResponse>(
-      "/payment/stripe/checkout",
-      {
-        orderCode: data.orderCode,
-      }
-    );
+    return ApiService.post<CreateStripeCheckoutResponse>('/payment/stripe/checkout', {
+      orderCode: data.orderCode,
+    });
   }
 }

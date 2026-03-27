@@ -1,15 +1,15 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import type {
   DashboardStatsResponse,
   OverviewStatsResponse,
   RecentSalesResponse,
-} from "@/types/dashboard";
+} from '@/types/dashboard';
 
 // Dashboard API endpoints
 const ENDPOINTS = {
-  STATS: "/stats/dashboard",
-  OVERVIEW: "/stats/overview",
-  RECENT_SALES: "/stats/recent-sales",
+  STATS: '/stats/dashboard',
+  OVERVIEW: '/stats/overview',
+  RECENT_SALES: '/stats/recent-sales',
 } as const;
 
 // Dashboard service
@@ -19,7 +19,7 @@ export class DashboardService {
     try {
       return await ApiService.get<DashboardStatsResponse>(ENDPOINTS.STATS);
     } catch (error) {
-      console.error("Failed to fetch dashboard stats:", error);
+      console.error('Failed to fetch dashboard stats:', error);
       // Return fallback data if API fails
       return {
         totalUsers: {
@@ -51,22 +51,22 @@ export class DashboardService {
     try {
       return await ApiService.get<OverviewStatsResponse>(ENDPOINTS.OVERVIEW);
     } catch (error) {
-      console.error("Failed to fetch overview stats:", error);
+      console.error('Failed to fetch overview stats:', error);
       // Return fallback data if API fails
       const currentYear = new Date().getFullYear();
       const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
       ];
 
       return months.map((monthName, index) => ({
@@ -84,11 +84,11 @@ export class DashboardService {
     try {
       return await ApiService.get<RecentSalesResponse>(ENDPOINTS.RECENT_SALES);
     } catch (error) {
-      console.error("Failed to fetch recent sales:", error);
+      console.error('Failed to fetch recent sales:', error);
       // Return fallback data if API fails
       return {
         success: false,
-        message: "Failed to load recent sales data",
+        message: 'Failed to load recent sales data',
         statusCode: 500,
         recentSales: [],
         currentMonthSummary: {

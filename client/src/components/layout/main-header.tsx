@@ -1,50 +1,39 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
 
-import { HeaderLogo } from "../header/header-logo";
-import { DesktopNavigation } from "../header/desktop-navigation";
-import { NotificationBar } from "../header/notification-bar";
+import { HeaderLogo } from '../header/header-logo';
+import { DesktopNavigation } from '../header/desktop-navigation';
+import { NotificationBar } from '../header/notification-bar';
 
 // Dynamically import interactive components that don't need immediate rendering
 // These components require user interaction, so we can defer their loading
-const MobileMenu = dynamic(() => import("../header/mobile-menu"), {
+const MobileMenu = dynamic(() => import('../header/mobile-menu'), {
   ssr: false,
-  loading: () => (
-    <div className="lg:hidden h-10 w-10 p-0 animate-pulse bg-gray-200 rounded" />
-  ),
+  loading: () => <div className="h-10 w-10 animate-pulse rounded bg-gray-200 p-0 lg:hidden" />,
 });
 
-const SearchDialog = dynamic(() => import("../header/search-dialog"), {
+const SearchDialog = dynamic(() => import('../header/search-dialog'), {
   ssr: false,
-  loading: () => (
-    <div className="h-8 w-8 sm:h-10 sm:w-10 animate-pulse bg-gray-200 rounded-full" />
-  ),
+  loading: () => <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200 sm:h-10 sm:w-10" />,
 });
 
-const NotificationPopover = dynamic(
-  () => import("../header/notification-popover"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-8 w-8 sm:h-10 sm:w-10 animate-pulse bg-gray-200 rounded-full" />
-    ),
-  }
-);
-
-const CartTooltip = dynamic(() => import("../header/cart-tooltip"), {
+const NotificationPopover = dynamic(() => import('../header/notification-popover'), {
   ssr: false,
-  loading: () => (
-    <div className="h-8 w-8 sm:h-10 sm:w-10 animate-pulse bg-gray-200 rounded-full" />
-  ),
+  loading: () => <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200 sm:h-10 sm:w-10" />,
 });
 
-const AuthSection = dynamic(() => import("../header/auth-section"), {
+const CartTooltip = dynamic(() => import('../header/cart-tooltip'), {
+  ssr: false,
+  loading: () => <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200 sm:h-10 sm:w-10" />,
+});
+
+const AuthSection = dynamic(() => import('../header/auth-section'), {
   ssr: false,
   loading: () => (
     <div className="flex items-center gap-1 sm:gap-2">
-      <div className="h-8 sm:h-10 w-16 sm:w-20 animate-pulse bg-gray-200 rounded-xl" />
-      <div className="h-8 sm:h-10 w-20 sm:w-28 animate-pulse bg-gray-200 rounded-xl" />
+      <div className="h-8 w-16 animate-pulse rounded-xl bg-gray-200 sm:h-10 sm:w-20" />
+      <div className="h-8 w-20 animate-pulse rounded-xl bg-gray-200 sm:h-10 sm:w-28" />
     </div>
   ),
 });
@@ -58,7 +47,7 @@ function MainHeader() {
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-purple-500/5"></div>
 
       {/* Subtle border with gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+      <div className="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
 
       {/* Content container */}
       <div className="relative z-10">
@@ -67,7 +56,7 @@ function MainHeader() {
 
         {/* Main header */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 sm:h-18 items-center justify-between gap-2 sm:gap-4 lg:gap-6">
+          <div className="flex h-16 items-center justify-between gap-2 sm:h-18 sm:gap-4 lg:gap-6">
             {/* Mobile Menu Button & Logo Container */}
             <div className="flex items-center gap-3">
               <MobileMenu />
@@ -78,7 +67,7 @@ function MainHeader() {
             <DesktopNavigation />
 
             {/* Actions */}
-            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 min-w-fit">
+            <div className="flex min-w-fit items-center gap-1 sm:gap-2 lg:gap-3">
               <SearchDialog />
               <NotificationPopover />
               <CartTooltip />

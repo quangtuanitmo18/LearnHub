@@ -1,17 +1,13 @@
-import { DataTable, DataTablePagination } from "@/components/table";
-import { useBlogs } from "@/hooks/use-blogs";
-import { useDebounce } from "@/hooks/use-debounce";
-import {
-  VisibilityState,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { columns } from "./blogs-columns";
-import DataTableToolbar from "./data-table-toolbar";
-import BlogsBulkDeleteDialog from "./blogs-bulk-delete-dialog";
-import { PAGINATION_CONSTANTS, TABLE_CONSTANTS } from "@/constants";
-import { BlogStatus } from "@/types/blog";
+import { DataTable, DataTablePagination } from '@/components/table';
+import { useBlogs } from '@/hooks/use-blogs';
+import { useDebounce } from '@/hooks/use-debounce';
+import { VisibilityState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { columns } from './blogs-columns';
+import DataTableToolbar from './data-table-toolbar';
+import BlogsBulkDeleteDialog from './blogs-bulk-delete-dialog';
+import { PAGINATION_CONSTANTS, TABLE_CONSTANTS } from '@/constants';
+import { BlogStatus } from '@/types/blog';
 
 // Filter state interface for better organization
 interface FilterState {
@@ -26,24 +22,17 @@ const BlogsTable = () => {
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE
-  );
-  const [pageSize, setPageSize] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE
-  );
+  const [currentPage, setCurrentPage] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE);
+  const [pageSize, setPageSize] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE);
 
   // Filter state - grouped for better performance
   const [filters, setFilters] = useState<FilterState>({
-    search: "",
+    search: '',
     status: [],
   });
 
   // Debounce search input
-  const debouncedSearch = useDebounce(
-    filters.search,
-    TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS
-  );
+  const debouncedSearch = useDebounce(filters.search, TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS);
 
   // Optimized query parameters
   const queryParams = useMemo(
@@ -53,7 +42,7 @@ const BlogsTable = () => {
       search: debouncedSearch,
       status: filters.status,
     }),
-    [currentPage, pageSize, debouncedSearch, filters.status]
+    [currentPage, pageSize, debouncedSearch, filters.status],
   );
 
   const { data: blogsData, isLoading } = useBlogs(queryParams);
@@ -75,7 +64,7 @@ const BlogsTable = () => {
 
   const handleClearFilters = useCallback(() => {
     setFilters({
-      search: "",
+      search: '',
       status: [],
     });
     setCurrentPage(PAGINATION_CONSTANTS.DEFAULT_PAGE);

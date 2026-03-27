@@ -1,27 +1,25 @@
-import LessonsService from "@/services/lessons";
+import LessonsService from '@/services/lessons';
 import type {
   CreateLessonRequest,
   LessonsFilterParams,
   ReorderLessonsRequest,
   UpdateLessonRequest,
-} from "@/types/lesson";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { chapterKeys } from "./use-chapters";
+} from '@/types/lesson';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { chapterKeys } from './use-chapters';
 
 // Query keys for lessons
 export const lessonsKeys = {
-  all: ["lessons"] as const,
-  lists: () => [...lessonsKeys.all, "list"] as const,
-  list: (filters: LessonsFilterParams) =>
-    [...lessonsKeys.lists(), filters] as const,
-  chapterLessons: (chapterId: string) =>
-    [...lessonsKeys.all, "chapter", chapterId] as const,
+  all: ['lessons'] as const,
+  lists: () => [...lessonsKeys.all, 'list'] as const,
+  list: (filters: LessonsFilterParams) => [...lessonsKeys.lists(), filters] as const,
+  chapterLessons: (chapterId: string) => [...lessonsKeys.all, 'chapter', chapterId] as const,
   publishedChapterLessons: (chapterId: string) =>
-    [...lessonsKeys.all, "chapter", chapterId, "published"] as const,
-  details: () => [...lessonsKeys.all, "detail"] as const,
+    [...lessonsKeys.all, 'chapter', chapterId, 'published'] as const,
+  details: () => [...lessonsKeys.all, 'detail'] as const,
   detail: (id: string, params?: Record<string, unknown>) =>
     [...lessonsKeys.details(), id, params] as const,
-  slug: (slug: string) => [...lessonsKeys.details(), "slug", slug] as const,
+  slug: (slug: string) => [...lessonsKeys.details(), 'slug', slug] as const,
 };
 
 // Default empty params object for stable reference
@@ -38,10 +36,7 @@ export function useLessons(params?: LessonsFilterParams) {
 }
 
 // Hook to fetch lessons by chapter ID (using new endpoint /lessons/chapter/{chapterId})
-export function useLessonsByChapter(
-  chapterId: string,
-  enabled: boolean = true
-) {
+export function useLessonsByChapter(chapterId: string, enabled: boolean = true) {
   return useQuery({
     queryKey: lessonsKeys.chapterLessons(chapterId),
     queryFn: () => LessonsService.getLessonsByChapter(chapterId),
@@ -50,10 +45,7 @@ export function useLessonsByChapter(
 }
 
 // Hook to fetch published lessons by chapter ID (for public course view)
-export function usePublishedLessonsByChapter(
-  chapterId: string,
-  enabled: boolean = true
-) {
+export function usePublishedLessonsByChapter(chapterId: string, enabled: boolean = true) {
   return useQuery({
     queryKey: lessonsKeys.publishedChapterLessons(chapterId),
     queryFn: () => LessonsService.getPublishedLessonsByChapter(chapterId),
@@ -84,8 +76,7 @@ export function useCreateLesson() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (lessonData: CreateLessonRequest) =>
-      LessonsService.createLesson(lessonData),
+    mutationFn: (lessonData: CreateLessonRequest) => LessonsService.createLesson(lessonData),
     onSuccess: (newLesson) => {
       // Invalidate chapter lessons query to refetch lessons for this chapter
       queryClient.invalidateQueries({
@@ -104,8 +95,7 @@ export function useUpdateLesson() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (lessonData: UpdateLessonRequest) =>
-      LessonsService.updateLesson(lessonData),
+    mutationFn: (lessonData: UpdateLessonRequest) => LessonsService.updateLesson(lessonData),
     onSuccess: (updatedLesson) => {
       // Invalidate specific lesson detail queries (including ones with params)
       queryClient.invalidateQueries({

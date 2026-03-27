@@ -1,23 +1,18 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { ThumbsUp, MoreHorizontal, Edit3, Trash2 } from "lucide-react";
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { ThumbsUp, MoreHorizontal, Edit3, Trash2 } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-import {
-  ReactionType,
-  IComment,
-  getUserReaction,
-  getReactionCounts,
-} from "@/types/comment";
-import { useCommentReactions, useDeleteComment } from "@/hooks/use-comments";
-import { useUser } from "@/stores/auth-store";
+} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
+import { ReactionType, IComment, getUserReaction, getReactionCounts } from '@/types/comment';
+import { useCommentReactions, useDeleteComment } from '@/hooks/use-comments';
+import { useUser } from '@/stores/auth-store';
 
 interface CommentActionsProps {
   comment: IComment;
@@ -58,7 +53,7 @@ const CommentActions = ({
   };
 
   const handleDeleteClick = async () => {
-    if (!window.confirm("Are you sure you want to delete this comment?")) {
+    if (!window.confirm('Are you sure you want to delete this comment?')) {
       return;
     }
 
@@ -100,60 +95,60 @@ const CommentActions = ({
   const getReactionDisplay = () => {
     if (!userReaction) {
       return {
-        icon: <ThumbsUp className="h-4 w-4 mr-1" />,
-        text: "Like",
-        color: "text-gray-500",
+        icon: <ThumbsUp className="mr-1 h-4 w-4" />,
+        text: 'Like',
+        color: 'text-gray-500',
       };
     }
 
     switch (userReaction) {
       case ReactionType.LIKE:
         return {
-          icon: <ThumbsUp className="h-4 w-4 mr-1" />,
-          text: "Like",
-          color: "text-blue-600",
+          icon: <ThumbsUp className="mr-1 h-4 w-4" />,
+          text: 'Like',
+          color: 'text-blue-600',
         };
       case ReactionType.LOVE:
         return {
-          icon: <span className="text-sm mr-1">❤️</span>,
-          text: "Love",
-          color: "text-red-500",
+          icon: <span className="mr-1 text-sm">❤️</span>,
+          text: 'Love',
+          color: 'text-red-500',
         };
       case ReactionType.CARE:
         return {
           icon: <span className="mr-1">🤗</span>,
-          text: "Care",
-          color: "text-yellow-600",
+          text: 'Care',
+          color: 'text-yellow-600',
         };
       case ReactionType.FUN:
         return {
           icon: <span className="mr-1">😂</span>,
-          text: "Haha",
-          color: "text-yellow-600",
+          text: 'Haha',
+          color: 'text-yellow-600',
         };
       case ReactionType.WOW:
         return {
           icon: <span className="mr-1">😮</span>,
-          text: "Wow",
-          color: "text-yellow-600",
+          text: 'Wow',
+          color: 'text-yellow-600',
         };
       case ReactionType.SAD:
         return {
           icon: <span className="mr-1">😢</span>,
-          text: "Sad",
-          color: "text-yellow-600",
+          text: 'Sad',
+          color: 'text-yellow-600',
         };
       case ReactionType.ANGRY:
         return {
           icon: <span className="mr-1">😡</span>,
-          text: "Angry",
-          color: "text-red-600",
+          text: 'Angry',
+          color: 'text-red-600',
         };
       default:
         return {
-          icon: <ThumbsUp className="h-3 w-3 mr-1" />,
-          text: "Like",
-          color: "text-gray-500",
+          icon: <ThumbsUp className="mr-1 h-3 w-3" />,
+          text: 'Like',
+          color: 'text-gray-500',
         };
     }
   };
@@ -162,47 +157,38 @@ const CommentActions = ({
 
   // Reaction items for tooltip
   const reactions = [
-    { type: ReactionType.LIKE, emoji: "👍", label: "Like" },
-    { type: ReactionType.LOVE, emoji: "❤️", label: "Love" },
-    { type: ReactionType.CARE, emoji: "🤗", label: "Care" },
-    { type: ReactionType.FUN, emoji: "😂", label: "Haha" },
-    { type: ReactionType.WOW, emoji: "😮", label: "Wow" },
-    { type: ReactionType.SAD, emoji: "😢", label: "Sad" },
-    { type: ReactionType.ANGRY, emoji: "😡", label: "Angry" },
+    { type: ReactionType.LIKE, emoji: '👍', label: 'Like' },
+    { type: ReactionType.LOVE, emoji: '❤️', label: 'Love' },
+    { type: ReactionType.CARE, emoji: '🤗', label: 'Care' },
+    { type: ReactionType.FUN, emoji: '😂', label: 'Haha' },
+    { type: ReactionType.WOW, emoji: '😮', label: 'Wow' },
+    { type: ReactionType.SAD, emoji: '😢', label: 'Sad' },
+    { type: ReactionType.ANGRY, emoji: '😡', label: 'Angry' },
   ];
 
   // Get reaction counts and active reactions
   const reactionCounts = getReactionCounts(comment); // Returns Record<string, number>
 
-  const activeReactions = reactions.filter(
-    (reaction) => (reactionCounts[reaction.type] || 0) > 0
-  );
+  const activeReactions = reactions.filter((reaction) => (reactionCounts[reaction.type] || 0) > 0);
 
-  const totalReactions = Object.values(reactionCounts).reduce(
-    (sum, count) => sum + count,
-    0
-  );
+  const totalReactions = Object.values(reactionCounts).reduce((sum, count) => sum + count, 0);
 
   return (
     <div className="mt-1.5 sm:mt-2">
       <div className="flex items-center justify-between gap-2">
         {/* Left side: Action Buttons */}
         <div className="flex items-center space-x-2 sm:space-x-4">
-          <div
-            className="relative"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
+          <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleLikeClick}
               disabled={isLoading}
               className={cn(
-                "h-auto p-0.5 sm:p-1 text-[10px] sm:text-xs transition-all duration-300 hover:scale-105",
-                "hover:bg-gray-100/50 active:scale-95",
-                "disabled:opacity-50 disabled:cursor-not-allowed",
-                reactionDisplay.color
+                'h-auto p-0.5 text-[10px] transition-all duration-300 hover:scale-105 sm:p-1 sm:text-xs',
+                'hover:bg-gray-100/50 active:scale-95',
+                'disabled:cursor-not-allowed disabled:opacity-50',
+                reactionDisplay.color,
               )}
             >
               {reactionDisplay.icon}
@@ -212,12 +198,12 @@ const CommentActions = ({
             {/* Custom Reaction Picker - Hidden on mobile */}
             <div
               className={cn(
-                "absolute bottom-full left-0 mb-2 sm:mb-3 hidden sm:block",
-                "bg-white border border-gray-200 shadow-lg rounded-full px-3 sm:px-4 py-1.5 sm:py-2",
-                "transition-all duration-200 ease-out z-50",
+                'absolute bottom-full left-0 mb-2 hidden sm:mb-3 sm:block',
+                'rounded-full border border-gray-200 bg-white px-3 py-1.5 shadow-lg sm:px-4 sm:py-2',
+                'z-50 transition-all duration-200 ease-out',
                 showReactions
-                  ? "opacity-100 visible translate-y-0"
-                  : "opacity-0 invisible translate-y-2 pointer-events-none"
+                  ? 'visible translate-y-0 opacity-100'
+                  : 'pointer-events-none invisible translate-y-2 opacity-0',
               )}
             >
               <div className="flex items-center space-x-0.5 sm:space-x-1">
@@ -227,37 +213,35 @@ const CommentActions = ({
                     onClick={() => handleReactionSelect(reaction.type)}
                     disabled={isLoading}
                     className={cn(
-                      "group relative cursor-pointer p-1 sm:p-2 rounded-full",
-                      "transition-all duration-300 ease-out",
-                      "hover:bg-gray-100/80 active:bg-gray-200",
-                      "transform-gpu will-change-transform",
-                      "hover:scale-125 hover:-translate-y-2 hover:rotate-6",
-                      "hover:shadow-lg hover:shadow-black/15",
-                      "active:scale-95 active:transition-none",
-                      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 disabled:hover:rotate-0",
+                      'group relative cursor-pointer rounded-full p-1 sm:p-2',
+                      'transition-all duration-300 ease-out',
+                      'hover:bg-gray-100/80 active:bg-gray-200',
+                      'transform-gpu will-change-transform',
+                      'hover:-translate-y-2 hover:scale-125 hover:rotate-6',
+                      'hover:shadow-lg hover:shadow-black/15',
+                      'active:scale-95 active:transition-none',
+                      'disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:hover:rotate-0',
                       userReaction === reaction.type &&
-                        "bg-blue-100 scale-110 shadow-md ring-1 ring-blue-200",
-                      "animate-in fade-in-0 zoom-in-95"
+                        'scale-110 bg-blue-100 shadow-md ring-1 ring-blue-200',
+                      'animate-in fade-in-0 zoom-in-95',
                     )}
                     style={{
                       animationDelay: `${index * 50}ms`,
-                      animationFillMode: "both",
-                      transform: "translate3d(0, 0, 0)", // Force hardware acceleration
-                      backfaceVisibility: "hidden",
+                      animationFillMode: 'both',
+                      transform: 'translate3d(0, 0, 0)', // Force hardware acceleration
+                      backfaceVisibility: 'hidden',
                     }}
                     title={reaction.label}
                   >
                     <span
                       className={cn(
-                        "text-xl sm:text-2xl block transition-all duration-300 ease-out",
-                        "group-hover:scale-110 group-hover:rotate-3",
-                        "group-active:scale-95"
+                        'block text-xl transition-all duration-300 ease-out sm:text-2xl',
+                        'group-hover:scale-110 group-hover:rotate-3',
+                        'group-active:scale-95',
                       )}
                       style={{
                         filter:
-                          userReaction === reaction.type
-                            ? "brightness(1.3) saturate(1.2)"
-                            : "none",
+                          userReaction === reaction.type ? 'brightness(1.3) saturate(1.2)' : 'none',
                       }}
                     >
                       {reaction.emoji}
@@ -266,10 +250,10 @@ const CommentActions = ({
                     {/* Hover label */}
                     <div
                       className={cn(
-                        "absolute -top-8 left-1/2 transform -translate-x-1/2",
-                        "bg-gray-900 text-white text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded",
-                        "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-                        "pointer-events-none whitespace-nowrap z-50"
+                        'absolute -top-8 left-1/2 -translate-x-1/2 transform',
+                        'rounded bg-gray-900 px-1.5 py-0.5 text-[10px] text-white sm:px-2 sm:py-1 sm:text-xs',
+                        'opacity-0 transition-opacity duration-200 group-hover:opacity-100',
+                        'pointer-events-none z-50 whitespace-nowrap',
                       )}
                     >
                       {reaction.label}
@@ -285,7 +269,7 @@ const CommentActions = ({
               variant="ghost"
               size="sm"
               onClick={() => onReply(comment.id, userName)}
-              className="h-auto p-0.5 sm:p-1 text-[10px] sm:text-xs text-gray-500 hover:text-blue-600 transition-all duration-300 hover:scale-105 active:scale-95"
+              className="h-auto p-0.5 text-[10px] text-gray-500 transition-all duration-300 hover:scale-105 hover:text-blue-600 active:scale-95 sm:p-1 sm:text-xs"
             >
               Reply
             </Button>
@@ -295,7 +279,7 @@ const CommentActions = ({
         {/* Right side: Reaction Summary */}
         <div className="flex items-center space-x-1.5 sm:space-x-2">
           {totalReactions > 0 && (
-            <div className="flex items-center bg-gray-50 rounded-full px-1.5 sm:px-2 py-0.5 sm:py-1 cursor-pointer hover:bg-gray-100 transition-colors">
+            <div className="flex cursor-pointer items-center rounded-full bg-gray-50 px-1.5 py-0.5 transition-colors hover:bg-gray-100 sm:px-2 sm:py-1">
               <div className="flex items-center space-x-0.5 sm:space-x-1">
                 {activeReactions.slice(0, 3).map((reaction) => (
                   <span key={reaction.type} className="text-xs sm:text-sm">
@@ -304,7 +288,7 @@ const CommentActions = ({
                 ))}
               </div>
               {totalReactions > 0 && (
-                <span className="text-[10px] sm:text-sm text-gray-600 ml-1 sm:ml-2 font-medium">
+                <span className="ml-1 text-[10px] font-medium text-gray-600 sm:ml-2 sm:text-sm">
                   {totalReactions}
                 </span>
               )}
@@ -317,21 +301,18 @@ const CommentActions = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-auto p-0.5 sm:p-1 text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-105"
+                  className="h-auto p-0.5 text-gray-500 transition-all duration-300 hover:scale-105 hover:text-gray-700 sm:p-1"
                   disabled={deleteCommentMutation.isPending}
                 >
                   <MoreHorizontal className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="w-[120px] sm:w-[140px]"
-              >
+              <DropdownMenuContent align="end" className="w-[120px] sm:w-[140px]">
                 <DropdownMenuItem
                   onClick={handleEditClick}
                   className="cursor-pointer text-xs sm:text-sm"
                 >
-                  <Edit3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+                  <Edit3 className="mr-1.5 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
                   Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -340,12 +321,12 @@ const CommentActions = ({
                   variant="destructive"
                   className="cursor-pointer text-xs sm:text-sm"
                 >
-                  <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+                  <Trash2 className="mr-1.5 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
                   <span className="hidden sm:inline">
-                    {deleteCommentMutation.isPending ? "Deleting..." : "Delete"}
+                    {deleteCommentMutation.isPending ? 'Deleting...' : 'Delete'}
                   </span>
                   <span className="sm:hidden">
-                    {deleteCommentMutation.isPending ? "..." : "Del"}
+                    {deleteCommentMutation.isPending ? '...' : 'Del'}
                   </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

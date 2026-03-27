@@ -1,5 +1,5 @@
 // Review types
-import { BaseFilterParams, ListResponse } from "./common";
+import { BaseFilterParams, ListResponse } from './common';
 
 // Review user interface
 export interface ReviewUser {
@@ -51,9 +51,9 @@ export interface UpdateReviewRequest {
 
 // Review status enum
 export enum ReviewStatus {
-  PENDING = "PENDING",
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED",
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
 }
 
 // Review filter parameters
@@ -62,8 +62,8 @@ export interface ReviewsFilterParams {
   limit?: number;
   minStar?: number;
   status?: string;
-  sortBy?: "newest" | "oldest" | "rating";
-  sortOrder?: "asc" | "desc";
+  sortBy?: 'newest' | 'oldest' | 'rating';
+  sortOrder?: 'asc' | 'desc';
   [key: string]: unknown;
 }
 

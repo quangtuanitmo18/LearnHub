@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useMediaUpload } from "@/hooks/use-media";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/dialog';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useMediaUpload } from '@/hooks/use-media';
+import { cn } from '@/lib/utils';
 import {
   MAX_IMAGE_SIZE,
   MAX_VIDEO_SIZE,
   MediaType,
   MediaUploadProgress,
   formatFileSize,
-} from "@/types/media";
+} from '@/types/media';
 import {
   AlertCircle,
   CheckCircle2,
@@ -30,10 +30,10 @@ import {
   Upload,
   X,
   XCircle,
-} from "lucide-react";
-import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { toast } from "sonner";
+} from 'lucide-react';
+import { useCallback, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { toast } from 'sonner';
 
 interface MediaUploadDialogProps {
   open: boolean;
@@ -48,49 +48,42 @@ const UploadItem = ({
   upload: MediaUploadProgress;
   onRemove: () => void;
 }) => {
-  const isUploading = upload.status === "uploading";
-  const isPending = upload.status === "pending";
-  const isProcessing = upload.status === "processing";
-  const isCompleted = upload.status === "completed";
-  const isError = upload.status === "error";
+  const isUploading = upload.status === 'uploading';
+  const isPending = upload.status === 'pending';
+  const isProcessing = upload.status === 'processing';
+  const isCompleted = upload.status === 'completed';
+  const isError = upload.status === 'error';
   const isVideo = upload.type === MediaType.VIDEO;
 
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-lg border p-3",
-        isError && "border-destructive bg-destructive/5",
-        isCompleted && "border-green-500 bg-green-50 dark:bg-green-950/20"
+        'flex items-center gap-3 rounded-lg border p-3',
+        isError && 'border-destructive bg-destructive/5',
+        isCompleted && 'border-green-500 bg-green-50 dark:bg-green-950/20',
       )}
     >
       {/* Icon */}
       <div
         className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-lg",
+          'flex h-10 w-10 items-center justify-center rounded-lg',
           isVideo
-            ? "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
-            : "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+            ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400'
+            : 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
         )}
       >
-        {isVideo ? (
-          <Film className="h-5 w-5" />
-        ) : (
-          <FileImage className="h-5 w-5" />
-        )}
+        {isVideo ? <Film className="h-5 w-5" /> : <FileImage className="h-5 w-5" />}
       </div>
 
       {/* Info */}
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <p className="text-sm font-medium truncate">{upload.filename}</p>
-          <Badge
-            variant={isVideo ? "secondary" : "default"}
-            className="text-xs"
-          >
-            {isVideo ? "Video" : "Image"}
+          <p className="truncate text-sm font-medium">{upload.filename}</p>
+          <Badge variant={isVideo ? 'secondary' : 'default'} className="text-xs">
+            {isVideo ? 'Video' : 'Image'}
           </Badge>
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+        <div className="text-muted-foreground mt-1 flex items-center gap-2 text-xs">
           {isPending && (
             <>
               <Loader2 className="h-3 w-3 animate-spin" />
@@ -117,10 +110,8 @@ const UploadItem = ({
           )}
           {isError && (
             <>
-              <XCircle className="h-3 w-3 text-destructive" />
-              <span className="text-destructive">
-                {upload.errorMessage || "Failed"}
-              </span>
+              <XCircle className="text-destructive h-3 w-3" />
+              <span className="text-destructive">{upload.errorMessage || 'Failed'}</span>
             </>
           )}
         </div>
@@ -134,12 +125,7 @@ const UploadItem = ({
 
       {/* Remove button */}
       {(isCompleted || isError) && (
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 shrink-0"
-          onClick={onRemove}
-        >
+        <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={onRemove}>
           <X className="h-4 w-4" />
         </Button>
       )}
@@ -155,38 +141,27 @@ const PendingFileItem = ({
 }: {
   file: File;
   onRemove: () => void;
-  type: "image" | "video";
+  type: 'image' | 'video';
 }) => {
-  const isVideo = type === "video";
+  const isVideo = type === 'video';
 
   return (
-    <div className="flex items-center gap-3 rounded-lg border p-3 bg-muted/50">
+    <div className="bg-muted/50 flex items-center gap-3 rounded-lg border p-3">
       <div
         className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-lg",
+          'flex h-10 w-10 items-center justify-center rounded-lg',
           isVideo
-            ? "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
-            : "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+            ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400'
+            : 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400',
         )}
       >
-        {isVideo ? (
-          <Film className="h-5 w-5" />
-        ) : (
-          <FileImage className="h-5 w-5" />
-        )}
+        {isVideo ? <Film className="h-5 w-5" /> : <FileImage className="h-5 w-5" />}
       </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{file.name}</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          {formatFileSize(file.size)}
-        </p>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium">{file.name}</p>
+        <p className="text-muted-foreground mt-1 text-xs">{formatFileSize(file.size)}</p>
       </div>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-8 w-8 shrink-0"
-        onClick={onRemove}
-      >
+      <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={onRemove}>
         <X className="h-4 w-4" />
       </Button>
     </div>
@@ -209,16 +184,16 @@ const ImageUploadTab = ({
     (acceptedFiles: File[]) => {
       setPendingFiles((prev) => [...prev, ...acceptedFiles]);
     },
-    [setPendingFiles]
+    [setPendingFiles],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "image/jpeg": [".jpg", ".jpeg"],
-      "image/png": [".png"],
-      "image/gif": [".gif"],
-      "image/webp": [".webp"],
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/png': ['.png'],
+      'image/gif': ['.gif'],
+      'image/webp': ['.webp'],
     },
     maxSize: MAX_IMAGE_SIZE,
     multiple: true,
@@ -241,21 +216,21 @@ const ImageUploadTab = ({
       <div
         {...getRootProps()}
         className={cn(
-          "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
+          'cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors',
           isDragActive
-            ? "border-blue-500 bg-blue-50 dark:bg-blue-950/20"
-            : "border-muted-foreground/25 hover:border-blue-500/50",
-          isUploading && "opacity-50 pointer-events-none"
+            ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20'
+            : 'border-muted-foreground/25 hover:border-blue-500/50',
+          isUploading && 'pointer-events-none opacity-50',
         )}
       >
         <input {...getInputProps()} />
-        <FileImage className="h-12 w-12 mx-auto text-blue-500 mb-4" />
+        <FileImage className="mx-auto mb-4 h-12 w-12 text-blue-500" />
         {isDragActive ? (
-          <p className="text-blue-600 font-medium">Drop images here...</p>
+          <p className="font-medium text-blue-600">Drop images here...</p>
         ) : (
           <>
             <p className="font-medium">Drag & drop images here</p>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-sm">
               JPG, PNG, GIF, WebP (max {formatFileSize(MAX_IMAGE_SIZE)})
             </p>
           </>
@@ -266,18 +241,12 @@ const ImageUploadTab = ({
       {pendingFiles.length > 0 && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium">
-              Selected Images ({pendingFiles.length})
-            </h4>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setPendingFiles([])}
-            >
+            <h4 className="text-sm font-medium">Selected Images ({pendingFiles.length})</h4>
+            <Button variant="ghost" size="sm" onClick={() => setPendingFiles([])}>
               Clear All
             </Button>
           </div>
-          <div className="space-y-2 max-h-[200px] overflow-y-auto">
+          <div className="max-h-[200px] space-y-2 overflow-y-auto">
             {pendingFiles.map((file, index) => (
               <PendingFileItem
                 key={`${file.name}-${index}`}
@@ -301,7 +270,7 @@ const ImageUploadTab = ({
               <>
                 <Upload className="mr-2 h-4 w-4" />
                 Upload {pendingFiles.length} Image
-                {pendingFiles.length > 1 ? "s" : ""}
+                {pendingFiles.length > 1 ? 's' : ''}
               </>
             )}
           </Button>
@@ -327,17 +296,17 @@ const VideoUploadTab = ({
     (acceptedFiles: File[]) => {
       setPendingFiles((prev) => [...prev, ...acceptedFiles]);
     },
-    [setPendingFiles]
+    [setPendingFiles],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "video/mp4": [".mp4", ".m4v"],
-      "video/quicktime": [".mov"],
-      "video/x-msvideo": [".avi"],
-      "video/x-matroska": [".mkv"],
-      "video/webm": [".webm"],
+      'video/mp4': ['.mp4', '.m4v'],
+      'video/quicktime': ['.mov'],
+      'video/x-msvideo': ['.avi'],
+      'video/x-matroska': ['.mkv'],
+      'video/webm': ['.webm'],
     },
     maxSize: MAX_VIDEO_SIZE,
     multiple: true,
@@ -360,21 +329,21 @@ const VideoUploadTab = ({
       <div
         {...getRootProps()}
         className={cn(
-          "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
+          'cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors',
           isDragActive
-            ? "border-purple-500 bg-purple-50 dark:bg-purple-950/20"
-            : "border-muted-foreground/25 hover:border-purple-500/50",
-          isUploading && "opacity-50 pointer-events-none"
+            ? 'border-purple-500 bg-purple-50 dark:bg-purple-950/20'
+            : 'border-muted-foreground/25 hover:border-purple-500/50',
+          isUploading && 'pointer-events-none opacity-50',
         )}
       >
         <input {...getInputProps()} />
-        <Film className="h-12 w-12 mx-auto text-purple-500 mb-4" />
+        <Film className="mx-auto mb-4 h-12 w-12 text-purple-500" />
         {isDragActive ? (
-          <p className="text-purple-600 font-medium">Drop videos here...</p>
+          <p className="font-medium text-purple-600">Drop videos here...</p>
         ) : (
           <>
             <p className="font-medium">Drag & drop videos here</p>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 text-sm">
               MP4, MOV, AVI, MKV, WebM (max {formatFileSize(MAX_VIDEO_SIZE)})
             </p>
           </>
@@ -385,18 +354,12 @@ const VideoUploadTab = ({
       {pendingFiles.length > 0 && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium">
-              Selected Videos ({pendingFiles.length})
-            </h4>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setPendingFiles([])}
-            >
+            <h4 className="text-sm font-medium">Selected Videos ({pendingFiles.length})</h4>
+            <Button variant="ghost" size="sm" onClick={() => setPendingFiles([])}>
               Clear All
             </Button>
           </div>
-          <div className="space-y-2 max-h-[200px] overflow-y-auto">
+          <div className="max-h-[200px] space-y-2 overflow-y-auto">
             {pendingFiles.map((file, index) => (
               <PendingFileItem
                 key={`${file.name}-${index}`}
@@ -420,7 +383,7 @@ const VideoUploadTab = ({
               <>
                 <Upload className="mr-2 h-4 w-4" />
                 Upload {pendingFiles.length} Video
-                {pendingFiles.length > 1 ? "s" : ""}
+                {pendingFiles.length > 1 ? 's' : ''}
               </>
             )}
           </Button>
@@ -430,10 +393,7 @@ const VideoUploadTab = ({
   );
 };
 
-export default function MediaUploadDialog({
-  open,
-  onOpenChange,
-}: MediaUploadDialogProps) {
+export default function MediaUploadDialog({ open, onOpenChange }: MediaUploadDialogProps) {
   const {
     uploads,
     uploadImages,
@@ -449,7 +409,7 @@ export default function MediaUploadDialog({
 
   const handleClose = () => {
     if (isUploading) {
-      toast.error("Please wait for uploads to complete");
+      toast.error('Please wait for uploads to complete');
       return;
     }
     clearCompletedUploads();
@@ -460,19 +420,19 @@ export default function MediaUploadDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl max-h-[85vh] flex flex-col">
+      <DialogContent className="flex max-h-[85vh] max-w-2xl flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <CloudUpload className="h-5 w-5" />
             Upload Media
           </DialogTitle>
           <DialogDescription>
-            Upload images and videos to your media library. Videos will be
-            automatically processed to HLS format.
+            Upload images and videos to your media library. Videos will be automatically processed
+            to HLS format.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto space-y-4 py-4">
+        <div className="flex-1 space-y-4 overflow-y-auto py-4">
           {/* Upload Tabs */}
           <Tabs defaultValue="images" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
@@ -507,22 +467,16 @@ export default function MediaUploadDialog({
 
           {/* Active Uploads */}
           {uploads.length > 0 && (
-            <div className="space-y-2 pt-4 border-t">
+            <div className="space-y-2 border-t pt-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-medium">
-                  Upload Progress ({uploads.length})
-                </h4>
+                <h4 className="text-sm font-medium">Upload Progress ({uploads.length})</h4>
                 {!isUploading && !hasProcessing && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearCompletedUploads}
-                  >
+                  <Button variant="ghost" size="sm" onClick={clearCompletedUploads}>
                     Clear Completed
                   </Button>
                 )}
               </div>
-              <div className="space-y-2 max-h-[250px] overflow-y-auto">
+              <div className="max-h-[250px] space-y-2 overflow-y-auto">
                 {uploads.map((upload) => (
                   <UploadItem
                     key={upload.mediaId}
@@ -536,11 +490,10 @@ export default function MediaUploadDialog({
 
           {/* Processing Info */}
           {hasProcessing && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300">
+            <div className="flex items-center gap-2 rounded-lg bg-blue-50 p-3 text-blue-700 dark:bg-blue-950/20 dark:text-blue-300">
               <AlertCircle className="h-4 w-4" />
               <p className="text-sm">
-                Videos are being processed to HLS format. This may take a few
-                minutes.
+                Videos are being processed to HLS format. This may take a few minutes.
               </p>
             </div>
           )}

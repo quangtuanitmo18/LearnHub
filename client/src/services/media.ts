@@ -1,28 +1,28 @@
-import { ApiService } from "@/lib/api-service";
-import { ListResponse } from "@/types/common";
+import { ApiService } from '@/lib/api-service';
+import { ListResponse } from '@/types/common';
 import {
   IMedia,
   MediaFilterParams,
   RequestPresignedDto,
   PresignedUrlResponse,
   MarkUploadCompleteDto,
-} from "@/types/media";
+} from '@/types/media';
 
 // Endpoints matching backend: @Controller('media')
 const ENDPOINTS = {
   // General
-  BASE: "/media",
+  BASE: '/media',
 
   // Image endpoints
-  IMAGES_PRESIGNED: "/media/images/presigned",
-  IMAGES_UPLOAD_COMPLETE: "/media/images/upload-complete",
-  IMAGES_MY: "/media/images/my",
+  IMAGES_PRESIGNED: '/media/images/presigned',
+  IMAGES_UPLOAD_COMPLETE: '/media/images/upload-complete',
+  IMAGES_MY: '/media/images/my',
 
   // Video endpoints
-  VIDEOS_PRESIGNED: "/media/videos/presigned",
-  VIDEOS_UPLOAD_COMPLETE: "/media/videos/upload-complete",
-  VIDEOS_PROCESSED: "/media/videos/processed",
-  VIDEOS_MY: "/media/videos/my",
+  VIDEOS_PRESIGNED: '/media/videos/presigned',
+  VIDEOS_UPLOAD_COMPLETE: '/media/videos/upload-complete',
+  VIDEOS_PROCESSED: '/media/videos/processed',
+  VIDEOS_MY: '/media/videos/my',
 } as const;
 
 /**
@@ -36,14 +36,9 @@ export class MediaService {
    * Get all media with pagination
    * GET /media
    */
-  static async getAll(
-    params?: MediaFilterParams
-  ): Promise<ListResponse<IMedia>> {
-    console.log("MediaService.getAll called with params:", params);
-    return ApiService.get<ListResponse<IMedia>>(
-      ENDPOINTS.BASE,
-      params as Record<string, unknown>
-    );
+  static async getAll(params?: MediaFilterParams): Promise<ListResponse<IMedia>> {
+    console.log('MediaService.getAll called with params:', params);
+    return ApiService.get<ListResponse<IMedia>>(ENDPOINTS.BASE, params as Record<string, unknown>);
   }
 
   /**
@@ -85,21 +80,16 @@ export class MediaService {
    * POST /media/images/presigned
    */
   static async requestImagePresignedUrls(
-    dto: RequestPresignedDto
+    dto: RequestPresignedDto,
   ): Promise<PresignedUrlResponse[]> {
-    return ApiService.post<PresignedUrlResponse[]>(
-      ENDPOINTS.IMAGES_PRESIGNED,
-      dto
-    );
+    return ApiService.post<PresignedUrlResponse[]>(ENDPOINTS.IMAGES_PRESIGNED, dto);
   }
 
   /**
    * Mark image upload as complete
    * POST /media/images/upload-complete
    */
-  static async markImageUploadComplete(
-    dto: MarkUploadCompleteDto
-  ): Promise<IMedia> {
+  static async markImageUploadComplete(dto: MarkUploadCompleteDto): Promise<IMedia> {
     return ApiService.post<IMedia>(ENDPOINTS.IMAGES_UPLOAD_COMPLETE, dto);
   }
 
@@ -118,21 +108,16 @@ export class MediaService {
    * POST /media/videos/presigned
    */
   static async requestVideoPresignedUrls(
-    dto: RequestPresignedDto
+    dto: RequestPresignedDto,
   ): Promise<PresignedUrlResponse[]> {
-    return ApiService.post<PresignedUrlResponse[]>(
-      ENDPOINTS.VIDEOS_PRESIGNED,
-      dto
-    );
+    return ApiService.post<PresignedUrlResponse[]>(ENDPOINTS.VIDEOS_PRESIGNED, dto);
   }
 
   /**
    * Mark video upload as complete (starts processing)
    * POST /media/videos/upload-complete
    */
-  static async markVideoUploadComplete(
-    dto: MarkUploadCompleteDto
-  ): Promise<IMedia> {
+  static async markVideoUploadComplete(dto: MarkUploadCompleteDto): Promise<IMedia> {
     return ApiService.post<IMedia>(ENDPOINTS.VIDEOS_UPLOAD_COMPLETE, dto);
   }
 
@@ -153,17 +138,15 @@ export class MediaService {
   static async uploadToS3(
     presignedUrl: string,
     file: File,
-    onProgress?: (progress: number) => void
+    onProgress?: (progress: number) => void,
   ): Promise<void> {
-    const { default: axios } = await import("axios");
+    const { default: axios } = await import('axios');
 
     await axios.put(presignedUrl, file, {
-      headers: { "Content-Type": file.type },
+      headers: { 'Content-Type': file.type },
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total && onProgress) {
-          const progress = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
+          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           onProgress(progress);
         }
       },

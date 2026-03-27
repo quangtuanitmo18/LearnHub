@@ -87,7 +87,6 @@ export class UserRepository extends BaseService<
     );
   }
 
-
   /**
    * Check if email is unique
    */

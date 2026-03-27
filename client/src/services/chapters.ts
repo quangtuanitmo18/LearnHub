@@ -1,4 +1,4 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import type {
   ChapterFormData,
   ChaptersFilterParams,
@@ -6,13 +6,13 @@ import type {
   IChapter,
   ReorderChaptersRequest,
   UpdateChapterRequest,
-} from "@/types/chapter";
+} from '@/types/chapter';
 
 const ENDPOINTS = {
-  CHAPTERS: "/chapters",
+  CHAPTERS: '/chapters',
   CHAPTER: (id: string) => `/chapters/${id}`,
   COURSE_CHAPTERS: (courseId: string) => `/chapters/course/${courseId}`,
-  CHAPTER_REORDER: "/chapters/reorder",
+  CHAPTER_REORDER: '/chapters/reorder',
 } as const;
 
 export class ChaptersService {
@@ -28,9 +28,7 @@ export class ChaptersService {
   // Get course chapters
   static async getChaptersByCourse(courseId: string): Promise<IChapter[]> {
     try {
-      return await ApiService.get<IChapter[]>(
-        ENDPOINTS.COURSE_CHAPTERS(courseId)
-      );
+      return await ApiService.get<IChapter[]>(ENDPOINTS.COURSE_CHAPTERS(courseId));
     } catch {
       return [];
     }
@@ -42,24 +40,14 @@ export class ChaptersService {
   }
 
   // Create chapter
-  static async createChapter(
-    chapterData: CreateChapterRequest
-  ): Promise<IChapter> {
-    return ApiService.post<IChapter, CreateChapterRequest>(
-      ENDPOINTS.CHAPTERS,
-      chapterData
-    );
+  static async createChapter(chapterData: CreateChapterRequest): Promise<IChapter> {
+    return ApiService.post<IChapter, CreateChapterRequest>(ENDPOINTS.CHAPTERS, chapterData);
   }
 
   // Update chapter
-  static async updateChapter(
-    chapterData: UpdateChapterRequest
-  ): Promise<IChapter> {
+  static async updateChapter(chapterData: UpdateChapterRequest): Promise<IChapter> {
     const { id, ...updateData } = chapterData;
-    return ApiService.put<IChapter, ChapterFormData>(
-      ENDPOINTS.CHAPTER(id),
-      updateData
-    );
+    return ApiService.put<IChapter, ChapterFormData>(ENDPOINTS.CHAPTER(id), updateData);
   }
 
   // Delete chapter
@@ -68,28 +56,22 @@ export class ChaptersService {
   }
 
   // Reorder chapters
-  static async reorderChapters(
-    reorderData: ReorderChaptersRequest
-  ): Promise<IChapter[]> {
+  static async reorderChapters(reorderData: ReorderChaptersRequest): Promise<IChapter[]> {
     return ApiService.put<IChapter[], ReorderChaptersRequest>(
       ENDPOINTS.CHAPTER_REORDER,
-      reorderData
+      reorderData,
     );
   }
 
   // Toggle publish status
   static async toggleChapterPublish(id: string): Promise<IChapter> {
-    return ApiService.put<IChapter>(ENDPOINTS.CHAPTER(id) + "/toggle-publish");
+    return ApiService.put<IChapter>(ENDPOINTS.CHAPTER(id) + '/toggle-publish');
   }
 
   // Get public chapters for course
-  static async getPublishedChaptersByCourse(
-    courseId: string
-  ): Promise<IChapter[]> {
+  static async getPublishedChaptersByCourse(courseId: string): Promise<IChapter[]> {
     try {
-      const response = await ApiService.get<IChapter[]>(
-        `/chapters/course/${courseId}/published`
-      );
+      const response = await ApiService.get<IChapter[]>(`/chapters/course/${courseId}/published`);
       return response || [];
     } catch {
       return [];

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,16 +8,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { OPERATIONS, RESOURCES } from "@/configs/permission";
-import { usePermissions } from "@/hooks/use-permissions";
-import { IBlog } from "@/types/blog";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { Row } from "@tanstack/react-table";
-import { useState } from "react";
-import BlogsActionDialog from "./blogs-action-dialog";
-import BlogsDeleteDialog from "./blogs-delete-dialog";
+} from '@/components/ui/dropdown-menu';
+import { OPERATIONS, RESOURCES } from '@/configs/permission';
+import { usePermissions } from '@/hooks/use-permissions';
+import { IBlog } from '@/types/blog';
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { Row } from '@tanstack/react-table';
+import { useState } from 'react';
+import BlogsActionDialog from './blogs-action-dialog';
+import BlogsDeleteDialog from './blogs-delete-dialog';
 
 interface DataTableRowActionsProps {
   row: Row<IBlog>;
@@ -47,10 +47,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
     <>
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="data-[state=open]:bg-muted flex h-8 w-8 p-0"
-          >
+          <Button variant="ghost" className="data-[state=open]:bg-muted flex h-8 w-8 p-0">
             <DotsHorizontalIcon className="h-4 w-4" />
             <span className="sr-only">Open menu</span>
           </Button>
@@ -66,10 +63,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
           )}
           {(READ || UPDATE || DELETE) && <DropdownMenuSeparator />}
           {DELETE && (
-            <DropdownMenuItem
-              onClick={handleDeleteClick}
-              className="text-red-500!"
-            >
+            <DropdownMenuItem onClick={handleDeleteClick} className="text-red-500!">
               Delete
               <DropdownMenuShortcut>
                 <IconTrash size={16} />

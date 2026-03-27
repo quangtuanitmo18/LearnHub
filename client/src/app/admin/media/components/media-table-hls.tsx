@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   AlertDialog,
@@ -9,19 +9,19 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+} from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -29,13 +29,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useDebounce } from "@/hooks/use-debounce";
-import {
-  useDeleteManyMedia,
-  useDeleteMedia,
-  useMediaList,
-} from "@/hooks/use-media";
+} from '@/components/ui/table';
+import { useDebounce } from '@/hooks/use-debounce';
+import { useDeleteManyMedia, useDeleteMedia, useMediaList } from '@/hooks/use-media';
 import {
   IMedia,
   MediaStatus,
@@ -49,8 +45,8 @@ import {
   getMediaTypeBadgeVariant,
   getMediaTypeLabel,
   getThumbnailUrl,
-} from "@/types/media";
-import dayjs from "dayjs";
+} from '@/types/media';
+import dayjs from 'dayjs';
 import {
   Copy,
   Eye,
@@ -60,11 +56,11 @@ import {
   MoreHorizontal,
   Search,
   Trash2,
-} from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
-import { toast } from "sonner";
-import MediaPreviewDialog from "./media-preview-dialog";
+} from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import MediaPreviewDialog from './media-preview-dialog';
 
 interface MediaTableProps {
   typeFilter?: MediaType;
@@ -72,7 +68,7 @@ interface MediaTableProps {
 
 export default function MediaTable({ typeFilter }: MediaTableProps) {
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -110,7 +106,7 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
 
   const handleCopyUrl = (url: string) => {
     navigator.clipboard.writeText(url);
-    toast.success("URL copied to clipboard");
+    toast.success('URL copied to clipboard');
   };
 
   const handleDelete = async () => {
@@ -141,17 +137,10 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
     if (thumbnailUrl && !isProcessing) {
       return (
         <div
-          className="relative h-12 w-16 cursor-pointer overflow-hidden rounded hover:opacity-80 transition-opacity"
-          onClick={() =>
-            media.status === MediaStatus.COMPLETED && setPreviewMedia(media)
-          }
+          className="relative h-12 w-16 cursor-pointer overflow-hidden rounded transition-opacity hover:opacity-80"
+          onClick={() => media.status === MediaStatus.COMPLETED && setPreviewMedia(media)}
         >
-          <Image
-            src={thumbnailUrl}
-            alt={media.filename}
-            fill
-            className="object-cover"
-          />
+          <Image src={thumbnailUrl} alt={media.filename} fill className="object-cover" />
           {isVideo && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/20">
               <Film className="h-4 w-4 text-white" />
@@ -162,13 +151,13 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
     }
 
     return (
-      <div className="h-12 w-16 rounded bg-muted flex items-center justify-center">
+      <div className="bg-muted flex h-12 w-16 items-center justify-center rounded">
         {isProcessing ? (
-          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          <Loader2 className="text-muted-foreground h-5 w-5 animate-spin" />
         ) : isVideo ? (
-          <Film className="h-5 w-5 text-muted-foreground" />
+          <Film className="text-muted-foreground h-5 w-5" />
         ) : (
-          <ImageIcon className="h-5 w-5 text-muted-foreground" />
+          <ImageIcon className="text-muted-foreground h-5 w-5" />
         )}
       </div>
     );
@@ -197,21 +186,17 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               placeholder="Search media..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 w-[250px]"
+              className="w-[250px] pl-9"
             />
           </div>
         </div>
         {selectedIds.length > 0 && (
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={() => setShowBulkDelete(true)}
-          >
+          <Button variant="destructive" size="sm" onClick={() => setShowBulkDelete(true)}>
             <Trash2 className="mr-2 h-4 w-4" />
             Delete ({selectedIds.length})
           </Button>
@@ -225,10 +210,7 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
             <TableRow>
               <TableHead className="w-[50px]">
                 <Checkbox
-                  checked={
-                    mediaItems.length > 0 &&
-                    selectedIds.length === mediaItems.length
-                  }
+                  checked={mediaItems.length > 0 && selectedIds.length === mediaItems.length}
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead>
@@ -255,9 +237,7 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
                   <TableCell>
                     <Checkbox
                       checked={selectedIds.includes(media.id)}
-                      onCheckedChange={(checked) =>
-                        handleSelectOne(media.id, checked as boolean)
-                      }
+                      onCheckedChange={(checked) => handleSelectOne(media.id, checked as boolean)}
                     />
                   </TableCell>
                   <TableCell>{renderThumbnail(media)}</TableCell>
@@ -271,14 +251,10 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
                   </TableCell>
                   <TableCell>{formatFileSize(media.size)}</TableCell>
                   <TableCell>
-                    {media.type === MediaType.VIDEO
-                      ? formatDuration(media.duration)
-                      : "-"}
+                    {media.type === MediaType.VIDEO ? formatDuration(media.duration) : '-'}
                   </TableCell>
                   <TableCell>{renderStatus(media)}</TableCell>
-                  <TableCell>
-                    {dayjs(media.createdAt).format("MMM D, YYYY")}
-                  </TableCell>
+                  <TableCell>{dayjs(media.createdAt).format('MMM D, YYYY')}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -328,9 +304,8 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
       {/* Pagination */}
       {meta && meta.totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            Showing {(page - 1) * 10 + 1} to {Math.min(page * 10, meta.total)}{" "}
-            of {meta.total} items
+          <p className="text-muted-foreground text-sm">
+            Showing {(page - 1) * 10 + 1} to {Math.min(page * 10, meta.total)} of {meta.total} items
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -359,8 +334,7 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Media</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this media? This action cannot be
-              undone.
+              Are you sure you want to delete this media? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -379,12 +353,10 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
       <AlertDialog open={showBulkDelete} onOpenChange={setShowBulkDelete}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Delete {selectedIds.length} Items
-            </AlertDialogTitle>
+            <AlertDialogTitle>Delete {selectedIds.length} Items</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete {selectedIds.length} media items?
-              This action cannot be undone.
+              Are you sure you want to delete {selectedIds.length} media items? This action cannot
+              be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -400,10 +372,7 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
       </AlertDialog>
 
       {/* Preview Dialog */}
-      <MediaPreviewDialog
-        media={previewMedia}
-        onClose={() => setPreviewMedia(null)}
-      />
+      <MediaPreviewDialog media={previewMedia} onClose={() => setPreviewMedia(null)} />
     </div>
   );
 }

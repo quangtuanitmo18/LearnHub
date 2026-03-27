@@ -1,27 +1,21 @@
-"use client";
+'use client';
 
-import NotificationService from "@/services/notifications";
-import type { NotificationQueryParams } from "@/types/notification";
-import {
-  useMutation,
-  useQuery,
-  useInfiniteQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { toast } from "sonner";
+import NotificationService from '@/services/notifications';
+import type { NotificationQueryParams } from '@/types/notification';
+import { useMutation, useQuery, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 // Query keys for notifications
 export const notificationKeys = {
-  all: ["notifications"] as const,
-  list: (params?: NotificationQueryParams) =>
-    ["notifications", "list", params] as const,
-  count: ["notifications", "count"] as const,
+  all: ['notifications'] as const,
+  list: (params?: NotificationQueryParams) => ['notifications', 'list', params] as const,
+  count: ['notifications', 'count'] as const,
 } as const;
 
 // Hook to get notifications list
 export function useNotifications(
   params?: NotificationQueryParams,
-  options?: { enabled?: boolean }
+  options?: { enabled?: boolean },
 ) {
   return useQuery({
     queryKey: notificationKeys.list(params),
@@ -32,8 +26,8 @@ export function useNotifications(
 
 // Hook to get notifications list with infinite scroll
 export function useInfiniteNotifications(
-  params?: Omit<NotificationQueryParams, "page">,
-  options?: { enabled?: boolean }
+  params?: Omit<NotificationQueryParams, 'page'>,
+  options?: { enabled?: boolean },
 ) {
   return useInfiniteQuery({
     queryKey: notificationKeys.list(params),
@@ -66,14 +60,13 @@ export function useMarkNotificationAsRead() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (recipientId: string) =>
-      NotificationService.markAsRead(recipientId),
+    mutationFn: (recipientId: string) => NotificationService.markAsRead(recipientId),
     onSuccess: () => {
       // Invalidate notifications cache to refetch fresh data
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to mark notification as read");
+      toast.error(error?.message || 'Failed to mark notification as read');
     },
   });
 }
@@ -83,13 +76,12 @@ export function useMarkMultipleNotificationsAsRead() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (recipientIds: string[]) =>
-      NotificationService.markMultipleAsRead(recipientIds),
+    mutationFn: (recipientIds: string[]) => NotificationService.markMultipleAsRead(recipientIds),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to mark notifications as read");
+      toast.error(error?.message || 'Failed to mark notifications as read');
     },
   });
 }
@@ -102,10 +94,10 @@ export function useMarkAllNotificationsAsRead() {
     mutationFn: NotificationService.markAllAsRead,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
-      toast.success("All notifications marked as read");
+      toast.success('All notifications marked as read');
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to mark all notifications as read");
+      toast.error(error?.message || 'Failed to mark all notifications as read');
     },
   });
 }
@@ -115,14 +107,13 @@ export function useDeleteNotification() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (recipientId: string) =>
-      NotificationService.deleteNotification(recipientId),
+    mutationFn: (recipientId: string) => NotificationService.deleteNotification(recipientId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
-      toast.success("Notification deleted");
+      toast.success('Notification deleted');
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to delete notification");
+      toast.error(error?.message || 'Failed to delete notification');
     },
   });
 }
@@ -136,10 +127,10 @@ export function useDeleteMultipleNotifications() {
       NotificationService.deleteMultipleNotifications(recipientIds),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
-      toast.success("Notifications deleted");
+      toast.success('Notifications deleted');
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to delete notifications");
+      toast.error(error?.message || 'Failed to delete notifications');
     },
   });
 }

@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
-import { toast } from "sonner";
-import { MediaService } from "@/services/media";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
+import { MediaService } from '@/services/media';
 import {
   IMedia,
   MediaFilterParams,
@@ -9,23 +9,22 @@ import {
   MediaType,
   validateImageFile,
   validateVideoFile,
-} from "@/types/media";
-import { ListResponse } from "@/types/common";
+} from '@/types/media';
+import { ListResponse } from '@/types/common';
 
 // ============================================================================
 // Query Keys
 // ============================================================================
 
 export const mediaKeys = {
-  all: ["media"] as const,
-  lists: () => [...mediaKeys.all, "list"] as const,
-  list: (params?: MediaFilterParams) =>
-    [...mediaKeys.lists(), params ?? {}] as const,
-  details: () => [...mediaKeys.all, "detail"] as const,
+  all: ['media'] as const,
+  lists: () => [...mediaKeys.all, 'list'] as const,
+  list: (params?: MediaFilterParams) => [...mediaKeys.lists(), params ?? {}] as const,
+  details: () => [...mediaKeys.all, 'detail'] as const,
   detail: (id: string) => [...mediaKeys.details(), id] as const,
-  myImages: () => [...mediaKeys.all, "my-images"] as const,
-  myVideos: () => [...mediaKeys.all, "my-videos"] as const,
-  status: (id: string) => [...mediaKeys.all, "status", id] as const,
+  myImages: () => [...mediaKeys.all, 'my-images'] as const,
+  myVideos: () => [...mediaKeys.all, 'my-videos'] as const,
+  status: (id: string) => [...mediaKeys.all, 'status', id] as const,
 };
 
 // ============================================================================
@@ -84,7 +83,7 @@ export function useMediaStatus(id: string | undefined, enabled = true) {
     refetchInterval: (query) => {
       const data = query.state.data;
       // Stop polling when completed or failed
-      if (data?.status === "COMPLETED" || data?.status === "FAILED") {
+      if (data?.status === 'COMPLETED' || data?.status === 'FAILED') {
         return false;
       }
       return 5000; // Poll every 5 seconds while processing
@@ -105,7 +104,7 @@ export function useDeleteMedia() {
   return useMutation({
     mutationFn: (id: string) => MediaService.delete(id),
     onSuccess: () => {
-      toast.success("Xóa media thành công");
+      toast.success('Xóa media thành công');
       queryClient.invalidateQueries({ queryKey: mediaKeys.all });
     },
     onError: (error: Error) => {
@@ -146,9 +145,7 @@ export function useDeleteManyMedia() {
 export function useMediaUpload() {
   const queryClient = useQueryClient();
 
-  const [uploads, setUploads] = useState<Map<string, MediaUploadProgress>>(
-    new Map()
-  );
+  const [uploads, setUploads] = useState<Map<string, MediaUploadProgress>>(new Map());
 
   /**
    * Upload multiple images
@@ -188,7 +185,7 @@ export function useMediaUpload() {
             filename: validFiles[index].name,
             type: MediaType.IMAGE,
             uploadProgress: 0,
-            status: "pending",
+            status: 'pending',
           });
           return updated;
         });
@@ -203,7 +200,7 @@ export function useMediaUpload() {
           const updated = new Map(prev);
           const upload = updated.get(item.mediaId);
           if (upload) {
-            updated.set(item.mediaId, { ...upload, status: "uploading" });
+            updated.set(item.mediaId, { ...upload, status: 'uploading' });
           }
           return updated;
         });
@@ -235,7 +232,7 @@ export function useMediaUpload() {
               updated.set(item.mediaId, {
                 ...upload,
                 uploadProgress: 100,
-                status: "completed",
+                status: 'completed',
               });
             }
             return updated;
@@ -250,9 +247,8 @@ export function useMediaUpload() {
             if (upload) {
               updated.set(item.mediaId, {
                 ...upload,
-                status: "error",
-                errorMessage:
-                  error instanceof Error ? error.message : "Upload failed",
+                status: 'error',
+                errorMessage: error instanceof Error ? error.message : 'Upload failed',
               });
             }
             return updated;
@@ -266,7 +262,7 @@ export function useMediaUpload() {
       await Promise.allSettled(uploadPromises);
       queryClient.invalidateQueries({ queryKey: mediaKeys.all });
     },
-    [queryClient]
+    [queryClient],
   );
 
   /**
@@ -307,7 +303,7 @@ export function useMediaUpload() {
             filename: validFiles[index].name,
             type: MediaType.VIDEO,
             uploadProgress: 0,
-            status: "pending",
+            status: 'pending',
           });
           return updated;
         });
@@ -322,7 +318,7 @@ export function useMediaUpload() {
           const updated = new Map(prev);
           const upload = updated.get(item.mediaId);
           if (upload) {
-            updated.set(item.mediaId, { ...upload, status: "uploading" });
+            updated.set(item.mediaId, { ...upload, status: 'uploading' });
           }
           return updated;
         });
@@ -354,7 +350,7 @@ export function useMediaUpload() {
               updated.set(item.mediaId, {
                 ...upload,
                 uploadProgress: 100,
-                status: "processing",
+                status: 'processing',
               });
             }
             return updated;
@@ -369,9 +365,8 @@ export function useMediaUpload() {
             if (upload) {
               updated.set(item.mediaId, {
                 ...upload,
-                status: "error",
-                errorMessage:
-                  error instanceof Error ? error.message : "Upload failed",
+                status: 'error',
+                errorMessage: error instanceof Error ? error.message : 'Upload failed',
               });
             }
             return updated;
@@ -385,7 +380,7 @@ export function useMediaUpload() {
       await Promise.allSettled(uploadPromises);
       queryClient.invalidateQueries({ queryKey: mediaKeys.all });
     },
-    [queryClient]
+    [queryClient],
   );
 
   /**
@@ -406,7 +401,7 @@ export function useMediaUpload() {
     setUploads((prev) => {
       const updated = new Map(prev);
       for (const [id, upload] of updated) {
-        if (upload.status === "completed" || upload.status === "error") {
+        if (upload.status === 'completed' || upload.status === 'error') {
           updated.delete(id);
         }
       }
@@ -429,11 +424,9 @@ export function useMediaUpload() {
     clearCompletedUploads,
     clearAllUploads,
     isUploading: Array.from(uploads.values()).some(
-      (u) => u.status === "uploading" || u.status === "pending"
+      (u) => u.status === 'uploading' || u.status === 'pending',
     ),
-    hasProcessing: Array.from(uploads.values()).some(
-      (u) => u.status === "processing"
-    ),
+    hasProcessing: Array.from(uploads.values()).some((u) => u.status === 'processing'),
   };
 }
 
@@ -449,67 +442,56 @@ export function useMediaCacheHelpers() {
 
   const updateMediaInCache = useCallback(
     (mediaId: string, updates: Partial<IMedia>) => {
-      queryClient.setQueriesData<ListResponse<IMedia>>(
-        { queryKey: mediaKeys.lists() },
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            result: old.result.map((item) =>
-              item.id === mediaId ? { ...item, ...updates } : item
-            ),
-          };
-        }
-      );
+      queryClient.setQueriesData<ListResponse<IMedia>>({ queryKey: mediaKeys.lists() }, (old) => {
+        if (!old) return old;
+        return {
+          ...old,
+          result: old.result.map((item) => (item.id === mediaId ? { ...item, ...updates } : item)),
+        };
+      });
 
       queryClient.setQueryData<IMedia>(mediaKeys.detail(mediaId), (old) => {
         if (!old) return old;
         return { ...old, ...updates };
       });
     },
-    [queryClient]
+    [queryClient],
   );
 
   const removeMediaFromCache = useCallback(
     (mediaId: string) => {
-      queryClient.setQueriesData<ListResponse<IMedia>>(
-        { queryKey: mediaKeys.lists() },
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            result: old.result.filter((item) => item.id !== mediaId),
-            meta: {
-              ...old.meta,
-              total: old.meta.total - 1,
-            },
-          };
-        }
-      );
+      queryClient.setQueriesData<ListResponse<IMedia>>({ queryKey: mediaKeys.lists() }, (old) => {
+        if (!old) return old;
+        return {
+          ...old,
+          result: old.result.filter((item) => item.id !== mediaId),
+          meta: {
+            ...old.meta,
+            total: old.meta.total - 1,
+          },
+        };
+      });
 
       queryClient.removeQueries({ queryKey: mediaKeys.detail(mediaId) });
     },
-    [queryClient]
+    [queryClient],
   );
 
   const addMediaToCache = useCallback(
     (media: IMedia) => {
-      queryClient.setQueriesData<ListResponse<IMedia>>(
-        { queryKey: mediaKeys.lists() },
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            result: [media, ...old.result],
-            meta: {
-              ...old.meta,
-              total: old.meta.total + 1,
-            },
-          };
-        }
-      );
+      queryClient.setQueriesData<ListResponse<IMedia>>({ queryKey: mediaKeys.lists() }, (old) => {
+        if (!old) return old;
+        return {
+          ...old,
+          result: [media, ...old.result],
+          meta: {
+            ...old.meta,
+            total: old.meta.total + 1,
+          },
+        };
+      });
     },
-    [queryClient]
+    [queryClient],
   );
 
   return {

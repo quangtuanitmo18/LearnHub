@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import {useAuthStore} from "@/stores/auth-store";
-import {useEffect} from "react";
+import { useAuthStore } from '@/stores/auth-store';
+import { useEffect } from 'react';
 
 interface AuthInitializerProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export function AuthInitializer({children}: AuthInitializerProps) {
-	const {getCurrentUser} = useAuthStore();
+export function AuthInitializer({ children }: AuthInitializerProps) {
+  const { getCurrentUser } = useAuthStore();
 
-	useEffect(() => {
-		getCurrentUser();
-	}, [getCurrentUser]);
+  useEffect(() => {
+    getCurrentUser();
+  }, [getCurrentUser]);
 
-	return <>{children}</>;
+  return <>{children}</>;
 }

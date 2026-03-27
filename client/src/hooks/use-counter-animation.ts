@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 interface UseCounterAnimationOptions {
   start?: number;
@@ -50,7 +50,7 @@ export function useCounterAnimation({
         animationRef.current = requestAnimationFrame(updateCount);
       }
     },
-    [start, end, duration, decimals]
+    [start, end, duration, decimals],
   );
 
   const startCounter = useCallback(() => {

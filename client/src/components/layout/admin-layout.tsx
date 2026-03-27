@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { useEffect, useRef } from "react";
-import { AdminHeader } from "../admin/admin-header";
+import { AdminSidebar } from '@/components/admin/admin-sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { useEffect, useRef } from 'react';
+import { AdminHeader } from '../admin/admin-header';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -12,12 +12,7 @@ interface AdminLayoutProps {
   showTopActions?: boolean;
 }
 
-export function AdminLayout({
-  children,
-  title,
-  actions,
-  showTopActions = true,
-}: AdminLayoutProps) {
+export function AdminLayout({ children, title, actions, showTopActions = true }: AdminLayoutProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Prevent body scrolling when admin layout is mounted
@@ -26,7 +21,7 @@ export function AdminLayout({
     const originalOverflow = document.body.style.overflow;
 
     // Prevent body scroll
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
     // Cleanup on unmount
     return () => {
@@ -36,14 +31,11 @@ export function AdminLayout({
 
   return (
     <SidebarProvider>
-      <div className="fixed inset-0 flex w-full h-full overflow-hidden bg-background">
+      <div className="bg-background fixed inset-0 flex h-full w-full overflow-hidden">
         <AdminSidebar />
-        <div
-          ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto overflow-x-hidden h-full"
-        >
-          <AdminHeader title={title || ""} />
-          <main className="p-6 bg-muted/10">{children}</main>
+        <div ref={scrollContainerRef} className="h-full flex-1 overflow-x-hidden overflow-y-auto">
+          <AdminHeader title={title || ''} />
+          <main className="bg-muted/10 p-6">{children}</main>
         </div>
       </div>
     </SidebarProvider>

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useBulkDeleteCategories } from "@/hooks/use-categories";
-import { ICategory } from "@/types/category";
-import { toast } from "sonner";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useBulkDeleteCategories } from '@/hooks/use-categories';
+import { ICategory } from '@/types/category';
+import { toast } from 'sonner';
 
 interface CategoriesBulkDeleteDialogProps {
   selectedCategories: ICategory[];
@@ -25,9 +25,7 @@ const CategoriesBulkDeleteDialog = ({
 
     bulkDeleteMutation.mutate(categoryIds, {
       onSuccess: () => {
-        toast.success(
-          `${selectedCategories.length} categories deleted successfully!`
-        );
+        toast.success(`${selectedCategories.length} categories deleted successfully!`);
         onSuccess?.();
       },
     });

@@ -2,12 +2,12 @@
  * Utility functions for formatting data
  */
 
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
   }).format(price);
 }
 
@@ -46,20 +46,14 @@ export const formatDuration = (seconds: number) => {
 /**
  * Format date to readable string using dayjs
  */
-export const formatLastUpdated = (
-  date: Date | string,
-  format: string = "MMM YYYY"
-) => {
+export const formatLastUpdated = (date: Date | string, format: string = 'MMM YYYY') => {
   return dayjs(date).format(format);
 };
 
 /**
  * Format date with more options using dayjs
  */
-export const formatDate = (
-  date: Date | string,
-  format: string = "MMM DD, YYYY"
-) => {
+export const formatDate = (date: Date | string, format: string = 'MMM DD, YYYY') => {
   return dayjs(date).format(format);
 };
 
@@ -67,7 +61,7 @@ export const formatDate = (
  * Format rating with stars
  */
 export const formatRating = (rating: number, maxRating: number = 5) => {
-  if (rating <= 0) return "0.0";
+  if (rating <= 0) return '0.0';
   if (rating > maxRating) return maxRating.toFixed(1);
   return rating.toFixed(1);
 };
@@ -78,9 +72,9 @@ export const secondsToTimeString = (seconds: number = 0): string => {
   const mins = Math.floor((seconds % 3600) / 60);
   const secs = seconds % 60;
 
-  return `${hours.toString().padStart(2, "0")}:${mins
+  return `${hours.toString().padStart(2, '0')}:${mins
     .toString()
-    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
 // Helper function to convert seconds to MM:SS or HH:MM:SS format (hide hours if zero)
@@ -91,21 +85,19 @@ export const secondsToDisplayTime = (seconds: number = 0): string => {
 
   // If hours is 0, only show MM:SS
   if (hours === 0) {
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
 
   // If hours > 0, show HH:MM:SS
-  return `${hours.toString().padStart(2, "0")}:${mins
+  return `${hours.toString().padStart(2, '0')}:${mins
     .toString()
-    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
 // Helper function to convert HH:MM:SS format to seconds
 export const timeStringToSeconds = (timeString: string): number => {
   if (!timeString) return 0;
-  const parts = timeString.split(":");
+  const parts = timeString.split(':');
   if (parts.length !== 3) return 0;
   const [hours, minutes, seconds] = parts.map(Number);
   if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) return 0;

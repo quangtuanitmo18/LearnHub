@@ -1,22 +1,22 @@
-import type { IChapter } from "@/types/chapter";
-import { ListResponse, BaseFilterParams } from "./common";
-import { LessonType } from "./lesson";
-import type { IMedia } from "./media";
+import type { IChapter } from '@/types/chapter';
+import { ListResponse, BaseFilterParams } from './common';
+import { LessonType } from './lesson';
+import type { IMedia } from './media';
 
 export enum CourseLevel {
-  BEGINNER = "BEGINNER",
-  INTERMEDIATE = "INTERMEDIATE",
-  ADVANCED = "ADVANCED",
+  BEGINNER = 'BEGINNER',
+  INTERMEDIATE = 'INTERMEDIATE',
+  ADVANCED = 'ADVANCED',
 }
 
 export enum CourseStatus {
-  DRAFT = "DRAFT",
-  PUBLISHED = "PUBLISHED",
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
 }
 
 export enum CourseType {
-  FREE = "FREE",
-  PAID = "PAID",
+  FREE = 'FREE',
+  PAID = 'PAID',
 }
 
 export interface CourseQA {
@@ -75,17 +75,10 @@ export interface ICourse {
   updatedAt: Date;
 }
 
-export interface IPublicCourse
-  extends Omit<
-    ICourse,
-    | "author"
-    | "category"
-    | "chapters"
-    | "info"
-    | "authorId"
-    | "categoryId"
-    | "chapterIds"
-  > {
+export interface IPublicCourse extends Omit<
+  ICourse,
+  'author' | 'category' | 'chapters' | 'info' | 'authorId' | 'categoryId' | 'chapterIds'
+> {
   author: {
     id: string;
     username: string;

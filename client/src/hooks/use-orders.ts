@@ -1,29 +1,26 @@
-import { OrderService } from "@/services/orders";
+import { OrderService } from '@/services/orders';
 import type {
   AdminOrdersFilterParams,
   CreateOrderRequest,
   IOrder,
   OrdersFilterParams,
   OrdersListResponse,
-} from "@/types/order";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+} from '@/types/order';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { keepPreviousData } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { keepPreviousData } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 // Query keys for orders
 export const orderKeys = {
-  all: ["orders"] as const,
-  lists: () => [...orderKeys.all, "list"] as const,
-  list: (filters: OrdersFilterParams) =>
-    [...orderKeys.lists(), filters] as const,
-  details: () => [...orderKeys.all, "detail"] as const,
+  all: ['orders'] as const,
+  lists: () => [...orderKeys.all, 'list'] as const,
+  list: (filters: OrdersFilterParams) => [...orderKeys.lists(), filters] as const,
+  details: () => [...orderKeys.all, 'detail'] as const,
   detail: (id: string) => [...orderKeys.details(), id] as const,
   // User-specific keys
-  userOrders: (filters: OrdersFilterParams) =>
-    [...orderKeys.lists(), "user", filters] as const,
-  myOrders: (filters: OrdersFilterParams) =>
-    [...orderKeys.lists(), "my-orders", filters] as const,
+  userOrders: (filters: OrdersFilterParams) => [...orderKeys.lists(), 'user', filters] as const,
+  myOrders: (filters: OrdersFilterParams) => [...orderKeys.lists(), 'my-orders', filters] as const,
 };
 
 // Default empty params for stable reference
@@ -32,7 +29,7 @@ const DEFAULT_PARAMS: OrdersFilterParams = {};
 // Hook to get order details by ID
 export function useOrderDetails(orderId: string | null) {
   return useQuery<IOrder>({
-    queryKey: orderKeys.detail(orderId || ""),
+    queryKey: orderKeys.detail(orderId || ''),
     queryFn: () => OrderService.getOrderById(orderId!),
     enabled: !!orderId,
   });
@@ -76,8 +73,8 @@ export function useCancelOrder() {
       });
     },
     onError: (error) => {
-      console.error("Cancel order error:", error);
-      toast.error("Không thể hủy đơn hàng. Vui lòng thử lại.");
+      console.error('Cancel order error:', error);
+      toast.error('Không thể hủy đơn hàng. Vui lòng thử lại.');
     },
   });
 }
@@ -96,10 +93,10 @@ export function useCreateOrder() {
         queryKey: orderKeys.lists(),
       });
 
-      toast.success("Order created! Redirecting to payment...");
+      toast.success('Order created! Redirecting to payment...');
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to create order");
+      toast.error(error.message || 'Failed to create order');
     },
   });
 }
@@ -109,7 +106,7 @@ export function useCreateOrder() {
 // Hook to fetch admin orders list
 export function useAdminOrders(params: AdminOrdersFilterParams) {
   return useQuery({
-    queryKey: [...orderKeys.lists(), "admin", params],
+    queryKey: [...orderKeys.lists(), 'admin', params],
     queryFn: () => OrderService.getAdminOrders(params),
     placeholderData: keepPreviousData,
   });
@@ -129,13 +126,8 @@ export function useUpdateAdminOrder() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      orderId,
-      orderData,
-    }: {
-      orderId: string;
-      orderData: Partial<IOrder>;
-    }) => OrderService.updateAdminOrder({ id: orderId, ...orderData }),
+    mutationFn: ({ orderId, orderData }: { orderId: string; orderData: Partial<IOrder> }) =>
+      OrderService.updateAdminOrder({ id: orderId, ...orderData }),
     onSuccess: (_, { orderId }) => {
       // Invalidate and refetch admin orders list
       queryClient.invalidateQueries({
@@ -147,10 +139,10 @@ export function useUpdateAdminOrder() {
         queryKey: orderKeys.detail(orderId),
       });
 
-      toast.success("Order updated successfully");
+      toast.success('Order updated successfully');
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to update order. Please try again.");
+      toast.error(error.message || 'Failed to update order. Please try again.');
     },
   });
 }
@@ -172,10 +164,10 @@ export function useDeleteAdminOrder() {
         queryKey: orderKeys.detail(orderId),
       });
 
-      toast.success("Order deleted successfully");
+      toast.success('Order deleted successfully');
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to delete order. Please try again.");
+      toast.error(error.message || 'Failed to delete order. Please try again.');
     },
   });
 }
@@ -185,8 +177,7 @@ export function useBulkDeleteAdminOrders() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (orderIds: string[]) =>
-      OrderService.bulkDeleteAdminOrders(orderIds),
+    mutationFn: (orderIds: string[]) => OrderService.bulkDeleteAdminOrders(orderIds),
     onSuccess: (_, orderIds) => {
       // Invalidate and refetch admin orders list
       queryClient.invalidateQueries({
@@ -201,15 +192,11 @@ export function useBulkDeleteAdminOrders() {
       });
 
       toast.success(
-        `Successfully deleted ${orderIds.length} order${
-          orderIds.length === 1 ? "" : "s"
-        }`
+        `Successfully deleted ${orderIds.length} order${orderIds.length === 1 ? '' : 's'}`,
       );
     },
     onError: (error) => {
-      toast.error(
-        error.message || "Failed to delete orders. Please try again."
-      );
+      toast.error(error.message || 'Failed to delete orders. Please try again.');
     },
   });
 }
@@ -232,12 +219,10 @@ export function useUpdateOrderStatus() {
         queryKey: orderKeys.detail(orderId),
       });
 
-      toast.success("Order status updated successfully");
+      toast.success('Order status updated successfully');
     },
     onError: (error) => {
-      toast.error(
-        error.message || "Failed to update order status. Please try again."
-      );
+      toast.error(error.message || 'Failed to update order status. Please try again.');
     },
   });
 }

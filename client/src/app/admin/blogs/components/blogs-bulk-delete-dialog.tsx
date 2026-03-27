@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useBulkDeleteBlogs } from "@/hooks/use-blogs";
-import { IBlog } from "@/types/blog";
-import { toast } from "sonner";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useBulkDeleteBlogs } from '@/hooks/use-blogs';
+import { IBlog } from '@/types/blog';
+import { toast } from 'sonner';
 
 interface BlogsBulkDeleteDialogProps {
   selectedBlogs: IBlog[];

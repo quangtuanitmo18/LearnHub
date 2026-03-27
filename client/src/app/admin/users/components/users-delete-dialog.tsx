@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteUser } from "@/hooks/use-users";
-import { IUser } from "@/types/user";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteUser } from '@/hooks/use-users';
+import { IUser } from '@/types/user';
 
 interface UsersDeleteDialogProps {
   open: boolean;
@@ -10,11 +10,7 @@ interface UsersDeleteDialogProps {
   currentRow: IUser;
 }
 
-const UsersDeleteDialog = ({
-  open,
-  onOpenChange,
-  currentRow,
-}: UsersDeleteDialogProps) => {
+const UsersDeleteDialog = ({ open, onOpenChange, currentRow }: UsersDeleteDialogProps) => {
   const deleteUserMutation = useDeleteUser();
 
   const handleDelete = () => {

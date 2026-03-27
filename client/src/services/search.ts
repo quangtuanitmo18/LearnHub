@@ -1,8 +1,8 @@
-import { ApiService } from "@/lib/api-service";
-import type { SearchResponse, SearchData, SearchParams } from "@/types/search";
+import { ApiService } from '@/lib/api-service';
+import type { SearchResponse, SearchData, SearchParams } from '@/types/search';
 
 const ENDPOINTS = {
-  SEARCH: "/search",
+  SEARCH: '/search',
 } as const;
 
 export class SearchService {
@@ -17,7 +17,7 @@ export class SearchService {
     try {
       return await ApiService.get<SearchResponse>(
         ENDPOINTS.SEARCH,
-        params as unknown as Record<string, unknown>
+        params as unknown as Record<string, unknown>,
       );
     } catch {
       return { courses: [], blogs: [] };

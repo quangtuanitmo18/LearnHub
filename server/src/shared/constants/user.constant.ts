@@ -22,22 +22,23 @@ export const MembershipPlan = {
   DIAMOND: 'DIAMOND',
 } as const;
 
-export type MembershipPlanType = (typeof MembershipPlan)[keyof typeof MembershipPlan];
+export type MembershipPlanType =
+  (typeof MembershipPlan)[keyof typeof MembershipPlan];
 
 // Membership plan durations in months
 export const MembershipDuration: Record<MembershipPlanType, number> = {
   [MembershipPlan.NONE]: 0,
-  [MembershipPlan.COPPER]: 1,    // 1 month
-  [MembershipPlan.SILVER]: 3,    // 3 months
-  [MembershipPlan.GOLD]: 6,      // 6 months
-  [MembershipPlan.DIAMOND]: 12,  // 1 year
+  [MembershipPlan.COPPER]: 1, // 1 month
+  [MembershipPlan.SILVER]: 3, // 3 months
+  [MembershipPlan.GOLD]: 6, // 6 months
+  [MembershipPlan.DIAMOND]: 12, // 1 year
 };
 
 // Membership plan prices (in your currency unit)
 export const MembershipPrice: Record<MembershipPlanType, number> = {
   [MembershipPlan.NONE]: 0,
-  [MembershipPlan.COPPER]: 99000,     // 1 month price
-  [MembershipPlan.SILVER]: 249000,    // 3 months price (save ~16%)
-  [MembershipPlan.GOLD]: 449000,      // 6 months price (save ~25%)
-  [MembershipPlan.DIAMOND]: 799000,   // 1 year price (save ~33%)
+  [MembershipPlan.COPPER]: 99000, // 1 month price
+  [MembershipPlan.SILVER]: 249000, // 3 months price (save ~16%)
+  [MembershipPlan.GOLD]: 449000, // 6 months price (save ~25%)
+  [MembershipPlan.DIAMOND]: 799000, // 1 year price (save ~33%)
 };

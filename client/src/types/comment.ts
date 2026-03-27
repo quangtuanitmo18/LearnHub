@@ -1,17 +1,17 @@
 export enum ReactionType {
-  LIKE = "LIKE",
-  LOVE = "LOVE",
-  CARE = "CARE",
-  FUN = "FUN",
-  WOW = "WOW",
-  SAD = "SAD",
-  ANGRY = "ANGRY",
+  LIKE = 'LIKE',
+  LOVE = 'LOVE',
+  CARE = 'CARE',
+  FUN = 'FUN',
+  WOW = 'WOW',
+  SAD = 'SAD',
+  ANGRY = 'ANGRY',
 }
 
 export enum CommentStatus {
-  PENDING = "PENDING",
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED",
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
 }
 
 export interface CommentUser {
@@ -78,16 +78,11 @@ export function getUserReaction(comment: IComment): ReactionType | null {
   return comment.myReaction as ReactionType;
 }
 
-export function getReactionCounts(
-  comment: IComment
-): Record<string, number> {
+export function getReactionCounts(comment: IComment): Record<string, number> {
   return comment.reactions || {};
 }
 
-export function getReactionCount(
-  comment: IComment,
-  reactionType: string
-): number {
+export function getReactionCount(comment: IComment, reactionType: string): number {
   return comment.reactions?.[reactionType] || 0;
 }
 
@@ -102,6 +97,6 @@ export interface CommentsFilterParams {
   limit?: number;
   status?: string[];
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: 'asc' | 'desc';
   [key: string]: unknown;
 }

@@ -3,4 +3,5 @@ export const CategoryStatus = {
   INACTIVE: 'INACTIVE',
 } as const;
 
-export type CategoryStatusType = (typeof CategoryStatus)[keyof typeof CategoryStatus];
+export type CategoryStatusType =
+  (typeof CategoryStatus)[keyof typeof CategoryStatus];

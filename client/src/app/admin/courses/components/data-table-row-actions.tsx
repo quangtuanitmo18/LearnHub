@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { Row } from "@tanstack/react-table";
-import { IconEdit, IconTrash, IconList } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { Row } from '@tanstack/react-table';
+import { IconEdit, IconTrash, IconList } from '@tabler/icons-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,12 +13,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { usePermissions } from "@/hooks/use-permissions";
-import { RESOURCES, OPERATIONS } from "@/configs/permission";
-import { ICourse } from "@/types/course";
-import CoursesActionDialog from "./courses-action-dialog";
-import CoursesDeleteDialog from "./courses-delete-dialog";
+} from '@/components/ui/dropdown-menu';
+import { usePermissions } from '@/hooks/use-permissions';
+import { RESOURCES, OPERATIONS } from '@/configs/permission';
+import { ICourse } from '@/types/course';
+import CoursesActionDialog from './courses-action-dialog';
+import CoursesDeleteDialog from './courses-delete-dialog';
 
 interface DataTableRowActionsProps {
   row: Row<ICourse>;
@@ -52,10 +52,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
     <>
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="data-[state=open]:bg-muted flex h-8 w-8 p-0"
-          >
+          <Button variant="ghost" className="data-[state=open]:bg-muted flex h-8 w-8 p-0">
             <DotsHorizontalIcon className="h-4 w-4" />
             <span className="sr-only">Open menu</span>
           </Button>
@@ -79,10 +76,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
           )}
           {(UPDATE || DELETE) && <DropdownMenuSeparator />}
           {DELETE && (
-            <DropdownMenuItem
-              onClick={handleDeleteClick}
-              className="text-red-500!"
-            >
+            <DropdownMenuItem onClick={handleDeleteClick} className="text-red-500!">
               Delete
               <DropdownMenuShortcut>
                 <IconTrash size={16} />

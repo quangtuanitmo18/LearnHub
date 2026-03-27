@@ -1,16 +1,16 @@
 // Membership plan enum
 export enum MembershipPlan {
-  COPPER = "COPPER",
-  SILVER = "SILVER",
-  GOLD = "GOLD",
-  DIAMOND = "DIAMOND",
+  COPPER = 'COPPER',
+  SILVER = 'SILVER',
+  GOLD = 'GOLD',
+  DIAMOND = 'DIAMOND',
 }
 
 // Membership status enum
 export enum MembershipStatus {
-  ACTIVE = "ACTIVE",
-  EXPIRED = "EXPIRED",
-  CANCELLED = "CANCELLED",
+  ACTIVE = 'ACTIVE',
+  EXPIRED = 'EXPIRED',
+  CANCELLED = 'CANCELLED',
 }
 
 // User membership interface - represents the user's current membership
@@ -26,9 +26,7 @@ export interface UserMembership {
 }
 
 // Helper function to check if membership is active
-export function isMembershipActive(
-  membership?: UserMembership | null
-): boolean {
+export function isMembershipActive(membership?: UserMembership | null): boolean {
   if (!membership) return false;
   if (membership.status !== MembershipStatus.ACTIVE) return false;
 
@@ -40,7 +38,7 @@ export function isMembershipActive(
 // Helper function to check if membership grants access to a specific course
 export function membershipGrantsAccessToCourse(
   membership: UserMembership | null | undefined,
-  courseId: string
+  courseId: string,
 ): boolean {
   if (!membership || !isMembershipActive(membership)) return false;
 

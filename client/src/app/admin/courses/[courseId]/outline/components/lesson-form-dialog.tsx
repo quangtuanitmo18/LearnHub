@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   MdAdd,
   MdDelete,
@@ -10,15 +10,11 @@ import {
   MdEdit,
   MdHelpOutline,
   MdOutlineSlowMotionVideo,
-} from "react-icons/md";
-import { toast } from "sonner";
-import * as yup from "yup";
+} from 'react-icons/md';
+import { toast } from 'sonner';
+import * as yup from 'yup';
 
-import {
-  useCreateLesson,
-  useLesson,
-  useUpdateLesson,
-} from "@/hooks/use-lessons";
+import { useCreateLesson, useLesson, useUpdateLesson } from '@/hooks/use-lessons';
 import {
   ILesson,
   BackendQuizQuestion,
@@ -26,14 +22,14 @@ import {
   LessonType,
   QuizQuestionForm,
   UpdateLessonRequest,
-} from "@/types/lesson";
-import { QuestionType } from "@/types/quiz";
+} from '@/types/lesson';
+import { QuestionType } from '@/types/quiz';
 
-import { MediaPickerDialog } from "@/components/media/media-picker-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -41,7 +37,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -49,24 +45,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { SimpleTimePicker } from "@/components/ui/simple-time-picker";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
-import { secondsToTimeString, timeStringToSeconds } from "@/utils/format";
-import { Film, Trash2 } from "lucide-react";
-import { IMedia, MediaType } from "@/types/media";
-import { getHlsUrl, getMediaDisplayUrl } from "@/types/media";
+} from '@/components/ui/select';
+import { SimpleTimePicker } from '@/components/ui/simple-time-picker';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import { secondsToTimeString, timeStringToSeconds } from '@/utils/format';
+import { Film, Trash2 } from 'lucide-react';
+import { IMedia, MediaType } from '@/types/media';
+import { getHlsUrl, getMediaDisplayUrl } from '@/types/media';
 
 interface LessonFormData {
   title: string;
@@ -87,57 +83,50 @@ interface LessonFormData {
 }
 
 const lessonFormSchema: yup.ObjectSchema<LessonFormData> = yup.object({
-  title: yup
-    .string()
-    .required("Title is required")
-    .min(1, "Title cannot be empty"),
+  title: yup.string().required('Title is required').min(1, 'Title cannot be empty'),
   slug: yup.string().optional(),
   contentType: yup
     .mixed<LessonType>()
     .oneOf([LessonType.VIDEO, LessonType.ARTICLE, LessonType.QUIZ] as const)
-    .required("Content type is required"),
+    .required('Content type is required'),
   published: yup.boolean().default(false),
   description: yup.string().nullable().optional(),
   // General duration field for all lessons
   duration: yup
     .string()
     .optional()
-    .matches(
-      /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/,
-      "Invalid time format",
-    ),
+    .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/, 'Invalid time format'),
   // Video specific
-  videoUrl: yup.string().when("contentType", {
+  videoUrl: yup.string().when('contentType', {
     is: LessonType.VIDEO,
-    then: (schema) =>
-      schema.url("Please enter a valid URL").required("Video URL is required"),
+    then: (schema) => schema.url('Please enter a valid URL').required('Video URL is required'),
     otherwise: (schema) => schema.optional(),
   }),
   // Article specific
-  articleContent: yup.string().when("contentType", {
+  articleContent: yup.string().when('contentType', {
     is: LessonType.ARTICLE,
-    then: (schema) => schema.required("Article content is required"),
+    then: (schema) => schema.required('Article content is required'),
     otherwise: (schema) => schema.optional(),
   }),
   // Quiz specific
-  passScore: yup.number().when("contentType", {
+  passScore: yup.number().when('contentType', {
     is: LessonType.QUIZ,
     then: (schema) =>
       schema
-        .min(1, "Passing score must be at least 1%")
-        .max(100, "Passing score cannot exceed 100%")
-        .required("Passing score is required"),
+        .min(1, 'Passing score must be at least 1%')
+        .max(100, 'Passing score cannot exceed 100%')
+        .required('Passing score is required'),
     otherwise: (schema) => schema.optional(),
   }),
   maxAttempts: yup
     .number()
     .nullable()
-    .when("contentType", {
+    .when('contentType', {
       is: LessonType.QUIZ,
       then: (schema) =>
         schema
-          .min(1, "Must allow at least 1 attempt")
-          .max(10, "Cannot exceed 10 attempts")
+          .min(1, 'Must allow at least 1 attempt')
+          .max(10, 'Cannot exceed 10 attempts')
           .nullable(),
       otherwise: (schema) => schema.optional(),
     }),
@@ -186,10 +175,7 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
   const toggleCorrectAnswer = (optionIndex: number, isChecked: boolean) => {
     const newOptions = [...editForm.options];
 
-    if (
-      editForm.type === QuestionType.SINGLE_CHOICE ||
-      editForm.type === QuestionType.TRUE_FALSE
-    ) {
+    if (editForm.type === QuestionType.SINGLE_CHOICE || editForm.type === QuestionType.TRUE_FALSE) {
       // For single choice/true-false, only one can be correct
       newOptions.forEach((opt, idx) => {
         newOptions[idx] = {
@@ -215,7 +201,7 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
         options: [
           ...editForm.options,
           {
-            text: "",
+            text: '',
             order: editForm.options.length + 1,
             isCorrect: false,
           },
@@ -247,7 +233,7 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
   return (
     <Card className="border-2 shadow-sm">
       <CardContent className="p-6">
-        <div className="pb-3 mb-4 border-b">
+        <div className="mb-4 border-b pb-3">
           <h4 className="text-xl font-semibold text-gray-900">Edit Question</h4>
         </div>
 
@@ -260,16 +246,14 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
             <Textarea
               id="question"
               value={editForm.text}
-              onChange={(e) =>
-                setEditForm({ ...editForm, text: e.target.value })
-              }
+              onChange={(e) => setEditForm({ ...editForm, text: e.target.value })}
               placeholder="Enter your question"
               rows={3}
             />
           </div>
 
           {/* Question Type and Points */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="space-y-2">
               <Label className="text-sm font-medium">Question Type</Label>
               <Select
@@ -279,8 +263,8 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
 
                   if (value === QuestionType.TRUE_FALSE) {
                     newEditForm.options = [
-                      { text: "True", order: 1, isCorrect: true },
-                      { text: "False", order: 2, isCorrect: false },
+                      { text: 'True', order: 1, isCorrect: true },
+                      { text: 'False', order: 2, isCorrect: false },
                     ];
                   } else if (editForm.type === QuestionType.TRUE_FALSE) {
                     // Converting from TRUE_FALSE to other types
@@ -291,17 +275,11 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
                     }));
                   } else if (value === QuestionType.SINGLE_CHOICE) {
                     // Ensure only one correct answer for single choice
-                    const firstCorrectIndex = newEditForm.options.findIndex(
-                      (opt) => opt.isCorrect,
-                    );
-                    newEditForm.options = newEditForm.options.map(
-                      (opt, idx) => ({
-                        ...opt,
-                        isCorrect:
-                          idx ===
-                          (firstCorrectIndex >= 0 ? firstCorrectIndex : 0),
-                      }),
-                    );
+                    const firstCorrectIndex = newEditForm.options.findIndex((opt) => opt.isCorrect);
+                    newEditForm.options = newEditForm.options.map((opt, idx) => ({
+                      ...opt,
+                      isCorrect: idx === (firstCorrectIndex >= 0 ? firstCorrectIndex : 0),
+                    }));
                   }
 
                   setEditForm(newEditForm);
@@ -311,15 +289,9 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={QuestionType.MULTIPLE_CHOICE}>
-                    Multiple Choice
-                  </SelectItem>
-                  <SelectItem value={QuestionType.SINGLE_CHOICE}>
-                    Single Choice
-                  </SelectItem>
-                  <SelectItem value={QuestionType.TRUE_FALSE}>
-                    True/False
-                  </SelectItem>
+                  <SelectItem value={QuestionType.MULTIPLE_CHOICE}>Multiple Choice</SelectItem>
+                  <SelectItem value={QuestionType.SINGLE_CHOICE}>Single Choice</SelectItem>
+                  <SelectItem value={QuestionType.TRUE_FALSE}>True/False</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -365,14 +337,11 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
           <div className="space-y-2">
             <Label className="text-sm font-medium">Options</Label>
             {editForm.type === QuestionType.MULTIPLE_CHOICE ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {editForm.options.map((option, optionIndex) => {
                   const optionKey = option.id || `opt-${optionIndex}`;
                   return (
-                    <div
-                      key={optionKey}
-                      className="flex items-center gap-2 p-2 border rounded-md"
-                    >
+                    <div key={optionKey} className="flex items-center gap-2 rounded-md border p-2">
                       <Checkbox
                         checked={option.isCorrect}
                         onCheckedChange={(checked) =>
@@ -382,33 +351,28 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
                       <div className="flex-1">
                         <Input
                           value={option.text}
-                          onChange={(e) =>
-                            updateOption(optionIndex, e.target.value)
-                          }
+                          onChange={(e) => updateOption(optionIndex, e.target.value)}
                           placeholder={`Option ${optionIndex + 1}`}
                         />
                       </div>
-                      {editForm.options.length > 2 &&
-                        editForm.type !== QuestionType.TRUE_FALSE && (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() => removeOption(optionIndex)}
-                            className="text-red-600"
-                          >
-                            <MdDelete className="h-3 w-3" />
-                          </Button>
-                        )}
+                      {editForm.options.length > 2 && editForm.type !== QuestionType.TRUE_FALSE && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => removeOption(optionIndex)}
+                          className="text-red-600"
+                        >
+                          <MdDelete className="h-3 w-3" />
+                        </Button>
+                      )}
                     </div>
                   );
                 })}
               </div>
             ) : (
               <RadioGroup
-                value={String(
-                  editForm.options.findIndex((opt) => opt.isCorrect),
-                )}
+                value={String(editForm.options.findIndex((opt) => opt.isCorrect))}
                 onValueChange={(value: string) => {
                   const selectedIndex = parseInt(value, 10);
                   const newOptions = editForm.options.map((opt, idx) => ({
@@ -420,55 +384,43 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
                     options: newOptions,
                   });
                 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-2"
+                className="grid grid-cols-1 gap-2 md:grid-cols-2"
               >
                 {editForm.options.map((option, optionIndex) => {
                   const optionKey = option.id || `opt-${optionIndex}`;
                   return (
-                    <div
-                      key={optionKey}
-                      className="flex items-center gap-2 p-2 border rounded-md"
-                    >
+                    <div key={optionKey} className="flex items-center gap-2 rounded-md border p-2">
                       <RadioGroupItem value={String(optionIndex)} />
                       <div className="flex-1">
                         <Input
                           value={option.text}
-                          onChange={(e) =>
-                            updateOption(optionIndex, e.target.value)
-                          }
+                          onChange={(e) => updateOption(optionIndex, e.target.value)}
                           placeholder={`Option ${optionIndex + 1}`}
                         />
                       </div>
-                      {editForm.options.length > 2 &&
-                        editForm.type !== QuestionType.TRUE_FALSE && (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() => removeOption(optionIndex)}
-                            className="text-red-600"
-                          >
-                            <MdDelete className="h-3 w-3" />
-                          </Button>
-                        )}
+                      {editForm.options.length > 2 && editForm.type !== QuestionType.TRUE_FALSE && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => removeOption(optionIndex)}
+                          className="text-red-600"
+                        >
+                          <MdDelete className="h-3 w-3" />
+                        </Button>
+                      )}
                     </div>
                   );
                 })}
               </RadioGroup>
             )}
 
-            {editForm.options.length < 6 &&
-              editForm.type !== QuestionType.TRUE_FALSE && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={addOption}
-                >
-                  <MdAdd className="h-3 w-3 mr-2" />
-                  Add Option
-                </Button>
-              )}
+            {editForm.options.length < 6 && editForm.type !== QuestionType.TRUE_FALSE && (
+              <Button type="button" variant="outline" size="sm" onClick={addOption}>
+                <MdAdd className="mr-2 h-3 w-3" />
+                Add Option
+              </Button>
+            )}
           </div>
 
           {/* Explanation */}
@@ -478,7 +430,7 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
             </Label>
             <Textarea
               id="explanation"
-              value={editForm.explanation || ""}
+              value={editForm.explanation || ''}
               onChange={(e) =>
                 setEditForm({
                   ...editForm,
@@ -490,7 +442,7 @@ function QuestionEditor({ question, onSave, onCancel }: QuestionEditorProps) {
             />
           </div>
 
-          <div className="flex gap-3 pt-3 border-t">
+          <div className="flex gap-3 border-t pt-3">
             <Button type="button" onClick={handleSave}>
               Save Question
             </Button>
@@ -515,39 +467,32 @@ const LessonFormDialog = ({
   const isEditing = !!lessonId;
 
   // Fetch lesson data when editing (include questions for quiz lessons)
-  const { data: lesson, isLoading: isLessonLoading } = useLesson(
-    lessonId || "",
-    {
-      includeQuestions: true,
-    },
-  );
+  const { data: lesson, isLoading: isLessonLoading } = useLesson(lessonId || '', {
+    includeQuestions: true,
+  });
 
   // Quiz questions state (managed separately from form)
   const [questions, setQuestions] = useState<QuizQuestionForm[]>([]);
-  const [editingQuestionIndex, setEditingQuestionIndex] = useState<
-    number | null
-  >(null);
+  const [editingQuestionIndex, setEditingQuestionIndex] = useState<number | null>(null);
   const [videoPickerOpen, setVideoPickerOpen] = useState(false);
 
   // Use mutations directly
   const createLessonMutation = useCreateLesson();
   const updateLessonMutation = useUpdateLesson();
   const isLoading =
-    createLessonMutation.isPending ||
-    updateLessonMutation.isPending ||
-    isLessonLoading;
+    createLessonMutation.isPending || updateLessonMutation.isPending || isLessonLoading;
 
   const form = useForm<LessonFormData>({
     resolver: yupResolver(lessonFormSchema),
     defaultValues: {
-      title: "",
-      slug: "",
+      title: '',
+      slug: '',
       contentType: LessonType.VIDEO,
       published: false,
       description: null,
-      duration: "00:00:00",
-      videoUrl: "",
-      articleContent: "",
+      duration: '00:00:00',
+      videoUrl: '',
+      articleContent: '',
       passScore: 70,
       maxAttempts: null,
       questions: [],
@@ -560,7 +505,7 @@ const LessonFormDialog = ({
     watch,
     formState: { isSubmitting },
   } = form;
-  const selectedContentType = watch("contentType");
+  const selectedContentType = watch('contentType');
 
   // Helper function to convert backend lesson response to form data
   const mapBackendToFormData = (lessonData: ILesson) => {
@@ -616,9 +561,7 @@ const LessonFormDialog = ({
 
         // Load existing questions if quiz type
         if (backendLesson.type === LessonType.QUIZ && backendLesson.quiz) {
-          const formQuestions = mapBackendQuestionsToForm(
-            backendLesson.quiz.questions,
-          );
+          const formQuestions = mapBackendQuestionsToForm(backendLesson.quiz.questions);
           setQuestions(formQuestions);
         } else {
           setQuestions([]);
@@ -627,14 +570,14 @@ const LessonFormDialog = ({
       } else if (!isEditing) {
         // Create mode
         reset({
-          title: "",
-          slug: "",
+          title: '',
+          slug: '',
           contentType: LessonType.VIDEO,
           published: false,
           description: null,
-          duration: "00:00:00",
-          videoUrl: "",
-          articleContent: "",
+          duration: '00:00:00',
+          videoUrl: '',
+          articleContent: '',
           passScore: 70,
           maxAttempts: null,
           questions: [],
@@ -650,8 +593,8 @@ const LessonFormDialog = ({
   // Quiz questions management functions
   const addNewQuestion = () => {
     const newQuestion: QuizQuestionForm = {
-      text: "",
-      explanation: "",
+      text: '',
+      explanation: '',
       type: QuestionType.MULTIPLE_CHOICE,
       order: questions.length + 1,
       points: 1,
@@ -685,7 +628,7 @@ const LessonFormDialog = ({
 
   const handleFormSubmit = (data: LessonFormData) => {
     // Convert duration from HH:MM:SS to seconds for backend
-    const durationInSeconds = timeStringToSeconds(data.duration || "00:00:00");
+    const durationInSeconds = timeStringToSeconds(data.duration || '00:00:00');
 
     // Transform form data to new backend structure
     const requestData: CreateLessonRequest | UpdateLessonRequest = {
@@ -743,25 +686,25 @@ const LessonFormDialog = ({
 
       updateLessonMutation.mutate(requestData as UpdateLessonRequest, {
         onSuccess: () => {
-          toast.success("Lesson updated successfully!");
+          toast.success('Lesson updated successfully!');
           onOpenChange(false);
           onSuccess?.();
         },
         onError: (error) => {
-          console.error("Error updating lesson:", error);
-          toast.error("Failed to update lesson");
+          console.error('Error updating lesson:', error);
+          toast.error('Failed to update lesson');
         },
       });
     } else {
       createLessonMutation.mutate(requestData as CreateLessonRequest, {
         onSuccess: () => {
-          toast.success("Lesson created successfully!");
+          toast.success('Lesson created successfully!');
           onOpenChange(false);
           onSuccess?.();
         },
         onError: (error) => {
-          console.error("Error creating lesson:", error);
-          toast.error("Failed to create lesson");
+          console.error('Error creating lesson:', error);
+          toast.error('Failed to create lesson');
         },
       });
     }
@@ -769,7 +712,7 @@ const LessonFormDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {isEditing ? (
@@ -786,8 +729,8 @@ const LessonFormDialog = ({
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the lesson information below."
-              : "Create a new lesson for this chapter."}
+              ? 'Update the lesson information below.'
+              : 'Create a new lesson for this chapter.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -831,7 +774,7 @@ const LessonFormDialog = ({
                   </FormItem>
                 )}
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
                   name="contentType"
@@ -851,11 +794,7 @@ const LessonFormDialog = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {[
-                            LessonType.VIDEO,
-                            LessonType.ARTICLE,
-                            LessonType.QUIZ,
-                          ].map((type) => (
+                          {[LessonType.VIDEO, LessonType.ARTICLE, LessonType.QUIZ].map((type) => (
                             <SelectItem key={type} value={type}>
                               <div className="flex items-center gap-2">
                                 {getContentTypeIcon(type)}
@@ -880,7 +819,7 @@ const LessonFormDialog = ({
                         <FormLabel>Duration</FormLabel>
                         <FormControl>
                           <SimpleTimePicker
-                            value={field.value || "00:00:00"}
+                            value={field.value || '00:00:00'}
                             onChange={field.onChange}
                             disabled={isLoading || isSubmitting}
                           />
@@ -901,13 +840,13 @@ const LessonFormDialog = ({
                     name="videoUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className=" font-semibold">
+                        <FormLabel className="font-semibold">
                           Lesson Video <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <div className="space-y-3">
                             {field.value ? (
-                              <div className="group relative w-full overflow-hidden rounded-lg border-2 border-border bg-muted/50 transition-all hover:border-primary/50">
+                              <div className="group border-border bg-muted/50 hover:border-primary/50 relative w-full overflow-hidden rounded-lg border-2 transition-all">
                                 <div className="relative aspect-video w-full">
                                   {/* Video thumbnail preview */}
                                   <div className="relative h-full w-full bg-black">
@@ -933,7 +872,7 @@ const LessonFormDialog = ({
                                         e.stopPropagation();
                                         setVideoPickerOpen(true);
                                       }}
-                                      className="bg-white/95 text-gray-900 hover:bg-white shadow-md backdrop-blur-sm"
+                                      className="bg-white/95 text-gray-900 shadow-md backdrop-blur-sm hover:bg-white"
                                       title="Change Video"
                                       disabled={isLoading || isSubmitting}
                                     >
@@ -945,9 +884,9 @@ const LessonFormDialog = ({
                                       size="sm"
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        field.onChange("");
+                                        field.onChange('');
                                       }}
-                                      className="bg-white/95 text-destructive hover:bg-white shadow-md backdrop-blur-sm"
+                                      className="text-destructive bg-white/95 shadow-md backdrop-blur-sm hover:bg-white"
                                       title="Remove Video"
                                       disabled={isLoading || isSubmitting}
                                     >
@@ -959,25 +898,21 @@ const LessonFormDialog = ({
                             ) : (
                               <div
                                 onClick={() =>
-                                  !isLoading &&
-                                  !isSubmitting &&
-                                  setVideoPickerOpen(true)
+                                  !isLoading && !isSubmitting && setVideoPickerOpen(true)
                                 }
-                                className={`group relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/30 p-8 transition-all hover:border-primary/50 hover:bg-muted/50 ${
-                                  isLoading || isSubmitting
-                                    ? "opacity-50 cursor-not-allowed"
-                                    : ""
+                                className={`group border-muted-foreground/25 bg-muted/30 hover:border-primary/50 hover:bg-muted/50 relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-all ${
+                                  isLoading || isSubmitting ? 'cursor-not-allowed opacity-50' : ''
                                 }`}
                               >
                                 <div className="flex flex-col items-center gap-3">
-                                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-all group-hover:bg-primary/20">
-                                    <Film className="h-6 w-6 text-primary" />
+                                  <div className="bg-primary/10 group-hover:bg-primary/20 flex h-12 w-12 items-center justify-center rounded-full transition-all">
+                                    <Film className="text-primary h-6 w-6" />
                                   </div>
                                   <div className="text-center">
-                                    <p className="text-sm font-medium text-foreground">
+                                    <p className="text-foreground text-sm font-medium">
                                       Select Lesson Video
                                     </p>
-                                    <p className="mt-1 text-xs text-muted-foreground">
+                                    <p className="text-muted-foreground mt-1 text-xs">
                                       Choose from media library
                                     </p>
                                   </div>
@@ -998,7 +933,7 @@ const LessonFormDialog = ({
                         </FormControl>
                         <FormMessage />
                         {!field.value && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Recommended: MP4 format, HLS supported
                           </p>
                         )}
@@ -1015,8 +950,7 @@ const LessonFormDialog = ({
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Article Content{" "}
-                          <span className="text-red-500">*</span>
+                          Article Content <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Textarea
@@ -1034,7 +968,7 @@ const LessonFormDialog = ({
 
                 {/* Quiz specific fields */}
                 {selectedContentType === LessonType.QUIZ && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="maxAttempts"
@@ -1048,12 +982,10 @@ const LessonFormDialog = ({
                               min="1"
                               max="10"
                               disabled={isLoading || isSubmitting}
-                              value={field.value ?? ""}
+                              value={field.value ?? ''}
                               onChange={(e) =>
                                 field.onChange(
-                                  e.target.value === ""
-                                    ? null
-                                    : parseInt(e.target.value, 10),
+                                  e.target.value === '' ? null : parseInt(e.target.value, 10),
                                 )
                               }
                               placeholder="Leave empty for unlimited"
@@ -1070,8 +1002,7 @@ const LessonFormDialog = ({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            Passing Score (%){" "}
-                            <span className="text-red-500">*</span>
+                            Passing Score (%) <span className="text-red-500">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -1080,9 +1011,7 @@ const LessonFormDialog = ({
                               min="1"
                               max="100"
                               disabled={isLoading || isSubmitting}
-                              onChange={(e) =>
-                                field.onChange(parseInt(e.target.value, 10))
-                              }
+                              onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
                             />
                           </FormControl>
                           <FormMessage />
@@ -1102,7 +1031,7 @@ const LessonFormDialog = ({
                       <FormControl>
                         <Textarea
                           {...field}
-                          value={field.value || ""}
+                          value={field.value || ''}
                           placeholder="Enter lesson description"
                           rows={3}
                           disabled={isLoading || isSubmitting}
@@ -1118,12 +1047,8 @@ const LessonFormDialog = ({
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-lg font-medium">
-                          Questions ({questions.length})
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                          Add questions for your quiz
-                        </p>
+                        <h3 className="text-lg font-medium">Questions ({questions.length})</h3>
+                        <p className="text-sm text-gray-500">Add questions for your quiz</p>
                       </div>
                       <Button
                         type="button"
@@ -1131,49 +1056,35 @@ const LessonFormDialog = ({
                         onClick={addNewQuestion}
                         disabled={isLoading || isSubmitting}
                       >
-                        <MdAdd className="h-4 w-4 mr-2" />
+                        <MdAdd className="mr-2 h-4 w-4" />
                         Add Question
                       </Button>
                     </div>
 
                     {questions.length === 0 ? (
-                      <div className="text-center py-8 text-gray-500 border border-dashed border-gray-300 rounded-lg">
+                      <div className="rounded-lg border border-dashed border-gray-300 py-8 text-center text-gray-500">
                         <p>No questions yet. Add your first question!</p>
                       </div>
                     ) : (
                       <div className="space-y-3">
                         {questions.map((question, index) => (
-                          <Card
-                            key={question.id || `question-${index}`}
-                            className="p-4"
-                          >
+                          <Card key={question.id || `question-${index}`} className="p-4">
                             <div className="flex items-start gap-3">
                               <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <Badge variant="outline">
-                                    Question {index + 1}
+                                <div className="mb-2 flex items-center gap-2">
+                                  <Badge variant="outline">Question {index + 1}</Badge>
+                                  <Badge variant="secondary" className="capitalize">
+                                    {question.type.replace('_', ' ')}
                                   </Badge>
-                                  <Badge
-                                    variant="secondary"
-                                    className="capitalize"
-                                  >
-                                    {question.type.replace("_", " ")}
-                                  </Badge>
-                                  <Badge variant="outline">
-                                    Order: {question.order}
-                                  </Badge>
+                                  <Badge variant="outline">Order: {question.order}</Badge>
                                 </div>
-                                <p className="font-medium text-gray-900 mb-2 line-clamp-2">
-                                  {question.text || "No content yet"}
+                                <p className="mb-2 line-clamp-2 font-medium text-gray-900">
+                                  {question.text || 'No content yet'}
                                 </p>
                                 <div className="text-sm text-gray-600">
-                                  {question.options.length} options,{" "}
-                                  {
-                                    question.options.filter(
-                                      (opt) => opt.isCorrect,
-                                    ).length
-                                  }{" "}
-                                  correct answers
+                                  {question.options.length} options,{' '}
+                                  {question.options.filter((opt) => opt.isCorrect).length} correct
+                                  answers
                                 </div>
                               </div>
                               <div className="flex items-center gap-2">
@@ -1255,10 +1166,10 @@ const LessonFormDialog = ({
               </Button>
               <Button type="submit" disabled={isLoading || isSubmitting}>
                 {isLoading || isSubmitting
-                  ? "Saving..."
+                  ? 'Saving...'
                   : isEditing
-                    ? "Update Lesson"
-                    : "Create Lesson"}
+                    ? 'Update Lesson'
+                    : 'Create Lesson'}
               </Button>
             </DialogFooter>
           </form>
@@ -1272,7 +1183,7 @@ const LessonFormDialog = ({
             // Use HLS URL if available, otherwise use display URL
             const videoUrl = getHlsUrl(media) || getMediaDisplayUrl(media);
             if (videoUrl) {
-              form.setValue("videoUrl", videoUrl, {
+              form.setValue('videoUrl', videoUrl, {
                 shouldValidate: true,
               });
             }

@@ -116,7 +116,6 @@ export class LessonRepository extends BaseService<
     };
   }
 
-
   /**
    * Find lessons by chapter ID (ordered by order field)
    */
@@ -127,7 +126,6 @@ export class LessonRepository extends BaseService<
       select: this.options.selectFields,
     });
   }
-
 
   /**
    * Find published lessons by chapter ID
@@ -142,7 +140,6 @@ export class LessonRepository extends BaseService<
       select: this.options.selectFields,
     });
   }
-
 
   /**
    * Get the next order number for a chapter
@@ -195,7 +192,6 @@ export class LessonRepository extends BaseService<
     });
   }
 
-
   /**
    * Find lesson by ID with full content data (Article, Video, or Quiz with questions)
    */
@@ -205,7 +201,6 @@ export class LessonRepository extends BaseService<
       select: this.getFullSelectFields(),
     });
   }
-
 
   /**
    * Check if slug is unique

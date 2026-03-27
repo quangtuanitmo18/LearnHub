@@ -1,6 +1,6 @@
 // Chapter types
 
-import { LessonType } from "./lesson";
+import { LessonType } from './lesson';
 
 // Chapter interface (matches new API response)
 export interface IChapter {
@@ -68,7 +68,7 @@ export interface ChaptersFilterParams {
   isPublished?: boolean;
   search?: string;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: 'asc' | 'desc';
   page?: number;
   limit?: number;
   [key: string]: unknown;

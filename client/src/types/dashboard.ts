@@ -63,7 +63,7 @@ export interface DashboardStatsResponse {
 }
 
 // Change type for UI display
-export type ChangeType = "positive" | "negative" | "neutral";
+export type ChangeType = 'positive' | 'negative' | 'neutral';
 
 // Processed stat for UI display
 export interface ProcessedDashboardStat {

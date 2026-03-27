@@ -1,24 +1,18 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  keepPreviousData,
-} from "@tanstack/react-query";
-import CategoriesService from "@/services/categories";
-import { toast } from "sonner";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
+import CategoriesService from '@/services/categories';
+import { toast } from 'sonner';
 import {
   CreateCategoryRequest,
   UpdateCategoryRequest,
   CategoriesFilterParams,
-} from "@/types/category";
+} from '@/types/category';
 
 // Query keys for categories
 export const categoryKeys = {
-  all: ["categories"] as const,
-  lists: () => [...categoryKeys.all, "list"] as const,
-  list: (filters: CategoriesFilterParams) =>
-    [...categoryKeys.lists(), filters] as const,
-  allCategories: () => [...categoryKeys.all, "all"] as const,
+  all: ['categories'] as const,
+  lists: () => [...categoryKeys.all, 'list'] as const,
+  list: (filters: CategoriesFilterParams) => [...categoryKeys.lists(), filters] as const,
+  allCategories: () => [...categoryKeys.all, 'all'] as const,
 };
 
 // Hooks for categories
@@ -48,7 +42,7 @@ export function useCreateCategory() {
       queryClient.invalidateQueries({ queryKey: categoryKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to create category");
+      toast.error(error?.message || 'Failed to create category');
     },
   });
 }
@@ -63,7 +57,7 @@ export function useUpdateCategory() {
       queryClient.invalidateQueries({ queryKey: categoryKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to update category");
+      toast.error(error?.message || 'Failed to update category');
     },
   });
 }
@@ -74,11 +68,11 @@ export function useDeleteCategory() {
   return useMutation({
     mutationFn: (id: string) => CategoriesService.deleteCategory(id),
     onSuccess: () => {
-      toast.success("Category deleted successfully!");
+      toast.success('Category deleted successfully!');
       queryClient.invalidateQueries({ queryKey: categoryKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to delete category");
+      toast.error(error?.message || 'Failed to delete category');
     },
   });
 }
@@ -87,13 +81,12 @@ export function useBulkDeleteCategories() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (categoryIds: string[]) =>
-      CategoriesService.bulkDeleteCategories(categoryIds),
+    mutationFn: (categoryIds: string[]) => CategoriesService.bulkDeleteCategories(categoryIds),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: categoryKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to delete categories");
+      toast.error(error?.message || 'Failed to delete categories');
     },
   });
 }

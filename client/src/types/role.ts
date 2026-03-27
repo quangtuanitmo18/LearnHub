@@ -1,5 +1,5 @@
-import { Permission } from "@/configs/permission";
-import { ListResponse, BaseFilterParams } from "./common";
+import { Permission } from '@/configs/permission';
+import { ListResponse, BaseFilterParams } from './common';
 
 export interface IRole {
   id: string;

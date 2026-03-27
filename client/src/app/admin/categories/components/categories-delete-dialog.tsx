@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteCategory } from "@/hooks/use-categories";
-import { ICategory } from "@/types/category";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteCategory } from '@/hooks/use-categories';
+import { ICategory } from '@/types/category';
 
 interface CategoriesDeleteDialogProps {
   currentRow: ICategory; // Alternative prop name for compatibility

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useBulkDeleteCourses } from "@/hooks/use-courses";
-import { ICourse } from "@/types/course";
-import { toast } from "sonner";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useBulkDeleteCourses } from '@/hooks/use-courses';
+import { ICourse } from '@/types/course';
+import { toast } from 'sonner';
 
 interface CoursesBulkDeleteDialogProps {
   selectedCourses: ICourse[];
@@ -25,9 +25,7 @@ const CoursesBulkDeleteDialog = ({
 
     bulkDeleteMutation.mutate(courseIds, {
       onSuccess: () => {
-        toast.success(
-          `${selectedCourses.length} courses deleted successfully!`
-        );
+        toast.success(`${selectedCourses.length} courses deleted successfully!`);
         onSuccess?.();
       },
     });

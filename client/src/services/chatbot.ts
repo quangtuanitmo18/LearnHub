@@ -1,8 +1,8 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 
 // Chatbot API endpoints
 const ENDPOINTS = {
-  SEND_MESSAGE: "/chat/message",
+  SEND_MESSAGE: '/chat/message',
 } as const;
 
 // Request/Response types for chatbot
@@ -35,13 +35,8 @@ class ChatbotService {
   /**
    * Send a message to the chatbot
    */
-  static async sendMessage(
-    request: SendMessageRequest
-  ): Promise<SendMessageResponse> {
-    const response = await ApiService.post<SendMessageResponse>(
-      ENDPOINTS.SEND_MESSAGE,
-      request
-    );
+  static async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
+    const response = await ApiService.post<SendMessageResponse>(ENDPOINTS.SEND_MESSAGE, request);
 
     return response;
   }

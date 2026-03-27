@@ -1,32 +1,25 @@
-"use client";
+'use client';
 
-import CouponService from "@/services/coupons";
+import CouponService from '@/services/coupons';
 import type {
   CouponsListParams,
   CreateCouponRequest,
   GetActiveCouponsRequest,
   UpdateCouponRequest,
   ValidateCouponRequest,
-} from "@/types/coupon";
-import {
-  keepPreviousData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { toast } from "sonner";
+} from '@/types/coupon';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 // Query keys for coupons
 export const couponKeys = {
-  all: ["coupons"] as const,
-  lists: () => [...couponKeys.all, "list"] as const,
-  list: (filters: CouponsListParams) =>
-    [...couponKeys.lists(), filters] as const,
-  details: () => [...couponKeys.all, "detail"] as const,
+  all: ['coupons'] as const,
+  lists: () => [...couponKeys.all, 'list'] as const,
+  list: (filters: CouponsListParams) => [...couponKeys.lists(), filters] as const,
+  details: () => [...couponKeys.all, 'detail'] as const,
   detail: (id: string) => [...couponKeys.details(), id] as const,
-  active: (params?: GetActiveCouponsRequest) =>
-    [...couponKeys.all, "active", params] as const,
-  valid: () => [...couponKeys.all, "valid"] as const,
+  active: (params?: GetActiveCouponsRequest) => [...couponKeys.all, 'active', params] as const,
+  valid: () => [...couponKeys.all, 'valid'] as const,
 } as const;
 
 // Admin hooks for coupons CRUD
@@ -54,13 +47,12 @@ export function useCreateCoupon() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (couponData: CreateCouponRequest) =>
-      CouponService.createCoupon(couponData),
+    mutationFn: (couponData: CreateCouponRequest) => CouponService.createCoupon(couponData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: couponKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to create coupon");
+      toast.error(error?.message || 'Failed to create coupon');
     },
   });
 }
@@ -70,8 +62,7 @@ export function useUpdateCoupon() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (couponData: UpdateCouponRequest) =>
-      CouponService.updateCoupon(couponData),
+    mutationFn: (couponData: UpdateCouponRequest) => CouponService.updateCoupon(couponData),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: couponKeys.lists() });
       queryClient.invalidateQueries({
@@ -79,7 +70,7 @@ export function useUpdateCoupon() {
       });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to update coupon");
+      toast.error(error?.message || 'Failed to update coupon');
     },
   });
 }
@@ -91,11 +82,11 @@ export function useDeleteCoupon() {
   return useMutation({
     mutationFn: (id: string) => CouponService.deleteCoupon(id),
     onSuccess: () => {
-      toast.success("Coupon deleted successfully!");
+      toast.success('Coupon deleted successfully!');
       queryClient.invalidateQueries({ queryKey: couponKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to delete coupon");
+      toast.error(error?.message || 'Failed to delete coupon');
     },
   });
 }
@@ -110,7 +101,7 @@ export function useBulkDeleteCoupons() {
       queryClient.invalidateQueries({ queryKey: couponKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to delete coupons");
+      toast.error(error?.message || 'Failed to delete coupons');
     },
   });
 }
@@ -136,14 +127,13 @@ export function useValidCoupons() {
 // Hook to validate coupon (public)
 export function useValidateCoupon() {
   return useMutation({
-    mutationFn: (data: ValidateCouponRequest) =>
-      CouponService.validateCoupon(data),
+    mutationFn: (data: ValidateCouponRequest) => CouponService.validateCoupon(data),
     onSuccess: (response) => {
       toast.success(`Coupon ${response.coupon.code} applied successfully!`);
       return response;
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to validate coupon");
+      toast.error(error?.message || 'Failed to validate coupon');
     },
   });
 }

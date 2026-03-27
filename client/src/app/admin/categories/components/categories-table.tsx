@@ -1,17 +1,13 @@
-import { DataTable, DataTablePagination } from "@/components/table";
-import { PAGINATION_CONSTANTS, TABLE_CONSTANTS } from "@/constants";
-import { useCategories } from "@/hooks/use-categories";
-import { useDebounce } from "@/hooks/use-debounce";
-import { CategoriesFilterParams } from "@/types/category";
-import {
-  VisibilityState,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import CategoriesBulkDeleteDialog from "./categories-bulk-delete-dialog";
-import { columns } from "./categories-columns";
-import DataTableToolbar from "./data-table-toolbar";
+import { DataTable, DataTablePagination } from '@/components/table';
+import { PAGINATION_CONSTANTS, TABLE_CONSTANTS } from '@/constants';
+import { useCategories } from '@/hooks/use-categories';
+import { useDebounce } from '@/hooks/use-debounce';
+import { CategoriesFilterParams } from '@/types/category';
+import { VisibilityState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import CategoriesBulkDeleteDialog from './categories-bulk-delete-dialog';
+import { columns } from './categories-columns';
+import DataTableToolbar from './data-table-toolbar';
 
 // Filter state interface for better organization
 interface FilterState {
@@ -26,24 +22,17 @@ const CategoriesTable = () => {
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE
-  );
-  const [pageSize, setPageSize] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE
-  );
+  const [currentPage, setCurrentPage] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE);
+  const [pageSize, setPageSize] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE);
 
   // Filter state
   const [filters, setFilters] = useState<FilterState>({
-    search: "",
+    search: '',
     status: [],
   });
 
   // Debounce search input
-  const debouncedSearch = useDebounce(
-    filters.search,
-    TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS
-  );
+  const debouncedSearch = useDebounce(filters.search, TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS);
 
   // Format query parameters for API call
   const queryParams = useMemo(() => {
@@ -75,7 +64,7 @@ const CategoriesTable = () => {
 
   const handleClearFilters = useCallback(() => {
     setFilters({
-      search: "",
+      search: '',
       status: [],
     });
     setCurrentPage(PAGINATION_CONSTANTS.DEFAULT_PAGE);
@@ -99,10 +88,7 @@ const CategoriesTable = () => {
   }, []);
 
   // Memoized categories data
-  const categories = useMemo(
-    () => categoriesData?.result || [],
-    [categoriesData?.result]
-  );
+  const categories = useMemo(() => categoriesData?.result || [], [categoriesData?.result]);
 
   // Get selected categories for bulk operations
   const selectedCategories = useMemo(() => {

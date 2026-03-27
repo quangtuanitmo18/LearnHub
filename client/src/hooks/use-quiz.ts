@@ -1,30 +1,25 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { QuizService } from "@/services/quiz";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { QuizService } from '@/services/quiz';
 import {
   QuizQuestionAdmin,
   AttemptsListResponse,
   LoadAttemptResponse,
   AttemptResultResponse,
   AnswerPayload,
-} from "@/types/quiz";
+} from '@/types/quiz';
 
 // ========== QUERY KEYS ==========
 
 export const QUIZ_QUERY_KEYS = {
   // User quiz taking
-  ATTEMPTS_LIST: (lessonId: string) => ["quiz", "attempts", "list", lessonId],
-  ATTEMPT: (attemptId: string) => ["quiz", "attempt", attemptId],
-  ATTEMPT_RESULT: (attemptId: string) => [
-    "quiz",
-    "attempt",
-    "result",
-    attemptId,
-  ],
+  ATTEMPTS_LIST: (lessonId: string) => ['quiz', 'attempts', 'list', lessonId],
+  ATTEMPT: (attemptId: string) => ['quiz', 'attempt', attemptId],
+  ATTEMPT_RESULT: (attemptId: string) => ['quiz', 'attempt', 'result', attemptId],
 
   // Admin quiz management
-  QUIZ_BY_LESSON: (lessonId: string) => ["quiz", "lesson", lessonId],
-  QUIZ: (quizId: string) => ["quiz", quizId],
+  QUIZ_BY_LESSON: (lessonId: string) => ['quiz', 'lesson', lessonId],
+  QUIZ: (quizId: string) => ['quiz', quizId],
 } as const;
 
 // ========== USER QUIZ TAKING HOOKS ==========
@@ -33,10 +28,7 @@ export const QUIZ_QUERY_KEYS = {
  * Hook to list all attempts for a lesson quiz
  * GET /api/quizzes/:lessonId/attempts
  */
-export function useAttemptsList(
-  lessonId: string,
-  options?: { enabled?: boolean }
-) {
+export function useAttemptsList(lessonId: string, options?: { enabled?: boolean }) {
   return useQuery<AttemptsListResponse>({
     queryKey: QUIZ_QUERY_KEYS.ATTEMPTS_LIST(lessonId),
     queryFn: () => QuizService.listAttempts(lessonId),
@@ -48,12 +40,9 @@ export function useAttemptsList(
  * Hook to load attempt with questions and saved answers
  * GET /api/attempts/:attemptId
  */
-export function useLoadAttempt(
-  attemptId: string | null,
-  options?: { enabled?: boolean }
-) {
+export function useLoadAttempt(attemptId: string | null, options?: { enabled?: boolean }) {
   return useQuery<LoadAttemptResponse>({
-    queryKey: QUIZ_QUERY_KEYS.ATTEMPT(attemptId || ""),
+    queryKey: QUIZ_QUERY_KEYS.ATTEMPT(attemptId || ''),
     queryFn: () => QuizService.loadAttempt(attemptId!),
     enabled: !!attemptId && (options?.enabled ?? true),
   });
@@ -63,12 +52,9 @@ export function useLoadAttempt(
  * Hook to get attempt result for review
  * GET /api/attempts/:attemptId/result
  */
-export function useAttemptResult(
-  attemptId: string | null,
-  options?: { enabled?: boolean }
-) {
+export function useAttemptResult(attemptId: string | null, options?: { enabled?: boolean }) {
   return useQuery<AttemptResultResponse>({
-    queryKey: QUIZ_QUERY_KEYS.ATTEMPT_RESULT(attemptId || ""),
+    queryKey: QUIZ_QUERY_KEYS.ATTEMPT_RESULT(attemptId || ''),
     queryFn: () => QuizService.getAttemptResult(attemptId!),
     enabled: !!attemptId && (options?.enabled ?? true),
   });
@@ -90,7 +76,7 @@ export function useStartAttempt() {
       });
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to start quiz");
+      toast.error(error.message || 'Failed to start quiz');
     },
   });
 }
@@ -101,13 +87,8 @@ export function useStartAttempt() {
  */
 export function useSaveAnswers() {
   return useMutation({
-    mutationFn: ({
-      attemptId,
-      answers,
-    }: {
-      attemptId: string;
-      answers: AnswerPayload[];
-    }) => QuizService.saveAnswers(attemptId, answers),
+    mutationFn: ({ attemptId, answers }: { attemptId: string; answers: AnswerPayload[] }) =>
+      QuizService.saveAnswers(attemptId, answers),
     // Silent - no toast on success/error for autosave
   });
 }
@@ -117,21 +98,14 @@ export function useSaveAnswers() {
  * POST /api/attempts/:attemptId/submit
  */
 export function useSubmitAttempt() {
-
   return useMutation({
-    mutationFn: ({
-      attemptId,
-      answers,
-    }: {
-      attemptId: string;
-      answers: AnswerPayload[];
-    }) => QuizService.submitAttempt(attemptId, answers),
+    mutationFn: ({ attemptId, answers }: { attemptId: string; answers: AnswerPayload[] }) =>
+      QuizService.submitAttempt(attemptId, answers),
     onSuccess: (data) => {
-
-      toast.success("Quiz submitted successfully!");
+      toast.success('Quiz submitted successfully!');
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to submit quiz");
+      toast.error(error.message || 'Failed to submit quiz');
     },
   });
 }
@@ -141,10 +115,7 @@ export function useSubmitAttempt() {
 /**
  * Get quiz by lesson ID (admin)
  */
-export function useQuizByLesson(
-  lessonId: string,
-  options?: { enabled?: boolean }
-) {
+export function useQuizByLesson(lessonId: string, options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: QUIZ_QUERY_KEYS.QUIZ_BY_LESSON(lessonId),
     queryFn: () => QuizService.getQuizByLesson(lessonId),
@@ -177,16 +148,13 @@ export function useSaveQuizQuestions() {
         queryKey: QUIZ_QUERY_KEYS.QUIZ_BY_LESSON(updatedQuiz.lessonId),
       });
       if (updatedQuiz._id) {
-        queryClient.setQueryData(
-          QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id),
-          updatedQuiz
-        );
+        queryClient.setQueryData(QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id), updatedQuiz);
       }
-      toast.success("Questions saved successfully");
+      toast.success('Questions saved successfully');
     },
     onError: (error) => {
-      console.error("Save quiz questions error:", error);
-      toast.error("Failed to save questions");
+      console.error('Save quiz questions error:', error);
+      toast.error('Failed to save questions');
     },
   });
 }
@@ -198,28 +166,20 @@ export function useUpdateQuizQuestions() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      quizId,
-      questions,
-    }: {
-      quizId: string;
-      questions: QuizQuestionAdmin[];
-    }) => QuizService.updateQuizQuestions(quizId, questions),
+    mutationFn: ({ quizId, questions }: { quizId: string; questions: QuizQuestionAdmin[] }) =>
+      QuizService.updateQuizQuestions(quizId, questions),
     onSuccess: (updatedQuiz) => {
       if (updatedQuiz._id) {
-        queryClient.setQueryData(
-          QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id),
-          updatedQuiz
-        );
+        queryClient.setQueryData(QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id), updatedQuiz);
       }
       queryClient.invalidateQueries({
         queryKey: QUIZ_QUERY_KEYS.QUIZ_BY_LESSON(updatedQuiz.lessonId),
       });
-      toast.success("Questions updated successfully");
+      toast.success('Questions updated successfully');
     },
     onError: (error) => {
-      console.error("Update quiz questions error:", error);
-      toast.error("Failed to update questions");
+      console.error('Update quiz questions error:', error);
+      toast.error('Failed to update questions');
     },
   });
 }
@@ -234,12 +194,12 @@ export function useDeleteQuiz() {
     mutationFn: (quizId: string) => QuizService.deleteQuiz(quizId),
     onSuccess: (_, quizId) => {
       queryClient.removeQueries({ queryKey: QUIZ_QUERY_KEYS.QUIZ(quizId) });
-      queryClient.invalidateQueries({ queryKey: ["quiz", "lesson"] });
-      toast.success("Quiz deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ['quiz', 'lesson'] });
+      toast.success('Quiz deleted successfully');
     },
     onError: (error) => {
-      console.error("Delete quiz error:", error);
-      toast.error("Failed to delete quiz");
+      console.error('Delete quiz error:', error);
+      toast.error('Failed to delete quiz');
     },
   });
 }
@@ -254,19 +214,16 @@ export function usePublishQuiz() {
     mutationFn: (quizId: string) => QuizService.publishQuiz(quizId),
     onSuccess: (updatedQuiz) => {
       if (updatedQuiz._id) {
-        queryClient.setQueryData(
-          QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id),
-          updatedQuiz
-        );
+        queryClient.setQueryData(QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id), updatedQuiz);
       }
       queryClient.invalidateQueries({
         queryKey: QUIZ_QUERY_KEYS.QUIZ_BY_LESSON(updatedQuiz.lessonId),
       });
-      toast.success("Quiz published successfully");
+      toast.success('Quiz published successfully');
     },
     onError: (error) => {
-      console.error("Publish quiz error:", error);
-      toast.error("Failed to publish quiz");
+      console.error('Publish quiz error:', error);
+      toast.error('Failed to publish quiz');
     },
   });
 }
@@ -281,19 +238,16 @@ export function useUnpublishQuiz() {
     mutationFn: (quizId: string) => QuizService.unpublishQuiz(quizId),
     onSuccess: (updatedQuiz) => {
       if (updatedQuiz._id) {
-        queryClient.setQueryData(
-          QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id),
-          updatedQuiz
-        );
+        queryClient.setQueryData(QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id), updatedQuiz);
       }
       queryClient.invalidateQueries({
         queryKey: QUIZ_QUERY_KEYS.QUIZ_BY_LESSON(updatedQuiz.lessonId),
       });
-      toast.success("Quiz unpublished successfully");
+      toast.success('Quiz unpublished successfully');
     },
     onError: (error) => {
-      console.error("Unpublish quiz error:", error);
-      toast.error("Failed to unpublish quiz");
+      console.error('Unpublish quiz error:', error);
+      toast.error('Failed to unpublish quiz');
     },
   });
 }
@@ -310,15 +264,15 @@ export function useAddQuestion() {
       question,
     }: {
       quizId: string;
-      question: Omit<QuizQuestionAdmin, "_id">;
+      question: Omit<QuizQuestionAdmin, '_id'>;
     }) => QuizService.addQuestion(quizId, question as QuizQuestionAdmin),
     onSuccess: (_, { quizId }) => {
       queryClient.invalidateQueries({ queryKey: QUIZ_QUERY_KEYS.QUIZ(quizId) });
-      toast.success("Question added successfully");
+      toast.success('Question added successfully');
     },
     onError: (error) => {
-      console.error("Add question error:", error);
-      toast.error("Failed to add question");
+      console.error('Add question error:', error);
+      toast.error('Failed to add question');
     },
   });
 }
@@ -337,20 +291,15 @@ export function useUpdateQuestion() {
     }: {
       quizId: string;
       questionId: string;
-      question: Omit<QuizQuestionAdmin, "_id">;
-    }) =>
-      QuizService.updateQuestion(
-        quizId,
-        questionId,
-        question as QuizQuestionAdmin
-      ),
+      question: Omit<QuizQuestionAdmin, '_id'>;
+    }) => QuizService.updateQuestion(quizId, questionId, question as QuizQuestionAdmin),
     onSuccess: (_, { quizId }) => {
       queryClient.invalidateQueries({ queryKey: QUIZ_QUERY_KEYS.QUIZ(quizId) });
-      toast.success("Question updated successfully");
+      toast.success('Question updated successfully');
     },
     onError: (error) => {
-      console.error("Update question error:", error);
-      toast.error("Failed to update question");
+      console.error('Update question error:', error);
+      toast.error('Failed to update question');
     },
   });
 }
@@ -362,20 +311,15 @@ export function useDeleteQuestion() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      quizId,
-      questionId,
-    }: {
-      quizId: string;
-      questionId: string;
-    }) => QuizService.deleteQuestion(quizId, questionId),
+    mutationFn: ({ quizId, questionId }: { quizId: string; questionId: string }) =>
+      QuizService.deleteQuestion(quizId, questionId),
     onSuccess: (_, { quizId }) => {
       queryClient.invalidateQueries({ queryKey: QUIZ_QUERY_KEYS.QUIZ(quizId) });
-      toast.success("Question deleted successfully");
+      toast.success('Question deleted successfully');
     },
     onError: (error) => {
-      console.error("Delete question error:", error);
-      toast.error("Failed to delete question");
+      console.error('Delete question error:', error);
+      toast.error('Failed to delete question');
     },
   });
 }
@@ -387,25 +331,17 @@ export function useReorderQuestions() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      quizId,
-      questionIds,
-    }: {
-      quizId: string;
-      questionIds: string[];
-    }) => QuizService.reorderQuestions(quizId, questionIds),
+    mutationFn: ({ quizId, questionIds }: { quizId: string; questionIds: string[] }) =>
+      QuizService.reorderQuestions(quizId, questionIds),
     onSuccess: (updatedQuiz) => {
       if (updatedQuiz._id) {
-        queryClient.setQueryData(
-          QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id),
-          updatedQuiz
-        );
+        queryClient.setQueryData(QUIZ_QUERY_KEYS.QUIZ(updatedQuiz._id), updatedQuiz);
       }
-      toast.success("Questions reordered successfully");
+      toast.success('Questions reordered successfully');
     },
     onError: (error) => {
-      console.error("Reorder questions error:", error);
-      toast.error("Failed to reorder questions");
+      console.error('Reorder questions error:', error);
+      toast.error('Failed to reorder questions');
     },
   });
 }

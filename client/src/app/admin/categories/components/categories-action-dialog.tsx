@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -16,33 +16,30 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as React from "react";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
 
-import { useCreateCategory, useUpdateCategory } from "@/hooks/use-categories";
-import { ICategory } from "@/types/category";
-import { MdAdd, MdEdit } from "react-icons/md";
-import { toast } from "sonner";
-import {
-  categorySchema,
-  CategorySchema,
-} from "@/validators/category.validator";
-import { CategoryStatus } from "@/types/category";
-import slugify from "slugify";
+import { useCreateCategory, useUpdateCategory } from '@/hooks/use-categories';
+import { ICategory } from '@/types/category';
+import { MdAdd, MdEdit } from 'react-icons/md';
+import { toast } from 'sonner';
+import { categorySchema, CategorySchema } from '@/validators/category.validator';
+import { CategoryStatus } from '@/types/category';
+import slugify from 'slugify';
 
 interface CategoriesActionDialogProps {
-  mode?: "create" | "edit";
+  mode?: 'create' | 'edit';
   category?: ICategory;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 const CategoriesActionDialog = ({
-  mode = "create",
+  mode = 'create',
   category,
   open,
   onOpenChange,
@@ -51,15 +48,14 @@ const CategoriesActionDialog = ({
   const createCategoryMutation = useCreateCategory();
   const updateCategoryMutation = useUpdateCategory();
 
-  const isLoading =
-    createCategoryMutation.isPending || updateCategoryMutation.isPending;
+  const isLoading = createCategoryMutation.isPending || updateCategoryMutation.isPending;
 
   // Initialize form with default values
   const form = useForm<CategorySchema>({
     resolver: yupResolver(categorySchema),
     defaultValues: {
-      name: "",
-      slug: "",
+      name: '',
+      slug: '',
       status: CategoryStatus.ACTIVE,
     },
   });
@@ -74,11 +70,11 @@ const CategoriesActionDialog = ({
   };
 
   // Watch name field to auto-generate slug
-  const watchName = form.watch("name");
+  const watchName = form.watch('name');
   React.useEffect(() => {
     if (watchName) {
       const slug = generateSlug(watchName);
-      form.setValue("slug", slug);
+      form.setValue('slug', slug);
     }
   }, [watchName, mode, form]);
 
@@ -86,15 +82,15 @@ const CategoriesActionDialog = ({
   React.useEffect(() => {
     if (open) {
       form.reset({
-        name: category?.name || "",
-        slug: category?.slug || "",
+        name: category?.name || '',
+        slug: category?.slug || '',
         status: category?.status ?? CategoryStatus.ACTIVE,
       });
     }
   }, [open, category, form]);
 
   const onSubmit = async (data: CategorySchema) => {
-    if (mode === "create") {
+    if (mode === 'create') {
       createCategoryMutation.mutate(
         {
           name: data.name,
@@ -103,11 +99,11 @@ const CategoriesActionDialog = ({
         },
         {
           onSuccess: () => {
-            toast.success("Category created successfully!");
+            toast.success('Category created successfully!');
             onOpenChange(false);
             form.reset();
           },
-        }
+        },
       );
     } else if (category) {
       updateCategoryMutation.mutate(
@@ -119,31 +115,27 @@ const CategoriesActionDialog = ({
         },
         {
           onSuccess: () => {
-            toast.success("Category updated successfully!");
+            toast.success('Category updated successfully!');
             onOpenChange(false);
             form.reset();
           },
-        }
+        },
       );
     }
   };
 
-  const title = mode === "create" ? "Create Category" : "Edit Category";
+  const title = mode === 'create' ? 'Create Category' : 'Edit Category';
   const description =
-    mode === "create"
-      ? "Add a new category to organize your courses."
-      : "Update the category information.";
+    mode === 'create'
+      ? 'Add a new category to organize your courses.'
+      : 'Update the category information.';
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            {mode === "create" ? (
-              <MdAdd className="h-5 w-5" />
-            ) : (
-              <MdEdit className="h-5 w-5" />
-            )}
+            {mode === 'create' ? <MdAdd className="h-5 w-5" /> : <MdEdit className="h-5 w-5" />}
             {title}
           </DialogTitle>
           <DialogDescription>{description}</DialogDescription>
@@ -151,7 +143,7 @@ const CategoriesActionDialog = ({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 gap-4 items-start">
+            <div className="grid grid-cols-1 items-start gap-4">
               {/* Category Name */}
               <FormField
                 control={form.control}
@@ -162,11 +154,7 @@ const CategoriesActionDialog = ({
                       Category Name <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter category name"
-                        {...field}
-                        disabled={isLoading}
-                      />
+                      <Input placeholder="Enter category name" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -183,13 +171,9 @@ const CategoriesActionDialog = ({
                       Slug <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="category-slug"
-                        {...field}
-                        disabled={isLoading}
-                      />
+                      <Input placeholder="category-slug" {...field} disabled={isLoading} />
                     </FormControl>
-                    <div className="text-xs text-muted-foreground mt-1">
+                    <div className="text-muted-foreground mt-1 text-xs">
                       URL-friendly version of the name (lowercase, hyphens only)
                     </div>
                     <FormMessage />
@@ -205,7 +189,7 @@ const CategoriesActionDialog = ({
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
                       <FormLabel className="text-base">Status</FormLabel>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-muted-foreground text-sm">
                         Make this category visible to students
                       </div>
                     </div>
@@ -213,11 +197,7 @@ const CategoriesActionDialog = ({
                       <Switch
                         checked={field.value === CategoryStatus.ACTIVE}
                         onCheckedChange={(checked) => {
-                          field.onChange(
-                            checked
-                              ? CategoryStatus.ACTIVE
-                              : CategoryStatus.INACTIVE
-                          );
+                          field.onChange(checked ? CategoryStatus.ACTIVE : CategoryStatus.INACTIVE);
                         }}
                         disabled={isLoading}
                       />
@@ -238,10 +218,10 @@ const CategoriesActionDialog = ({
               </Button>
               <Button type="submit" disabled={isLoading}>
                 {isLoading
-                  ? "Saving..."
-                  : mode === "create"
-                  ? "Create Category"
-                  : "Update Category"}
+                  ? 'Saving...'
+                  : mode === 'create'
+                    ? 'Create Category'
+                    : 'Update Category'}
               </Button>
             </DialogFooter>
           </form>

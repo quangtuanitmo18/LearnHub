@@ -1,19 +1,14 @@
-import UsersService from "@/services/users";
-import type { UpdateUserRequest, UsersFilterParams } from "@/types/user";
-import {
-  keepPreviousData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { toast } from "sonner";
+import UsersService from '@/services/users';
+import type { UpdateUserRequest, UsersFilterParams } from '@/types/user';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 // Query keys for users
 export const userKeys = {
-  all: ["users"] as const,
-  lists: () => [...userKeys.all, "list"] as const,
+  all: ['users'] as const,
+  lists: () => [...userKeys.all, 'list'] as const,
   list: (filters: UsersFilterParams) => [...userKeys.lists(), filters] as const,
-  details: () => [...userKeys.all, "detail"] as const,
+  details: () => [...userKeys.all, 'detail'] as const,
   detail: (id: string) => [...userKeys.details(), id] as const,
 };
 
@@ -48,8 +43,7 @@ export function useUpdateUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (userData: UpdateUserRequest) =>
-      UsersService.updateUser(userData),
+    mutationFn: (userData: UpdateUserRequest) => UsersService.updateUser(userData),
     onSuccess: (updatedUser) => {
       // Update the user in the cache
       queryClient.setQueryData(userKeys.detail(updatedUser.id), updatedUser);
@@ -57,7 +51,7 @@ export function useUpdateUser() {
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to update user");
+      toast.error(error?.message || 'Failed to update user');
     },
   });
 }
@@ -67,17 +61,16 @@ export function useUpdateUserAdmin() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (userData: UpdateUserRequest) =>
-      UsersService.updateUserAdmin(userData),
+    mutationFn: (userData: UpdateUserRequest) => UsersService.updateUserAdmin(userData),
     onSuccess: (updatedUser) => {
       // Update the user in the cache
       queryClient.setQueryData(userKeys.detail(updatedUser.id), updatedUser);
       // Invalidate users list to ensure consistency
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
-      toast.success("User updated successfully");
+      toast.success('User updated successfully');
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to update user");
+      toast.error(error?.message || 'Failed to update user');
     },
   });
 }

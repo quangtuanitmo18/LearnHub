@@ -1,16 +1,16 @@
 // Notification types and interfaces
 
-import { ListResponse } from "./common";
+import { ListResponse } from './common';
 
 export type NotificationType =
-  | "SYSTEM"
-  | "COURSE"
-  | "ORDER"
-  | "COMMENT"
-  | "BADGE"
-  | "PROMOTION"
-  | "REMINDER"
-  | "NEW_COURSE";
+  | 'SYSTEM'
+  | 'COURSE'
+  | 'ORDER'
+  | 'COMMENT'
+  | 'BADGE'
+  | 'PROMOTION'
+  | 'REMINDER'
+  | 'NEW_COURSE';
 
 // Course data structure in notification
 export interface NotificationCourseData {

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import dayjs from "dayjs";
-import { Calendar as CalendarIcon } from "lucide-react";
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
+import { Calendar as CalendarIcon } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Dialog,
   DialogContent,
@@ -14,7 +14,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -22,41 +22,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Coupon, DiscountType } from "@/types/coupon";
-import { useCreateCoupon, useUpdateCoupon } from "@/hooks/use-coupons";
-import { useCourses } from "@/hooks/use-courses";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { couponFormSchema, CouponSchema } from "@/validators/coupon.validator";
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Coupon, DiscountType } from '@/types/coupon';
+import { useCreateCoupon, useUpdateCoupon } from '@/hooks/use-coupons';
+import { useCourses } from '@/hooks/use-courses';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { couponFormSchema, CouponSchema } from '@/validators/coupon.validator';
 
-import { cn } from "@/lib/utils";
-import { MultiSelect } from "@/components/multi-select";
-import { toast } from "sonner";
-import { NumericFormat } from "react-number-format";
+import { cn } from '@/lib/utils';
+import { MultiSelect } from '@/components/multi-select';
+import { toast } from 'sonner';
+import { NumericFormat } from 'react-number-format';
 
 interface CouponsActionDialogProps {
-  mode?: "create" | "edit";
+  mode?: 'create' | 'edit';
   coupon?: Coupon;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 const CouponsActionDialog = ({
-  mode = "create",
+  mode = 'create',
   coupon,
   open,
   onOpenChange,
@@ -70,8 +66,8 @@ const CouponsActionDialog = ({
 
   const defaultValues = React.useMemo(
     () => ({
-      title: "",
-      code: "",
+      title: '',
+      code: '',
       discountType: DiscountType.PERCENT,
       discountValue: 10,
       courseIds: [],
@@ -81,13 +77,13 @@ const CouponsActionDialog = ({
       endDate: null,
       isActive: true,
     }),
-    []
+    [],
   );
 
   const form = useForm<CouponSchema>({
     resolver: yupResolver(couponFormSchema),
     defaultValues,
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
@@ -96,13 +92,13 @@ const CouponsActionDialog = ({
     watch,
   } = form;
 
-  const discountType = watch("discountType");
+  const discountType = watch('discountType');
 
   React.useEffect(() => {
     if (open && coupon) {
       const formDefaults = {
-        title: coupon?.title || "",
-        code: coupon?.code || "",
+        title: coupon?.title || '',
+        code: coupon?.code || '',
         discountType: coupon?.discountType || DiscountType.PERCENT,
         discountValue: coupon?.discountValue || 10,
         courseIds: coupon?.courses?.map((course) => course.id) || [],
@@ -118,20 +114,17 @@ const CouponsActionDialog = ({
   }, [open, coupon, reset]);
 
   const onSubmit = (data: CouponSchema) => {
-    console.log(
-      "data.startDate",
-      dayjs(data.startDate).format("YYYY-MM-DD HH:mm:ss")
-    );
+    console.log('data.startDate', dayjs(data.startDate).format('YYYY-MM-DD HH:mm:ss'));
     const couponData = {
       ...data,
       startDate: data.startDate?.toISOString(),
       endDate: data.endDate ? data.endDate.toISOString() : undefined,
     };
 
-    if (mode === "create") {
+    if (mode === 'create') {
       createCouponMutation.mutate(couponData, {
         onSuccess: () => {
-          toast.success("Coupon created successfully!");
+          toast.success('Coupon created successfully!');
           onOpenChange(false);
         },
       });
@@ -143,10 +136,10 @@ const CouponsActionDialog = ({
         },
         {
           onSuccess: () => {
-            toast.success("Coupon updated successfully!");
+            toast.success('Coupon updated successfully!');
             onOpenChange(false);
           },
-        }
+        },
       );
     }
   };
@@ -155,15 +148,13 @@ const CouponsActionDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[900px] max-h-[90vh] flex flex-col">
+      <DialogContent className="flex max-h-[90vh] flex-col sm:max-w-[900px]">
         <DialogHeader className="shrink-0">
-          <DialogTitle>
-            {mode === "create" ? "Create New Coupon" : "Edit Coupon"}
-          </DialogTitle>
+          <DialogTitle>{mode === 'create' ? 'Create New Coupon' : 'Edit Coupon'}</DialogTitle>
           <DialogDescription>
-            {mode === "create"
-              ? "Create a new discount coupon for courses."
-              : "Update coupon information and settings."}
+            {mode === 'create'
+              ? 'Create a new discount coupon for courses.'
+              : 'Update coupon information and settings.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -172,11 +163,11 @@ const CouponsActionDialog = ({
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Basic Information Section */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                <h3 className="border-b pb-2 text-lg font-semibold text-gray-900">
                   Basic Information
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
                     name="title"
@@ -202,11 +193,7 @@ const CouponsActionDialog = ({
                           Code <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="COUPON_CODE"
-                            className="font-mono"
-                          />
+                          <Input {...field} placeholder="COUPON_CODE" className="font-mono" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -214,7 +201,7 @@ const CouponsActionDialog = ({
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
                     name="discountType"
@@ -223,22 +210,15 @@ const CouponsActionDialog = ({
                         <FormLabel>
                           Discount Type <span className="text-red-500">*</span>
                         </FormLabel>
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
+                        <Select value={field.value} onValueChange={field.onChange}>
                           <FormControl>
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select discount type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value={DiscountType.PERCENT}>
-                              Percentage (%)
-                            </SelectItem>
-                            <SelectItem value={DiscountType.FIXED}>
-                              Fixed Amount (đ)
-                            </SelectItem>
+                            <SelectItem value={DiscountType.PERCENT}>Percentage (%)</SelectItem>
+                            <SelectItem value={DiscountType.FIXED}>Fixed Amount (đ)</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -249,9 +229,7 @@ const CouponsActionDialog = ({
                   <FormField
                     control={form.control}
                     name="discountValue"
-                    render={({
-                      field: { onChange, onBlur, name, value, ref },
-                    }) => (
+                    render={({ field: { onChange, onBlur, name, value, ref } }) => (
                       <FormItem>
                         <FormLabel>
                           Discount Value <span className="text-red-500">*</span>
@@ -265,17 +243,9 @@ const CouponsActionDialog = ({
                             customInput={Input}
                             thousandSeparator=","
                             decimalSeparator="."
-                            suffix={
-                              discountType === DiscountType.PERCENT
-                                ? " %"
-                                : " ₫"
-                            }
+                            suffix={discountType === DiscountType.PERCENT ? ' %' : ' ₫'}
                             allowNegative={false}
-                            placeholder={
-                              discountType === DiscountType.PERCENT
-                                ? "10 %"
-                                : "10 ₫"
-                            }
+                            placeholder={discountType === DiscountType.PERCENT ? '10 %' : '10 ₫'}
                             isAllowed={(values) => {
                               const { floatValue } = values;
                               // For percentage, limit to 100
@@ -285,9 +255,7 @@ const CouponsActionDialog = ({
                               // For fixed amount, no limit
                               return true;
                             }}
-                            onValueChange={(values) =>
-                              onChange(values.floatValue)
-                            }
+                            onValueChange={(values) => onChange(values.floatValue)}
                           />
                         </FormControl>
                         <FormMessage />
@@ -299,17 +267,15 @@ const CouponsActionDialog = ({
 
               {/* Eligibility Section */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                <h3 className="border-b pb-2 text-lg font-semibold text-gray-900">
                   Eligibility & Restrictions
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
                     name="minPurchaseAmount"
-                    render={({
-                      field: { onChange, onBlur, name, value, ref },
-                    }) => (
+                    render={({ field: { onChange, onBlur, name, value, ref } }) => (
                       <FormItem>
                         <FormLabel>Minimum Purchase Amount</FormLabel>
                         <FormControl>
@@ -324,9 +290,7 @@ const CouponsActionDialog = ({
                             suffix=" ₫"
                             allowNegative={false}
                             placeholder="0 ₫"
-                            onValueChange={(values) =>
-                              onChange(values.floatValue)
-                            }
+                            onValueChange={(values) => onChange(values.floatValue)}
                           />
                         </FormControl>
                         <FormMessage />
@@ -337,9 +301,7 @@ const CouponsActionDialog = ({
                   <FormField
                     control={form.control}
                     name="maxUses"
-                    render={({
-                      field: { onChange, onBlur, name, value, ref },
-                    }) => (
+                    render={({ field: { onChange, onBlur, name, value, ref } }) => (
                       <FormItem>
                         <FormLabel>Maximum Uses</FormLabel>
                         <FormControl>
@@ -356,14 +318,9 @@ const CouponsActionDialog = ({
                             allowLeadingZeros={false}
                             isAllowed={(values) => {
                               const { floatValue } = values;
-                              return (
-                                !floatValue ||
-                                (floatValue >= 1 && floatValue <= 999999)
-                              );
+                              return !floatValue || (floatValue >= 1 && floatValue <= 999999);
                             }}
-                            onValueChange={(values) =>
-                              onChange(values.floatValue)
-                            }
+                            onValueChange={(values) => onChange(values.floatValue)}
                           />
                         </FormControl>
                         <FormMessage />
@@ -379,23 +336,21 @@ const CouponsActionDialog = ({
                   render={({ field }) => {
                     // Transform courses into options for MultiSelect
                     const courseOptions = courses.map((course) => ({
-                      label: `${
-                        course.title
-                      } - ${course.price.toLocaleString()} VND`,
+                      label: `${course.title} - ${course.price.toLocaleString()} VND`,
                       value: course.id,
                     }));
 
                     return (
                       <FormItem>
                         <FormLabel>Applicable Courses</FormLabel>
-                        <div className="text-sm text-muted-foreground mb-2">
-                          Select courses where this coupon can be applied. Leave
-                          empty for all courses.
+                        <div className="text-muted-foreground mb-2 text-sm">
+                          Select courses where this coupon can be applied. Leave empty for all
+                          courses.
                         </div>
                         <FormControl>
                           {coursesLoading ? (
-                            <div className="flex items-center justify-center p-8 border border-dashed rounded-lg">
-                              <div className="text-sm text-muted-foreground">
+                            <div className="flex items-center justify-center rounded-lg border border-dashed p-8">
+                              <div className="text-muted-foreground text-sm">
                                 Loading courses...
                               </div>
                             </div>
@@ -403,9 +358,7 @@ const CouponsActionDialog = ({
                             <MultiSelect
                               options={courseOptions}
                               onValueChange={field.onChange}
-                              defaultValue={
-                                Array.isArray(field.value) ? field.value : []
-                              }
+                              defaultValue={Array.isArray(field.value) ? field.value : []}
                               placeholder="Select courses (leave empty for all)"
                               variant="default"
                               disabled={coursesLoading}
@@ -424,11 +377,11 @@ const CouponsActionDialog = ({
 
               {/* Validity Period Section */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                <h3 className="border-b pb-2 text-lg font-semibold text-gray-900">
                   Validity Period
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
                     name="startDate"
@@ -443,12 +396,12 @@ const CouponsActionDialog = ({
                               <Button
                                 variant="outline"
                                 className={cn(
-                                  "w-full pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
+                                  'w-full pl-3 text-left font-normal',
+                                  !field.value && 'text-muted-foreground',
                                 )}
                               >
                                 {field.value ? (
-                                  dayjs(field.value).format("MMM D, YYYY")
+                                  dayjs(field.value).format('MMM D, YYYY')
                                 ) : (
                                   <span>Pick a date</span>
                                 )}
@@ -479,7 +432,7 @@ const CouponsActionDialog = ({
                     control={form.control}
                     name="endDate"
                     render={({ field }) => {
-                      const startDate = watch("startDate");
+                      const startDate = watch('startDate');
                       return (
                         <FormItem className="flex flex-col">
                           <FormLabel>End Date</FormLabel>
@@ -489,12 +442,12 @@ const CouponsActionDialog = ({
                                 <Button
                                   variant="outline"
                                   className={cn(
-                                    "w-full pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
+                                    'w-full pl-3 text-left font-normal',
+                                    !field.value && 'text-muted-foreground',
                                   )}
                                 >
                                   {field.value ? (
-                                    dayjs(field.value).format("MMM D, YYYY")
+                                    dayjs(field.value).format('MMM D, YYYY')
                                   ) : (
                                     <span>No expiration</span>
                                   )}
@@ -521,7 +474,7 @@ const CouponsActionDialog = ({
                                 }}
                                 initialFocus
                               />
-                              <div className="p-3 border-t">
+                              <div className="border-t p-3">
                                 <Button
                                   variant="ghost"
                                   size="sm"
@@ -549,18 +502,13 @@ const CouponsActionDialog = ({
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">
-                          Active Status
-                        </FormLabel>
-                        <div className="text-sm text-muted-foreground">
+                        <FormLabel className="text-base">Active Status</FormLabel>
+                        <div className="text-muted-foreground text-sm">
                           Enable or disable this coupon
                         </div>
                       </div>
                       <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -571,29 +519,21 @@ const CouponsActionDialog = ({
         </div>
 
         <DialogFooter className="shrink-0 border-t pt-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
+          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
           <Button
             type="button"
             onClick={form.handleSubmit(onSubmit)}
             disabled={
-              isSubmitting ||
-              createCouponMutation.isPending ||
-              updateCouponMutation.isPending
+              isSubmitting || createCouponMutation.isPending || updateCouponMutation.isPending
             }
           >
-            {isSubmitting ||
-            createCouponMutation.isPending ||
-            updateCouponMutation.isPending
-              ? "Saving..."
-              : mode === "create"
-              ? "Create Coupon"
-              : "Update Coupon"}
+            {isSubmitting || createCouponMutation.isPending || updateCouponMutation.isPending
+              ? 'Saving...'
+              : mode === 'create'
+                ? 'Create Coupon'
+                : 'Update Coupon'}
           </Button>
         </DialogFooter>
       </DialogContent>

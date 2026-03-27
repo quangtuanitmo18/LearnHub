@@ -1,4 +1,4 @@
-import { useCounterAnimation } from "@/hooks/use-counter-animation";
+import { useCounterAnimation } from '@/hooks/use-counter-animation';
 
 interface AnimatedCounterProps {
   value: string;
@@ -17,20 +17,18 @@ export function AnimatedCounter({
     const match = val.match(/^([\d,]+\.?\d*)([KMB]?)(.*)/i);
     if (!match) return { number: 0, suffix: val, decimals: 0 };
 
-    const numberStr = match[1].replace(/,/g, ""); // Remove commas
+    const numberStr = match[1].replace(/,/g, ''); // Remove commas
     let number = parseFloat(numberStr);
     const multiplier = match[2]?.toUpperCase();
     const remainingSuffix = match[3]; // Everything after the multiplier
 
     // Apply multiplier
-    if (multiplier === "K") number *= 1000;
-    else if (multiplier === "M") number *= 1000000;
-    else if (multiplier === "B") number *= 1000000000;
+    if (multiplier === 'K') number *= 1000;
+    else if (multiplier === 'M') number *= 1000000;
+    else if (multiplier === 'B') number *= 1000000000;
 
     const suffix = remainingSuffix; // Only the remaining suffix (like "+" or "/5")
-    const decimals = numberStr.includes(".")
-      ? numberStr.split(".")[1].length
-      : 0;
+    const decimals = numberStr.includes('.') ? numberStr.split('.')[1].length : 0;
 
     return { number, suffix, decimals, originalMultiplier: multiplier };
   };
@@ -52,9 +50,9 @@ export function AnimatedCounter({
       let displayValue: number;
       const displayMultiplier = originalMultiplier;
 
-      if (originalMultiplier === "K") displayValue = num / 1000;
-      else if (originalMultiplier === "M") displayValue = num / 1000000;
-      else if (originalMultiplier === "B") displayValue = num / 1000000000;
+      if (originalMultiplier === 'K') displayValue = num / 1000;
+      else if (originalMultiplier === 'M') displayValue = num / 1000000;
+      else if (originalMultiplier === 'B') displayValue = num / 1000000000;
       else displayValue = num;
 
       if (decimals > 0) {

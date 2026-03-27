@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteCoupon } from "@/hooks/use-coupons";
-import { Coupon } from "@/types/coupon";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteCoupon } from '@/hooks/use-coupons';
+import { Coupon } from '@/types/coupon';
 
 interface CouponsDeleteDialogProps {
   open: boolean;
@@ -10,11 +10,7 @@ interface CouponsDeleteDialogProps {
   currentRow: Coupon;
 }
 
-const CouponsDeleteDialog = ({
-  open,
-  onOpenChange,
-  currentRow,
-}: CouponsDeleteDialogProps) => {
+const CouponsDeleteDialog = ({ open, onOpenChange, currentRow }: CouponsDeleteDialogProps) => {
   const deleteCouponMutation = useDeleteCoupon();
 
   const handleDelete = () => {

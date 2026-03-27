@@ -11,4 +11,3 @@ import { CourseModule } from '../course/course.module';
   exports: [CartService, CartRepository],
 })
 export class CartModule {}
-

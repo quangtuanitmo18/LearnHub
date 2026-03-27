@@ -1,29 +1,27 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import {
   IBlog,
   CreateBlogRequest,
   UpdateBlogRequest,
   BlogsListResponse,
   BlogsFilterParams,
-} from "@/types/blog";
+} from '@/types/blog';
 
 const ENDPOINTS = {
-  BLOGS: "/blogs",
-  BLOGS_PUBLISH: "/blogs/publish",
-  BLOGS_ALL: "/blogs/all",
+  BLOGS: '/blogs',
+  BLOGS_PUBLISH: '/blogs/publish',
+  BLOGS_ALL: '/blogs/all',
   BLOG: (id: string) => `/blogs/${id}`,
   BLOG_BY_SLUG: (slug: string) => `/blogs/slug/${slug}`,
 } as const;
 
 export class BlogsService {
   // Get blogs with pagination
-  static async getBlogs(
-    params?: BlogsFilterParams
-  ): Promise<BlogsListResponse> {
+  static async getBlogs(params?: BlogsFilterParams): Promise<BlogsListResponse> {
     try {
       return await ApiService.get<BlogsListResponse>(
         ENDPOINTS.BLOGS,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
     } catch {
       return {
@@ -40,12 +38,12 @@ export class BlogsService {
 
   // Get published blogs with pagination
   static async getPublishedBlogs(
-    params?: Omit<BlogsFilterParams, "status">
+    params?: Omit<BlogsFilterParams, 'status'>,
   ): Promise<BlogsListResponse> {
     try {
       return await ApiService.get<BlogsListResponse>(
         ENDPOINTS.BLOGS_PUBLISH,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
     } catch {
       return {
@@ -63,9 +61,7 @@ export class BlogsService {
   // Get all blogs
   static async getAllBlogs(): Promise<IBlog[]> {
     try {
-      const response = await ApiService.get<{ blogs: IBlog[] }>(
-        ENDPOINTS.BLOGS_ALL
-      );
+      const response = await ApiService.get<{ blogs: IBlog[] }>(ENDPOINTS.BLOGS_ALL);
       return response.blogs || [];
     } catch {
       return [];
@@ -79,9 +75,7 @@ export class BlogsService {
 
   // Get blog by slug
   static async getBlogBySlug(slug: string): Promise<IBlog> {
-    const response = await ApiService.get<{ blog: IBlog }>(
-      ENDPOINTS.BLOG_BY_SLUG(slug)
-    );
+    const response = await ApiService.get<{ blog: IBlog }>(ENDPOINTS.BLOG_BY_SLUG(slug));
     return response.blog;
   }
 
@@ -93,10 +87,7 @@ export class BlogsService {
   // Update blog
   static async updateBlog(blogData: UpdateBlogRequest): Promise<IBlog> {
     const { id, ...updateData } = blogData;
-    return ApiService.put<IBlog, Omit<UpdateBlogRequest, "id">>(
-      ENDPOINTS.BLOG(id),
-      updateData
-    );
+    return ApiService.put<IBlog, Omit<UpdateBlogRequest, 'id'>>(ENDPOINTS.BLOG(id), updateData);
   }
 
   // Delete blog
@@ -106,10 +97,9 @@ export class BlogsService {
 
   // Bulk operations
   static async bulkDeleteBlogs(blogIds: string[]): Promise<void> {
-    return ApiService.delete<void, { ids: string[] }>(
-      `${ENDPOINTS.BLOGS}/bulk-delete`,
-      { ids: blogIds }
-    );
+    return ApiService.delete<void, { ids: string[] }>(`${ENDPOINTS.BLOGS}/bulk-delete`, {
+      ids: blogIds,
+    });
   }
 }
 

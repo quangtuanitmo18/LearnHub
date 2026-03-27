@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ROUTE_CONFIG, getRoutes } from "@/configs/routes";
-import { useAddToCart } from "@/hooks/use-cart";
-import { useEnrollFree } from "@/hooks/use-courses";
-import { useUser } from "@/stores/auth-store";
-import { IPublicCourse } from "@/types/course";
-import { IChapter } from "@/types/chapter";
-import { formatDuration } from "@/utils/format";
-import { getLastLessonForCourse } from "@/utils/last-course-lesson";
-import { usePublishedLessonsByChapter } from "@/hooks/use-lessons";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ROUTE_CONFIG, getRoutes } from '@/configs/routes';
+import { useAddToCart } from '@/hooks/use-cart';
+import { useEnrollFree } from '@/hooks/use-courses';
+import { useUser } from '@/stores/auth-store';
+import { IPublicCourse } from '@/types/course';
+import { IChapter } from '@/types/chapter';
+import { formatDuration } from '@/utils/format';
+import { getLastLessonForCourse } from '@/utils/last-course-lesson';
+import { usePublishedLessonsByChapter } from '@/hooks/use-lessons';
 import {
   Award,
   Clock,
@@ -23,14 +23,14 @@ import {
   Share2,
   ShoppingCart,
   Smartphone,
-} from "lucide-react";
-import { CourseImage } from "@/components/course/course-image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
-import dynamic from "next/dynamic";
+} from 'lucide-react';
+import { CourseImage } from '@/components/course/course-image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import dynamic from 'next/dynamic';
 
-const VideoModal = dynamic(() => import("./video-modal"), { ssr: false });
+const VideoModal = dynamic(() => import('./video-modal'), { ssr: false });
 
 interface EnrollmentCardProps {
   course: IPublicCourse;
@@ -43,7 +43,7 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
   const router = useRouter();
   const user = useUser();
 
-  const hasIntroVideo = course.introUrl && course.introUrl.trim() !== "";
+  const hasIntroVideo = course.introUrl && course.introUrl.trim() !== '';
 
   // Get last lesson from localStorage for current course
   const getLastLessonId = (): string | null => {
@@ -60,18 +60,16 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
 
   // Fetch first chapter's lessons to get the first lesson ID (only if needed)
   const { data: firstChapterLessons = [] } = usePublishedLessonsByChapter(
-    firstChapterId || "",
-    shouldFetchLessons // Only fetch if we don't have localStorage data and have a chapter
+    firstChapterId || '',
+    shouldFetchLessons, // Only fetch if we don't have localStorage data and have a chapter
   );
-  const firstLessonId = firstChapterLessons[0]?.id || "";
+  const firstLessonId = firstChapterLessons[0]?.id || '';
 
   // Check if user has an active membership subscription
-  const hasActiveMembership =
-    user?.membership?.isActive && user?.membership?.isMembership;
+  const hasActiveMembership = user?.membership?.isActive && user?.membership?.isMembership;
 
   // Check if user is already enrolled in the course or has active membership
-  const isEnrolled =
-    user?.courses?.includes(course.id) || hasActiveMembership || false;
+  const isEnrolled = user?.courses?.includes(course.id) || hasActiveMembership || false;
 
   // Free enrollment mutation using the custom hook
   const enrollFreeMutation = useEnrollFree();
@@ -86,16 +84,16 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
 
   const handleEnrollNow = () => {
     if (!user) {
-      toast.warning("Please login to enroll in the course");
+      toast.warning('Please login to enroll in the course');
       return;
     }
     enrollFreeMutation.mutate(course.id, {
       onSuccess: () => {
-        toast.success("Successfully enrolled in the course!");
+        toast.success('Successfully enrolled in the course!');
         router.push(getRoutes.learning(course.slug, getLessonIdToUse()));
       },
       onError: (error: Error) => {
-        toast.error(error.message || "Failed to enroll in the course");
+        toast.error(error.message || 'Failed to enroll in the course');
       },
     });
   };
@@ -107,7 +105,7 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
 
   const handleAddToCart = () => {
     if (!user) {
-      toast.warning("Please login to add course to cart");
+      toast.warning('Please login to add course to cart');
       return;
     }
     addToCartMutation.mutate(
@@ -116,18 +114,18 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
       },
       {
         onSuccess: () => {
-          toast.success("Course successfully added to cart!");
+          toast.success('Course successfully added to cart!');
         },
         onError: (error: Error) => {
-          toast.error(error.message || "Failed to add course to cart");
+          toast.error(error.message || 'Failed to add course to cart');
         },
-      }
+      },
     );
   };
 
   const handleBuyNow = () => {
     if (!user) {
-      toast.warning("Please login to add course to cart");
+      toast.warning('Please login to add course to cart');
       return;
     }
     addToCartMutation.mutate(
@@ -136,13 +134,13 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
       },
       {
         onSuccess: () => {
-          toast.success("Course added to cart! Redirecting to checkout...");
+          toast.success('Course added to cart! Redirecting to checkout...');
           router.push(ROUTE_CONFIG.CART);
         },
         onError: (error: Error) => {
-          toast.error(error.message || "Failed to add course to cart");
+          toast.error(error.message || 'Failed to add course to cart');
         },
-      }
+      },
     );
   };
 
@@ -153,7 +151,7 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
   // Calculate days remaining until milestone date
   const calculateDaysRemaining = () => {
     const today = new Date();
-    const milestoneDate = new Date("2026-02-20"); // Set your milestone date (YYYY-MM-DD)
+    const milestoneDate = new Date('2026-02-20'); // Set your milestone date (YYYY-MM-DD)
 
     // If milestone has passed, return 0
     if (today > milestoneDate) return 0;
@@ -169,23 +167,23 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
   const daysRemaining = calculateDaysRemaining();
 
   const featureIcons = {
-    "on-demand video": Clock,
-    "downloadable resources": Download,
-    "Full lifetime access": Infinity,
-    "Access on mobile and TV": Smartphone,
-    "Certificate of completion": Award,
+    'on-demand video': Clock,
+    'downloadable resources': Download,
+    'Full lifetime access': Infinity,
+    'Access on mobile and TV': Smartphone,
+    'Certificate of completion': Award,
   };
 
   const features = [
     `${formatDuration(course.totalDuration || 0)} of on-demand video`,
     `${course.totalLessons || 25} lessons`,
-    "Full lifetime access",
-    "Access on mobile and TV",
-    "Certificate of completion",
+    'Full lifetime access',
+    'Access on mobile and TV',
+    'Certificate of completion',
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
       {hasIntroVideo && isVideoModalOpen && (
         <VideoModal
           isOpen={isVideoModalOpen}
@@ -197,22 +195,22 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
 
       {/* Video Preview */}
       <div
-        className={`relative aspect-video bg-gray-900 group ${
-          hasIntroVideo ? "cursor-pointer" : ""
+        className={`group relative aspect-video bg-gray-900 ${
+          hasIntroVideo ? 'cursor-pointer' : ''
         }`}
         onClick={() => {
           if (hasIntroVideo) setIsVideoModalOpen(true);
         }}
-        role={hasIntroVideo ? "button" : undefined}
+        role={hasIntroVideo ? 'button' : undefined}
         tabIndex={hasIntroVideo ? 0 : undefined}
         onKeyDown={(e) => {
           if (!hasIntroVideo) return;
-          if (e.key === "Enter" || e.key === " ") {
+          if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             setIsVideoModalOpen(true);
           }
         }}
-        aria-label={hasIntroVideo ? "Play course preview video" : undefined}
+        aria-label={hasIntroVideo ? 'Play course preview video' : undefined}
       >
         <CourseImage
           image={course.image}
@@ -220,25 +218,23 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {hasIntroVideo && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center transform scale-90 group-hover:scale-100 transition-transform duration-300 shadow-lg">
-              <Play className="h-6 w-6 sm:h-8 sm:w-8 text-gray-900 ml-1 fill-current" />
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="flex h-16 w-16 scale-90 transform items-center justify-center rounded-full bg-white shadow-lg transition-transform duration-300 group-hover:scale-100 sm:h-20 sm:w-20">
+              <Play className="ml-1 h-6 w-6 fill-current text-gray-900 sm:h-8 sm:w-8" />
             </div>
           </div>
         )}
       </div>
 
       {/* Pricing */}
-      <div className="p-4 sm:p-6 ">
+      <div className="p-4 sm:p-6">
         <div className="mb-4 sm:mb-6">
           {course.isFree ? (
-            <div className="text-2xl sm:text-3xl font-bold text-green-400">
-              Free
-            </div>
+            <div className="text-2xl font-bold text-green-400 sm:text-3xl">Free</div>
           ) : (
             <div className="relative">
               {/* Label */}
-              <div className="text-xs sm:text-sm text-green-600 mb-3 font-medium">
+              <div className="mb-3 text-xs font-medium text-green-600 sm:text-sm">
                 GIÁ BÁN ƯU ĐÃI
               </div>
 
@@ -246,25 +242,23 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
               <div className="relative flex items-baseline gap-3 sm:gap-4">
                 {/* Discounted Price with Gradient */}
                 <div className="flex items-baseline gap-0.5">
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-bold  tracking-tight">
-                    {new Intl.NumberFormat("vi-VN").format(course.price)}
+                  <span className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+                    {new Intl.NumberFormat('vi-VN').format(course.price)}
                   </span>
-                  <span className="text-2xl sm:text-3xl  font-bold  decoration-2">
-                    đ
-                  </span>
+                  <span className="text-2xl font-bold decoration-2 sm:text-3xl">đ</span>
                 </div>
 
                 {/* Original Price with Strikethrough */}
                 {course.oldPrice && (
-                  <span className="text-base sm:text-lg text-gray-400 line-through">
-                    {new Intl.NumberFormat("vi-VN").format(course.oldPrice)} đ
+                  <span className="text-base text-gray-400 line-through sm:text-lg">
+                    {new Intl.NumberFormat('vi-VN').format(course.oldPrice)} đ
                   </span>
                 )}
 
                 {/* Discount Badge - Top Right */}
                 {course.oldPrice && discountPercentage > 0 && (
                   <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2">
-                    <Badge className="bg-red-600 text-white hover:bg-red-600 text-xs sm:text-sm font-bold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg">
+                    <Badge className="rounded-full bg-red-600 px-2.5 py-0.5 text-xs font-bold text-white shadow-lg hover:bg-red-600 sm:px-3 sm:py-1 sm:text-sm">
                       -{discountPercentage}%
                     </Badge>
                   </div>
@@ -273,11 +267,10 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
 
               {/* Days Remaining */}
               {daysRemaining > 0 && (
-                <div className="flex items-center gap-1.5 mt-3 text-red-400">
+                <div className="mt-3 flex items-center gap-1.5 text-red-400">
                   <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  <span className="text-xs sm:text-sm font-medium">
-                    {daysRemaining} {daysRemaining === 1 ? "day" : "days"} left
-                    at this price!
+                  <span className="text-xs font-medium sm:text-sm">
+                    {daysRemaining} {daysRemaining === 1 ? 'day' : 'days'} left at this price!
                   </span>
                 </div>
               )}
@@ -286,97 +279,93 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+        <div className="mb-4 space-y-2 sm:mb-6 sm:space-y-3">
           {isEnrolled ? (
             // User is already enrolled - show continue learning button
             <Button
               size="lg"
-              className="w-full bg-green-600 hover:bg-green-700 h-12 text-sm sm:text-base"
+              className="h-12 w-full bg-green-600 text-sm hover:bg-green-700 sm:text-base"
               onClick={handleContinueLearning}
             >
-              <PlayCircle className="h-4 w-4 mr-2" />
+              <PlayCircle className="mr-2 h-4 w-4" />
               Continue Learning
             </Button>
           ) : course.isFree ? (
             // Course is free and user is not enrolled - show enroll button
             <Button
               size="lg"
-              className="w-full bg-green-600 hover:bg-green-700 h-12 text-sm sm:text-base"
+              className="h-12 w-full bg-green-600 text-sm hover:bg-green-700 sm:text-base"
               onClick={handleEnrollNow}
               disabled={enrollFreeMutation.isPending}
             >
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              {enrollFreeMutation.isPending ? "Enrolling..." : "Enroll Now"}
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              {enrollFreeMutation.isPending ? 'Enrolling...' : 'Enroll Now'}
             </Button>
           ) : (
             // Course is paid and user is not enrolled - show purchase options
             <>
               <Button
                 size="lg"
-                className="w-full bg-purple-600 hover:bg-purple-700 h-12 text-sm sm:text-base"
+                className="h-12 w-full bg-purple-600 text-sm hover:bg-purple-700 sm:text-base"
                 onClick={handleAddToCart}
                 disabled={addToCartMutation.isPending}
               >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                {addToCartMutation.isPending ? "Adding..." : "Add to Cart"}
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                {addToCartMutation.isPending ? 'Adding...' : 'Add to Cart'}
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full h-12 text-sm sm:text-base"
+                className="h-12 w-full text-sm sm:text-base"
                 onClick={handleBuyNow}
                 disabled={addToCartMutation.isPending}
               >
-                {addToCartMutation.isPending ? "Processing..." : "Buy Now"}
+                {addToCartMutation.isPending ? 'Processing...' : 'Buy Now'}
               </Button>
             </>
           )}
         </div>
 
         {/* Secondary Actions */}
-        <div className="grid grid-cols-3 gap-1 sm:gap-2 mb-4 sm:mb-6">
+        <div className="mb-4 grid grid-cols-3 gap-1 sm:mb-6 sm:gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setIsWishlisted(!isWishlisted)}
-            className={`flex flex-col sm:flex-row items-center justify-center h-auto py-2 text-xs sm:text-sm ${
-              isWishlisted ? "text-red-600" : "text-gray-600"
+            className={`flex h-auto flex-col items-center justify-center py-2 text-xs sm:flex-row sm:text-sm ${
+              isWishlisted ? 'text-red-600' : 'text-gray-600'
             }`}
           >
             <Heart
-              className={`h-3 w-3 sm:h-4 sm:w-4 sm:mr-1 ${
-                isWishlisted ? "fill-current" : ""
-              }`}
+              className={`h-3 w-3 sm:mr-1 sm:h-4 sm:w-4 ${isWishlisted ? 'fill-current' : ''}`}
             />
-            <span className="hidden sm:inline">
-              {isWishlisted ? "Wishlisted" : "Wishlist"}
-            </span>
-            <span className="sm:hidden mt-1">Wish</span>
+            <span className="hidden sm:inline">{isWishlisted ? 'Wishlisted' : 'Wishlist'}</span>
+            <span className="mt-1 sm:hidden">Wish</span>
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="flex flex-col sm:flex-row items-center justify-center h-auto py-2 text-xs sm:text-sm text-gray-600"
+            className="flex h-auto flex-col items-center justify-center py-2 text-xs text-gray-600 sm:flex-row sm:text-sm"
           >
-            <Share2 className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1" />
+            <Share2 className="h-3 w-3 sm:mr-1 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Share</span>
-            <span className="sm:hidden mt-1">Share</span>
+            <span className="mt-1 sm:hidden">Share</span>
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="flex flex-col sm:flex-row items-center justify-center h-auto py-2 text-xs sm:text-sm text-gray-600"
+            className="flex h-auto flex-col items-center justify-center py-2 text-xs text-gray-600 sm:flex-row sm:text-sm"
           >
-            <Gift className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1" />
+            <Gift className="h-3 w-3 sm:mr-1 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Gift</span>
-            <span className="sm:hidden mt-1">Gift</span>
+            <span className="mt-1 sm:hidden">Gift</span>
           </Button>
         </div>
 
         {/* Money-back Guarantee */}
         {!course.isFree && (
-          <div className="text-center mb-4 sm:mb-6 p-2.5 sm:p-3 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-xs sm:text-sm text-green-800 font-medium">
+          <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-2.5 text-center sm:mb-6 sm:p-3">
+            <p className="text-xs font-medium text-green-800 sm:text-sm">
               30-Day Money-Back Guarantee
             </p>
           </div>
@@ -384,16 +373,14 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
 
         {/* Course Includes */}
         <div>
-          <h4 className="font-medium text-sm sm:text-base text-gray-900 mb-2 sm:mb-3">
+          <h4 className="mb-2 text-sm font-medium text-gray-900 sm:mb-3 sm:text-base">
             This course includes:
           </h4>
           <div className="space-y-1.5 sm:space-y-2">
             {features.map((feature, index) => {
               const getIcon = (feature: string) => {
                 const lowerFeature = feature.toLowerCase();
-                for (const [key, IconComponent] of Object.entries(
-                  featureIcons
-                )) {
+                for (const [key, IconComponent] of Object.entries(featureIcons)) {
                   if (lowerFeature.includes(key.toLowerCase())) {
                     return IconComponent;
                   }
@@ -404,11 +391,8 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
               const IconComponent = getIcon(feature);
 
               return (
-                <div
-                  key={index}
-                  className="flex items-center space-x-2 text-xs sm:text-sm"
-                >
-                  <IconComponent className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 shrink-0" />
+                <div key={index} className="flex items-center space-x-2 text-xs sm:text-sm">
+                  <IconComponent className="h-3 w-3 shrink-0 text-gray-500 sm:h-4 sm:w-4" />
                   <span className="text-gray-700">{feature}</span>
                 </div>
               );

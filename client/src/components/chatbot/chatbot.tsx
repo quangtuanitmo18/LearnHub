@@ -1,21 +1,20 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { useChatbot } from "@/hooks/use-chatbot";
-import { useIsAuthenticated } from "@/lib/auth";
+import dynamic from 'next/dynamic';
+import { useChatbot } from '@/hooks/use-chatbot';
+import { useIsAuthenticated } from '@/lib/auth';
 
-const ChatbotButton = dynamic(() => import("./chatbot-button"), {
+const ChatbotButton = dynamic(() => import('./chatbot-button'), {
   ssr: false,
 });
 
-const ChatbotDialog = dynamic(() => import("./chatbot-dialog"), {
+const ChatbotDialog = dynamic(() => import('./chatbot-dialog'), {
   ssr: false,
 });
 
 const Chatbot = () => {
   const isAuthenticated = useIsAuthenticated();
-  const { isOpen, messages, isLoading, toggleChat, closeChat, sendMessage } =
-    useChatbot();
+  const { isOpen, messages, isLoading, toggleChat, closeChat, sendMessage } = useChatbot();
 
   return (
     <>

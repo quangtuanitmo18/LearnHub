@@ -1,37 +1,29 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { ROUTE_CONFIG } from "@/configs/routes";
-import { DEFAULT_AVATAR, DEFAULT_THUMBNAIL } from "@/constants";
-import { IPublicCourse } from "@/types/course";
-import { getMediaDisplayUrl } from "@/types/media";
-import { formatDuration } from "@/utils/format";
-import {
-  Calendar,
-  ChevronLeft,
-  Clock,
-  Globe,
-  Star,
-  Users,
-  ZoomIn,
-} from "lucide-react";
-import dynamic from "next/dynamic";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
+import { Badge } from '@/components/ui/badge';
+import { ROUTE_CONFIG } from '@/configs/routes';
+import { DEFAULT_AVATAR, DEFAULT_THUMBNAIL } from '@/constants';
+import { IPublicCourse } from '@/types/course';
+import { getMediaDisplayUrl } from '@/types/media';
+import { formatDuration } from '@/utils/format';
+import { Calendar, ChevronLeft, Clock, Globe, Star, Users, ZoomIn } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 // Import Swiper React components
-import type { Swiper as SwiperType } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
 
 // Import required modules
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-const VideoModal = dynamic(() => import("./video-modal"), { ssr: false });
-const ImageGalleryModal = dynamic(() => import("./image-gallery-modal"), {
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+const VideoModal = dynamic(() => import('./video-modal'), { ssr: false });
+const ImageGalleryModal = dynamic(() => import('./image-gallery-modal'), {
   ssr: false,
 });
 
@@ -61,7 +53,7 @@ const CourseHero = ({ course }: CourseHeroProps) => {
       allImages.push(previewImg);
     }
   });
-  console.log("allImages", allImages);
+  console.log('allImages', allImages);
 
   // If no images at all, use a placeholder
   const hasImages = allImages.length > 0;
@@ -74,7 +66,7 @@ const CourseHero = ({ course }: CourseHeroProps) => {
   };
 
   // Check if course has a valid intro video URL
-  const hasIntroVideo = course.introUrl && course.introUrl.trim() !== "";
+  const hasIntroVideo = course.introUrl && course.introUrl.trim() !== '';
 
   return (
     <>
@@ -100,43 +92,43 @@ const CourseHero = ({ course }: CourseHeroProps) => {
       )}
 
       {/* Hero Section */}
-      <div className="bg-gray-900 text-white relative overflow-hidden">
+      <div className="relative overflow-hidden bg-gray-900 text-white">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-linear-to-br from-blue-900/20 to-purple-900/20"></div>
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
 
-        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 relative">
+        <div className="relative container mx-auto px-4 py-6 sm:px-6 sm:py-8">
           {/* Breadcrumb */}
           <div className="mb-4 sm:mb-6">
             <Link
               href={ROUTE_CONFIG.COURSES}
-              className="inline-flex items-center text-sm sm:text-base text-gray-300 hover:text-white transition-colors"
+              className="inline-flex items-center text-sm text-gray-300 transition-colors hover:text-white sm:text-base"
             >
-              <ChevronLeft className="h-4 w-4 mr-1" />
+              <ChevronLeft className="mr-1 h-4 w-4" />
               Back to Courses
             </Link>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+          <div className="grid items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-12">
             {/* Left Content */}
             <div className="space-y-4 sm:space-y-6">
               {/* Category Badge */}
               <Badge variant="secondary" className="w-fit text-xs sm:text-sm">
-                {course.category?.name || "General"}
+                {course.category?.name || 'General'}
               </Badge>
 
               {/* Title */}
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
+                <h1 className="mb-3 text-2xl leading-tight font-bold sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl">
                   {course.title}
                 </h1>
-                <div className="text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed prose prose-invert max-w-none prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-a:text-blue-400">
+                <div className="prose prose-invert prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-a:text-blue-400 max-w-none text-base leading-relaxed text-gray-300 sm:text-lg lg:text-xl">
                   {course.excerpt}
                 </div>
               </div>
 
               {/* Course Stats */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:gap-6 text-xs sm:text-sm">
+              <div className="flex flex-wrap items-center gap-3 text-xs sm:gap-4 sm:text-sm lg:gap-6">
                 <div className="flex items-center space-x-1">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
@@ -144,16 +136,14 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                         key={i}
                         className={`h-3 w-3 sm:h-4 sm:w-4 ${
                           i < Math.floor(course.averageRating || 4.5)
-                            ? "text-yellow-400 fill-current"
-                            : "text-gray-600"
+                            ? 'fill-current text-yellow-400'
+                            : 'text-gray-600'
                         }`}
                       />
                     ))}
                   </div>
-                  <span className="font-medium">
-                    {course.averageRating || 4.5}
-                  </span>
-                  <span className="text-gray-400 hidden sm:inline">
+                  <span className="font-medium">{course.averageRating || 4.5}</span>
+                  <span className="hidden text-gray-400 sm:inline">
                     ({formatStudentCount(course.totalReviews || 0)} reviews)
                   </span>
                 </div>
@@ -161,7 +151,7 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                 <div className="flex items-center space-x-1 text-gray-300">
                   <Users className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span>
-                    {formatStudentCount(course.enrolledStudents || 0)}{" "}
+                    {formatStudentCount(course.enrolledStudents || 0)}{' '}
                     <span className="hidden sm:inline">students</span>
                   </span>
                 </div>
@@ -174,25 +164,25 @@ const CourseHero = ({ course }: CourseHeroProps) => {
 
               {/* Instructor */}
               <div className="flex items-center space-x-3">
-                <div className="relative w-10 h-10 sm:w-12 sm:h-12 shrink-0 overflow-hidden rounded-full bg-gray-200">
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gray-200 sm:h-12 sm:w-12">
                   <Image
                     src={course.author?.avatar || DEFAULT_AVATAR}
-                    alt={course.author?.username || "Instructor"}
+                    alt={course.author?.username || 'Instructor'}
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 40px, 48px"
                   />
                 </div>
                 <div>
-                  <p className="text-xs sm:text-sm text-gray-400">Created by</p>
-                  <p className="text-sm sm:text-base font-medium">
-                    {course.author?.username || "Unknown Instructor"}
+                  <p className="text-xs text-gray-400 sm:text-sm">Created by</p>
+                  <p className="text-sm font-medium sm:text-base">
+                    {course.author?.username || 'Unknown Instructor'}
                   </p>
                 </div>
               </div>
 
               {/* Course Details */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:gap-6 text-xs sm:text-sm text-gray-400">
+              <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400 sm:gap-4 sm:text-sm lg:gap-6">
                 <div className="flex items-center space-x-1">
                   <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span>English</span>
@@ -200,22 +190,22 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                 <div className="flex items-center space-x-1">
                   <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span className="hidden sm:inline">
-                    Last updated{" "}
-                    {new Date(course.updatedAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
+                    Last updated{' '}
+                    {new Date(course.updatedAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
                     })}
                   </span>
                   <span className="sm:hidden">
-                    {new Date(course.updatedAt).toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "numeric",
+                    {new Date(course.updatedAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      year: 'numeric',
                     })}
                   </span>
                 </div>
                 <Badge
                   variant="outline"
-                  className="text-xs sm:text-sm text-gray-300 border-gray-600"
+                  className="border-gray-600 text-xs text-gray-300 sm:text-sm"
                 >
                   {course.level.charAt(0).toUpperCase() + course.level.slice(1)}
                 </Badge>
@@ -232,15 +222,14 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                     navigation={true}
                     thumbs={{ swiper: thumbsSwiper }}
                     modules={[FreeMode, Navigation, Thumbs]}
-                    className="mySwiper2 rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl"
+                    className="mySwiper2 overflow-hidden rounded-xl shadow-2xl sm:rounded-2xl"
                   >
                     {allImages.map((media, index) => {
-                      const imageUrl =
-                        getMediaDisplayUrl(media) || DEFAULT_THUMBNAIL;
+                      const imageUrl = getMediaDisplayUrl(media) || DEFAULT_THUMBNAIL;
                       return (
                         <SwiperSlide key={media.id || index}>
                           <div
-                            className="relative aspect-video bg-gray-800 group cursor-pointer"
+                            className="group relative aspect-video cursor-pointer bg-gray-800"
                             onClick={() => {
                               setGalleryInitialIndex(index);
                               setIsImageGalleryModalOpen(true);
@@ -248,7 +237,7 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                             role="button"
                             tabIndex={0}
                             onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
+                              if (e.key === 'Enter' || e.key === ' ') {
                                 e.preventDefault();
                                 setGalleryInitialIndex(index);
                                 setIsImageGalleryModalOpen(true);
@@ -260,13 +249,13 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                               src={imageUrl}
                               alt={`${course.title} ${index + 1}`}
                               fill
-                              className="object-cover transition-transform duration-300 group-hover:scale-105 pointer-events-none"
+                              className="pointer-events-none object-cover transition-transform duration-300 group-hover:scale-105"
                             />
                             {/* Overlay - Show on hover */}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 pointer-events-none" />
+                            <div className="pointer-events-none absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/40" />
                             {/* Zoom Icon - Centered, show on hover */}
                             <button
-                              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 sm:w-16 sm:h-16 bg-white/90 hover:bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg z-10 transform scale-90 group-hover:scale-100"
+                              className="absolute top-1/2 left-1/2 z-10 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 scale-90 transform items-center justify-center rounded-full bg-white/90 opacity-0 shadow-lg transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 hover:bg-white sm:h-16 sm:w-16"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setGalleryInitialIndex(index);
@@ -275,7 +264,7 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                               aria-label="Zoom image"
                               type="button"
                             >
-                              <ZoomIn className="h-6 w-6 sm:h-8 sm:w-8 text-gray-900" />
+                              <ZoomIn className="h-6 w-6 text-gray-900 sm:h-8 sm:w-8" />
                             </button>
                           </div>
                         </SwiperSlide>
@@ -303,11 +292,10 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                       }}
                     >
                       {allImages.map((media, index) => {
-                        const imageUrl =
-                          getMediaDisplayUrl(media) || DEFAULT_THUMBNAIL;
+                        const imageUrl = getMediaDisplayUrl(media) || DEFAULT_THUMBNAIL;
                         return (
                           <SwiperSlide key={media.id || index}>
-                            <div className="relative aspect-square overflow-hidden rounded-lg border border-white/10 hover:border-white/20 transition-all cursor-pointer bg-white/5 backdrop-blur-sm hover:bg-white/10">
+                            <div className="relative aspect-square cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10">
                               <Image
                                 src={imageUrl}
                                 alt={`${course.title} thumbnail ${index + 1}`}
@@ -325,13 +313,8 @@ const CourseHero = ({ course }: CourseHeroProps) => {
                 </div>
               ) : (
                 // Fallback if no images
-                <div className="relative aspect-video bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
-                    src={DEFAULT_THUMBNAIL}
-                    alt={course.title}
-                    fill
-                    className="object-cover"
-                  />
+                <div className="relative aspect-video overflow-hidden rounded-xl bg-gray-800 shadow-2xl sm:rounded-2xl">
+                  <Image src={DEFAULT_THUMBNAIL} alt={course.title} fill className="object-cover" />
                 </div>
               )}
             </div>

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface Flower {
   id: number;
@@ -15,12 +15,12 @@ interface Flower {
 }
 
 const FLOWER_IMAGES = [
-  "/images/flowers/f1.png",
-  "/images/flowers/f8.png",
-  "/images/flowers/f3.png",
-  "/images/flowers/f4.png",
-  "/images/flowers/f7.png",
-  "/images/flowers/f6.png",
+  '/images/flowers/f1.png',
+  '/images/flowers/f8.png',
+  '/images/flowers/f3.png',
+  '/images/flowers/f4.png',
+  '/images/flowers/f7.png',
+  '/images/flowers/f6.png',
 ];
 
 const TetFlowerEffect = () => {
@@ -59,7 +59,7 @@ const TetFlowerEffect = () => {
       {/* Nút bật/tắt hiệu ứng */}
       <button
         onClick={() => setIsVisible(false)}
-        className="fixed top-20 right-4 z-[60] bg-red-500/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-lg transition-all duration-300 flex items-center gap-1.5"
+        className="fixed top-20 right-4 z-[60] flex items-center gap-1.5 rounded-full bg-red-500/80 px-3 py-1.5 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:bg-red-600"
         title="Tắt hiệu ứng hoa"
       >
         <span>🌸</span>
@@ -67,18 +67,18 @@ const TetFlowerEffect = () => {
       </button>
 
       {/* Container hoa rơi */}
-      <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+      <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
         {flowers.map((flower) => (
           <div
             key={flower.id}
-            className="absolute animate-flower-fall"
+            className="animate-flower-fall absolute"
             style={
               {
                 left: `${flower.left}%`,
                 animationDuration: `${flower.animationDuration}s`,
                 animationDelay: `${flower.animationDelay}s`,
-                "--sway-amount": `${flower.swayAmount}px`,
-                "--initial-rotation": `${flower.rotation}deg`,
+                '--sway-amount': `${flower.swayAmount}px`,
+                '--initial-rotation': `${flower.rotation}deg`,
               } as React.CSSProperties
             }
           >
@@ -90,7 +90,7 @@ const TetFlowerEffect = () => {
               className="animate-flower-sway drop-shadow-md"
               style={{
                 animationDuration: `${2 + Math.random() * 2}s`,
-                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.1))",
+                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
               }}
               priority={false}
             />
@@ -102,8 +102,7 @@ const TetFlowerEffect = () => {
       <style jsx global>{`
         @keyframes flower-fall {
           0% {
-            transform: translateY(-100px) translateX(0)
-              rotate(var(--initial-rotation, 0deg));
+            transform: translateY(-100px) translateX(0) rotate(var(--initial-rotation, 0deg));
             opacity: 0;
           }
           10% {

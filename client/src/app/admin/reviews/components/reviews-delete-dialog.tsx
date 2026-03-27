@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteAdminReview } from "@/hooks/use-reviews";
-import { IReview } from "@/types/review";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteAdminReview } from '@/hooks/use-reviews';
+import { IReview } from '@/types/review';
 
 interface ReviewsDeleteDialogProps {
   currentRow: IReview;
@@ -10,11 +10,7 @@ interface ReviewsDeleteDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const ReviewsDeleteDialog = ({
-  currentRow,
-  open,
-  onOpenChange,
-}: ReviewsDeleteDialogProps) => {
+const ReviewsDeleteDialog = ({ currentRow, open, onOpenChange }: ReviewsDeleteDialogProps) => {
   const deleteReviewMutation = useDeleteAdminReview();
 
   const handleDelete = () => {

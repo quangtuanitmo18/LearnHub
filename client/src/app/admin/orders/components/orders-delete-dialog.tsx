@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteAdminOrder } from "@/hooks/use-orders";
-import { IOrder } from "@/types/order";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteAdminOrder } from '@/hooks/use-orders';
+import { IOrder } from '@/types/order';
 
 interface OrdersDeleteDialogProps {
   currentRow: IOrder; // Following categories pattern
@@ -10,11 +10,7 @@ interface OrdersDeleteDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const OrdersDeleteDialog = ({
-  currentRow,
-  open,
-  onOpenChange,
-}: OrdersDeleteDialogProps) => {
+const OrdersDeleteDialog = ({ currentRow, open, onOpenChange }: OrdersDeleteDialogProps) => {
   const deleteOrderMutation = useDeleteAdminOrder();
 
   const handleDelete = () => {

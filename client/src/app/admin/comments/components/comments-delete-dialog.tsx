@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteCommentAdmin } from "@/hooks/use-comments";
-import { IComment } from "@/types/comment";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteCommentAdmin } from '@/hooks/use-comments';
+import { IComment } from '@/types/comment';
 
 interface CommentsDeleteDialogProps {
   currentRow: IComment; // Alternative prop name for compatibility
@@ -10,11 +10,7 @@ interface CommentsDeleteDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const CommentsDeleteDialog = ({
-  currentRow,
-  open,
-  onOpenChange,
-}: CommentsDeleteDialogProps) => {
+const CommentsDeleteDialog = ({ currentRow, open, onOpenChange }: CommentsDeleteDialogProps) => {
   const deleteCommentMutation = useDeleteCommentAdmin();
 
   const handleDelete = () => {

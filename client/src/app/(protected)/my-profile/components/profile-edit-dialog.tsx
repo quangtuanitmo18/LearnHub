@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import React, { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -19,36 +19,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { toast } from "sonner";
-import { useAuthStore } from "@/stores/auth-store";
-import {
-  AuthService,
-  CurrentUser,
-  UpdateProfileRequest,
-} from "@/services/auth";
-import { UsersService } from "@/services/users";
-import { Loader2, XCircle } from "lucide-react";
-import { MdDelete } from "react-icons/md";
-import { DEFAULT_AVATAR } from "@/constants";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { toast } from 'sonner';
+import { useAuthStore } from '@/stores/auth-store';
+import { AuthService, CurrentUser, UpdateProfileRequest } from '@/services/auth';
+import { UsersService } from '@/services/users';
+import { Loader2, XCircle } from 'lucide-react';
+import { MdDelete } from 'react-icons/md';
+import { DEFAULT_AVATAR } from '@/constants';
 
 // Validation schema for profile edit
 const profileSchema = yup.object({
   username: yup
     .string()
-    .required("Username is required")
-    .min(3, "Username must be at least 3 characters")
-    .max(50, "Username must not exceed 50 characters")
+    .required('Username is required')
+    .min(3, 'Username must be at least 3 characters')
+    .max(50, 'Username must not exceed 50 characters')
     .trim(),
   email: yup
     .string()
-    .required("Email is required")
-    .email("Please enter a valid email address")
+    .required('Email is required')
+    .email('Please enter a valid email address')
     .trim(),
 });
 
@@ -56,16 +52,10 @@ type ProfileFormData = yup.InferType<typeof profileSchema>;
 
 // Avatar upload constants
 const MAX_AVATAR_SIZE = 5 * 1024 * 1024; // 5MB
-const ALLOWED_AVATAR_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/gif",
-  "image/webp",
-];
+const ALLOWED_AVATAR_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
 
 // Avatar upload status (only used during actual upload)
-type AvatarUploadStatus = "idle" | "uploading" | "completed" | "error";
+type AvatarUploadStatus = 'idle' | 'uploading' | 'completed' | 'error';
 
 interface ProfileEditDialogProps {
   open: boolean;
@@ -74,19 +64,13 @@ interface ProfileEditDialogProps {
 }
 
 // Profile edit dialog component - Arrow function
-const ProfileEditDialog = ({
-  open,
-  onOpenChange,
-  user,
-}: ProfileEditDialogProps) => {
+const ProfileEditDialog = ({ open, onOpenChange, user }: ProfileEditDialogProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(
-    null
-  );
-  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string>("");
-  const [uploadStatus, setUploadStatus] = useState<AvatarUploadStatus>("idle");
+  const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(null);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string>('');
+  const [uploadStatus, setUploadStatus] = useState<AvatarUploadStatus>('idle');
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadError, setUploadError] = useState<string>("");
+  const [uploadError, setUploadError] = useState<string>('');
   const [shouldDeleteAvatar, setShouldDeleteAvatar] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { getCurrentUser } = useAuthStore();
@@ -94,8 +78,8 @@ const ProfileEditDialog = ({
   const form = useForm<ProfileFormData>({
     resolver: yupResolver(profileSchema),
     defaultValues: {
-      username: user.username || "",
-      email: user.email || "",
+      username: user.username || '',
+      email: user.email || '',
     },
   });
 
@@ -106,17 +90,13 @@ const ProfileEditDialog = ({
 
     // Validate file type
     if (!ALLOWED_AVATAR_TYPES.includes(file.type)) {
-      toast.error(
-        `Invalid file type. Allowed types: ${ALLOWED_AVATAR_TYPES.join(", ")}`
-      );
+      toast.error(`Invalid file type. Allowed types: ${ALLOWED_AVATAR_TYPES.join(', ')}`);
       return;
     }
 
     // Validate file size
     if (file.size > MAX_AVATAR_SIZE) {
-      toast.error(
-        `File too large. Maximum size: ${MAX_AVATAR_SIZE / (1024 * 1024)}MB`
-      );
+      toast.error(`File too large. Maximum size: ${MAX_AVATAR_SIZE / (1024 * 1024)}MB`);
       return;
     }
 
@@ -129,7 +109,7 @@ const ProfileEditDialog = ({
     setAvatarPreviewUrl(previewUrl);
 
     // Clean up previous preview URL if exists
-    if (avatarPreviewUrl && avatarPreviewUrl.startsWith("blob:")) {
+    if (avatarPreviewUrl && avatarPreviewUrl.startsWith('blob:')) {
       URL.revokeObjectURL(avatarPreviewUrl);
     }
   };
@@ -146,10 +126,10 @@ const ProfileEditDialog = ({
   const handleRemoveSelectedFile = (e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedAvatarFile(null);
-    if (avatarPreviewUrl && avatarPreviewUrl.startsWith("blob:")) {
+    if (avatarPreviewUrl && avatarPreviewUrl.startsWith('blob:')) {
       URL.revokeObjectURL(avatarPreviewUrl);
     }
-    setAvatarPreviewUrl("");
+    setAvatarPreviewUrl('');
   };
 
   const handleAvatarDelete = (e: React.MouseEvent) => {
@@ -160,29 +140,29 @@ const ProfileEditDialog = ({
     setSelectedAvatarFile(null);
 
     // Clear preview if exists
-    if (avatarPreviewUrl && avatarPreviewUrl.startsWith("blob:")) {
+    if (avatarPreviewUrl && avatarPreviewUrl.startsWith('blob:')) {
       URL.revokeObjectURL(avatarPreviewUrl);
     }
-    setAvatarPreviewUrl("");
+    setAvatarPreviewUrl('');
   };
 
   const onSubmit = async (data: ProfileFormData) => {
     setIsLoading(true);
-    setUploadStatus("idle");
+    setUploadStatus('idle');
     setUploadProgress(0);
-    setUploadError("");
+    setUploadError('');
 
     try {
       // Step 1: Handle avatar upload/delete if needed
       if (shouldDeleteAvatar) {
         // Delete avatar
-        setUploadStatus("uploading");
+        setUploadStatus('uploading');
         setUploadProgress(20);
         await UsersService.deleteAvatar();
         setUploadProgress(40);
       } else if (selectedAvatarFile) {
         // Upload new avatar
-        setUploadStatus("uploading");
+        setUploadStatus('uploading');
         setUploadProgress(10);
 
         // Step 1: Get presigned URL
@@ -196,15 +176,15 @@ const ProfileEditDialog = ({
 
         // Step 2: Upload file to S3 using presigned URL
         const uploadResponse = await fetch(presignedData.uploadUrl, {
-          method: "PUT",
+          method: 'PUT',
           body: selectedAvatarFile,
           headers: {
-            "Content-Type": selectedAvatarFile.type,
+            'Content-Type': selectedAvatarFile.type,
           },
         });
 
         if (!uploadResponse.ok) {
-          throw new Error("Failed to upload file to storage");
+          throw new Error('Failed to upload file to storage');
         }
 
         setUploadProgress(60);
@@ -226,37 +206,33 @@ const ProfileEditDialog = ({
       setUploadProgress(90);
       await AuthService.updateProfile(updateData);
       setUploadProgress(100);
-      setUploadStatus("completed");
+      setUploadStatus('completed');
 
-      toast.success("Profile updated successfully!");
+      toast.success('Profile updated successfully!');
 
       // Refresh user data to get updated information
       await getCurrentUser();
 
       // Clean up preview URL
-      if (avatarPreviewUrl && avatarPreviewUrl.startsWith("blob:")) {
+      if (avatarPreviewUrl && avatarPreviewUrl.startsWith('blob:')) {
         URL.revokeObjectURL(avatarPreviewUrl);
       }
 
       // Reset all states
       setSelectedAvatarFile(null);
-      setAvatarPreviewUrl("");
+      setAvatarPreviewUrl('');
       setShouldDeleteAvatar(false);
-      setUploadStatus("idle");
+      setUploadStatus('idle');
       setUploadProgress(0);
-      setUploadError("");
+      setUploadError('');
 
       onOpenChange(false);
     } catch (error) {
-      console.error("Profile update error:", error);
-      setUploadStatus("error");
-      setUploadError(
-        error instanceof Error ? error.message : "Failed to update profile"
-      );
+      console.error('Profile update error:', error);
+      setUploadStatus('error');
+      setUploadError(error instanceof Error ? error.message : 'Failed to update profile');
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to update profile. Please try again.";
+        error instanceof Error ? error.message : 'Failed to update profile. Please try again.';
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -267,17 +243,17 @@ const ProfileEditDialog = ({
   const handleDialogClose = (open: boolean) => {
     if (!open && !isLoading) {
       // Clean up preview URL
-      if (avatarPreviewUrl && avatarPreviewUrl.startsWith("blob:")) {
+      if (avatarPreviewUrl && avatarPreviewUrl.startsWith('blob:')) {
         URL.revokeObjectURL(avatarPreviewUrl);
       }
 
       // Reset all states
       setSelectedAvatarFile(null);
-      setAvatarPreviewUrl("");
+      setAvatarPreviewUrl('');
       setShouldDeleteAvatar(false);
-      setUploadStatus("idle");
+      setUploadStatus('idle');
       setUploadProgress(0);
-      setUploadError("");
+      setUploadError('');
     }
     onOpenChange(open);
   };
@@ -285,13 +261,11 @@ const ProfileEditDialog = ({
   // Handle avatar URL - either from user's existing avatar, preview, or default
   const currentAvatarUrl = user.avatar || DEFAULT_AVATAR;
   const displayAvatarUrl = avatarPreviewUrl || currentAvatarUrl;
-  const userInitials = user.username
-    ? user.username.slice(0, 2).toUpperCase()
-    : "U";
+  const userInitials = user.username ? user.username.slice(0, 2).toUpperCase() : 'U';
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-lg sm:text-xl">Edit Profile</DialogTitle>
           <DialogDescription className="text-xs sm:text-sm">
@@ -300,13 +274,10 @@ const ProfileEditDialog = ({
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 sm:space-y-6"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
             {/* Avatar Section */}
             <Card>
-              <CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
+              <CardContent className="px-4 pt-4 sm:px-6 sm:pt-6">
                 <div className="flex flex-col items-center space-y-3 sm:space-y-4">
                   {/* Hidden file input */}
                   <input
@@ -319,23 +290,15 @@ const ProfileEditDialog = ({
                   />
 
                   {/* Clickable Avatar */}
-                  <div className="relative group">
+                  <div className="group relative">
                     <div
                       onClick={handleAvatarClick}
-                      className={`
-                        cursor-pointer transition-opacity
-                        ${
-                          isLoading
-                            ? "opacity-50 cursor-not-allowed"
-                            : "hover:opacity-80"
-                        }
-                      `}
+                      className={`cursor-pointer transition-opacity ${
+                        isLoading ? 'cursor-not-allowed opacity-50' : 'hover:opacity-80'
+                      } `}
                     >
                       <Avatar className="h-20 w-20 sm:h-24 sm:w-24">
-                        <AvatarImage
-                          src={displayAvatarUrl}
-                          alt={user.username || "User"}
-                        />
+                        <AvatarImage src={displayAvatarUrl} alt={user.username || 'User'} />
                         <AvatarFallback className="bg-primary text-primary-foreground text-lg sm:text-xl">
                           {userInitials}
                         </AvatarFallback>
@@ -343,28 +306,22 @@ const ProfileEditDialog = ({
                     </div>
 
                     {/* Delete icon overlay - show when there's a custom avatar or selected file */}
-                    {(currentAvatarUrl !== DEFAULT_AVATAR ||
-                      selectedAvatarFile) &&
-                      !isLoading && (
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="destructive"
-                          onClick={
-                            selectedAvatarFile
-                              ? handleRemoveSelectedFile
-                              : handleAvatarDelete
-                          }
-                          disabled={isLoading}
-                          className="absolute top-0 right-0 h-5 w-5 sm:h-6 sm:w-6 rounded-full p-0 hover:scale-110 transition-all duration-200 disabled:hover:scale-100 opacity-0 group-hover:opacity-100"
-                        >
-                          <MdDelete className="h-3 w-3" />
-                        </Button>
-                      )}
+                    {(currentAvatarUrl !== DEFAULT_AVATAR || selectedAvatarFile) && !isLoading && (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="destructive"
+                        onClick={selectedAvatarFile ? handleRemoveSelectedFile : handleAvatarDelete}
+                        disabled={isLoading}
+                        className="absolute top-0 right-0 h-5 w-5 rounded-full p-0 opacity-0 transition-all duration-200 group-hover:opacity-100 hover:scale-110 disabled:hover:scale-100 sm:h-6 sm:w-6"
+                      >
+                        <MdDelete className="h-3 w-3" />
+                      </Button>
+                    )}
 
                     {/* Upload overlay indicator */}
-                    {isLoading && uploadStatus === "uploading" && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
+                    {isLoading && uploadStatus === 'uploading' && (
+                      <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
                         <Loader2 className="h-6 w-6 animate-spin text-white" />
                       </div>
                     )}
@@ -373,10 +330,10 @@ const ProfileEditDialog = ({
                   {/* Selected file indicator */}
                   {selectedAvatarFile && !isLoading && (
                     <div className="w-full space-y-2">
-                      <p className="text-xs text-center text-muted-foreground">
+                      <p className="text-muted-foreground text-center text-xs">
                         New avatar selected: {selectedAvatarFile.name}
                       </p>
-                      <p className="text-xs text-center text-muted-foreground">
+                      <p className="text-muted-foreground text-center text-xs">
                         Click &quot;Update Profile&quot; to upload
                       </p>
                     </div>
@@ -391,32 +348,29 @@ const ProfileEditDialog = ({
                   )}
 
                   {/* Upload Status - only show during actual upload */}
-                  {isLoading && uploadStatus === "uploading" && (
+                  {isLoading && uploadStatus === 'uploading' && (
                     <div className="w-full space-y-2">
-                      <Progress value={uploadProgress} className="w-full h-2" />
-                      <p className="text-xs text-center text-muted-foreground">
+                      <Progress value={uploadProgress} className="h-2 w-full" />
+                      <p className="text-muted-foreground text-center text-xs">
                         Uploading... {uploadProgress}%
                       </p>
                     </div>
                   )}
 
-                  {uploadStatus === "error" && (
-                    <div className="flex flex-col items-center gap-1 text-sm text-destructive">
+                  {uploadStatus === 'error' && (
+                    <div className="text-destructive flex flex-col items-center gap-1 text-sm">
                       <XCircle className="h-4 w-4" />
                       <span>Upload Failed</span>
                       {uploadError && (
-                        <p className="text-xs text-muted-foreground text-center">
-                          {uploadError}
-                        </p>
+                        <p className="text-muted-foreground text-center text-xs">{uploadError}</p>
                       )}
                     </div>
                   )}
 
                   {/* Helper text */}
                   {!selectedAvatarFile && !shouldDeleteAvatar && !isLoading && (
-                    <p className="text-xs text-center text-muted-foreground">
-                      Click avatar to select new image (JPG, PNG, GIF, WebP -
-                      max 5MB)
+                    <p className="text-muted-foreground text-center text-xs">
+                      Click avatar to select new image (JPG, PNG, GIF, WebP - max 5MB)
                     </p>
                   )}
                 </div>
@@ -432,11 +386,7 @@ const ProfileEditDialog = ({
                   <FormItem>
                     <FormLabel className="text-sm">Username</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isLoading}
-                        className="h-10 text-sm"
-                      />
+                      <Input {...field} disabled={isLoading} className="h-10 text-sm" />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -463,22 +413,22 @@ const ProfileEditDialog = ({
               />
             </div>
 
-            <DialogFooter className="gap-2 flex-col sm:flex-row">
+            <DialogFooter className="flex-col gap-2 sm:flex-row">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
                 disabled={isLoading}
-                className="w-full sm:w-auto h-9 sm:h-10 text-sm"
+                className="h-9 w-full text-sm sm:h-10 sm:w-auto"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full sm:w-auto h-9 sm:h-10 text-sm"
+                className="h-9 w-full text-sm sm:h-10 sm:w-auto"
               >
-                {isLoading ? "Updating..." : "Update Profile"}
+                {isLoading ? 'Updating...' : 'Update Profile'}
               </Button>
             </DialogFooter>
           </form>

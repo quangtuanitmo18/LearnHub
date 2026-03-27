@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useBulkDeleteCoupons } from "@/hooks/use-coupons";
-import { ICoupon } from "@/types/coupon";
-import { toast } from "sonner";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useBulkDeleteCoupons } from '@/hooks/use-coupons';
+import { ICoupon } from '@/types/coupon';
+import { toast } from 'sonner';
 
 interface CouponsBulkDeleteDialogProps {
   selectedCoupons: ICoupon[];
@@ -27,8 +27,8 @@ const CouponsBulkDeleteDialog = ({
       onSuccess: () => {
         toast.success(
           `${selectedCoupons.length} coupon${
-            selectedCoupons.length === 1 ? "" : "s"
-          } deleted successfully.`
+            selectedCoupons.length === 1 ? '' : 's'
+          } deleted successfully.`,
         );
         onSuccess?.();
       },

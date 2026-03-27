@@ -113,8 +113,8 @@ export class CourseService {
     // Send notification to all users if course is published (public)
     if (createCourseDto.status === CourseStatus.PUBLISHED) {
       // Get image URL from media relation
-      const imageUrl = (course as any).image
-        ? `${(course as any).image.cdnBaseUrl}/${(course as any).image.storageKey}`
+      const imageUrl = course.image
+        ? `${course.image.cdnBaseUrl}/${course.image.storageKey}`
         : undefined;
 
       this.notificationService.notifyNewCourse({
@@ -191,8 +191,8 @@ export class CourseService {
       }
 
       // Get image URL from media relation
-      const imageUrl = (updatedCourse as any).image
-        ? `${(updatedCourse as any).image.cdnBaseUrl}/${(updatedCourse as any).image.storageKey}`
+      const imageUrl = updatedCourse.image
+        ? `${updatedCourse.image.cdnBaseUrl}/${updatedCourse.image.storageKey}`
         : (existingCourse as any).image
           ? `${(existingCourse as any).image.cdnBaseUrl}/${(existingCourse as any).image.storageKey}`
           : undefined;

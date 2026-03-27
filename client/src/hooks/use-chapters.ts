@@ -1,29 +1,22 @@
-import ChaptersService from "@/services/chapters";
+import ChaptersService from '@/services/chapters';
 import {
   ChaptersFilterParams,
   CreateChapterRequest,
   ReorderChaptersRequest,
   UpdateChapterRequest,
-} from "@/types/chapter";
+} from '@/types/chapter';
 
-import {
-  keepPreviousData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Query keys for chapters
 export const chapterKeys = {
-  all: ["chapters"] as const,
-  lists: () => [...chapterKeys.all, "list"] as const,
-  list: (filters: ChaptersFilterParams) =>
-    [...chapterKeys.lists(), filters] as const,
-  courseChapters: (courseId: string) =>
-    [...chapterKeys.all, "course", courseId] as const,
+  all: ['chapters'] as const,
+  lists: () => [...chapterKeys.all, 'list'] as const,
+  list: (filters: ChaptersFilterParams) => [...chapterKeys.lists(), filters] as const,
+  courseChapters: (courseId: string) => [...chapterKeys.all, 'course', courseId] as const,
   publicCourseChapters: (courseId: string) =>
-    [...chapterKeys.all, "public", "course", courseId] as const,
-  details: () => [...chapterKeys.all, "detail"] as const,
+    [...chapterKeys.all, 'public', 'course', courseId] as const,
+  details: () => [...chapterKeys.all, 'detail'] as const,
   detail: (id: string) => [...chapterKeys.details(), id] as const,
 };
 
@@ -73,8 +66,7 @@ export function useCreateChapter() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (chapterData: CreateChapterRequest) =>
-      ChaptersService.createChapter(chapterData),
+    mutationFn: (chapterData: CreateChapterRequest) => ChaptersService.createChapter(chapterData),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: chapterKeys.all,
@@ -88,8 +80,7 @@ export function useUpdateChapter() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (chapterData: UpdateChapterRequest) =>
-      ChaptersService.updateChapter(chapterData),
+    mutationFn: (chapterData: UpdateChapterRequest) => ChaptersService.updateChapter(chapterData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: chapterKeys.all });
     },

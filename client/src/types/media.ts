@@ -4,15 +4,15 @@
 // ==================== ENUMS ====================
 
 export enum MediaType {
-  IMAGE = "IMAGE",
-  VIDEO = "VIDEO",
+  IMAGE = 'IMAGE',
+  VIDEO = 'VIDEO',
 }
 
 export enum MediaStatus {
-  UPLOADING = "UPLOADING",
-  PROCESSING = "PROCESSING",
-  COMPLETED = "COMPLETED",
-  FAILED = "FAILED",
+  UPLOADING = 'UPLOADING',
+  PROCESSING = 'PROCESSING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
 }
 
 // ==================== INTERFACES ====================
@@ -96,7 +96,7 @@ export interface MediaFilterParams {
   type?: MediaType;
   status?: MediaStatus;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: 'asc' | 'desc';
 }
 
 /**
@@ -107,7 +107,7 @@ export interface MediaUploadProgress {
   filename: string;
   type: MediaType;
   uploadProgress: number; // 0-100
-  status: "pending" | "uploading" | "processing" | "completed" | "error";
+  status: 'pending' | 'uploading' | 'processing' | 'completed' | 'error';
   errorMessage?: string;
 }
 
@@ -117,9 +117,9 @@ export interface MediaUploadProgress {
  * Format file size to human readable
  */
 export const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return "0 B";
+  if (bytes === 0) return '0 B';
   const k = 1024;
-  const sizes = ["B", "KB", "MB", "GB", "TB"];
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 };
@@ -128,36 +128,34 @@ export const formatFileSize = (bytes: number): string => {
  * Format duration to human readable (mm:ss or hh:mm:ss)
  */
 export const formatDuration = (seconds: number | null): string => {
-  if (!seconds) return "-";
+  if (!seconds) return '-';
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const secs = Math.floor(seconds % 60);
 
   if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
-  return `${minutes}:${secs.toString().padStart(2, "0")}`;
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
 };
 
 /**
  * Get badge variant for media status
  */
 export const getMediaStatusBadgeVariant = (
-  status: MediaStatus
-): "default" | "secondary" | "destructive" | "outline" => {
+  status: MediaStatus,
+): 'default' | 'secondary' | 'destructive' | 'outline' => {
   switch (status) {
     case MediaStatus.COMPLETED:
-      return "default";
+      return 'default';
     case MediaStatus.PROCESSING:
-      return "secondary";
+      return 'secondary';
     case MediaStatus.UPLOADING:
-      return "outline";
+      return 'outline';
     case MediaStatus.FAILED:
-      return "destructive";
+      return 'destructive';
     default:
-      return "secondary";
+      return 'secondary';
   }
 };
 
@@ -167,13 +165,13 @@ export const getMediaStatusBadgeVariant = (
 export const getMediaStatusLabel = (status: MediaStatus): string => {
   switch (status) {
     case MediaStatus.COMPLETED:
-      return "Completed";
+      return 'Completed';
     case MediaStatus.PROCESSING:
-      return "Processing";
+      return 'Processing';
     case MediaStatus.UPLOADING:
-      return "Uploading";
+      return 'Uploading';
     case MediaStatus.FAILED:
-      return "Failed";
+      return 'Failed';
     default:
       return status;
   }
@@ -182,17 +180,15 @@ export const getMediaStatusLabel = (status: MediaStatus): string => {
 /**
  * Get badge variant for media type
  */
-export const getMediaTypeBadgeVariant = (
-  type: MediaType
-): "default" | "secondary" => {
-  return type === MediaType.IMAGE ? "default" : "secondary";
+export const getMediaTypeBadgeVariant = (type: MediaType): 'default' | 'secondary' => {
+  return type === MediaType.IMAGE ? 'default' : 'secondary';
 };
 
 /**
  * Get label for media type
  */
 export const getMediaTypeLabel = (type: MediaType): string => {
-  return type === MediaType.IMAGE ? "Image" : "Video";
+  return type === MediaType.IMAGE ? 'Image' : 'Video';
 };
 
 // ==================== URL BUILDERS ====================
@@ -200,14 +196,11 @@ export const getMediaTypeLabel = (type: MediaType): string => {
 /**
  * Build full URL from CDN base and key
  */
-export const buildMediaUrl = (
-  cdnBaseUrl: string,
-  key: string | null
-): string | null => {
+export const buildMediaUrl = (cdnBaseUrl: string, key: string | null): string | null => {
   if (!key) return null;
   // Remove trailing slash from base and leading slash from key
-  const base = cdnBaseUrl.replace(/\/$/, "");
-  const cleanKey = key.replace(/^\//, "");
+  const base = cdnBaseUrl.replace(/\/$/, '');
+  const cleanKey = key.replace(/^\//, '');
   return `${base}/${cleanKey}`;
 };
 
@@ -225,10 +218,7 @@ export const getThumbnailUrl = (media: IMedia): string | null => {
   if (media.type === MediaType.IMAGE) {
     return getMediaDisplayUrl(media);
   }
-  return buildMediaUrl(
-    media.cdnBaseUrl,
-    media.thumbnailKey ?? media.storageKey
-  );
+  return buildMediaUrl(media.cdnBaseUrl, media.thumbnailKey ?? media.storageKey);
 };
 
 /**
@@ -243,25 +233,17 @@ export const getHlsUrl = (media: IMedia): string | null => {
 
 // ==================== VALIDATION ====================
 
-export const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/gif",
-  "image/webp",
-];
+export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 export const ACCEPTED_VIDEO_TYPES = [
-  "video/mp4",
-  "video/quicktime",
-  "video/x-msvideo",
-  "video/x-matroska",
-  "video/webm",
+  'video/mp4',
+  'video/quicktime',
+  'video/x-msvideo',
+  'video/x-matroska',
+  'video/webm',
 ];
 
-export const ACCEPTED_MEDIA_TYPES = [
-  ...ACCEPTED_IMAGE_TYPES,
-  ...ACCEPTED_VIDEO_TYPES,
-];
+export const ACCEPTED_MEDIA_TYPES = [...ACCEPTED_IMAGE_TYPES, ...ACCEPTED_VIDEO_TYPES];
 
 export const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
 export const MAX_VIDEO_SIZE = 5 * 1024 * 1024 * 1024; // 5GB
@@ -330,9 +312,7 @@ export const validateFile = (file: File): FileValidationResult => {
     const maxSize = getMaxFileSize(file.type);
     return {
       valid: false,
-      error: `"${file.name}" exceeds maximum size of ${formatFileSize(
-        maxSize
-      )}`,
+      error: `"${file.name}" exceeds maximum size of ${formatFileSize(maxSize)}`,
     };
   }
 
@@ -353,9 +333,7 @@ export const validateImageFile = (file: File): FileValidationResult => {
   if (file.size > MAX_IMAGE_SIZE) {
     return {
       valid: false,
-      error: `"${file.name}" exceeds maximum image size of ${formatFileSize(
-        MAX_IMAGE_SIZE
-      )}`,
+      error: `"${file.name}" exceeds maximum image size of ${formatFileSize(MAX_IMAGE_SIZE)}`,
     };
   }
 
@@ -376,9 +354,7 @@ export const validateVideoFile = (file: File): FileValidationResult => {
   if (file.size > MAX_VIDEO_SIZE) {
     return {
       valid: false,
-      error: `"${file.name}" exceeds maximum video size of ${formatFileSize(
-        MAX_VIDEO_SIZE
-      )}`,
+      error: `"${file.name}" exceeds maximum video size of ${formatFileSize(MAX_VIDEO_SIZE)}`,
     };
   }
 

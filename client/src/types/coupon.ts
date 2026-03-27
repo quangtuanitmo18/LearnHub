@@ -1,14 +1,14 @@
-import { ListResponse, BaseFilterParams } from "./common";
+import { ListResponse, BaseFilterParams } from './common';
 
 export enum DiscountType {
-  PERCENT = "PERCENT",
-  FIXED = "FIXED",
+  PERCENT = 'PERCENT',
+  FIXED = 'FIXED',
 }
 
 export enum CouponStatus {
-  ACTIVE = "ACTIVE",
-  INACTIVE = "INACTIVE",
-  EXPIRED = "EXPIRED",
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  EXPIRED = 'EXPIRED',
 }
 
 export interface ICoupon {
@@ -45,7 +45,7 @@ export interface ValidateCouponRequest {
 }
 
 // Extended coupon with populated courseIds for validation response
-export interface ValidatedCoupon extends Omit<ICoupon, "courses"> {
+export interface ValidatedCoupon extends Omit<ICoupon, 'courses'> {
   courses: Array<{
     id: string;
     title: string;

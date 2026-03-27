@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import React from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
   MdAccessTime,
   MdDelete,
@@ -14,40 +14,40 @@ import {
   MdOutlineSlowMotionVideo,
   MdVisibility,
   MdVisibilityOff,
-} from "react-icons/md";
+} from 'react-icons/md';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
-import { ILesson, LessonType } from "@/types/lesson";
-import { secondsToDisplayTime } from "@/utils/format";
+} from '@/components/ui/dropdown-menu';
+import { Separator } from '@/components/ui/separator';
+import { ILesson, LessonType } from '@/types/lesson';
+import { secondsToDisplayTime } from '@/utils/format';
 
 const getContentTypeConfig = (type: LessonType) => {
   switch (type) {
     case LessonType.VIDEO:
       return {
         icon: <MdOutlineSlowMotionVideo className="h-4 w-4" />,
-        label: "Video",
+        label: 'Video',
       };
     case LessonType.ARTICLE:
       return {
         icon: <MdDescription className="h-4 w-4" />,
-        label: "Article",
+        label: 'Article',
       };
     case LessonType.QUIZ:
       return {
         icon: <MdHelpOutline className="h-4 w-4" />,
-        label: "Quiz",
+        label: 'Quiz',
       };
     default:
       return {
         icon: <MdDescription className="h-4 w-4" />,
-        label: "Content",
+        label: 'Content',
       };
   }
 };
@@ -67,17 +67,10 @@ const SortableLesson = ({
   onDeleteLesson,
   onToggleLessonPublish,
 }: SortableLessonProps) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: lesson.id,
     data: {
-      type: "lesson",
+      type: 'lesson',
       lesson,
     },
   });
@@ -88,43 +81,38 @@ const SortableLesson = ({
     transition,
   };
 
-  const contentConfig = React.useMemo(
-    () => getContentTypeConfig(lesson.type),
-    [lesson.type]
-  );
+  const contentConfig = React.useMemo(() => getContentTypeConfig(lesson.type), [lesson.type]);
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-card border border-border rounded-lg  transition-colors ${
-        isDragging ? "opacity-50" : ""
+      className={`bg-card border-border rounded-lg border transition-colors ${
+        isDragging ? 'opacity-50' : ''
       }`}
     >
       <div className="p-4">
         {/* Main Row */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
             {/* Drag Handle */}
             <div
               {...attributes}
               {...listeners}
-              className="cursor-grab hover:cursor-grabbing text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground cursor-grab transition-colors hover:cursor-grabbing"
             >
               <MdDragIndicator className="h-4 w-4" />
             </div>
 
             {/* Lesson Number & Title */}
-            <div className="flex items-center gap-1 flex-1 min-w-0">
-              <span className="text-sm font-medium ">{lessonIndex + 1}.</span>
-              <h4 className="font-medium text-card-foreground truncate">
-                {lesson.title}
-              </h4>
+            <div className="flex min-w-0 flex-1 items-center gap-1">
+              <span className="text-sm font-medium">{lessonIndex + 1}.</span>
+              <h4 className="text-card-foreground truncate font-medium">{lesson.title}</h4>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex shrink-0 items-center gap-2">
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -138,7 +126,7 @@ const SortableLesson = ({
                     onEditLesson(lesson);
                   }}
                 >
-                  <MdEdit className="h-4 w-4 mr-2" />
+                  <MdEdit className="mr-2 h-4 w-4" />
                   Edit
                 </DropdownMenuItem>
 
@@ -150,12 +138,12 @@ const SortableLesson = ({
                 >
                   {lesson.published ? (
                     <>
-                      <MdVisibilityOff className="h-4 w-4 mr-2" />
+                      <MdVisibilityOff className="mr-2 h-4 w-4" />
                       Unpublish
                     </>
                   ) : (
                     <>
-                      <MdVisibility className="h-4 w-4 mr-2" />
+                      <MdVisibility className="mr-2 h-4 w-4" />
                       Publish
                     </>
                   )}
@@ -168,7 +156,7 @@ const SortableLesson = ({
                   }}
                   className="text-destructive focus:text-destructive"
                 >
-                  <MdDelete className="h-4 w-4 mr-2" />
+                  <MdDelete className="mr-2 h-4 w-4" />
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -177,7 +165,7 @@ const SortableLesson = ({
         </div>
 
         {/* Meta Information Row */}
-        <div className="flex items-center gap-4 mt-1 ml-8 text-sm">
+        <div className="mt-1 ml-8 flex items-center gap-4 text-sm">
           {/* Content Type */}
           <div className="flex items-center gap-1">
             <div className="text-muted-foreground">{contentConfig.icon}</div>
@@ -187,18 +175,18 @@ const SortableLesson = ({
           {/* Status */}
           <div className="flex items-center gap-1">
             <div
-              className={`w-2 h-2 rounded-full ${
-                lesson.published ? "bg-green-500" : "bg-yellow-500"
+              className={`h-2 w-2 rounded-full ${
+                lesson.published ? 'bg-green-500' : 'bg-yellow-500'
               }`}
             />
             <span className="text-muted-foreground">
-              {lesson.published ? "Published" : "Draft"}
+              {lesson.published ? 'Published' : 'Draft'}
             </span>
           </div>
 
           {/* Duration */}
           <div className="flex items-center gap-1">
-            <MdAccessTime className="h-4 w-4 text-muted-foreground" />
+            <MdAccessTime className="text-muted-foreground h-4 w-4" />
             <span className="text-muted-foreground">
               Duration: {secondsToDisplayTime(lesson?.durationSec || 0)}
             </span>
@@ -207,7 +195,7 @@ const SortableLesson = ({
 
         {/* Description */}
         {lesson.description && (
-          <p className="text-sm text-muted-foreground mt-2 ml-8 line-clamp-1">
+          <p className="text-muted-foreground mt-2 ml-8 line-clamp-1 text-sm">
             {lesson.description}
           </p>
         )}

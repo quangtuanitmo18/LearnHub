@@ -1,22 +1,22 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import type {
   IUser,
   UpdateUserRequest,
   UsersFilterParams,
   UsersListResponse,
   UserStats,
-} from "@/types/user";
+} from '@/types/user';
 
 // User API endpoints
 const ENDPOINTS = {
-  USERS: "/users",
+  USERS: '/users',
   USER: (id: string) => `/users/${id}`,
   ADMIN_UPDATE_USER: (id: string) => `/users/admin/${id}`,
-  USER_STATS: "/users/stats",
-  BULK_DELETE: "/users/bulk-delete",
-  AVATAR_PRESIGNED: "/users/avatar/presigned",
-  AVATAR_UPLOAD_COMPLETE: "/users/avatar/upload-complete",
-  AVATAR_DELETE: "/users/avatar",
+  USER_STATS: '/users/stats',
+  BULK_DELETE: '/users/bulk-delete',
+  AVATAR_PRESIGNED: '/users/avatar/presigned',
+  AVATAR_UPLOAD_COMPLETE: '/users/avatar/upload-complete',
+  AVATAR_DELETE: '/users/avatar',
 } as const;
 
 // Users service
@@ -49,18 +49,15 @@ export class UsersService {
   // Update an existing user (regular user update)
   static async updateUser(userData: UpdateUserRequest): Promise<IUser> {
     const { id, ...updateData } = userData;
-    return ApiService.put<IUser, Omit<UpdateUserRequest, "id">>(
-      ENDPOINTS.USER(id),
-      updateData
-    );
+    return ApiService.put<IUser, Omit<UpdateUserRequest, 'id'>>(ENDPOINTS.USER(id), updateData);
   }
 
   // Update user from admin panel (comprehensive admin update)
   static async updateUserAdmin(userData: UpdateUserRequest): Promise<IUser> {
     const { id, ...updateData } = userData;
-    return ApiService.put<IUser, Omit<UpdateUserRequest, "id">>(
+    return ApiService.put<IUser, Omit<UpdateUserRequest, 'id'>>(
       ENDPOINTS.ADMIN_UPDATE_USER(id),
-      updateData
+      updateData,
     );
   }
 
@@ -95,12 +92,10 @@ export class UsersService {
   }
 
   // Complete avatar upload
-  static async completeAvatarUpload(data: {
-    key: string;
-  }): Promise<{ avatar: string }> {
+  static async completeAvatarUpload(data: { key: string }): Promise<{ avatar: string }> {
     return ApiService.post<{ avatar: string }, { key: string }>(
       ENDPOINTS.AVATAR_UPLOAD_COMPLETE,
-      data
+      data,
     );
   }
 

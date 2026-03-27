@@ -1,6 +1,6 @@
-import ApiService from "@/lib/api-service";
-import { PaymentMethod } from "@/types/order";
-import { MembershipPlan } from "@/types/membership";
+import ApiService from '@/lib/api-service';
+import { PaymentMethod } from '@/types/order';
+import { MembershipPlan } from '@/types/membership';
 
 export interface CreateMembershipOrderRequest {
   paymentMethod: PaymentMethod;
@@ -26,14 +26,11 @@ export class MembershipService {
    * Create membership order
    */
   static async createMembershipOrder(
-    data: CreateMembershipOrderRequest
+    data: CreateMembershipOrderRequest,
   ): Promise<CreateMembershipOrderResponse> {
-    return ApiService.post<CreateMembershipOrderResponse>(
-      "/orders/membership/checkout",
-      {
-        paymentMethod: data.paymentMethod,
-        plan: data.plan,
-      }
-    );
+    return ApiService.post<CreateMembershipOrderResponse>('/orders/membership/checkout', {
+      paymentMethod: data.paymentMethod,
+      plan: data.plan,
+    });
   }
 }

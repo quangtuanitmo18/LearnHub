@@ -1,5 +1,5 @@
-import { type Editor } from "@tiptap/core";
-import { create } from "zustand";
+import { type Editor } from '@tiptap/core';
+import { create } from 'zustand';
 
 interface EditorState {
   editor: Editor | null;

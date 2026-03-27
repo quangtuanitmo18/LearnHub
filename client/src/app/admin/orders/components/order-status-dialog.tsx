@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,25 +9,25 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useUpdateOrderStatus } from "@/hooks/use-orders";
-import { IOrder, OrderStatus } from "@/types/order";
-import { getStatusConfig } from "@/utils/common";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+} from '@/components/ui/select';
+import { useUpdateOrderStatus } from '@/hooks/use-orders';
+import { IOrder, OrderStatus } from '@/types/order';
+import { getStatusConfig } from '@/utils/common';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 // Status labels for Vietnamese
 const STATUS_LABELS: Record<OrderStatus, string> = {
-  [OrderStatus.PENDING]: "Chờ thanh toán",
-  [OrderStatus.COMPLETED]: "Hoàn thành",
-  [OrderStatus.CANCELLED]: "Đã hủy",
+  [OrderStatus.PENDING]: 'Chờ thanh toán',
+  [OrderStatus.COMPLETED]: 'Hoàn thành',
+  [OrderStatus.CANCELLED]: 'Đã hủy',
 };
 
 interface OrderStatusDialogProps {
@@ -36,14 +36,8 @@ interface OrderStatusDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const OrderStatusDialog = ({
-  order,
-  open,
-  onOpenChange,
-}: OrderStatusDialogProps) => {
-  const [selectedStatus, setSelectedStatus] = useState<OrderStatus>(
-    order.status as OrderStatus
-  );
+const OrderStatusDialog = ({ order, open, onOpenChange }: OrderStatusDialogProps) => {
+  const [selectedStatus, setSelectedStatus] = useState<OrderStatus>(order.status as OrderStatus);
 
   // Use the mutation hook for updating order status
   const { mutate: updateOrderStatus, isPending } = useUpdateOrderStatus();
@@ -66,7 +60,7 @@ const OrderStatusDialog = ({
         onSuccess: () => {
           onOpenChange(false);
         },
-      }
+      },
     );
   };
 
@@ -82,36 +76,29 @@ const OrderStatusDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Update Order Status</DialogTitle>
-          <DialogDescription>
-            Change the status for order #{order.code}
-          </DialogDescription>
+          <DialogDescription>Change the status for order #{order.code}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           {/* Current Status */}
           <div>
-            <label className="text-sm font-medium text-muted-foreground">
-              Current Status
-            </label>
+            <label className="text-muted-foreground text-sm font-medium">Current Status</label>
             <div className="mt-1">
               <Badge
-                className={`rounded-full capitalize border ${currentStatusConfig.bgColor} ${currentStatusConfig.textColor} ${currentStatusConfig.borderColor}`}
+                className={`rounded-full border capitalize ${currentStatusConfig.bgColor} ${currentStatusConfig.textColor} ${currentStatusConfig.borderColor}`}
               >
                 <span
                   className={`size-1.5 rounded-full ${currentStatusConfig.dotColor}`}
                   aria-hidden="true"
                 />
-                {STATUS_LABELS[order.status as OrderStatus] ||
-                  currentStatusConfig.label}
+                {STATUS_LABELS[order.status as OrderStatus] || currentStatusConfig.label}
               </Badge>
             </div>
           </div>
 
           {/* New Status */}
           <div>
-            <label className="text-sm font-medium text-muted-foreground">
-              New Status
-            </label>
+            <label className="text-muted-foreground text-sm font-medium">New Status</label>
             <Select
               value={selectedStatus}
               onValueChange={(value) => setSelectedStatus(value as OrderStatus)}
@@ -145,12 +132,12 @@ const OrderStatusDialog = ({
 
           {/* Preview */}
           {selectedStatus !== order.status && (
-            <div className="p-3 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground mb-2">Preview:</p>
+            <div className="bg-muted rounded-lg p-3">
+              <p className="text-muted-foreground mb-2 text-sm">Preview:</p>
               <div className="flex items-center gap-2">
                 <span className="text-sm">Status will change to:</span>
                 <Badge
-                  className={`rounded-full capitalize border ${newStatusConfig.bgColor} ${newStatusConfig.textColor} ${newStatusConfig.borderColor}`}
+                  className={`rounded-full border capitalize ${newStatusConfig.bgColor} ${newStatusConfig.textColor} ${newStatusConfig.borderColor}`}
                 >
                   <span
                     className={`size-1.5 rounded-full ${newStatusConfig.dotColor}`}
@@ -164,12 +151,7 @@ const OrderStatusDialog = ({
         </div>
 
         <DialogFooter>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleClose}
-            disabled={isPending}
-          >
+          <Button type="button" variant="outline" onClick={handleClose} disabled={isPending}>
             Cancel
           </Button>
           <Button

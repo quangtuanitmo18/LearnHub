@@ -1,5 +1,5 @@
-import React from "react";
-import { NodeViewWrapper, ReactNodeViewProps } from "@tiptap/react";
+import React from 'react';
+import { NodeViewWrapper, ReactNodeViewProps } from '@tiptap/react';
 
 export const MentionNodeView: React.FC<ReactNodeViewProps> = ({ node }) => {
   return (
@@ -8,7 +8,7 @@ export const MentionNodeView: React.FC<ReactNodeViewProps> = ({ node }) => {
       contentEditable={false}
       draggable={false}
       as="span"
-      style={{ display: "inline" }}
+      style={{ display: 'inline' }}
     >
       <span
         className="mention"
@@ -17,18 +17,18 @@ export const MentionNodeView: React.FC<ReactNodeViewProps> = ({ node }) => {
         data-label={node.attrs.label}
         contentEditable={false}
         style={{
-          display: "inline-flex",
-          alignItems: "center",
-          padding: "2px 6px",
-          borderRadius: "4px",
-          backgroundColor: "#f3f4f6",
-          color: "#2563eb",
-          fontSize: "14px",
-          fontWeight: "500",
-          cursor: "default",
-          userSelect: "none",
-          margin: "0 1px",
-          verticalAlign: "baseline",
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '2px 6px',
+          borderRadius: '4px',
+          backgroundColor: '#f3f4f6',
+          color: '#2563eb',
+          fontSize: '14px',
+          fontWeight: '500',
+          cursor: 'default',
+          userSelect: 'none',
+          margin: '0 1px',
+          verticalAlign: 'baseline',
         }}
       >
         @{node.attrs.label || node.attrs.id}

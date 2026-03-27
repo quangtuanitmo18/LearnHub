@@ -1,19 +1,15 @@
-"use client";
+'use client';
 
-import { DataTable, DataTablePagination } from "@/components/table";
-import { PAGINATION_CONSTANTS, TABLE_CONSTANTS } from "@/constants";
-import { useAdminOrders } from "@/hooks/use-orders";
-import { useDebounce } from "@/hooks/use-debounce";
-import { AdminOrdersFilterParams } from "@/types/order";
-import {
-  VisibilityState,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import OrdersBulkDeleteDialog from "./orders-bulk-delete-dialog";
-import { columns } from "./orders-columns";
-import DataTableToolbar from "./data-table-toolbar";
+import { DataTable, DataTablePagination } from '@/components/table';
+import { PAGINATION_CONSTANTS, TABLE_CONSTANTS } from '@/constants';
+import { useAdminOrders } from '@/hooks/use-orders';
+import { useDebounce } from '@/hooks/use-debounce';
+import { AdminOrdersFilterParams } from '@/types/order';
+import { VisibilityState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import OrdersBulkDeleteDialog from './orders-bulk-delete-dialog';
+import { columns } from './orders-columns';
+import DataTableToolbar from './data-table-toolbar';
 
 // Filter state interface for better organization
 interface FilterState {
@@ -29,25 +25,18 @@ const OrdersTable = () => {
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE
-  );
-  const [pageSize, setPageSize] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE
-  );
+  const [currentPage, setCurrentPage] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE);
+  const [pageSize, setPageSize] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE);
 
   // Filter state - grouped for better performance
   const [filters, setFilters] = useState<FilterState>({
-    search: "",
+    search: '',
     status: [],
     paymentMethod: [],
   });
 
   // Debounce search input
-  const debouncedSearch = useDebounce(
-    filters.search,
-    TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS
-  );
+  const debouncedSearch = useDebounce(filters.search, TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS);
 
   // Format query parameters for API call
   const queryParams = useMemo(() => {
@@ -62,13 +51,7 @@ const OrdersTable = () => {
     };
 
     return params;
-  }, [
-    currentPage,
-    pageSize,
-    debouncedSearch,
-    filters.status,
-    filters.paymentMethod,
-  ]);
+  }, [currentPage, pageSize, debouncedSearch, filters.status, filters.paymentMethod]);
 
   const { data: ordersData } = useAdminOrders(queryParams);
 

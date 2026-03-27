@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { useValidCoupons, useValidateCoupon } from "@/hooks/use-coupons";
-import { useCreateOrder } from "@/hooks/use-orders";
-import { useCreateStripeCheckout } from "@/hooks/use-payment";
-import type { Cart, OrderDiscount } from "@/types/cart";
-import type { ValidateCouponResponse } from "@/types/coupon";
-import { PaymentMethod } from "@/types/order";
-import { Banknote, CreditCard } from "lucide-react";
-import CartTotals from "./cart-totals";
-import CheckoutActions from "./checkout-actions";
-import DiscountDrawer from "./discount-drawer";
-import DiscountTrigger from "./discount-trigger";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { useValidCoupons, useValidateCoupon } from '@/hooks/use-coupons';
+import { useCreateOrder } from '@/hooks/use-orders';
+import { useCreateStripeCheckout } from '@/hooks/use-payment';
+import type { Cart, OrderDiscount } from '@/types/cart';
+import type { ValidateCouponResponse } from '@/types/coupon';
+import { PaymentMethod } from '@/types/order';
+import { Banknote, CreditCard } from 'lucide-react';
+import CartTotals from './cart-totals';
+import CheckoutActions from './checkout-actions';
+import DiscountDrawer from './discount-drawer';
+import DiscountTrigger from './discount-trigger';
 
-import { ROUTE_CONFIG } from "@/configs/routes";
-import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
-import { toast } from "sonner";
+import { ROUTE_CONFIG } from '@/configs/routes';
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 
 interface CartSummaryProps {
   cart: Cart;
@@ -27,15 +27,11 @@ interface CartSummaryProps {
 
 // Cart summary component - Arrow function
 const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
-  const [selectedDiscountCode, setSelectedDiscountCode] = useState<string>("");
-  const [manualDiscountCode, setManualDiscountCode] = useState<string>("");
-  const [appliedDiscount, setAppliedDiscount] = useState<OrderDiscount | null>(
-    null
-  );
-  const [applyingCouponCode, setApplyingCouponCode] = useState<string>("");
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    PaymentMethod.STRIPE
-  );
+  const [selectedDiscountCode, setSelectedDiscountCode] = useState<string>('');
+  const [manualDiscountCode, setManualDiscountCode] = useState<string>('');
+  const [appliedDiscount, setAppliedDiscount] = useState<OrderDiscount | null>(null);
+  const [applyingCouponCode, setApplyingCouponCode] = useState<string>('');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(PaymentMethod.STRIPE);
   const router = useRouter();
 
   const checkout = useCreateOrder();
@@ -46,9 +42,7 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
   const validateCoupon = useValidateCoupon();
 
   const summary = useMemo(() => {
-    const selectedItems = cart.items.filter((item) =>
-      selectedCourseIds.includes(item.course.id)
-    );
+    const selectedItems = cart.items.filter((item) => selectedCourseIds.includes(item.course.id));
 
     // Ensure all price values are proper numbers
     const subtotal = selectedItems.reduce((sum, item) => {
@@ -87,27 +81,27 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
             appliedSuccessfully: response.valid,
           });
           setSelectedDiscountCode(response.coupon.code);
-          setManualDiscountCode("");
-          setApplyingCouponCode("");
+          setManualDiscountCode('');
+          setApplyingCouponCode('');
         },
         onError: () => {
-          setApplyingCouponCode("");
+          setApplyingCouponCode('');
         },
-      }
+      },
     );
   };
 
   const removeDiscount = () => {
     setAppliedDiscount(null);
-    setSelectedDiscountCode("");
-    setManualDiscountCode("");
-    setApplyingCouponCode("");
-    toast.success("Discount code removed");
+    setSelectedDiscountCode('');
+    setManualDiscountCode('');
+    setApplyingCouponCode('');
+    toast.success('Discount code removed');
   };
 
   const handleCheckout = () => {
     if (selectedCourseIds.length === 0) {
-      toast.error("Please select at least one course to checkout");
+      toast.error('Please select at least one course to checkout');
       return;
     }
 
@@ -123,7 +117,7 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
           if (selectedPaymentMethod === PaymentMethod.STRIPE) {
             const orderCode = response?.code;
             if (!orderCode) {
-              toast.error("Order code not found");
+              toast.error('Order code not found');
               return;
             }
 
@@ -137,10 +131,10 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
                     // Redirect to Stripe checkout
                     window.location.href = sessionUrl;
                   } else {
-                    toast.error("Failed to get checkout URL");
+                    toast.error('Failed to get checkout URL');
                   }
                 },
-              }
+              },
             );
           }
           // For other payment methods (bank transfer), redirect to internal payment page
@@ -149,28 +143,28 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
             router.push(`${ROUTE_CONFIG.QR_PAYMENT}?orderid=${orderId}`);
           }
         },
-      }
+      },
     );
   };
 
   const paymentMethods = [
     {
       id: PaymentMethod.STRIPE,
-      name: "Card",
-      description: "Payment with Stripe",
+      name: 'Card',
+      description: 'Payment with Stripe',
       icon: CreditCard,
-      bgColor: "bg-blue-50",
-      borderColor: "border-blue-200",
-      textColor: "text-blue-700",
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200',
+      textColor: 'text-blue-700',
     },
     {
       id: PaymentMethod.BANK_TRANSFER,
-      name: "Bank",
-      description: "Direct bank transfer",
+      name: 'Bank',
+      description: 'Direct bank transfer',
       icon: Banknote,
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
-      textColor: "text-green-700",
+      bgColor: 'bg-green-50',
+      borderColor: 'border-green-200',
+      textColor: 'text-green-700',
     },
   ];
 
@@ -187,14 +181,14 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
   }
 
   return (
-    <div className="bg-white rounded-lg sm:rounded-xl border border-gray-200 shadow-md sm:shadow-lg lg:sticky lg:top-24">
-      <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
+    <div className="rounded-lg border border-gray-200 bg-white shadow-md sm:rounded-xl sm:shadow-lg lg:sticky lg:top-24">
+      <div className="space-y-3 p-3 sm:space-y-4 sm:p-4">
         {/* Summary Header */}
-        <div className="text-center pb-2 sm:pb-3 border-b border-gray-100">
-          <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-0.5 sm:mb-1">
+        <div className="border-b border-gray-100 pb-2 text-center sm:pb-3">
+          <h3 className="mb-0.5 text-base font-bold text-gray-900 sm:mb-1 sm:text-lg">
             Order Summary
           </h3>
-          <p className="text-[10px] sm:text-xs text-gray-600">
+          <p className="text-[10px] text-gray-600 sm:text-xs">
             Review your items and complete your purchase
           </p>
         </div>
@@ -208,7 +202,7 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
 
         {/* Discount Section */}
         <div className="space-y-2 sm:space-y-3">
-          <h4 className="font-semibold text-gray-900 text-[10px] sm:text-xs">
+          <h4 className="text-[10px] font-semibold text-gray-900 sm:text-xs">
             Have a discount code?
           </h4>
           <Sheet>
@@ -238,9 +232,7 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
 
         {/* Payment Method Selection */}
         <div className="space-y-3 sm:space-y-4">
-          <h4 className="font-semibold text-gray-900 text-xs sm:text-sm">
-            Payment Method
-          </h4>
+          <h4 className="text-xs font-semibold text-gray-900 sm:text-sm">Payment Method</h4>
           <div className="grid grid-cols-2 gap-2 sm:gap-3">
             {paymentMethods.map((method) => {
               const Icon = method.icon;
@@ -250,10 +242,10 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
                 <Button
                   key={method.id}
                   variant="outline"
-                  className={`p-2 sm:p-3 h-auto min-h-[70px] sm:min-h-20 flex-col transition-all duration-200 relative group ${
+                  className={`group relative h-auto min-h-[70px] flex-col p-2 transition-all duration-200 sm:min-h-20 sm:p-3 ${
                     isSelected
                       ? `${method.bgColor} ${method.borderColor} border-2 ${method.textColor} shadow-md`
-                      : "bg-white hover:bg-gray-50 border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                      : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50 hover:shadow-sm'
                   }`}
                   onClick={() => setSelectedPaymentMethod(method.id)}
                 >
@@ -261,9 +253,9 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
                   {isSelected && (
                     <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2">
                       <div
-                        className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${method.textColor.replace(
-                          "text-",
-                          "bg-"
+                        className={`h-2.5 w-2.5 rounded-full sm:h-3 sm:w-3 ${method.textColor.replace(
+                          'text-',
+                          'bg-',
                         )}`}
                       />
                     </div>
@@ -271,31 +263,29 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
 
                   <div className="flex flex-col items-center gap-1.5 sm:gap-2">
                     <div
-                      className={`p-1.5 sm:p-2 rounded-lg transition-all duration-200 ${
+                      className={`rounded-lg p-1.5 transition-all duration-200 sm:p-2 ${
                         isSelected
                           ? `${method.bgColor} ${method.borderColor} border`
-                          : "bg-gray-100 group-hover:bg-gray-200"
+                          : 'bg-gray-100 group-hover:bg-gray-200'
                       }`}
                     >
                       <Icon
-                        className={`h-5 w-5 sm:h-6 sm:w-6 transition-colors duration-200 ${
-                          isSelected ? method.textColor : "text-gray-600"
+                        className={`h-5 w-5 transition-colors duration-200 sm:h-6 sm:w-6 ${
+                          isSelected ? method.textColor : 'text-gray-600'
                         }`}
                       />
                     </div>
                     <div className="text-center">
                       <div
-                        className={`font-semibold text-xs sm:text-sm transition-colors duration-200 ${
-                          isSelected ? method.textColor : "text-gray-700"
+                        className={`text-xs font-semibold transition-colors duration-200 sm:text-sm ${
+                          isSelected ? method.textColor : 'text-gray-700'
                         }`}
                       >
                         {method.name}
                       </div>
                       <div
-                        className={`text-[10px] sm:text-xs mt-0.5 sm:mt-1 transition-colors duration-200 ${
-                          isSelected
-                            ? method.textColor.replace("700", "600")
-                            : "text-gray-500"
+                        className={`mt-0.5 text-[10px] transition-colors duration-200 sm:mt-1 sm:text-xs ${
+                          isSelected ? method.textColor.replace('700', '600') : 'text-gray-500'
                         }`}
                       >
                         {method.description}
@@ -309,11 +299,9 @@ const CartSummary = ({ cart, selectedCourseIds }: CartSummaryProps) => {
         </div>
 
         {/* Checkout Actions */}
-        <div className="pt-2 sm:pt-3 border-t border-gray-100">
+        <div className="border-t border-gray-100 pt-2 sm:pt-3">
           <CheckoutActions
-            isCheckoutPending={
-              checkout.isPending || createStripeCheckout.isPending
-            }
+            isCheckoutPending={checkout.isPending || createStripeCheckout.isPending}
             onCheckout={handleCheckout}
           />
         </div>

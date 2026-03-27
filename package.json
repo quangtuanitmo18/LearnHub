@@ -1,0 +1,25 @@
+{
+  "name": "learnhub-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run start:dev --prefix server\"",
+    "install:all": "npm install && npm install --prefix client && npm install --prefix server",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3"
+  },
+  "lint-staged": {
+    "client/**/*.{js,jsx,ts,tsx}": [
+      "bash -c 'cd client && npx eslint --fix \"$@\"' --",
+      "bash -c 'cd client && npx prettier --write \"$@\"' --"
+    ],
+    "server/**/*.{js,ts}": [
+      "bash -c 'cd server && npx eslint --fix \"$@\"' --",
+      "bash -c 'cd server && npx prettier --write \"$@\"' --"
+    ]
+  }
+}

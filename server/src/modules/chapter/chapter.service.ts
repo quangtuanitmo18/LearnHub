@@ -17,7 +17,7 @@ export class ChapterService {
   constructor(
     private readonly chapterRepository: ChapterRepository,
     private readonly courseRepository: CourseRepository,
-  ) { }
+  ) {}
 
   async getAllChapters(paginationQuery?: PaginationQueryDto) {
     return this.chapterRepository.findAll(paginationQuery);

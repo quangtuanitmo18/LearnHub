@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { CommentsService } from "@/services/comments";
+import { CommentsService } from '@/services/comments';
 import type {
   CommentsFilterParams,
   CommentsListResponse,
   CreateCommentRequest,
   IComment,
   UpdateCommentRequest,
-  UpdateCommentStatusRequest
-} from "@/types/comment";
-import { CommentStatus } from "@/types/comment";
+  UpdateCommentStatusRequest,
+} from '@/types/comment';
+import { CommentStatus } from '@/types/comment';
 import {
   InfiniteData,
   keepPreviousData,
@@ -17,23 +17,20 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
-} from "@tanstack/react-query";
-import { cloneDeep } from "lodash";
-import { useState } from "react";
-import { toast } from "sonner";
+} from '@tanstack/react-query';
+import { cloneDeep } from 'lodash';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 // Query keys for comments
 export const commentKeys = {
-  all: ["comments"] as const,
-  lists: () => [...commentKeys.all, "list"] as const,
-  list: (filters: CommentsFilterParams) =>
-    [...commentKeys.lists(), { filters }] as const,
-  details: () => [...commentKeys.all, "detail"] as const,
+  all: ['comments'] as const,
+  lists: () => [...commentKeys.all, 'list'] as const,
+  list: (filters: CommentsFilterParams) => [...commentKeys.lists(), { filters }] as const,
+  details: () => [...commentKeys.all, 'detail'] as const,
   detail: (id: string) => [...commentKeys.details(), id] as const,
-  lessonComments: (lessonId: string) =>
-    [...commentKeys.all, "lesson", lessonId] as const,
-  replies: (parentId: string) =>
-    [...commentKeys.all, "replies", parentId] as const,
+  lessonComments: (lessonId: string) => [...commentKeys.all, 'lesson', lessonId] as const,
+  replies: (parentId: string) => [...commentKeys.all, 'replies', parentId] as const,
 };
 
 // Hook to get all comments with optional filtering
@@ -46,10 +43,7 @@ export function useAllComments(params?: CommentsFilterParams) {
 }
 
 // Hook to get comments for a lesson
-export function useComments(
-  lessonId: string,
-  params?: Omit<CommentsFilterParams, "lessonId">
-) {
+export function useComments(lessonId: string, params?: Omit<CommentsFilterParams, 'lessonId'>) {
   return useQuery({
     queryKey: commentKeys.lessonComments(lessonId),
     queryFn: () => CommentsService.getComments(lessonId, params),
@@ -60,9 +54,8 @@ export function useComments(
 // Hook to get infinite scroll comments
 export function useInfiniteComments(lessonId: string) {
   return useInfiniteQuery({
-    queryKey: [...commentKeys.lessonComments(lessonId), "infinite"],
-    queryFn: ({ pageParam = 1 }) =>
-      CommentsService.getComments(lessonId, { page: pageParam }),
+    queryKey: [...commentKeys.lessonComments(lessonId), 'infinite'],
+    queryFn: ({ pageParam = 1 }) => CommentsService.getComments(lessonId, { page: pageParam }),
     enabled: !!lessonId,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
@@ -78,7 +71,6 @@ export function useComment(id: string) {
     queryKey: commentKeys.detail(id),
     queryFn: () => CommentsService.getComment(id),
     enabled: !!id,
-
   });
 }
 
@@ -90,7 +82,7 @@ export function useCreateComment() {
   const addReplyToComments = (
     comments: IComment[],
     parentId: string,
-    newReply: IComment
+    newReply: IComment,
   ): IComment[] => {
     return comments.map((comment) => {
       if (comment.id === parentId) {
@@ -102,11 +94,7 @@ export function useCreateComment() {
         };
       } else if (comment.replies && comment.replies.length > 0) {
         // Search in nested replies recursively
-        const updatedReplies = addReplyToComments(
-          comment.replies,
-          parentId,
-          newReply
-        );
+        const updatedReplies = addReplyToComments(comment.replies, parentId, newReply);
         // Only update if something changed
         if (updatedReplies !== comment.replies) {
           return {
@@ -129,10 +117,7 @@ export function useCreateComment() {
     }) => CommentsService.createComment(lessonId, commentData),
     onSuccess: (newComment, variables) => {
       if (newComment) {
-        const infiniteQueryKey = [
-          ...commentKeys.lessonComments(variables.lessonId),
-          "infinite",
-        ];
+        const infiniteQueryKey = [...commentKeys.lessonComments(variables.lessonId), 'infinite'];
 
         if (!newComment.parentId) {
           // Handle top-level comments
@@ -156,7 +141,7 @@ export function useCreateComment() {
                 ...old,
                 pages: [updatedFirstPage, ...old.pages.slice(1)],
               };
-            }
+            },
           );
         } else {
           // Handle reply comments using lodash for deep update
@@ -171,25 +156,19 @@ export function useCreateComment() {
               // Update each page that might contain the parent comment
               newData.pages = newData.pages.map((page) => ({
                 ...page,
-                result: addReplyToComments(
-                  page.result,
-                  newComment.parentId!,
-                  newComment
-                ),
+                result: addReplyToComments(page.result, newComment.parentId!, newComment),
               }));
 
               return newData;
-            }
+            },
           );
         }
       }
 
-      toast.success("Comment has been added!");
+      toast.success('Comment has been added!');
     },
     onError: (error: Error) => {
-      toast.error(
-        error?.message || "Failed to add comment. Please try again."
-      );
+      toast.error(error?.message || 'Failed to add comment. Please try again.');
     },
   });
 }
@@ -229,15 +208,10 @@ export function useUpdateComment(lessonId?: string) {
       };
 
       // Update infinite query cache (primary cache used by lesson-comment-drawer)
-      const infiniteQueryKey = [
-        ...commentKeys.lessonComments(lessonId),
-        "infinite",
-      ];
+      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
       queryClient.setQueryData(
         infiniteQueryKey,
-        (
-          oldData: InfiniteData<CommentsListResponse, unknown> | undefined
-        ) => {
+        (oldData: InfiniteData<CommentsListResponse, unknown> | undefined) => {
           if (!oldData?.pages) return oldData;
 
           const newData = cloneDeep(oldData);
@@ -247,13 +221,13 @@ export function useUpdateComment(lessonId?: string) {
           }));
 
           return newData;
-        }
+        },
       );
 
-      toast.success("Comment updated successfully!");
+      toast.success('Comment updated successfully!');
     },
     onError: () => {
-      toast.error("Failed to update comment. Please try again.");
+      toast.error('Failed to update comment. Please try again.');
     },
   });
 
@@ -286,8 +260,7 @@ export function useDeleteComment(lessonId?: string) {
                 // Update reply count if needed
                 replyCount: Math.max(
                   0,
-                  comment.replyCount -
-                    (comment.replies.some((r) => r.id === commentId) ? 1 : 0)
+                  comment.replyCount - (comment.replies.some((r) => r.id === commentId) ? 1 : 0),
                 ),
               };
             }
@@ -296,15 +269,10 @@ export function useDeleteComment(lessonId?: string) {
       };
 
       // Update infinite query cache (primary cache used by lesson-comment-drawer)
-      const infiniteQueryKey = [
-        ...commentKeys.lessonComments(lessonId),
-        "infinite",
-      ];
+      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
       queryClient.setQueryData(
         infiniteQueryKey,
-        (
-          oldData: InfiniteData<CommentsListResponse, unknown> | undefined
-        ) => {
+        (oldData: InfiniteData<CommentsListResponse, unknown> | undefined) => {
           if (!oldData?.pages) return oldData;
 
           const newData = cloneDeep(oldData);
@@ -318,13 +286,13 @@ export function useDeleteComment(lessonId?: string) {
           }));
 
           return newData;
-        }
+        },
       );
 
-      toast.success("Comment deleted successfully!");
+      toast.success('Comment deleted successfully!');
     },
     onError: () => {
-      toast.error("Failed to delete comment. Please try again.");
+      toast.error('Failed to delete comment. Please try again.');
     },
   });
 
@@ -351,12 +319,10 @@ export function useDeleteCommentAdmin() {
         queryKey: commentKeys.all,
       });
 
-      toast.success("Comment deleted successfully!");
+      toast.success('Comment deleted successfully!');
     },
     onError: (error: Error) => {
-      toast.error(
-        error?.message || "Failed to delete comment. Please try again."
-      );
+      toast.error(error?.message || 'Failed to delete comment. Please try again.');
     },
   });
 }
@@ -366,19 +332,16 @@ export function useBulkDeleteComments() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (commentIds: string[]) =>
-      CommentsService.bulkDeleteComments(commentIds),
+    mutationFn: (commentIds: string[]) => CommentsService.bulkDeleteComments(commentIds),
     onSuccess: () => {
       // Invalidate all comment queries
       queryClient.invalidateQueries({
         queryKey: commentKeys.all,
       });
-      toast.success("Comments deleted successfully!");
+      toast.success('Comments deleted successfully!');
     },
     onError: (error: Error) => {
-      toast.error(
-        error?.message || "Failed to delete comment. Please try again."
-      );
+      toast.error(error?.message || 'Failed to delete comment. Please try again.');
     },
   });
 }
@@ -386,18 +349,13 @@ export function useBulkDeleteComments() {
 // Hook to load replies for a comment
 export function useLoadReplies(lessonId: string) {
   const queryClient = useQueryClient();
-  const [loadingReplies, setLoadingReplies] = useState<Record<string, boolean>>(
-    {}
-  );
+  const [loadingReplies, setLoadingReplies] = useState<Record<string, boolean>>({});
 
   const loadReplies = async (commentId: string, comments: IComment[]) => {
     if (loadingReplies[commentId]) return;
 
     // Helper function to find comment recursively
-    const findCommentRecursively = (
-      comments: IComment[],
-      targetId: string
-    ): IComment | null => {
+    const findCommentRecursively = (comments: IComment[], targetId: string): IComment | null => {
       for (const comment of comments) {
         if (comment.id === targetId) return comment;
         if (comment.replies && comment.replies.length > 0) {
@@ -425,10 +383,7 @@ export function useLoadReplies(lessonId: string) {
       const repliesData = await CommentsService.getReplies(commentId);
 
       // Update React Query cache with the fetched replies
-      const infiniteQueryKey = [
-        ...commentKeys.lessonComments(lessonId),
-        "infinite",
-      ];
+      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
 
       queryClient.setQueryData(
         infiniteQueryKey,
@@ -439,7 +394,7 @@ export function useLoadReplies(lessonId: string) {
           const addRepliesToComment = (
             comments: IComment[],
             parentId: string,
-            replies: IComment[]
+            replies: IComment[],
           ): IComment[] => {
             return comments.map((comment) => {
               if (comment.id === parentId) {
@@ -450,11 +405,7 @@ export function useLoadReplies(lessonId: string) {
               } else if (comment.replies && comment.replies.length > 0) {
                 return {
                   ...comment,
-                  replies: addRepliesToComment(
-                    comment.replies,
-                    parentId,
-                    replies
-                  ),
+                  replies: addRepliesToComment(comment.replies, parentId, replies),
                 };
               }
               return comment;
@@ -463,24 +414,18 @@ export function useLoadReplies(lessonId: string) {
 
           // Update each page that might contain the parent comment
           const newData = cloneDeep(old);
-          newData.pages = newData.pages.map(
-            (page: CommentsListResponse) => ({
-              ...page,
-              result: addRepliesToComment(
-                page.result,
-                commentId,
-                repliesData
-              ),
-            })
-          );
+          newData.pages = newData.pages.map((page: CommentsListResponse) => ({
+            ...page,
+            result: addRepliesToComment(page.result, commentId, repliesData),
+          }));
 
           return newData;
-        }
+        },
       );
 
       return true; // Indicate success
     } catch {
-      toast.error("Unable to load replies. Please try again.");
+      toast.error('Unable to load replies. Please try again.');
       return false; // Indicate failure
     } finally {
       setLoadingReplies((prev) => ({
@@ -501,9 +446,7 @@ interface UseCommentReactionsParams {
   lessonId?: string;
 }
 
-export function useCommentReactions({
-  lessonId,
-}: UseCommentReactionsParams = {}) {
+export function useCommentReactions({ lessonId }: UseCommentReactionsParams = {}) {
   const queryClient = useQueryClient();
 
   const reactionMutation = useMutation({
@@ -544,15 +487,10 @@ export function useCommentReactions({
       };
 
       // Update infinite query cache (primary cache used by lesson-comment-drawer)
-      const infiniteQueryKey = [
-        ...commentKeys.lessonComments(lessonId),
-        "infinite",
-      ];
+      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
       queryClient.setQueryData(
         infiniteQueryKey,
-        (
-          oldData: InfiniteData<CommentsListResponse, unknown> | undefined
-        ) => {
+        (oldData: InfiniteData<CommentsListResponse, unknown> | undefined) => {
           if (!oldData?.pages) return oldData;
 
           const newData = cloneDeep(oldData);
@@ -563,23 +501,19 @@ export function useCommentReactions({
           }));
 
           return newData;
-        }
+        },
       );
 
-      toast.success("Reaction updated successfully!");
+      toast.success('Reaction updated successfully!');
     },
     onError: () => {
-      toast.error("Failed to toggle reaction. Please try again.");
+      toast.error('Failed to toggle reaction. Please try again.');
     },
   });
 
-  const toggleReaction = (
-    commentId: string,
-    reactionType: string,
-    currentUserId?: string
-  ) => {
+  const toggleReaction = (commentId: string, reactionType: string, currentUserId?: string) => {
     if (!currentUserId) {
-      toast.error("Please login to react to comments");
+      toast.error('Please login to react to comments');
       return;
     }
 
@@ -604,8 +538,7 @@ export function useUpdateCommentStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: UpdateCommentStatusRequest) =>
-      CommentsService.updateCommentStatus(data),
+    mutationFn: (data: UpdateCommentStatusRequest) => CommentsService.updateCommentStatus(data),
     onSuccess: (updatedComment, variables) => {
       // Invalidate all comments queries to refresh the lists
       queryClient.invalidateQueries({
@@ -621,17 +554,15 @@ export function useUpdateCommentStatus() {
 
       // Show success toast based on status
       const statusMessages: Record<CommentStatus, string> = {
-        [CommentStatus.APPROVED]: "Comment approved successfully",
-        [CommentStatus.REJECTED]: "Comment rejected successfully",
-        [CommentStatus.PENDING]: "Comment moved to pending",
+        [CommentStatus.APPROVED]: 'Comment approved successfully',
+        [CommentStatus.REJECTED]: 'Comment rejected successfully',
+        [CommentStatus.PENDING]: 'Comment moved to pending',
       };
 
-      toast.success(
-        statusMessages[variables.status] || "Comment status updated successfully"
-      );
+      toast.success(statusMessages[variables.status] || 'Comment status updated successfully');
     },
     onError: () => {
-      toast.error("Failed to update comment status");
+      toast.error('Failed to update comment status');
     },
   });
 }

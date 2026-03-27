@@ -11,4 +11,4 @@ import { CourseModule } from '../course/course.module';
   providers: [ChapterService, ChapterRepository],
   exports: [ChapterService, ChapterRepository],
 })
-export class ChapterModule { }
+export class ChapterModule {}

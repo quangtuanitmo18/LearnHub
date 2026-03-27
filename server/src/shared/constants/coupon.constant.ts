@@ -3,7 +3,8 @@ export const CouponDiscountType = {
   FIXED: 'FIXED',
 } as const;
 
-export type CouponDiscountTypeValue = (typeof CouponDiscountType)[keyof typeof CouponDiscountType];
+export type CouponDiscountTypeValue =
+  (typeof CouponDiscountType)[keyof typeof CouponDiscountType];
 
 export const CouponStatus = {
   ACTIVE: 'ACTIVE',

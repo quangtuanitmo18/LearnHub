@@ -1,45 +1,42 @@
-"use client";
+'use client';
 
-import { ProtectedRoute } from "@/components/auth/protected-route";
-import { Button } from "@/components/ui/button";
-import { usePermissions } from "@/hooks/use-permissions";
+import { ProtectedRoute } from '@/components/auth/protected-route';
+import { Button } from '@/components/ui/button';
+import { usePermissions } from '@/hooks/use-permissions';
 
-import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
-import { MdAdd } from "react-icons/md";
+import dynamic from 'next/dynamic';
+import { useMemo, useState } from 'react';
+import { MdAdd } from 'react-icons/md';
 
-import { OPERATIONS, RESOURCES } from "@/configs/permission";
-import { useRoles } from "@/hooks/use-roles";
-import { IRole } from "@/types/role";
+import { OPERATIONS, RESOURCES } from '@/configs/permission';
+import { useRoles } from '@/hooks/use-roles';
+import { IRole } from '@/types/role';
 
 // Dynamic imports for heavy components
-const RoleActionDialog = dynamic(
-  () => import("./components/role-action-dialog"),
-  {
-    ssr: false,
-  }
-);
+const RoleActionDialog = dynamic(() => import('./components/role-action-dialog'), {
+  ssr: false,
+});
 
-const RolesGrid = dynamic(() => import("./components/roles-grid"), {
+const RolesGrid = dynamic(() => import('./components/roles-grid'), {
   loading: () => <RolesSkeleton view="grid" />,
   ssr: false,
 });
 
-const RolesList = dynamic(() => import("./components/roles-list"), {
+const RolesList = dynamic(() => import('./components/roles-list'), {
   loading: () => <RolesSkeleton view="list" />,
   ssr: false,
 });
 
-const RolesHeader = dynamic(() => import("./components/roles-header"), {
+const RolesHeader = dynamic(() => import('./components/roles-header'), {
   loading: () => (
-    <div className="flex items-center justify-between gap-4 p-4 border rounded-lg">
+    <div className="flex items-center justify-between gap-4 rounded-lg border p-4">
       <div className="flex items-center gap-4">
-        <div className="w-64 h-10 bg-muted animate-pulse rounded" />
-        <div className="w-32 h-10 bg-muted animate-pulse rounded" />
+        <div className="bg-muted h-10 w-64 animate-pulse rounded" />
+        <div className="bg-muted h-10 w-32 animate-pulse rounded" />
       </div>
       <div className="flex items-center gap-2">
-        <div className="w-20 h-10 bg-muted animate-pulse rounded" />
-        <div className="w-20 h-10 bg-muted animate-pulse rounded" />
+        <div className="bg-muted h-10 w-20 animate-pulse rounded" />
+        <div className="bg-muted h-10 w-20 animate-pulse rounded" />
       </div>
     </div>
   ),
@@ -47,21 +44,19 @@ const RolesHeader = dynamic(() => import("./components/roles-header"), {
 });
 
 // Import skeleton statically as it's lightweight and needed for loading states
-import RolesSkeleton from "./components/role-skeletons";
+import RolesSkeleton from './components/role-skeletons';
 
 const RolesPage = () => {
-  const [currentView, setCurrentView] = useState<"grid" | "list">("grid");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<
-    "name" | "permissionsCount" | "createdAt"
-  >("name");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [currentView, setCurrentView] = useState<'grid' | 'list'>('grid');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<'name' | 'permissionsCount' | 'createdAt'>('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogMode, setDialogMode] = useState<"create" | "edit">("create");
+  const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create');
   const [editingRole, setEditingRole] = useState<IRole | null>(null);
 
   // Permission hooks
-  const { CREATE } = usePermissions("role", ["create"]);
+  const { CREATE } = usePermissions('role', ['create']);
 
   // API hooks
   const { data: rolesData, isLoading } = useRoles();
@@ -77,7 +72,7 @@ const RolesPage = () => {
       filteredRoles = filteredRoles.filter(
         (role) =>
           role.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          role.description.toLowerCase().includes(searchQuery.toLowerCase())
+          role.description.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
 
@@ -87,16 +82,16 @@ const RolesPage = () => {
       let bValue: string | number | Date;
 
       switch (sortBy) {
-        case "name":
+        case 'name':
           aValue = a.name.toLowerCase();
           bValue = b.name.toLowerCase();
           break;
-        case "permissionsCount":
+        case 'permissionsCount':
           // Since userCount doesn't exist in IRole, use permissions count as fallback
           aValue = a.permissions?.length || 0;
           bValue = b.permissions?.length || 0;
           break;
-        case "createdAt":
+        case 'createdAt':
           aValue = new Date(a.createdAt);
           bValue = new Date(b.createdAt);
           break;
@@ -105,8 +100,8 @@ const RolesPage = () => {
           bValue = b.name.toLowerCase();
       }
 
-      if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
       return 0;
     });
 
@@ -119,33 +114,29 @@ const RolesPage = () => {
 
   const handleSortChange = (sort: string) => {
     // Parse sort string to extract field and order
-    const [field, order] = sort.includes("-desc")
-      ? [sort.replace("-desc", ""), "desc" as const]
-      : [sort, "asc" as const];
+    const [field, order] = sort.includes('-desc')
+      ? [sort.replace('-desc', ''), 'desc' as const]
+      : [sort, 'asc' as const];
 
-    if (
-      field === "name" ||
-      field === "permissionsCount" ||
-      field === "createdAt"
-    ) {
+    if (field === 'name' || field === 'permissionsCount' || field === 'createdAt') {
       setSortBy(field);
       setSortOrder(order);
     }
   };
 
-  const handleViewChange = (view: "grid" | "list") => {
+  const handleViewChange = (view: 'grid' | 'list') => {
     setCurrentView(view);
   };
 
   const handleEditRole = (role: IRole) => {
     setEditingRole(role);
-    setDialogMode("edit");
+    setDialogMode('edit');
     setDialogOpen(true);
   };
 
   const handleCreateRole = () => {
     setEditingRole(null);
-    setDialogMode("create");
+    setDialogMode('create');
     setDialogOpen(true);
   };
 
@@ -187,7 +178,7 @@ const RolesPage = () => {
         {/* Content */}
         {isLoading ? (
           <RolesSkeleton view={currentView} />
-        ) : currentView === "grid" ? (
+        ) : currentView === 'grid' ? (
           <RolesGrid roles={roles} onEditRole={handleEditRole} />
         ) : (
           <RolesList roles={roles} onEditRole={handleEditRole} />

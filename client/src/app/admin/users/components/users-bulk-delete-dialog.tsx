@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useBulkDeleteUsers } from "@/hooks/use-users";
-import { IUser } from "@/types/user";
-import { toast } from "sonner";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useBulkDeleteUsers } from '@/hooks/use-users';
+import { IUser } from '@/types/user';
+import { toast } from 'sonner';
 
 interface UsersBulkDeleteDialogProps {
   selectedUsers: IUser[];

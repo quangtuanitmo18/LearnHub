@@ -1,36 +1,31 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-import { useCancelOrder, useMyOrders } from "@/hooks/use-orders";
-import { useCreateStripeCheckout } from "@/hooks/use-payment";
-import Loader from "@/components/loader";
-import {
-  OrdersFilterParams,
-  OrderStatus,
-  PaymentMethod,
-  IOrder,
-} from "@/types/order";
-import { ROUTE_CONFIG } from "@/configs/routes";
-import EmptyState from "./empty-state";
-import OrderCard from "./order-card";
-import OrderFilters from "./order-filters";
-import PageHeader from "./page-header";
-import Pagination from "./pagination";
+import { useCancelOrder, useMyOrders } from '@/hooks/use-orders';
+import { useCreateStripeCheckout } from '@/hooks/use-payment';
+import Loader from '@/components/loader';
+import { OrdersFilterParams, OrderStatus, PaymentMethod, IOrder } from '@/types/order';
+import { ROUTE_CONFIG } from '@/configs/routes';
+import EmptyState from './empty-state';
+import OrderCard from './order-card';
+import OrderFilters from './order-filters';
+import PageHeader from './page-header';
+import Pagination from './pagination';
 
 // Orders content component (data-heavy, interactive) - Arrow function
 const OrdersContent = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
-  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   // Build filter params
   const filterParams: OrdersFilterParams = {
     page: currentPage,
     limit: 5,
-    ...(statusFilter !== "all" && {
+    ...(statusFilter !== 'all' && {
       status: statusFilter.toUpperCase() as OrderStatus,
     }),
   };
@@ -41,15 +36,11 @@ const OrdersContent = () => {
   const createStripeCheckout = useCreateStripeCheckout();
 
   // Handle payment - Arrow function
-  const handlePayment = (
-    orderId: string,
-    orderCode: string,
-    paymentMethod: PaymentMethod
-  ) => {
+  const handlePayment = (orderId: string, orderCode: string, paymentMethod: PaymentMethod) => {
     if (paymentMethod === PaymentMethod.STRIPE) {
       // Handle Stripe payment using PaymentService
       if (!orderCode) {
-        toast.error("Order code not found");
+        toast.error('Order code not found');
         return;
       }
 
@@ -61,10 +52,10 @@ const OrdersContent = () => {
             if (sessionUrl) {
               window.location.href = sessionUrl;
             } else {
-              toast.error("Failed to get checkout URL");
+              toast.error('Failed to get checkout URL');
             }
           },
-        }
+        },
       );
     } else if (paymentMethod === PaymentMethod.BANK_TRANSFER) {
       // Handle bank transfer payment - redirect to QR payment page
@@ -84,12 +75,12 @@ const OrdersContent = () => {
   // Handle page change - Arrow function
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Handle explore - Arrow function
   const handleExplore = () => {
-    router.push("/");
+    router.push('/');
   };
 
   // Loading state
@@ -99,7 +90,7 @@ const OrdersContent = () => {
 
   const orders = data?.result || [];
   const pagination = data?.meta;
-  console.log("pagination", pagination);
+  console.log('pagination', pagination);
 
   return (
     <>

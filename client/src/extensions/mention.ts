@@ -1,11 +1,11 @@
-import { Mention as TipTapMention } from "@tiptap/extension-mention";
-import { ReactNodeViewRenderer } from "@tiptap/react";
-import { MentionNodeView } from "@/components/tiptap/mention-node-view";
-import { suggestion } from "@/components/tiptap/mention-suggestion";
+import { Mention as TipTapMention } from '@tiptap/extension-mention';
+import { ReactNodeViewRenderer } from '@tiptap/react';
+import { MentionNodeView } from '@/components/tiptap/mention-node-view';
+import { suggestion } from '@/components/tiptap/mention-suggestion';
 
 export const Mention = TipTapMention.configure({
   HTMLAttributes: {
-    class: "mention",
+    class: 'mention',
   },
   suggestion,
 }).extend({
@@ -23,13 +23,13 @@ export const Mention = TipTapMention.configure({
 
   renderHTML({ node, HTMLAttributes }) {
     return [
-      "span",
+      'span',
       {
         ...HTMLAttributes,
-        "data-type": "mention",
-        "data-id": node.attrs.id,
-        "data-label": node.attrs.label,
-        class: "mention",
+        'data-type': 'mention',
+        'data-id': node.attrs.id,
+        'data-label': node.attrs.label,
+        class: 'mention',
       },
       `@${node.attrs.label ?? node.attrs.id}`,
     ];

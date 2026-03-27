@@ -1,5 +1,5 @@
-import { apiClient } from "@/lib/api-client";
-import { AxiosError, AxiosResponse } from "axios";
+import { apiClient } from '@/lib/api-client';
+import { AxiosError, AxiosResponse } from 'axios';
 
 // Generic API response type
 export interface ApiResponse<T = unknown> {
@@ -32,10 +32,7 @@ export interface ApiError {
 // Generic API service class
 export class ApiService {
   // GET request
-  static async get<T>(
-    url: string,
-    params?: Record<string, unknown>
-  ): Promise<T> {
+  static async get<T>(url: string, params?: Record<string, unknown>): Promise<T> {
     try {
       const response: AxiosResponse<ApiResponse<T>> = await apiClient.get(url, {
         params,
@@ -50,10 +47,7 @@ export class ApiService {
   // POST request
   static async post<T, D = unknown>(url: string, data?: D): Promise<T> {
     try {
-      const response: AxiosResponse<ApiResponse<T>> = await apiClient.post(
-        url,
-        data
-      );
+      const response: AxiosResponse<ApiResponse<T>> = await apiClient.post(url, data);
 
       return response.data.data;
     } catch (error) {
@@ -64,10 +58,7 @@ export class ApiService {
   // PUT request
   static async put<T, D = unknown>(url: string, data?: D): Promise<T> {
     try {
-      const response: AxiosResponse<ApiResponse<T>> = await apiClient.put(
-        url,
-        data
-      );
+      const response: AxiosResponse<ApiResponse<T>> = await apiClient.put(url, data);
 
       return response.data.data;
     } catch (error) {
@@ -78,10 +69,7 @@ export class ApiService {
   // PATCH request
   static async patch<T, D = unknown>(url: string, data?: D): Promise<T> {
     try {
-      const response: AxiosResponse<ApiResponse<T>> = await apiClient.patch(
-        url,
-        data
-      );
+      const response: AxiosResponse<ApiResponse<T>> = await apiClient.patch(url, data);
 
       return response.data.data;
     } catch (error) {
@@ -94,7 +82,7 @@ export class ApiService {
     try {
       const response: AxiosResponse<ApiResponse<T>> = await apiClient.delete(
         url,
-        data ? { data } : undefined
+        data ? { data } : undefined,
       );
       return response.data.data;
     } catch (error) {
@@ -106,7 +94,7 @@ export class ApiService {
   static async downloadBlob(url: string): Promise<Blob> {
     try {
       const response: AxiosResponse<Blob> = await apiClient.get(url, {
-        responseType: "blob",
+        responseType: 'blob',
       });
 
       return response.data;
@@ -122,7 +110,7 @@ export class ApiService {
     if (axiosError.response) {
       // Server responded with error status
       const apiError: ApiError = {
-        message: axiosError.response.data?.message || "An error occurred",
+        message: axiosError.response.data?.message || 'An error occurred',
         errors: axiosError.response.data?.errors,
         code: axiosError.response.data?.code,
       };
@@ -130,14 +118,14 @@ export class ApiService {
     } else if (axiosError.request) {
       // Request was made but no response received
       return {
-        message: "Network error - please check your connection",
-        code: "NETWORK_ERROR",
+        message: 'Network error - please check your connection',
+        code: 'NETWORK_ERROR',
       };
     } else {
       // Something else happened
       return {
-        message: axiosError.message || "An unexpected error occurred",
-        code: "UNKNOWN_ERROR",
+        message: axiosError.message || 'An unexpected error occurred',
+        code: 'UNKNOWN_ERROR',
       };
     }
   }

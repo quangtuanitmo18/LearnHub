@@ -1,11 +1,11 @@
 // Lesson types
 
-import type { QuestionType } from "@/types/quiz";
+import type { QuestionType } from '@/types/quiz';
 
 export enum LessonType {
-  VIDEO = "VIDEO",
-  QUIZ = "QUIZ",
-  ARTICLE = "ARTICLE",
+  VIDEO = 'VIDEO',
+  QUIZ = 'QUIZ',
+  ARTICLE = 'ARTICLE',
 }
 
 // Lesson resource interface
@@ -79,7 +79,7 @@ export interface BackendVideoContent {
 export interface BackendQuizQuestion {
   id: string;
   quizId: string;
-  type: "TRUE_FALSE" | "SINGLE_CHOICE" | "MULTIPLE_CHOICE";
+  type: 'TRUE_FALSE' | 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE';
   text: string;
   explanation: string | null;
   order: number;
@@ -163,7 +163,7 @@ export interface ArticleContent {
 
 export interface QuizQuestionRequest {
   id?: string; // For existing questions (on update)
-  type: "TRUE_FALSE" | "SINGLE_CHOICE" | "MULTIPLE_CHOICE";
+  type: 'TRUE_FALSE' | 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE';
   text: string;
   order: number;
   points: number;
@@ -193,7 +193,7 @@ export interface LessonsFilterParams {
   contentType?: LessonType;
   search?: string;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: 'asc' | 'desc';
   page?: number;
   limit?: number;
   [key: string]: unknown;

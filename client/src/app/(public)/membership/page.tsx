@@ -4,23 +4,23 @@ import {
   MembershipIcon,
   MembershipPlan,
   MembershipPlans,
-} from "@/components/membership";
+} from '@/components/membership';
 
 export default function MembershipPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white py-16 sm:py-24">
-        <div className="container mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-            Membership{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500">
+      <section className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-16 text-white sm:py-24">
+        <div className="container mx-auto px-4 text-center sm:px-6">
+          <h1 className="mb-6 text-4xl font-bold sm:text-5xl md:text-6xl">
+            Membership{' '}
+            <span className="bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 bg-clip-text text-transparent">
               Tiers
             </span>
           </h1>
-          <p className="text-xl text-purple-200 max-w-2xl mx-auto mb-8">
-            Choose the perfect membership plan for your learning journey.
-            Upgrade anytime as you grow.
+          <p className="mx-auto mb-8 max-w-2xl text-xl text-purple-200">
+            Choose the perfect membership plan for your learning journey. Upgrade anytime as you
+            grow.
           </p>
 
           {/* Badge Showcase */}
@@ -48,16 +48,14 @@ export default function MembershipPage() {
       />
 
       {/* Badge Variants Demo */}
-      <section className="py-16 bg-gray-50">
+      <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold text-center mb-8">
-            Badge & Icon Variants
-          </h2>
+          <h2 className="mb-8 text-center text-2xl font-bold">Badge & Icon Variants</h2>
 
-          <div className="max-w-4xl mx-auto space-y-8">
+          <div className="mx-auto max-w-4xl space-y-8">
             {/* Sizes */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-4">Badge Sizes</h3>
+            <div className="rounded-xl bg-white p-6 shadow-sm">
+              <h3 className="mb-4 text-lg font-semibold">Badge Sizes</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <div className="space-y-2">
                   <p className="text-sm text-gray-500">Small</p>
@@ -75,8 +73,8 @@ export default function MembershipPage() {
             </div>
 
             {/* Icons Only */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-4">Icon Only</h3>
+            <div className="rounded-xl bg-white p-6 shadow-sm">
+              <h3 className="mb-4 text-lg font-semibold">Icon Only</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <MembershipIcon plan={MembershipPlan.COPPER} size="sm" />
                 <MembershipIcon plan={MembershipPlan.SILVER} size="md" />
@@ -86,15 +84,13 @@ export default function MembershipPage() {
             </div>
 
             {/* All Tiers */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-4">
-                All Membership Tiers
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="rounded-xl bg-white p-6 shadow-sm">
+              <h3 className="mb-4 text-lg font-semibold">All Membership Tiers</h3>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                 {Object.values(MembershipPlan).map((plan) => (
                   <div
                     key={plan}
-                    className="flex flex-col items-center gap-2 p-4 rounded-lg bg-gray-50"
+                    className="flex flex-col items-center gap-2 rounded-lg bg-gray-50 p-4"
                   >
                     <MembershipIcon plan={plan} size="lg" />
                     <MembershipBadge plan={plan} showLabel />

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteCourse } from "@/hooks/use-courses";
-import { ICourse } from "@/types/course";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteCourse } from '@/hooks/use-courses';
+import { ICourse } from '@/types/course';
 
 interface CoursesDeleteDialogProps {
   currentRow: ICourse;
@@ -10,11 +10,7 @@ interface CoursesDeleteDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const CoursesDeleteDialog = ({
-  currentRow,
-  open,
-  onOpenChange,
-}: CoursesDeleteDialogProps) => {
+const CoursesDeleteDialog = ({ currentRow, open, onOpenChange }: CoursesDeleteDialogProps) => {
   const deleteCourse = useDeleteCourse();
 
   const handleDelete = () => {

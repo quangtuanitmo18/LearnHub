@@ -1,22 +1,22 @@
-import React from "react";
-import { CategoryStatus } from "@/types/category";
-import { CourseLevel, CourseStatus, CourseType } from "@/types/course";
-import { DiscountType, CouponStatus } from "@/types/coupon";
-import { BlogStatus } from "@/types/blog";
-import { PostStatus } from "@/types/post";
-import { CommentStatus } from "@/types/comment";
-import { UserStatus, UserType } from "@/types/user";
+import React from 'react';
+import { CategoryStatus } from '@/types/category';
+import { CourseLevel, CourseStatus, CourseType } from '@/types/course';
+import { DiscountType, CouponStatus } from '@/types/coupon';
+import { BlogStatus } from '@/types/blog';
+import { PostStatus } from '@/types/post';
+import { CommentStatus } from '@/types/comment';
+import { UserStatus, UserType } from '@/types/user';
 
 // Filter options for data tables
 export const FILTER_OPTIONS = {
   // Category filters
   CATEGORY_STATUS: [
     {
-      label: "Active",
+      label: 'Active',
       value: CategoryStatus.ACTIVE,
     },
     {
-      label: "Inactive",
+      label: 'Inactive',
       value: CategoryStatus.INACTIVE,
     },
   ],
@@ -24,11 +24,11 @@ export const FILTER_OPTIONS = {
   // Blog filters
   BLOG_STATUS: [
     {
-      label: "Draft",
+      label: 'Draft',
       value: BlogStatus.DRAFT,
     },
     {
-      label: "Published",
+      label: 'Published',
       value: BlogStatus.PUBLISHED,
     },
   ],
@@ -36,15 +36,15 @@ export const FILTER_OPTIONS = {
   // Post filters
   POST_STATUS: [
     {
-      label: "Draft",
+      label: 'Draft',
       value: PostStatus.DRAFT,
     },
     {
-      label: "Published",
+      label: 'Published',
       value: PostStatus.PUBLISHED,
     },
     {
-      label: "Archived",
+      label: 'Archived',
       value: PostStatus.ARCHIVED,
     },
   ],
@@ -52,37 +52,37 @@ export const FILTER_OPTIONS = {
   // Course filters - updated to match new boolean-based structure
   COURSE_STATUS: [
     {
-      label: "Draft",
+      label: 'Draft',
       value: CourseStatus.DRAFT,
     },
     {
-      label: "Published",
+      label: 'Published',
       value: CourseStatus.PUBLISHED,
     },
   ],
 
   COURSE_TYPE: [
     {
-      label: "Free",
+      label: 'Free',
       value: CourseType.FREE,
     },
     {
-      label: "Paid",
+      label: 'Paid',
       value: CourseType.PAID,
     },
   ],
 
   COURSE_LEVEL: [
     {
-      label: "Beginner",
+      label: 'Beginner',
       value: CourseLevel.BEGINNER,
     },
     {
-      label: "Intermediate",
+      label: 'Intermediate',
       value: CourseLevel.INTERMEDIATE,
     },
     {
-      label: "Advanced",
+      label: 'Advanced',
       value: CourseLevel.ADVANCED,
     },
   ],
@@ -90,26 +90,26 @@ export const FILTER_OPTIONS = {
   // Coupon filters
   COUPON_STATUS: [
     {
-      label: "Active",
+      label: 'Active',
       value: CouponStatus.ACTIVE,
     },
     {
-      label: "Expired",
+      label: 'Expired',
       value: CouponStatus.EXPIRED,
     },
     {
-      label: "Inactive",
+      label: 'Inactive',
       value: CouponStatus.INACTIVE,
     },
   ],
 
   COUPON_DISCOUNT_TYPE: [
     {
-      label: "Percentage",
+      label: 'Percentage',
       value: DiscountType.PERCENT,
     },
     {
-      label: "Fixed Amount",
+      label: 'Fixed Amount',
       value: DiscountType.FIXED,
     },
   ],
@@ -117,30 +117,30 @@ export const FILTER_OPTIONS = {
   // User filters
   USER_STATUS: [
     {
-      label: "Active",
+      label: 'Active',
       value: UserStatus.ACTIVE,
     },
     {
-      label: "Inactive",
+      label: 'Inactive',
       value: UserStatus.INACTIVE,
     },
     {
-      label: "Banned",
+      label: 'Banned',
       value: UserStatus.BANNED,
     },
   ],
 
   USER_TYPE: [
     {
-      label: "Default",
+      label: 'Default',
       value: UserType.DEFAULT,
     },
     {
-      label: "Facebook",
+      label: 'Facebook',
       value: UserType.FACEBOOK,
     },
     {
-      label: "Google",
+      label: 'Google',
       value: UserType.GOOGLE,
     },
   ],
@@ -148,15 +148,15 @@ export const FILTER_OPTIONS = {
   // Comment filters
   COMMENT_STATUS: [
     {
-      label: "Pending",
+      label: 'Pending',
       value: CommentStatus.PENDING,
     },
     {
-      label: "Approved",
+      label: 'Approved',
       value: CommentStatus.APPROVED,
     },
     {
-      label: "Rejected",
+      label: 'Rejected',
       value: CommentStatus.REJECTED,
     },
   ],
@@ -170,4 +170,4 @@ export interface FilterOption {
 }
 
 // Type for category status filter values
-export type CategoryStatusFilter = "active" | "inactive";
+export type CategoryStatusFilter = 'active' | 'inactive';

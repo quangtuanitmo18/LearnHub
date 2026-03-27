@@ -1,8 +1,8 @@
-import { ListResponse, BaseFilterParams } from "./common";
+import { ListResponse, BaseFilterParams } from './common';
 
 export enum BlogStatus {
-  DRAFT = "DRAFT",
-  PUBLISHED = "PUBLISHED",
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
 }
 
 export interface IBlogAuthor {

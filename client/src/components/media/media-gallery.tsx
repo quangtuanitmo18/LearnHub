@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useDebounce } from "@/hooks/use-debounce";
-import { useMediaList } from "@/hooks/use-media";
-import { cn } from "@/lib/utils";
-import { IMedia, MediaStatus, MediaType, getThumbnailUrl } from "@/types/media";
-import { Check, Film, Image as ImageIcon, Loader2, Search } from "lucide-react";
-import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useDebounce } from '@/hooks/use-debounce';
+import { useMediaList } from '@/hooks/use-media';
+import { cn } from '@/lib/utils';
+import { IMedia, MediaStatus, MediaType, getThumbnailUrl } from '@/types/media';
+import { Check, Film, Image as ImageIcon, Loader2, Search } from 'lucide-react';
+import Image from 'next/image';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface MediaGalleryProps {
   onSelect?: (media: IMedia) => void;
@@ -32,12 +32,7 @@ interface MediaGridItemProps {
   multiSelect?: boolean;
 }
 
-function MediaGridItem({
-  media,
-  isSelected,
-  onSelect,
-  multiSelect = false,
-}: MediaGridItemProps) {
+function MediaGridItem({ media, isSelected, onSelect, multiSelect = false }: MediaGridItemProps) {
   const thumbnailUrl = getThumbnailUrl(media);
   const isVideo = media.type === MediaType.VIDEO;
   const isProcessing = media.status === MediaStatus.PROCESSING;
@@ -46,11 +41,11 @@ function MediaGridItem({
   return (
     <div
       className={cn(
-        "group relative aspect-square overflow-hidden rounded-lg border-2 transition-all",
+        'group relative aspect-square overflow-hidden rounded-lg border-2 transition-all',
         isSelected
-          ? "border-blue-500  ring-blue-500 ring-offset-2"
-          : "border-transparent hover:border-blue-300",
-        !multiSelect && "cursor-pointer"
+          ? 'border-blue-500 ring-blue-500 ring-offset-2'
+          : 'border-transparent hover:border-blue-300',
+        !multiSelect && 'cursor-pointer',
       )}
       onClick={multiSelect ? undefined : onSelect}
     >
@@ -71,13 +66,13 @@ function MediaGridItem({
           )}
         </div>
       ) : (
-        <div className="flex h-full w-full items-center justify-center bg-muted">
+        <div className="bg-muted flex h-full w-full items-center justify-center">
           {isProcessing ? (
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
           ) : isVideo ? (
-            <Film className="h-8 w-8 text-muted-foreground" />
+            <Film className="text-muted-foreground h-8 w-8" />
           ) : (
-            <ImageIcon className="h-8 w-8 text-muted-foreground" />
+            <ImageIcon className="text-muted-foreground h-8 w-8" />
           )}
         </div>
       )}
@@ -87,13 +82,13 @@ function MediaGridItem({
         <Checkbox
           checked={isSelected}
           onCheckedChange={(checked) => {
-            console.log("Checkbox checked change:", checked);
+            console.log('Checkbox checked change:', checked);
             // This will be called by Radix, but we also handle click on wrapper
             if (checked !== isSelected) {
               onSelect();
             }
           }}
-          className="absolute z-10 top-2 left-2 h-6 w-6 border-2 bg-white/95 shadow-md data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
+          className="absolute top-2 left-2 z-10 h-6 w-6 border-2 bg-white/95 shadow-md data-[state=checked]:border-blue-500 data-[state=checked]:bg-blue-500"
         />
       ) : (
         isSelected && (
@@ -105,11 +100,10 @@ function MediaGridItem({
 
       {/* Hover Overlay */}
       <div className="absolute inset-0 bg-black/0 transition-all group-hover:bg-black/40">
-        <div className="absolute bottom-0 left-0 right-0 translate-y-full p-2 text-white transition-transform group-hover:translate-y-0">
+        <div className="absolute right-0 bottom-0 left-0 translate-y-full p-2 text-white transition-transform group-hover:translate-y-0">
           <p className="truncate text-xs font-medium">{media.filename}</p>
           <p className="text-xs opacity-80">
-            {isVideo ? "Video" : "Image"} •{" "}
-            {new Date(media.createdAt).toLocaleDateString()}
+            {isVideo ? 'Video' : 'Image'} • {new Date(media.createdAt).toLocaleDateString()}
           </p>
         </div>
       </div>
@@ -128,18 +122,12 @@ export function MediaGallery({
   multiSelect = false,
   maxSelection,
 }: MediaGalleryProps) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   // Track selected media objects for multi-select mode
-  const [selectedMediaMap, setSelectedMediaMap] = useState<Map<string, IMedia>>(
-    () => new Map()
-  );
-  const [activeTab, setActiveTab] = useState<"all" | "images" | "videos">(
-    typeFilter === MediaType.IMAGE
-      ? "images"
-      : typeFilter === MediaType.VIDEO
-      ? "videos"
-      : "all"
+  const [selectedMediaMap, setSelectedMediaMap] = useState<Map<string, IMedia>>(() => new Map());
+  const [activeTab, setActiveTab] = useState<'all' | 'images' | 'videos'>(
+    typeFilter === MediaType.IMAGE ? 'images' : typeFilter === MediaType.VIDEO ? 'videos' : 'all',
   );
   const debouncedSearch = useDebounce(search, 300);
 
@@ -157,9 +145,9 @@ export function MediaGallery({
   const getTypeFilter = (): MediaType | undefined => {
     if (typeFilter) return typeFilter; // Use prop filter if provided
     switch (activeTab) {
-      case "images":
+      case 'images':
         return MediaType.IMAGE;
-      case "videos":
+      case 'videos':
         return MediaType.VIDEO;
       default:
         return undefined;
@@ -274,7 +262,7 @@ export function MediaGallery({
         return newMap;
       });
     },
-    [multiSelect, maxSelection, onSelect]
+    [multiSelect, maxSelection, onSelect],
   );
 
   const handleLoadMore = () => {
@@ -288,7 +276,7 @@ export function MediaGallery({
       {/* Header with Search and Upload */}
       <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder="Search media..."
             value={search}
@@ -306,10 +294,7 @@ export function MediaGallery({
 
       {/* Tabs - Only show if no typeFilter prop */}
       {!typeFilter && (
-        <Tabs
-          value={activeTab}
-          onValueChange={(v) => setActiveTab(v as typeof activeTab)}
-        >
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)}>
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="images" className="flex items-center gap-2">
@@ -334,16 +319,14 @@ export function MediaGallery({
           </div>
         ) : mediaItems.length === 0 ? (
           <div className="flex h-full min-h-[300px] flex-col items-center justify-center text-center">
-            <ImageIcon className="h-12 w-12 text-muted-foreground" />
-            <p className="mt-4 text-sm font-medium text-muted-foreground">
-              No media found
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <ImageIcon className="text-muted-foreground h-12 w-12" />
+            <p className="text-muted-foreground mt-4 text-sm font-medium">No media found</p>
+            <p className="text-muted-foreground mt-1 text-xs">
               {debouncedSearch
-                ? "Try a different search term"
+                ? 'Try a different search term'
                 : allowUpload
-                ? "Upload your first media file"
-                : "No media available"}
+                  ? 'Upload your first media file'
+                  : 'No media available'}
             </p>
           </div>
         ) : (
@@ -351,8 +334,7 @@ export function MediaGallery({
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {mediaItems.map((media) => {
                 const isItemSelected = multiSelect
-                  ? selectedMediaMap.has(media.id) ||
-                    selectedMediaIds.includes(media.id)
+                  ? selectedMediaMap.has(media.id) || selectedMediaIds.includes(media.id)
                   : selectedMediaId === media.id;
                 return (
                   <MediaGridItem
@@ -369,18 +351,14 @@ export function MediaGallery({
             {/* Load More Button */}
             {meta && page < meta.totalPages && (
               <div className="mt-6 flex justify-center">
-                <Button
-                  variant="outline"
-                  onClick={handleLoadMore}
-                  disabled={isFetching}
-                >
+                <Button variant="outline" onClick={handleLoadMore} disabled={isFetching}>
                   {isFetching ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Loading...
                     </>
                   ) : (
-                    "Load More"
+                    'Load More'
                   )}
                 </Button>
               </div>
@@ -391,12 +369,12 @@ export function MediaGallery({
 
       {/* Footer Info */}
       {meta && (
-        <div className="border-t pt-4 flex items-center justify-between text-xs text-muted-foreground">
+        <div className="text-muted-foreground flex items-center justify-between border-t pt-4 text-xs">
           <span>
             Showing {mediaItems.length} of {meta.total} items
           </span>
           {multiSelect && selectedMediaMap.size > 0 && (
-            <span className="font-medium text-foreground">
+            <span className="text-foreground font-medium">
               {selectedMediaMap.size} selected
               {maxSelection && ` / ${maxSelection} max`}
             </span>

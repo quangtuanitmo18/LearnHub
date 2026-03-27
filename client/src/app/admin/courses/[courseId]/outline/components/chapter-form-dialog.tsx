@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { toast } from "sonner";
-import { MdAdd, MdEdit } from "react-icons/md";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { toast } from 'sonner';
+import { MdAdd, MdEdit } from 'react-icons/md';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -23,19 +23,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { IChapter } from "@/types/chapter";
-import { useCreateChapter, useUpdateChapter } from "@/hooks/use-chapters";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { IChapter } from '@/types/chapter';
+import { useCreateChapter, useUpdateChapter } from '@/hooks/use-chapters';
 
 const chapterFormSchema = yup.object().shape({
-  title: yup
-    .string()
-    .required("Title is required")
-    .min(1, "Title cannot be empty"),
-  description: yup.string().default("").optional(),
+  title: yup.string().required('Title is required').min(1, 'Title cannot be empty'),
+  description: yup.string().default('').optional(),
   isPublished: yup.boolean().default(false),
 });
 
@@ -48,12 +45,7 @@ interface ChapterFormDialogProps {
   courseId: string;
 }
 
-const ChapterFormDialog = ({
-  open,
-  onOpenChange,
-  chapter,
-  courseId,
-}: ChapterFormDialogProps) => {
+const ChapterFormDialog = ({ open, onOpenChange, chapter, courseId }: ChapterFormDialogProps) => {
   const isEditing = !!chapter;
 
   // Use hooks directly in the component
@@ -63,8 +55,8 @@ const ChapterFormDialog = ({
   const form = useForm<ChapterFormData>({
     resolver: yupResolver(chapterFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: '',
+      description: '',
       isPublished: false,
     },
   });
@@ -77,9 +69,7 @@ const ChapterFormDialog = ({
 
   // Determine if the form is loading
   const isLoading =
-    createChapterMutation.isPending ||
-    updateChapterMutation.isPending ||
-    isSubmitting;
+    createChapterMutation.isPending || updateChapterMutation.isPending || isSubmitting;
 
   React.useEffect(() => {
     if (open) {
@@ -91,16 +81,16 @@ const ChapterFormDialog = ({
         });
       } else {
         reset({
-          title: "",
-          description: "",
+          title: '',
+          description: '',
           isPublished: false,
         });
       }
     } else {
       // Reset form when dialog closes to prevent state conflicts
       reset({
-        title: "",
-        description: "",
+        title: '',
+        description: '',
         isPublished: false,
       });
     }
@@ -109,8 +99,8 @@ const ChapterFormDialog = ({
   const handleDialogClose = () => {
     // Reset form and clear any pending states
     reset({
-      title: "",
-      description: "",
+      title: '',
+      description: '',
       isPublished: false,
     });
     onOpenChange(false);
@@ -120,7 +110,7 @@ const ChapterFormDialog = ({
     // Ensure description is never undefined, use empty string instead
     const formData = {
       ...data,
-      description: data.description || "",
+      description: data.description || '',
     };
 
     if (isEditing && chapter) {
@@ -132,13 +122,13 @@ const ChapterFormDialog = ({
         },
         {
           onSuccess: () => {
-            toast.success("Chapter updated successfully!");
+            toast.success('Chapter updated successfully!');
             handleDialogClose();
           },
           onError: () => {
-            toast.error("Failed to update chapter");
+            toast.error('Failed to update chapter');
           },
-        }
+        },
       );
     } else {
       // Create new chapter
@@ -149,13 +139,13 @@ const ChapterFormDialog = ({
         },
         {
           onSuccess: () => {
-            toast.success("Chapter created successfully!");
+            toast.success('Chapter created successfully!');
             handleDialogClose();
           },
           onError: () => {
-            toast.error("Failed to create chapter");
+            toast.error('Failed to create chapter');
           },
-        }
+        },
       );
     }
   };
@@ -188,8 +178,8 @@ const ChapterFormDialog = ({
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the chapter information below."
-              : "Create a new chapter for your course."}
+              ? 'Update the chapter information below.'
+              : 'Create a new chapter for your course.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -205,11 +195,7 @@ const ChapterFormDialog = ({
                       Title <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Enter chapter title"
-                        disabled={isLoading}
-                      />
+                      <Input {...field} placeholder="Enter chapter title" disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -270,11 +256,11 @@ const ChapterFormDialog = ({
               <Button type="submit" disabled={isLoading}>
                 {isLoading
                   ? isEditing
-                    ? "Updating..."
-                    : "Creating..."
+                    ? 'Updating...'
+                    : 'Creating...'
                   : isEditing
-                  ? "Update Chapter"
-                  : "Create Chapter"}
+                    ? 'Update Chapter'
+                    : 'Create Chapter'}
               </Button>
             </DialogFooter>
           </form>

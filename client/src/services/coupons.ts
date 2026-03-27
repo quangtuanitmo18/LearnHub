@@ -1,4 +1,4 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import {
   CouponsListParams,
   CouponsListResponse,
@@ -8,25 +8,23 @@ import {
   UpdateCouponRequest,
   ValidateCouponRequest,
   ValidateCouponResponse,
-} from "@/types/coupon";
+} from '@/types/coupon';
 
 const ENDPOINTS = {
-  COUPONS: "/coupons",
-  COUPONS_ALL: "/coupons/all",
-  ACTIVE_COUPONS: "/coupons/active",
-  VALID_COUPONS: "/coupons/valid",
-  VALIDATE_COUPON: "/coupons/validate",
+  COUPONS: '/coupons',
+  COUPONS_ALL: '/coupons/all',
+  ACTIVE_COUPONS: '/coupons/active',
+  VALID_COUPONS: '/coupons/valid',
+  VALIDATE_COUPON: '/coupons/validate',
 } as const;
 
 export class CouponService {
   // Get coupons with pagination
-  static async getCoupons(
-    params?: CouponsListParams
-  ): Promise<CouponsListResponse> {
+  static async getCoupons(params?: CouponsListParams): Promise<CouponsListResponse> {
     try {
       return await ApiService.get<CouponsListResponse>(
         ENDPOINTS.COUPONS,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
     } catch {
       return {
@@ -44,9 +42,7 @@ export class CouponService {
   // Get all coupons
   static async getAllCoupons(): Promise<ICoupon[]> {
     try {
-      const response = await ApiService.get<{ coupons: ICoupon[] }>(
-        ENDPOINTS.COUPONS_ALL
-      );
+      const response = await ApiService.get<{ coupons: ICoupon[] }>(ENDPOINTS.COUPONS_ALL);
       return response.coupons || [];
     } catch {
       return [];
@@ -60,29 +56,23 @@ export class CouponService {
 
   // Create coupon
   static async createCoupon(couponData: CreateCouponRequest): Promise<ICoupon> {
-    return ApiService.post<ICoupon, CreateCouponRequest>(
-      ENDPOINTS.COUPONS,
-      couponData
-    );
+    return ApiService.post<ICoupon, CreateCouponRequest>(ENDPOINTS.COUPONS, couponData);
   }
 
   // Update coupon
   static async updateCoupon(couponData: UpdateCouponRequest): Promise<ICoupon> {
     const { id, ...updateData } = couponData;
-    return ApiService.put<ICoupon, Omit<UpdateCouponRequest, "id">>(
+    return ApiService.put<ICoupon, Omit<UpdateCouponRequest, 'id'>>(
       `${ENDPOINTS.COUPONS}/${id}`,
-      updateData
+      updateData,
     );
   }
 
   // Patch coupon
-  static async patchCoupon(
-    id: string,
-    couponData: Partial<CreateCouponRequest>
-  ): Promise<ICoupon> {
+  static async patchCoupon(id: string, couponData: Partial<CreateCouponRequest>): Promise<ICoupon> {
     return ApiService.patch<ICoupon, Partial<CreateCouponRequest>>(
       `${ENDPOINTS.COUPONS}/${id}`,
-      couponData
+      couponData,
     );
   }
 
@@ -93,20 +83,17 @@ export class CouponService {
 
   // Bulk operations
   static async deleteCoupons(couponIds: string[]): Promise<void> {
-    return ApiService.delete<void, { ids: string[] }>(
-      `${ENDPOINTS.COUPONS}/bulk-delete`,
-      { ids: couponIds }
-    );
+    return ApiService.delete<void, { ids: string[] }>(`${ENDPOINTS.COUPONS}/bulk-delete`, {
+      ids: couponIds,
+    });
   }
 
   // Get active coupons
-  static async getActiveCoupons(
-    params?: GetActiveCouponsRequest
-  ): Promise<CouponsListResponse> {
+  static async getActiveCoupons(params?: GetActiveCouponsRequest): Promise<CouponsListResponse> {
     try {
       const response = await ApiService.get<CouponsListResponse>(
         ENDPOINTS.ACTIVE_COUPONS,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
       return response;
     } catch {
@@ -133,12 +120,10 @@ export class CouponService {
   }
 
   // Validate coupon code
-  static async validateCoupon(
-    data: ValidateCouponRequest
-  ): Promise<ValidateCouponResponse> {
+  static async validateCoupon(data: ValidateCouponRequest): Promise<ValidateCouponResponse> {
     return ApiService.post<ValidateCouponResponse, ValidateCouponRequest>(
       ENDPOINTS.VALIDATE_COUPON,
-      data
+      data,
     );
   }
 }

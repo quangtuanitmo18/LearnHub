@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import slugify from "slugify";
-import { useImmer } from "use-immer";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import slugify from 'slugify';
+import { useImmer } from 'use-immer';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -14,7 +14,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -22,33 +22,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { CourseInfo, CourseLevel, CourseStatus, ICourse } from "@/types/course";
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { CourseInfo, CourseLevel, CourseStatus, ICourse } from '@/types/course';
 
-import Editor from "@/components/tiptap/editor";
-import Toolbar from "@/components/tiptap/toolbar";
-import { MediaPickerDialog } from "@/components/media/media-picker-dialog";
-import { useCategories } from "@/hooks/use-categories";
-import { useCreateCourse, useUpdateCourse } from "@/hooks/use-courses";
-import { CourseSchema, courseFormSchema } from "@/validators/course.validator";
-import { MdAdd } from "react-icons/md";
-import { NumericFormat } from "react-number-format";
-import { toast } from "sonner";
-import { Image as ImageIcon, Trash2, Film } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
-import { IMedia, MediaType } from "@/types/media";
-import { getMediaDisplayUrl } from "@/types/media";
+import Editor from '@/components/tiptap/editor';
+import Toolbar from '@/components/tiptap/toolbar';
+import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
+import { useCategories } from '@/hooks/use-categories';
+import { useCreateCourse, useUpdateCourse } from '@/hooks/use-courses';
+import { CourseSchema, courseFormSchema } from '@/validators/course.validator';
+import { MdAdd } from 'react-icons/md';
+import { NumericFormat } from 'react-number-format';
+import { toast } from 'sonner';
+import { Image as ImageIcon, Trash2, Film } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { IMedia, MediaType } from '@/types/media';
+import { getMediaDisplayUrl } from '@/types/media';
 
 export const createEmptyCourseInfo = (): CourseInfo => ({
   requirements: [],
@@ -61,14 +61,14 @@ export const createEmptyCourseInfo = (): CourseInfo => ({
 // Simplified course validation schema for forms (without info field)
 
 interface CoursesActionDialogProps {
-  mode?: "create" | "edit";
+  mode?: 'create' | 'edit';
   course?: ICourse;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 const CoursesActionDialog = ({
-  mode = "create",
+  mode = 'create',
   course,
   open,
   onOpenChange,
@@ -80,12 +80,8 @@ const CoursesActionDialog = ({
   const [previewImagesPickerOpen, setPreviewImagesPickerOpen] = useState(false);
 
   // Store selected media objects temporarily for display (when creating new or changing image)
-  const [selectedImageMedia, setSelectedImageMedia] = useState<IMedia | null>(
-    null,
-  );
-  const [selectedPreviewMedia, setSelectedPreviewMedia] = useState<IMedia[]>(
-    [],
-  );
+  const [selectedImageMedia, setSelectedImageMedia] = useState<IMedia | null>(null);
+  const [selectedPreviewMedia, setSelectedPreviewMedia] = useState<IMedia[]>([]);
 
   // Fetch all categories from API (for dropdown)
   const { data: categoriesData, isLoading: categoriesLoading } = useCategories({
@@ -95,18 +91,18 @@ const CoursesActionDialog = ({
 
   const defaultValues = React.useMemo(
     () => ({
-      title: "",
-      slug: "",
-      excerpt: "",
-      description: "",
+      title: '',
+      slug: '',
+      excerpt: '',
+      description: '',
       imageId: null as string | null,
       previewImageIds: [] as string[],
-      introUrl: "",
+      introUrl: '',
       price: 0,
       oldPrice: 0,
       isFree: false,
       status: CourseStatus.DRAFT,
-      categoryId: "",
+      categoryId: '',
       level: CourseLevel.BEGINNER,
     }),
     [],
@@ -123,7 +119,7 @@ const CoursesActionDialog = ({
   const form = useForm<CourseSchema>({
     resolver: yupResolver(courseFormSchema),
     defaultValues,
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
@@ -135,12 +131,12 @@ const CoursesActionDialog = ({
   } = form;
 
   // Watch form values for image IDs (used for form submission)
-  const imageId = watch("imageId");
-  const previewImageIds = watch("previewImageIds") || [];
+  const imageId = watch('imageId');
+  const previewImageIds = watch('previewImageIds') || [];
 
   // Watch title field for auto-slug generation
-  const titleValue = watch("title");
-  const isFreeValue = watch("isFree");
+  const titleValue = watch('title');
+  const isFreeValue = watch('isFree');
 
   // Auto-generate slug from title
   React.useEffect(() => {
@@ -150,22 +146,22 @@ const CoursesActionDialog = ({
         strict: true,
         remove: /[*+~.()'"!:@]/g,
       });
-      setValue("slug", generatedSlug, { shouldValidate: true });
+      setValue('slug', generatedSlug, { shouldValidate: true });
     }
   }, [titleValue, isSlugManuallyEdited, setValue]);
 
   // Handle free course toggle - reset prices when course is marked as free
   React.useEffect(() => {
     if (isFreeValue) {
-      setValue("price", 0, { shouldValidate: true });
-      setValue("oldPrice", 0, { shouldValidate: true });
+      setValue('price', 0, { shouldValidate: true });
+      setValue('oldPrice', 0, { shouldValidate: true });
     }
   }, [isFreeValue, setValue]);
 
   // Reset slug manual edit state when dialog opens
   React.useEffect(() => {
     if (open) {
-      setIsSlugManuallyEdited(mode === "edit" && !!course?.slug);
+      setIsSlugManuallyEdited(mode === 'edit' && !!course?.slug);
     }
   }, [open, mode, course?.slug]);
 
@@ -182,18 +178,18 @@ const CoursesActionDialog = ({
       }
 
       const formDefaults = {
-        title: course?.title || "",
-        slug: course?.slug || "",
-        excerpt: course?.excerpt || "",
-        description: course?.description || "",
+        title: course?.title || '',
+        slug: course?.slug || '',
+        excerpt: course?.excerpt || '',
+        description: course?.description || '',
         imageId: course?.image?.id || null,
         previewImageIds: course?.previewImages?.map((img) => img.id) || [],
-        introUrl: course?.introUrl || "",
+        introUrl: course?.introUrl || '',
         price: course?.price || 0,
         oldPrice: course?.oldPrice || 0,
         isFree: course?.isFree || false,
         status: course?.status || CourseStatus.DRAFT,
-        categoryId: course?.category?.id || "",
+        categoryId: course?.category?.id || '',
         level: course?.level || CourseLevel.BEGINNER,
       };
 
@@ -213,15 +209,15 @@ const CoursesActionDialog = ({
       info: courseInfo,
     };
 
-    if (mode === "create") {
+    if (mode === 'create') {
       await createCourseMutation.mutateAsync(courseData);
-      toast.success("Course created successfully!");
+      toast.success('Course created successfully!');
     } else if (course) {
       await updateCourseMutation.mutateAsync({
         id: course.id,
         ...courseData,
       });
-      toast.success("Course updated successfully!");
+      toast.success('Course updated successfully!');
     }
 
     onOpenChange(false);
@@ -229,33 +225,28 @@ const CoursesActionDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[900px] h-[90vh] flex flex-col p-0">
-        <DialogHeader className="shrink-0 px-6 pt-6 pb-2 border-b">
-          <DialogTitle>
-            {mode === "create" ? "Create New Course" : "Edit Course"}
-          </DialogTitle>
+      <DialogContent className="flex h-[90vh] flex-col p-0 sm:max-w-[900px]">
+        <DialogHeader className="shrink-0 border-b px-6 pt-6 pb-2">
+          <DialogTitle>{mode === 'create' ? 'Create New Course' : 'Edit Course'}</DialogTitle>
           <DialogDescription>
-            {mode === "create"
-              ? "Add a new course to the platform."
-              : "Update course information and settings."}
+            {mode === 'create'
+              ? 'Add a new course to the platform.'
+              : 'Update course information and settings.'}
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col flex-1 min-h-0"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="flex min-h-0 flex-1 flex-col">
             {/* Scrollable Content Area */}
             <div className="flex-1 overflow-y-auto px-6 py-4">
               <div className="space-y-6">
                 {/* Basic Information Section */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h3 className="border-b pb-2 text-lg font-semibold text-gray-900">
                     Basic Information
                   </h3>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                  <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="title"
@@ -302,22 +293,15 @@ const CoursesActionDialog = ({
                           <FormLabel>
                             Status <span className="text-red-500">*</span>
                           </FormLabel>
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
+                          <Select value={field.value} onValueChange={field.onChange}>
                             <FormControl>
                               <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select status" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value={CourseStatus.DRAFT}>
-                                Draft
-                              </SelectItem>
-                              <SelectItem value={CourseStatus.PUBLISHED}>
-                                Published
-                              </SelectItem>
+                              <SelectItem value={CourseStatus.DRAFT}>Draft</SelectItem>
+                              <SelectItem value={CourseStatus.PUBLISHED}>Published</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -326,7 +310,7 @@ const CoursesActionDialog = ({
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                  <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="categoryId"
@@ -335,10 +319,7 @@ const CoursesActionDialog = ({
                           <FormLabel>
                             Category <span className="text-red-500">*</span>
                           </FormLabel>
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
+                          <Select value={field.value} onValueChange={field.onChange}>
                             <FormControl>
                               <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select category" />
@@ -351,10 +332,7 @@ const CoursesActionDialog = ({
                                 </SelectItem>
                               ) : categoriesData?.result?.length ? (
                                 categoriesData.result.map((category) => (
-                                  <SelectItem
-                                    key={category.id}
-                                    value={category.id}
-                                  >
+                                  <SelectItem key={category.id} value={category.id}>
                                     {category.name}
                                   </SelectItem>
                                 ))
@@ -378,10 +356,7 @@ const CoursesActionDialog = ({
                           <FormLabel>
                             Level <span className="text-red-500">*</span>
                           </FormLabel>
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
+                          <Select value={field.value} onValueChange={field.onChange}>
                             <FormControl>
                               <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select level" />
@@ -408,8 +383,8 @@ const CoursesActionDialog = ({
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Excerpt{" "}
-                          <span className="text-gray-500 text-xs font-normal">
+                          Excerpt{' '}
+                          <span className="text-xs font-normal text-gray-500">
                             (Short summary, max 300 characters)
                           </span>
                         </FormLabel>
@@ -417,11 +392,11 @@ const CoursesActionDialog = ({
                           <textarea
                             {...field}
                             placeholder="Brief course summary for preview cards and listings..."
-                            className="w-full min-h-20 px-3 py-2 text-sm border border-gray-300 rounded-md    resize-y"
+                            className="min-h-20 w-full resize-y rounded-md border border-gray-300 px-3 py-2 text-sm"
                             maxLength={300}
                           />
                         </FormControl>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <FormMessage />
                           <span className="text-xs text-gray-500">
                             {field.value?.length || 0}/300
@@ -433,7 +408,7 @@ const CoursesActionDialog = ({
                 </div>
 
                 {/* Image and Video Fields - Side by Side */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                   {/* Course Image Field */}
                   <FormField
                     control={form.control}
@@ -442,19 +417,15 @@ const CoursesActionDialog = ({
                       // Priority: selectedImageMedia (newly selected) > course?.image (existing)
                       // This ensures UI updates immediately when user selects a new image
                       const displayImage = selectedImageMedia || course?.image;
-                      const imageUrl = displayImage
-                        ? getMediaDisplayUrl(displayImage)
-                        : null;
+                      const imageUrl = displayImage ? getMediaDisplayUrl(displayImage) : null;
 
                       return (
                         <FormItem>
-                          <FormLabel className="text-base font-semibold">
-                            Course Image
-                          </FormLabel>
+                          <FormLabel className="text-base font-semibold">Course Image</FormLabel>
                           <FormControl>
                             <div className="space-y-3">
                               {displayImage && imageUrl ? (
-                                <div className="group relative w-full overflow-hidden rounded-lg border-2 border-border bg-muted/50 transition-all hover:border-primary/50">
+                                <div className="group border-border bg-muted/50 hover:border-primary/50 relative w-full overflow-hidden rounded-lg border-2 transition-all">
                                   <div className="relative aspect-video w-full">
                                     <Image
                                       src={imageUrl}
@@ -474,7 +445,7 @@ const CoursesActionDialog = ({
                                           e.stopPropagation();
                                           setMediaPickerOpen(true);
                                         }}
-                                        className="bg-white/95 text-gray-900 hover:bg-white shadow-md backdrop-blur-sm"
+                                        className="bg-white/95 text-gray-900 shadow-md backdrop-blur-sm hover:bg-white"
                                         title="Change Image"
                                       >
                                         <ImageIcon className="h-4 w-4" />
@@ -489,7 +460,7 @@ const CoursesActionDialog = ({
                                           // Clear selected image media
                                           setSelectedImageMedia(null);
                                         }}
-                                        className="bg-white/95 text-destructive hover:bg-white shadow-md backdrop-blur-sm"
+                                        className="text-destructive bg-white/95 shadow-md backdrop-blur-sm hover:bg-white"
                                         title="Remove Image"
                                       >
                                         <Trash2 className="h-4 w-4" />
@@ -500,17 +471,17 @@ const CoursesActionDialog = ({
                               ) : (
                                 <div
                                   onClick={() => setMediaPickerOpen(true)}
-                                  className="group relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25  p-8 transition-all hover:border-primary/50 hover:bg-muted/50"
+                                  className="group border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50 relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-all"
                                 >
                                   <div className="flex flex-col items-center gap-3">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-all group-hover:bg-primary/20">
-                                      <ImageIcon className="h-6 w-6 text-primary" />
+                                    <div className="bg-primary/10 group-hover:bg-primary/20 flex h-12 w-12 items-center justify-center rounded-full transition-all">
+                                      <ImageIcon className="text-primary h-6 w-6" />
                                     </div>
                                     <div className="text-center">
-                                      <p className="text-sm font-medium text-foreground">
+                                      <p className="text-foreground text-sm font-medium">
                                         Select Course Image
                                       </p>
-                                      <p className="mt-1 text-xs text-muted-foreground">
+                                      <p className="text-muted-foreground mt-1 text-xs">
                                         Choose from media library
                                       </p>
                                     </div>
@@ -530,7 +501,7 @@ const CoursesActionDialog = ({
                           </FormControl>
                           <FormMessage />
                           {!field.value && (
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                               Recommended: 16:9 aspect ratio
                             </p>
                           )}
@@ -545,13 +516,11 @@ const CoursesActionDialog = ({
                     name="introUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-semibold">
-                          Intro Video
-                        </FormLabel>
+                        <FormLabel className="text-base font-semibold">Intro Video</FormLabel>
                         <FormControl>
                           <div className="space-y-3">
                             {field.value ? (
-                              <div className="group relative w-full overflow-hidden rounded-lg border-2 border-border bg-muted/50 transition-all hover:border-primary/50">
+                              <div className="group border-border bg-muted/50 hover:border-primary/50 relative w-full overflow-hidden rounded-lg border-2 transition-all">
                                 <div className="relative aspect-video w-full">
                                   {/* Video thumbnail preview */}
                                   <div className="relative h-full w-full bg-black">
@@ -577,7 +546,7 @@ const CoursesActionDialog = ({
                                         e.stopPropagation();
                                         setVideoPickerOpen(true);
                                       }}
-                                      className="bg-white/95 text-gray-900 hover:bg-white shadow-md backdrop-blur-sm"
+                                      className="bg-white/95 text-gray-900 shadow-md backdrop-blur-sm hover:bg-white"
                                       title="Change Video"
                                     >
                                       <Film className="h-4 w-4" />
@@ -588,9 +557,9 @@ const CoursesActionDialog = ({
                                       size="sm"
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        field.onChange("");
+                                        field.onChange('');
                                       }}
-                                      className="bg-white/95 text-destructive hover:bg-white shadow-md backdrop-blur-sm"
+                                      className="text-destructive bg-white/95 shadow-md backdrop-blur-sm hover:bg-white"
                                       title="Remove Video"
                                     >
                                       <Trash2 className="h-4 w-4" />
@@ -601,17 +570,17 @@ const CoursesActionDialog = ({
                             ) : (
                               <div
                                 onClick={() => setVideoPickerOpen(true)}
-                                className="group relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25  p-8 transition-all hover:border-primary/50 hover:bg-muted/50"
+                                className="group border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50 relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-all"
                               >
                                 <div className="flex flex-col items-center gap-3">
-                                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-all group-hover:bg-primary/20">
-                                    <Film className="h-6 w-6 text-primary" />
+                                  <div className="bg-primary/10 group-hover:bg-primary/20 flex h-12 w-12 items-center justify-center rounded-full transition-all">
+                                    <Film className="text-primary h-6 w-6" />
                                   </div>
                                   <div className="text-center">
-                                    <p className="text-sm font-medium text-foreground">
+                                    <p className="text-foreground text-sm font-medium">
                                       Select Intro Video
                                     </p>
-                                    <p className="mt-1 text-xs text-muted-foreground">
+                                    <p className="text-muted-foreground mt-1 text-xs">
                                       Choose from media library
                                     </p>
                                   </div>
@@ -631,9 +600,7 @@ const CoursesActionDialog = ({
                         </FormControl>
                         <FormMessage />
                         {!field.value && (
-                          <p className="text-xs text-muted-foreground">
-                            Recommended: MP4 format
-                          </p>
+                          <p className="text-muted-foreground text-xs">Recommended: MP4 format</p>
                         )}
                       </FormItem>
                     )}
@@ -659,20 +626,18 @@ const CoursesActionDialog = ({
 
                     return (
                       <FormItem>
-                        <FormLabel className="text-base font-semibold">
-                          Preview Images
-                        </FormLabel>
+                        <FormLabel className="text-base font-semibold">Preview Images</FormLabel>
                         <FormControl>
                           <div className="space-y-4">
                             {/* Image Grid */}
                             {displayItems && displayItems.length > 0 && (
-                              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                                 {displayItems.map((item) => {
                                   if (!item.url) return null;
                                   return (
                                     <div
                                       key={item.id}
-                                      className="group relative aspect-video overflow-hidden rounded-lg border-2 border-border bg-muted/50 transition-all hover:border-primary/50"
+                                      className="group border-border bg-muted/50 hover:border-primary/50 relative aspect-video overflow-hidden rounded-lg border-2 transition-all"
                                     >
                                       <Image
                                         src={item.url}
@@ -686,18 +651,14 @@ const CoursesActionDialog = ({
                                         variant="destructive"
                                         size="sm"
                                         onClick={() => {
-                                          const newIds = field.value.filter(
-                                            (id) => id !== item.id,
-                                          );
+                                          const newIds = field.value.filter((id) => id !== item.id);
                                           field.onChange(newIds);
                                           // Update selected preview media
                                           setSelectedPreviewMedia((prev) =>
-                                            prev.filter(
-                                              (img) => img.id !== item.id,
-                                            ),
+                                            prev.filter((img) => img.id !== item.id),
                                           );
                                         }}
-                                        className="absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100 bg-white/95 text-destructive hover:bg-white shadow-md backdrop-blur-sm"
+                                        className="text-destructive absolute top-2 right-2 bg-white/95 opacity-0 shadow-md backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:bg-white"
                                         title="Remove Image"
                                       >
                                         <Trash2 className="h-4 w-4" />
@@ -711,28 +672,23 @@ const CoursesActionDialog = ({
                             {/* Add Image Button */}
                             <div
                               onClick={() => setPreviewImagesPickerOpen(true)}
-                              className="group relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25  p-6 transition-all hover:border-primary/50 hover:bg-muted/50"
+                              className="group border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50 relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-all"
                             >
                               <div className="flex flex-col items-center gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 transition-all group-hover:bg-primary/20">
-                                  <ImageIcon className="h-5 w-5 text-primary" />
+                                <div className="bg-primary/10 group-hover:bg-primary/20 flex h-10 w-10 items-center justify-center rounded-full transition-all">
+                                  <ImageIcon className="text-primary h-5 w-5" />
                                 </div>
                                 <div className="text-center">
-                                  <p className="text-sm font-medium text-foreground">
+                                  <p className="text-foreground text-sm font-medium">
                                     {field.value && field.value.length > 0
-                                      ? "Add More Preview Images"
-                                      : "Add Preview Images"}
+                                      ? 'Add More Preview Images'
+                                      : 'Add Preview Images'}
                                   </p>
-                                  <p className="mt-1 text-xs text-muted-foreground">
+                                  <p className="text-muted-foreground mt-1 text-xs">
                                     Select images from media library
                                   </p>
                                 </div>
-                                <Button
-                                  type="button"
-                                  variant="default"
-                                  size="sm"
-                                  className="mt-1"
-                                >
+                                <Button type="button" variant="default" size="sm" className="mt-1">
                                   <ImageIcon className="mr-2 h-4 w-4" />
                                   Browse
                                 </Button>
@@ -742,12 +698,10 @@ const CoursesActionDialog = ({
                         </FormControl>
                         <FormMessage />
                         {field.value && field.value.length > 0 && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             {field.value.length} image
-                            {field.value.length !== 1 ? "s" : ""} selected
-                            {field.value.length >= 10
-                              ? " (maximum reached)"
-                              : ` (max 10)`}
+                            {field.value.length !== 1 ? 's' : ''} selected
+                            {field.value.length >= 10 ? ' (maximum reached)' : ` (max 10)`}
                           </p>
                         )}
                       </FormItem>
@@ -764,7 +718,7 @@ const CoursesActionDialog = ({
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <div className="border rounded-md overflow-hidden">
+                          <div className="overflow-hidden rounded-md border">
                             <Toolbar />
                             <Editor
                               content={field.value}
@@ -782,43 +736,31 @@ const CoursesActionDialog = ({
                 {/* Pricing Section */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between border-b pb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      Pricing
-                    </h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Pricing</h3>
                     <div className="flex items-center space-x-6">
                       <FormField
                         control={form.control}
                         name="isFree"
                         render={({ field }) => (
-                          <FormItem className="flex items-center space-x-2 m-0">
+                          <FormItem className="m-0 flex items-center space-x-2">
                             <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
+                              <Switch checked={field.value} onCheckedChange={field.onChange} />
                             </FormControl>
-                            <FormLabel className="text-sm font-medium m-0">
-                              Free Course
-                            </FormLabel>
+                            <FormLabel className="m-0 text-sm font-medium">Free Course</FormLabel>
                           </FormItem>
                         )}
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                  <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="price"
-                      render={({
-                        field: { onChange, onBlur, name, value, ref },
-                      }) => (
+                      render={({ field: { onChange, onBlur, name, value, ref } }) => (
                         <FormItem>
                           <FormLabel>
-                            Price{" "}
-                            {!form.watch("isFree") && (
-                              <span className="text-red-500">*</span>
-                            )}
+                            Price {!form.watch('isFree') && <span className="text-red-500">*</span>}
                           </FormLabel>
                           <FormControl>
                             <NumericFormat
@@ -832,10 +774,8 @@ const CoursesActionDialog = ({
                               suffix=" ₫"
                               allowNegative={false}
                               placeholder="0 ₫"
-                              disabled={form.watch("isFree")}
-                              onValueChange={(values) =>
-                                onChange(values.floatValue)
-                              }
+                              disabled={form.watch('isFree')}
+                              onValueChange={(values) => onChange(values.floatValue)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -846,9 +786,7 @@ const CoursesActionDialog = ({
                     <FormField
                       control={form.control}
                       name="oldPrice"
-                      render={({
-                        field: { onChange, onBlur, name, value, ref },
-                      }) => (
+                      render={({ field: { onChange, onBlur, name, value, ref } }) => (
                         <FormItem>
                           <FormLabel>Old Price </FormLabel>
                           <FormControl>
@@ -863,10 +801,8 @@ const CoursesActionDialog = ({
                               suffix=" ₫"
                               allowNegative={false}
                               placeholder="0 ₫"
-                              disabled={form.watch("isFree")}
-                              onValueChange={(values) =>
-                                onChange(values.floatValue)
-                              }
+                              disabled={form.watch('isFree')}
+                              onValueChange={(values) => onChange(values.floatValue)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -877,26 +813,24 @@ const CoursesActionDialog = ({
                 </div>
                 {/* Course Details Section */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                  <h3 className="border-b pb-2 text-lg font-semibold text-gray-900">
                     Course Details
                   </h3>
 
                   {/* Requirements and Benefits */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Requirements */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <Label className="text-sm font-medium text-gray-700">
-                          Requirements
-                        </Label>
+                        <Label className="text-sm font-medium text-gray-700">Requirements</Label>
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="h-8 w-8 p-0 border-dashed hover:border-solid"
+                          className="h-8 w-8 border-dashed p-0 hover:border-solid"
                           onClick={() =>
                             setCourseInfo((draft) => {
-                              draft.requirements.push("");
+                              draft.requirements.push('');
                             })
                           }
                         >
@@ -920,7 +854,7 @@ const CoursesActionDialog = ({
                               type="button"
                               variant="outline"
                               size="sm"
-                              className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                              className="h-8 w-8 p-0 text-red-500 hover:bg-red-50 hover:text-red-700"
                               onClick={() =>
                                 setCourseInfo((draft) => {
                                   draft.requirements.splice(index, 1);
@@ -932,7 +866,7 @@ const CoursesActionDialog = ({
                           </div>
                         ))}
                         {courseInfo.requirements.length === 0 && (
-                          <p className="text-sm text-gray-500 italic text-center py-4">
+                          <p className="py-4 text-center text-sm text-gray-500 italic">
                             No requirements added yet
                           </p>
                         )}
@@ -942,17 +876,15 @@ const CoursesActionDialog = ({
                     {/* Benefits */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <Label className="text-sm font-medium text-gray-700">
-                          Benefits
-                        </Label>
+                        <Label className="text-sm font-medium text-gray-700">Benefits</Label>
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="h-8 w-8 p-0 border-dashed hover:border-solid"
+                          className="h-8 w-8 border-dashed p-0 hover:border-solid"
                           onClick={() =>
                             setCourseInfo((draft) => {
-                              draft.benefits.push("");
+                              draft.benefits.push('');
                             })
                           }
                         >
@@ -976,7 +908,7 @@ const CoursesActionDialog = ({
                               type="button"
                               variant="outline"
                               size="sm"
-                              className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                              className="h-8 w-8 p-0 text-red-500 hover:bg-red-50 hover:text-red-700"
                               onClick={() =>
                                 setCourseInfo((draft) => {
                                   draft.benefits.splice(index, 1);
@@ -988,7 +920,7 @@ const CoursesActionDialog = ({
                           </div>
                         ))}
                         {courseInfo.benefits.length === 0 && (
-                          <p className="text-sm text-gray-500 italic text-center py-4">
+                          <p className="py-4 text-center text-sm text-gray-500 italic">
                             No benefits added yet
                           </p>
                         )}
@@ -997,21 +929,19 @@ const CoursesActionDialog = ({
                   </div>
 
                   {/* Techniques and Documents */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Techniques */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <Label className="text-sm font-medium text-gray-700">
-                          Techniques
-                        </Label>
+                        <Label className="text-sm font-medium text-gray-700">Techniques</Label>
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="h-8 w-8 p-0 border-dashed hover:border-solid"
+                          className="h-8 w-8 border-dashed p-0 hover:border-solid"
                           onClick={() =>
                             setCourseInfo((draft) => {
-                              draft.techniques.push("");
+                              draft.techniques.push('');
                             })
                           }
                         >
@@ -1035,7 +965,7 @@ const CoursesActionDialog = ({
                               type="button"
                               variant="outline"
                               size="sm"
-                              className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                              className="h-8 w-8 p-0 text-red-500 hover:bg-red-50 hover:text-red-700"
                               onClick={() =>
                                 setCourseInfo((draft) => {
                                   draft.techniques.splice(index, 1);
@@ -1047,7 +977,7 @@ const CoursesActionDialog = ({
                           </div>
                         ))}
                         {courseInfo.techniques.length === 0 && (
-                          <p className="text-sm text-gray-500 italic text-center py-4">
+                          <p className="py-4 text-center text-sm text-gray-500 italic">
                             No techniques added yet
                           </p>
                         )}
@@ -1057,17 +987,15 @@ const CoursesActionDialog = ({
                     {/* Documents */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <Label className="text-sm font-medium text-gray-700">
-                          Documents
-                        </Label>
+                        <Label className="text-sm font-medium text-gray-700">Documents</Label>
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="h-8 w-8 p-0 border-dashed hover:border-solid"
+                          className="h-8 w-8 border-dashed p-0 hover:border-solid"
                           onClick={() =>
                             setCourseInfo((draft) => {
-                              draft.documents.push("");
+                              draft.documents.push('');
                             })
                           }
                         >
@@ -1091,7 +1019,7 @@ const CoursesActionDialog = ({
                               type="button"
                               variant="outline"
                               size="sm"
-                              className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                              className="h-8 w-8 p-0 text-red-500 hover:bg-red-50 hover:text-red-700"
                               onClick={() =>
                                 setCourseInfo((draft) => {
                                   draft.documents.splice(index, 1);
@@ -1103,7 +1031,7 @@ const CoursesActionDialog = ({
                           </div>
                         ))}
                         {courseInfo.documents.length === 0 && (
-                          <p className="text-sm text-gray-500 italic text-center py-4">
+                          <p className="py-4 text-center text-sm text-gray-500 italic">
                             No documents added yet
                           </p>
                         )}
@@ -1119,25 +1047,22 @@ const CoursesActionDialog = ({
                       type="button"
                       variant="outline"
                       size="sm"
-                      className="h-9 px-3 border-dashed hover:border-solid"
+                      className="h-9 border-dashed px-3 hover:border-solid"
                       onClick={() =>
                         setCourseInfo((draft) => {
-                          draft.qa.push({ question: "", answer: "" });
+                          draft.qa.push({ question: '', answer: '' });
                         })
                       }
                     >
-                      <MdAdd className="h-4 w-4 mr-2" />
+                      <MdAdd className="mr-2 h-4 w-4" />
                       Add Q&A
                     </Button>
                   </div>
 
                   <div className="space-y-3">
                     {courseInfo.qa.map((qaItem, index) => (
-                      <div
-                        key={index}
-                        className="p-4 border rounded-lg bg-gray-50/50 space-y-3"
-                      >
-                        <div className="flex justify-between items-center">
+                      <div key={index} className="space-y-3 rounded-lg border bg-gray-50/50 p-4">
+                        <div className="flex items-center justify-between">
                           <span className="text-sm font-medium text-gray-600">
                             Q&A #{index + 1}
                           </span>
@@ -1145,7 +1070,7 @@ const CoursesActionDialog = ({
                             type="button"
                             variant="outline"
                             size="sm"
-                            className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                            className="h-8 w-8 p-0 text-red-500 hover:bg-red-50 hover:text-red-700"
                             onClick={() =>
                               setCourseInfo((draft) => {
                                 draft.qa.splice(index, 1);
@@ -1155,11 +1080,9 @@ const CoursesActionDialog = ({
                             ×
                           </Button>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">
-                              Question
-                            </Label>
+                            <Label className="text-xs text-gray-500">Question</Label>
                             <Input
                               value={qaItem.question}
                               onChange={(e) =>
@@ -1172,9 +1095,7 @@ const CoursesActionDialog = ({
                             />
                           </div>
                           <div className="space-y-1">
-                            <Label className="text-xs text-gray-500">
-                              Answer
-                            </Label>
+                            <Label className="text-xs text-gray-500">Answer</Label>
                             <Input
                               value={qaItem.answer}
                               onChange={(e) =>
@@ -1190,11 +1111,9 @@ const CoursesActionDialog = ({
                       </div>
                     ))}
                     {courseInfo.qa.length === 0 && (
-                      <div className="text-center py-8 border-2 border-dashed border-gray-200 rounded-lg">
-                        <p className="text-sm text-gray-500">
-                          No Q&A items added yet
-                        </p>
-                        <p className="text-xs text-gray-400 mt-1">
+                      <div className="rounded-lg border-2 border-dashed border-gray-200 py-8 text-center">
+                        <p className="text-sm text-gray-500">No Q&A items added yet</p>
+                        <p className="mt-1 text-xs text-gray-400">
                           Click &ldquo;Add Q&A&rdquo; to get started
                         </p>
                       </div>
@@ -1221,18 +1140,14 @@ const CoursesActionDialog = ({
               <Button
                 type="submit"
                 disabled={
-                  isSubmitting ||
-                  createCourseMutation.isPending ||
-                  updateCourseMutation.isPending
+                  isSubmitting || createCourseMutation.isPending || updateCourseMutation.isPending
                 }
               >
-                {isSubmitting ||
-                createCourseMutation.isPending ||
-                updateCourseMutation.isPending
-                  ? "Saving..."
-                  : mode === "create"
-                    ? "Create Course"
-                    : "Update Course"}
+                {isSubmitting || createCourseMutation.isPending || updateCourseMutation.isPending
+                  ? 'Saving...'
+                  : mode === 'create'
+                    ? 'Create Course'
+                    : 'Update Course'}
               </Button>
             </DialogFooter>
           </form>
@@ -1247,7 +1162,7 @@ const CoursesActionDialog = ({
             // It should persist until form is reset or dialog is closed completely
           }}
           onSelect={(media: IMedia) => {
-            form.setValue("imageId", media.id, {
+            form.setValue('imageId', media.id, {
               shouldValidate: true,
             });
             // Store media object for immediate display - this will override course?.image
@@ -1267,7 +1182,7 @@ const CoursesActionDialog = ({
             // Use display URL (baseUrl + storageKey)
             const videoUrl = getMediaDisplayUrl(media);
             if (videoUrl) {
-              form.setValue("introUrl", videoUrl, {
+              form.setValue('introUrl', videoUrl, {
                 shouldValidate: true,
               });
             }
@@ -1284,14 +1199,14 @@ const CoursesActionDialog = ({
           onMultiSelect={(mediaItems: IMedia[]) => {
             // Update form with media IDs
             const mediaIds = mediaItems.map((media) => media.id);
-            form.setValue("previewImageIds", mediaIds, {
+            form.setValue('previewImageIds', mediaIds, {
               shouldValidate: true,
             });
             // Store media objects for immediate display
             setSelectedPreviewMedia(mediaItems);
 
             if (mediaIds.length >= 10) {
-              toast.info("Maximum 10 preview images reached");
+              toast.info('Maximum 10 preview images reached');
             }
           }}
           selectedMediaIds={previewImageIds}

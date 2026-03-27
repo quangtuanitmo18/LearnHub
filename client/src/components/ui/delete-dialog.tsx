@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,9 +11,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 
 interface DeleteDialogProps {
   title: string;
@@ -32,7 +32,7 @@ export function DeleteDialog({
   warningMessage,
   trigger,
   onDelete,
-  deleteButtonText = "Delete",
+  deleteButtonText = 'Delete',
   open,
   onOpenChange,
 }: DeleteDialogProps) {
@@ -60,19 +60,15 @@ export function DeleteDialog({
 
   return (
     <AlertDialog open={open ?? isOpen} onOpenChange={handleOpenChange}>
-      <AlertDialogTrigger asChild>
-        {trigger || defaultTrigger}
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{trigger || defaultTrigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription className="space-y-2">
             <div>{description}</div>
             {warningMessage && (
-              <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                <p className="text-sm text-yellow-800 font-medium">
-                  {warningMessage}
-                </p>
+              <div className="rounded-md border border-yellow-200 bg-yellow-50 p-3">
+                <p className="text-sm font-medium text-yellow-800">{warningMessage}</p>
               </div>
             )}
           </AlertDialogDescription>

@@ -1,35 +1,35 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { CourseImage } from "./course-image";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Star, Users, Clock, BookOpen } from "lucide-react";
-import { IPublicCourse } from "@/types/course";
+import Image from 'next/image';
+import { CourseImage } from './course-image';
+import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Star, Users, Clock, BookOpen } from 'lucide-react';
+import { IPublicCourse } from '@/types/course';
 import {
   formatPrice,
   formatStudentCount,
   formatDuration,
   formatLastUpdated,
   formatRating,
-} from "@/utils/format";
-import { FaRegEye } from "react-icons/fa6";
-import { DEFAULT_THUMBNAIL } from "@/constants";
+} from '@/utils/format';
+import { FaRegEye } from 'react-icons/fa6';
+import { DEFAULT_THUMBNAIL } from '@/constants';
 interface CourseCardProps {
   course: IPublicCourse;
 }
 
 export function CourseCard({ course }: CourseCardProps) {
   return (
-    <div className="group overflow-hidden border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 bg-white rounded-xl flex flex-col h-full">
+    <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:border-gray-300 hover:shadow-lg">
       {/* Thumbnail */}
-      <div className="relative aspect-video overflow-hidden shrink-0">
+      <div className="relative aspect-video shrink-0 overflow-hidden">
         <CourseImage
           image={course.image}
           alt={course.title}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {/* Level Badge */}
         <div className="absolute top-3 left-3 z-10">
@@ -40,20 +40,17 @@ export function CourseCard({ course }: CourseCardProps) {
         {/* Price Badge */}
         <div className="absolute top-3 right-3 z-10">
           {course?.isFree ? (
-            <Badge className="bg-green-600 text-white border-green-700 backdrop-blur-sm text-xs font-bold px-2.5 py-1 border transition-all duration-200 hover:scale-105 hover:bg-green-700">
+            <Badge className="border border-green-700 bg-green-600 px-2.5 py-1 text-xs font-bold text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-green-700">
               FREE
             </Badge>
           ) : (
             <div className="flex flex-col items-end space-y-1.5">
               {course.oldPrice > 0 && course.oldPrice > course.price && (
-                <div className="relative bg-gradient-to-r from-red-500 via-red-600 to-orange-500 text-white px-3 py-1.5 font-bold text-xs flex items-center gap-1.5 hover:from-red-600 hover:via-red-700 hover:to-orange-600 hover:scale-110 transition-all duration-300 cursor-default shadow-lg hover:shadow-xl rounded-full">
+                <div className="relative flex cursor-default items-center gap-1.5 rounded-full bg-gradient-to-r from-red-500 via-red-600 to-orange-500 px-3 py-1.5 text-xs font-bold text-white shadow-lg transition-all duration-300 hover:scale-110 hover:from-red-600 hover:via-red-700 hover:to-orange-600 hover:shadow-xl">
                   {/* Glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-400 via-red-500 to-orange-400 rounded-full blur-sm -z-10"></div>
-                  <span className="text-yellow-200 text-sm">🔥</span>
-                  {Math.round(
-                    ((course.oldPrice - course.price) / course.oldPrice) * 100
-                  )}
-                  % OFF
+                  <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-red-400 via-red-500 to-orange-400 blur-sm"></div>
+                  <span className="text-sm text-yellow-200">🔥</span>
+                  {Math.round(((course.oldPrice - course.price) / course.oldPrice) * 100)}% OFF
                 </div>
               )}
             </div>
@@ -62,10 +59,10 @@ export function CourseCard({ course }: CourseCardProps) {
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="flex flex-grow flex-col p-4">
         {/* Header: Category & Date */}
-        <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-          <span className="font-medium text-blue-600  capitalize bg-blue-50 px-2.5 py-1 rounded-full">
+        <div className="mb-3 flex items-center justify-between text-xs text-gray-500">
+          <span className="rounded-full bg-blue-50 px-2.5 py-1 font-medium text-blue-600 capitalize">
             {course.category?.name}
           </span>
           <span>{formatLastUpdated(course.updatedAt)}</span>
@@ -77,25 +74,20 @@ export function CourseCard({ course }: CourseCardProps) {
           className="mb-2"
           aria-label={`View course: ${course.title}`}
         >
-          <h3 className="font-semibold text-lg text-gray-900 hover:text-blue-600 transition-colors line-clamp-2 group-hover:text-blue-600 leading-tight">
+          <h3 className="line-clamp-2 text-lg leading-tight font-semibold text-gray-900 transition-colors group-hover:text-blue-600 hover:text-blue-600">
             {course.title}
           </h3>
         </Link>
 
         {/* Instructor */}
-        <p className="text-sm text-gray-500 mb-3">
-          by{" "}
-          <span className="text-gray-700 font-medium">
-            {course.author?.username}
-          </span>
+        <p className="mb-3 text-sm text-gray-500">
+          by <span className="font-medium text-gray-700">{course.author?.username}</span>
         </p>
 
-        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed mb-4">
-          {course?.excerpt}
-        </p>
+        <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-600">{course?.excerpt}</p>
 
         {/* Course Stats - Compact */}
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+        <div className="mb-4 flex items-center justify-between text-sm text-gray-500">
           <div className="flex items-center space-x-1">
             <Clock size={16} />
             <span>{formatDuration(course.totalDuration || 0)}</span>
@@ -114,7 +106,7 @@ export function CourseCard({ course }: CourseCardProps) {
         <div className="flex-grow"></div>
 
         {/* Rating & Price Row */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center space-x-1">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
@@ -123,8 +115,8 @@ export function CourseCard({ course }: CourseCardProps) {
                   size={18}
                   className={`${
                     i < Math.floor(course.averageRating || 0)
-                      ? "text-yellow-400 fill-current"
-                      : "text-gray-300"
+                      ? 'fill-current text-yellow-400'
+                      : 'text-gray-300'
                   }`}
                 />
               ))}
@@ -151,9 +143,7 @@ export function CourseCard({ course }: CourseCardProps) {
             ) : (
               <div className="flex flex-col items-end">
                 {course.oldPrice && course.oldPrice > course.price && (
-                  <span className=" text-gray-500 line-through">
-                    {formatPrice(course.oldPrice)}
-                  </span>
+                  <span className="text-gray-500 line-through">{formatPrice(course.oldPrice)}</span>
                 )}
                 <span
                   className="text-xl font-bold text-gray-900"
@@ -168,15 +158,13 @@ export function CourseCard({ course }: CourseCardProps) {
         </div>
 
         {/* Action Button */}
-        <Button className="w-full h-10" asChild>
+        <Button className="h-10 w-full" asChild>
           <Link
             href={`/courses/${course.slug}`}
-            aria-label={`${course?.isFree ? "Start learning" : "Enroll in"} ${
-              course.title
-            }`}
+            aria-label={`${course?.isFree ? 'Start learning' : 'Enroll in'} ${course.title}`}
           >
-            <BookOpen className="h-4 w-4 mr-2" />
-            {course?.isFree ? "Start Learning" : "Enroll Now"}
+            <BookOpen className="mr-2 h-4 w-4" />
+            {course?.isFree ? 'Start Learning' : 'Enroll Now'}
           </Link>
         </Button>
       </div>

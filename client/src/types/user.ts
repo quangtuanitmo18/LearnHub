@@ -1,15 +1,15 @@
-import { ListResponse, BaseFilterParams } from "./common";
+import { ListResponse, BaseFilterParams } from './common';
 
 export enum UserStatus {
-  ACTIVE = "ACTIVE",
-  INACTIVE = "INACTIVE",
-  BANNED = "BANNED",
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  BANNED = 'BANNED',
 }
 
 export enum UserType {
-  FACEBOOK = "FACEBOOK",
-  GOOGLE = "GOOGLE",
-  DEFAULT = "DEFAULT",
+  FACEBOOK = 'FACEBOOK',
+  GOOGLE = 'GOOGLE',
+  DEFAULT = 'DEFAULT',
 }
 
 export interface UserRole {

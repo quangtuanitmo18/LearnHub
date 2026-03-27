@@ -1,24 +1,24 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 
 // Auth endpoints
 const ENDPOINTS = {
-  LOGIN: "/auth/login",
-  LOGOUT: "/auth/logout",
-  REFRESH: "/auth/refresh",
-  PROFILE: "/auth/profile",
-  ME: "/auth/me", // Add me endpoint
-  REGISTER: "/auth/register",
-  GOOGLE_AUTH: "/auth/google",
-  FACEBOOK_AUTH: "/auth/facebook",
-  FORGOT_PASSWORD: "/auth/forgot-password",
-  RESET_PASSWORD: "/auth/reset-password",
-  VERIFY_EMAIL: "/auth/verify-email",
-  RESEND_VERIFICATION: "/auth/resend-verification",
-  UPDATE_PROFILE: "/auth/profile",
-  CHANGE_PASSWORD: "/auth/password/change",
-  AVATAR_PRESIGNED: "/auth/avatar/presigned",
-  AVATAR_UPLOAD_COMPLETE: "/auth/avatar/upload-complete",
-  AVATAR_DELETE: "/auth/avatar",
+  LOGIN: '/auth/login',
+  LOGOUT: '/auth/logout',
+  REFRESH: '/auth/refresh',
+  PROFILE: '/auth/profile',
+  ME: '/auth/me', // Add me endpoint
+  REGISTER: '/auth/register',
+  GOOGLE_AUTH: '/auth/google',
+  FACEBOOK_AUTH: '/auth/facebook',
+  FORGOT_PASSWORD: '/auth/forgot-password',
+  RESET_PASSWORD: '/auth/reset-password',
+  VERIFY_EMAIL: '/auth/verify-email',
+  RESEND_VERIFICATION: '/auth/resend-verification',
+  UPDATE_PROFILE: '/auth/profile',
+  CHANGE_PASSWORD: '/auth/password/change',
+  AVATAR_PRESIGNED: '/auth/avatar/presigned',
+  AVATAR_UPLOAD_COMPLETE: '/auth/avatar/upload-complete',
+  AVATAR_DELETE: '/auth/avatar',
 } as const;
 
 // Auth types
@@ -127,38 +127,28 @@ export interface AvatarUploadCompleteResponse {
 export class AuthService {
   // Login user
   static async login(credentials: LoginRequest): Promise<AuthResponse> {
-    return ApiService.post<AuthResponse, LoginRequest>(
-      ENDPOINTS.LOGIN,
-      credentials
-    );
+    return ApiService.post<AuthResponse, LoginRequest>(ENDPOINTS.LOGIN, credentials);
   }
 
   // Register new user
   static async register(userData: RegisterRequest): Promise<AuthResponse> {
-    return ApiService.post<AuthResponse, RegisterRequest>(
-      ENDPOINTS.REGISTER,
-      userData
-    );
+    return ApiService.post<AuthResponse, RegisterRequest>(ENDPOINTS.REGISTER, userData);
   }
 
   // Unified Google authentication (handles both login and register)
-  static async googleAuth(
-    idToken: string
-  ): Promise<AuthResponse | { message: string }> {
-    return ApiService.post<
-      AuthResponse | { message: string },
-      GoogleAuthRequest
-    >(ENDPOINTS.GOOGLE_AUTH, { idToken });
+  static async googleAuth(idToken: string): Promise<AuthResponse | { message: string }> {
+    return ApiService.post<AuthResponse | { message: string }, GoogleAuthRequest>(
+      ENDPOINTS.GOOGLE_AUTH,
+      { idToken },
+    );
   }
 
   // Unified Facebook authentication (handles both login and register)
-  static async facebookAuth(
-    accessToken: string
-  ): Promise<AuthResponse | { message: string }> {
-    return ApiService.post<
-      AuthResponse | { message: string },
-      FacebookAuthRequest
-    >(ENDPOINTS.FACEBOOK_AUTH, { accessToken });
+  static async facebookAuth(accessToken: string): Promise<AuthResponse | { message: string }> {
+    return ApiService.post<AuthResponse | { message: string }, FacebookAuthRequest>(
+      ENDPOINTS.FACEBOOK_AUTH,
+      { accessToken },
+    );
   }
 
   // Logout user
@@ -171,14 +161,12 @@ export class AuthService {
     token: string;
     refreshToken: string;
   }> {
-    return ApiService.post<{ token: string; refreshToken: string }>(
-      ENDPOINTS.REFRESH
-    );
+    return ApiService.post<{ token: string; refreshToken: string }>(ENDPOINTS.REFRESH);
   }
 
   // Get user profile
-  static async getProfile(): Promise<AuthResponse["user"]> {
-    return ApiService.get<AuthResponse["user"]>(ENDPOINTS.PROFILE);
+  static async getProfile(): Promise<AuthResponse['user']> {
+    return ApiService.get<AuthResponse['user']>(ENDPOINTS.PROFILE);
   }
 
   // Get current user with full details including role and permissions
@@ -187,40 +175,31 @@ export class AuthService {
   }
 
   // Forgot password
-  static async forgotPassword(
-    data: ForgotPasswordRequest
-  ): Promise<{ message: string }> {
+  static async forgotPassword(data: ForgotPasswordRequest): Promise<{ message: string }> {
     return ApiService.post<{ message: string }, ForgotPasswordRequest>(
       ENDPOINTS.FORGOT_PASSWORD,
-      data
+      data,
     );
   }
 
   // Reset password
-  static async resetPassword(
-    data: ResetPasswordRequest
-  ): Promise<{ message: string }> {
+  static async resetPassword(data: ResetPasswordRequest): Promise<{ message: string }> {
     return ApiService.post<{ message: string }, ResetPasswordRequest>(
       ENDPOINTS.RESET_PASSWORD,
-      data
+      data,
     );
   }
 
   // Update user profile
   static async updateProfile(data: UpdateProfileRequest): Promise<CurrentUser> {
-    return ApiService.put<CurrentUser, UpdateProfileRequest>(
-      ENDPOINTS.UPDATE_PROFILE,
-      data
-    );
+    return ApiService.put<CurrentUser, UpdateProfileRequest>(ENDPOINTS.UPDATE_PROFILE, data);
   }
 
   // Change password
-  static async changePassword(
-    data: ChangePasswordRequest
-  ): Promise<{ message: string }> {
+  static async changePassword(data: ChangePasswordRequest): Promise<{ message: string }> {
     return ApiService.put<{ message: string }, ChangePasswordRequest>(
       ENDPOINTS.CHANGE_PASSWORD,
-      data
+      data,
     );
   }
 
@@ -244,22 +223,22 @@ export class AuthService {
 
   // Get presigned URL for avatar upload
   static async getAvatarPresignedUrl(
-    data: AvatarPresignedRequest
+    data: AvatarPresignedRequest,
   ): Promise<AvatarPresignedResponse> {
     return ApiService.post<AvatarPresignedResponse, AvatarPresignedRequest>(
       ENDPOINTS.AVATAR_PRESIGNED,
-      data
+      data,
     );
   }
 
   // Complete avatar upload
   static async completeAvatarUpload(
-    data: AvatarUploadCompleteRequest
+    data: AvatarUploadCompleteRequest,
   ): Promise<AvatarUploadCompleteResponse> {
-    return ApiService.post<
-      AvatarUploadCompleteResponse,
-      AvatarUploadCompleteRequest
-    >(ENDPOINTS.AVATAR_UPLOAD_COMPLETE, data);
+    return ApiService.post<AvatarUploadCompleteResponse, AvatarUploadCompleteRequest>(
+      ENDPOINTS.AVATAR_UPLOAD_COMPLETE,
+      data,
+    );
   }
 
   // Delete avatar

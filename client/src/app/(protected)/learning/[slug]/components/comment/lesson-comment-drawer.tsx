@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Drawer,
   DrawerContent,
@@ -9,20 +9,16 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerClose,
-} from "@/components/ui/drawer";
-import { X, Loader2 } from "lucide-react";
-import { Editor as TipTapEditor } from "@tiptap/react";
-import {
-  useInfiniteComments,
-  useCreateComment,
-  useLoadReplies,
-} from "@/hooks/use-comments";
-import { IComment } from "@/types/comment";
-import { CommentsService } from "@/services/comments";
-import { toast } from "sonner";
-import { useUser } from "@/stores/auth-store";
-import CommentEditor from "./comment-editor";
-import CommentList from "./comment-list";
+} from '@/components/ui/drawer';
+import { X, Loader2 } from 'lucide-react';
+import { Editor as TipTapEditor } from '@tiptap/react';
+import { useInfiniteComments, useCreateComment, useLoadReplies } from '@/hooks/use-comments';
+import { IComment } from '@/types/comment';
+import { CommentsService } from '@/services/comments';
+import { toast } from 'sonner';
+import { useUser } from '@/stores/auth-store';
+import CommentEditor from './comment-editor';
+import CommentList from './comment-list';
 
 interface LessonCommentDrawerProps {
   lessonId: string;
@@ -31,11 +27,7 @@ interface LessonCommentDrawerProps {
 }
 
 // Lesson comment drawer component - Arrow function
-const LessonCommentDrawer = ({
-  lessonId,
-  isOpen,
-  onOpenChange,
-}: LessonCommentDrawerProps) => {
+const LessonCommentDrawer = ({ lessonId, isOpen, onOpenChange }: LessonCommentDrawerProps) => {
   // Get current user from auth store
   const currentUser = useUser();
 
@@ -56,13 +48,11 @@ const LessonCommentDrawer = ({
   // Local state
   const [isComposing, setIsComposing] = useState(false);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  const [replyingToSpecific, setReplyingToSpecific] = useState<string | null>(
-    null
-  );
+  const [replyingToSpecific, setReplyingToSpecific] = useState<string | null>(null);
   const [showReplies, setShowReplies] = useState<Record<string, boolean>>({});
 
-  const [mainEditorContent, setMainEditorContent] = useState("");
-  const [replyEditorContent, setReplyEditorContent] = useState("");
+  const [mainEditorContent, setMainEditorContent] = useState('');
+  const [replyEditorContent, setReplyEditorContent] = useState('');
   const [mainEditor, setMainEditor] = useState<TipTapEditor | null>(null);
   const [replyEditor, setReplyEditor] = useState<TipTapEditor | null>(null);
 
@@ -92,8 +82,8 @@ const LessonCommentDrawer = ({
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
   // Don't render if no current user (not authenticated)
@@ -102,8 +92,7 @@ const LessonCommentDrawer = ({
   }
 
   const handleSendMessage = async () => {
-    const hasContent =
-      mainEditorContent.replace(/<[^>]*>/g, "").trim().length > 0;
+    const hasContent = mainEditorContent.replace(/<[^>]*>/g, '').trim().length > 0;
 
     if (hasContent) {
       try {
@@ -114,7 +103,7 @@ const LessonCommentDrawer = ({
           },
         });
 
-        setMainEditorContent("");
+        setMainEditorContent('');
         setIsComposing(false);
 
         // Clear editor content
@@ -122,7 +111,7 @@ const LessonCommentDrawer = ({
           mainEditor.commands.clearContent();
         }
       } catch (error) {
-        console.error("Failed to create comment:", error);
+        console.error('Failed to create comment:', error);
       }
     }
   };
@@ -131,8 +120,7 @@ const LessonCommentDrawer = ({
     // Use replyingToSpecific if available, otherwise fall back to replyingTo
     const actualParentId = replyingToSpecific || replyingTo || parentCommentId;
 
-    const hasContent =
-      replyEditorContent.replace(/<[^>]*>/g, "").trim().length > 0;
+    const hasContent = replyEditorContent.replace(/<[^>]*>/g, '').trim().length > 0;
 
     if (hasContent) {
       try {
@@ -159,7 +147,7 @@ const LessonCommentDrawer = ({
           [actualParentId]: true,
         }));
 
-        setReplyEditorContent("");
+        setReplyEditorContent('');
         setReplyingTo(null);
         setReplyingToSpecific(null);
 
@@ -168,7 +156,7 @@ const LessonCommentDrawer = ({
           replyEditor.commands.clearContent();
         }
       } catch (error) {
-        console.error("Failed to create reply:", error);
+        console.error('Failed to create reply:', error);
       }
     }
   };
@@ -178,10 +166,10 @@ const LessonCommentDrawer = ({
       try {
         mainEditor.commands.clearContent();
       } catch (error) {
-        console.warn("Editor not ready for clearing:", error);
+        console.warn('Editor not ready for clearing:', error);
       }
     }
-    setMainEditorContent("");
+    setMainEditorContent('');
     setIsComposing(false);
   };
 
@@ -190,10 +178,10 @@ const LessonCommentDrawer = ({
       try {
         replyEditor.commands.clearContent();
       } catch (error) {
-        console.warn("Reply editor not ready for clearing:", error);
+        console.warn('Reply editor not ready for clearing:', error);
       }
     }
-    setReplyEditorContent("");
+    setReplyEditorContent('');
     setReplyingTo(null);
     setReplyingToSpecific(null);
   };
@@ -203,13 +191,10 @@ const LessonCommentDrawer = ({
     const findComment = (
       comments: IComment[],
       searchId: string,
-      searchUserName?: string
+      searchUserName?: string,
     ): { comment: IComment; parentId?: string } | null => {
       for (const comment of comments) {
-        if (
-          comment.id === searchId ||
-          comment.user?.username === searchUserName
-        ) {
+        if (comment.id === searchId || comment.user?.username === searchUserName) {
           return { comment };
         }
         if (comment.replies && comment.replies.length > 0) {
@@ -236,7 +221,7 @@ const LessonCommentDrawer = ({
 
     // Check if we can add replies at this level (max 5 levels)
     if (!CommentsService.canAddReply(parentLevel)) {
-      toast.error("Cannot reply at this level. Maximum 5 levels allowed.");
+      toast.error('Cannot reply at this level. Maximum 5 levels allowed.');
       return;
     }
 
@@ -255,9 +240,9 @@ const LessonCommentDrawer = ({
       if (replyEditor && replyEditor.view && replyEditor.view.dom) {
         try {
           replyEditor.commands.setContent(mentionHTML);
-          replyEditor.commands.focus("end");
+          replyEditor.commands.focus('end');
         } catch (error) {
-          console.warn("Editor not ready yet:", error);
+          console.warn('Editor not ready yet:', error);
         }
       }
     }, 100);
@@ -288,41 +273,37 @@ const LessonCommentDrawer = ({
       dismissible={true}
       shouldScaleBackground={false}
     >
-      <DrawerContent className="h-full !w-full sm:!w-[600px] md:!w-[700px] lg:!w-[800px] !max-w-[800px]">
-        <div className="w-full h-full">
-          <DrawerHeader className="border-b border-gray-200 pb-3 sm:pb-4 px-4 sm:px-6">
+      <DrawerContent className="h-full !w-full !max-w-[800px] sm:!w-[600px] md:!w-[700px] lg:!w-[800px]">
+        <div className="h-full w-full">
+          <DrawerHeader className="border-b border-gray-200 px-4 pb-3 sm:px-6 sm:pb-4">
             <div className="flex items-center justify-between gap-2">
-              <div className="flex-1 min-w-0">
-                <DrawerTitle className="text-base sm:text-lg font-semibold text-gray-900 truncate">
+              <div className="min-w-0 flex-1">
+                <DrawerTitle className="truncate text-base font-semibold text-gray-900 sm:text-lg">
                   {isLoading ? (
                     <div className="flex items-center gap-2">
-                      <Loader2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin" />
+                      <Loader2 className="h-3.5 w-3.5 animate-spin sm:h-4 sm:w-4" />
                       <span className="text-sm sm:text-base">Loading...</span>
                     </div>
                   ) : (
                     `${totalComments} comments`
                   )}
                 </DrawerTitle>
-                <DrawerDescription className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1 hidden sm:block">
+                <DrawerDescription className="mt-0.5 hidden text-xs text-gray-500 sm:mt-1 sm:block sm:text-sm">
                   If you see spam comments, please report them to admin
                 </DrawerDescription>
               </div>
               <DrawerClose asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 w-7 sm:h-8 sm:w-8 p-0 shrink-0"
-                >
+                <Button variant="ghost" size="sm" className="h-7 w-7 shrink-0 p-0 sm:h-8 sm:w-8">
                   <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </Button>
               </DrawerClose>
             </div>
           </DrawerHeader>
 
-          <div className="flex flex-col h-full">
+          <div className="flex h-full flex-col">
             <div
               ref={scrollContainerRef}
-              className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 pb-20 sm:pb-24 space-y-3 sm:space-y-4"
+              className="flex-1 space-y-3 overflow-y-auto p-4 pb-20 sm:space-y-4 sm:p-6 sm:pb-24 md:p-8"
             >
               <div className="mb-3 sm:mb-4">
                 <CommentEditor
@@ -361,8 +342,8 @@ const LessonCommentDrawer = ({
               {/* Infinite scroll loading indicator */}
               {isFetchingNextPage && (
                 <div className="flex justify-center py-3 sm:py-4">
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-gray-500">
-                    <Loader2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin" />
+                  <div className="flex items-center gap-1.5 text-gray-500 sm:gap-2">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin sm:h-4 sm:w-4" />
                     <span className="text-xs sm:text-sm">Loading more...</span>
                   </div>
                 </div>
@@ -371,9 +352,7 @@ const LessonCommentDrawer = ({
               {/* No more comments indicator */}
               {!hasNextPage && comments.length > 0 && (
                 <div className="flex justify-center py-3 sm:py-4">
-                  <span className="text-xs sm:text-sm text-gray-400">
-                    All comments loaded
-                  </span>
+                  <span className="text-xs text-gray-400 sm:text-sm">All comments loaded</span>
                 </div>
               )}
             </div>

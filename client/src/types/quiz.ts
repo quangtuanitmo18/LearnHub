@@ -1,9 +1,9 @@
 // ========== ENUMS ==========
 
 export enum QuestionType {
-  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
-  TRUE_FALSE = "TRUE_FALSE",
-  SINGLE_CHOICE = "SINGLE_CHOICE",
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  TRUE_FALSE = 'TRUE_FALSE',
+  SINGLE_CHOICE = 'SINGLE_CHOICE',
 }
 
 // Helper function to convert QuestionType to backend type (identity function since they match)
@@ -12,9 +12,9 @@ export function toBackendQuestionType(type: QuestionType): QuestionType {
 }
 
 export enum AttemptStatus {
-  IN_PROGRESS = "IN_PROGRESS",
-  SUBMITTED = "SUBMITTED",
-  EXPIRED = "EXPIRED",
+  IN_PROGRESS = 'IN_PROGRESS',
+  SUBMITTED = 'SUBMITTED',
+  EXPIRED = 'EXPIRED',
 }
 
 // ========== QUIZ QUESTION & OPTIONS ==========

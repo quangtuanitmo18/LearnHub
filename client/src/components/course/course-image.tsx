@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { DEFAULT_THUMBNAIL } from "@/constants";
-import { IMedia, getMediaDisplayUrl } from "@/types/media";
+import Image from 'next/image';
+import { DEFAULT_THUMBNAIL } from '@/constants';
+import { IMedia, getMediaDisplayUrl } from '@/types/media';
 
 interface CourseImageProps {
   image: IMedia | null | undefined;

@@ -16,7 +16,7 @@ import { QuizAttemptService } from './quiz-attempt.service';
 @Controller()
 @UseGuards(PermissionGuard)
 export class QuizAttemptController {
-  constructor(private readonly quizAttemptService: QuizAttemptService) { }
+  constructor(private readonly quizAttemptService: QuizAttemptService) {}
 
   // ============ QUIZ-BASED ENDPOINTS ============
 

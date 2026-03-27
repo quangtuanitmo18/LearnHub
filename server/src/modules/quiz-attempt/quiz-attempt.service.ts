@@ -18,7 +18,7 @@ import { AttemptStatus } from 'src/generated/prisma/enums';
 
 @Injectable()
 export class QuizAttemptService {
-  constructor(private readonly quizAttemptRepository: QuizAttemptRepository) { }
+  constructor(private readonly quizAttemptRepository: QuizAttemptRepository) {}
 
   /**
    * Check if attempt is expired and update status if needed (Lazy-expire)
@@ -306,10 +306,8 @@ export class QuizAttemptService {
       let earnedScore = 0;
       if (totalCorrectOptions > 0) {
         const adjustedCorrect = Math.max(correctSelected - wrongSelected, 0);
-        earnedScore =
-          (adjustedCorrect / totalCorrectOptions) * question.points;
+        earnedScore = (adjustedCorrect / totalCorrectOptions) * question.points;
       }
-
 
       const hasOnlyCorrectSelections = selectedOptionIds.every((id) =>
         correctOptionIds.includes(id),

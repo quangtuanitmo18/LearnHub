@@ -1,12 +1,12 @@
-"use client";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { HTMLAttributes, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
+'use client';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { HTMLAttributes, useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
-import Loader from "@/components/loader";
-import { PasswordInput } from "@/components/password-input";
-import { Button } from "@/components/ui/button";
+import Loader from '@/components/loader';
+import { PasswordInput } from '@/components/password-input';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -14,27 +14,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { ROUTE_CONFIG } from "@/configs/routes";
-import { useLogin, useSocialAuth } from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
-import { signIn, useSession } from "next-auth/react";
-import Link from "next/link";
-import { FaFacebook } from "react-icons/fa6";
-import { GrGoogle } from "react-icons/gr";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { ROUTE_CONFIG } from '@/configs/routes';
+import { useLogin, useSocialAuth } from '@/hooks/use-auth';
+import { cn } from '@/lib/utils';
+import { signIn, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { FaFacebook } from 'react-icons/fa6';
+import { GrGoogle } from 'react-icons/gr';
 
 type SignInFormProps = HTMLAttributes<HTMLFormElement>;
 
 const formSchema = yup.object({
-  email: yup
-    .string()
-    .required("Please enter your email")
-    .email("Please enter a valid email"),
+  email: yup.string().required('Please enter your email').email('Please enter a valid email'),
   password: yup
     .string()
-    .required("Please enter your password")
-    .min(7, "Password must be at least 7 characters long"),
+    .required('Please enter your password')
+    .min(7, 'Password must be at least 7 characters long'),
 });
 
 type FormData = yup.InferType<typeof formSchema>;
@@ -42,14 +39,14 @@ type FormData = yup.InferType<typeof formSchema>;
 const SignInForm = ({ className, ...props }: SignInFormProps) => {
   const { data: session } = useSession();
   const loginMutation = useLogin();
-  const socialAuth = useSocialAuth("login");
+  const socialAuth = useSocialAuth('login');
   const hasProcessedSession = useRef(false);
 
   const form = useForm<FormData>({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -63,9 +60,8 @@ const SignInForm = ({ className, ...props }: SignInFormProps) => {
   // Handle social login when NextAuth session is established
   useEffect(() => {
     if (session && !hasProcessedSession.current) {
-      const provider = session.provider as "google" | "facebook";
-      const token =
-        provider === "google" ? session.idToken : session.accessToken;
+      const provider = session.provider as 'google' | 'facebook';
+      const token = provider === 'google' ? session.idToken : session.accessToken;
 
       if (token) {
         hasProcessedSession.current = true;
@@ -84,7 +80,7 @@ const SignInForm = ({ className, ...props }: SignInFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("grid gap-6", className)}
+        className={cn('grid gap-6', className)}
         {...props}
       >
         <FormField
@@ -120,7 +116,7 @@ const SignInForm = ({ className, ...props }: SignInFormProps) => {
           )}
         />
         <Button className="mt-2" disabled={isLoading}>
-          {loginMutation.isPending ? "Signing in..." : "Login"}
+          {loginMutation.isPending ? 'Signing in...' : 'Login'}
         </Button>
 
         <div className="relative my-2">
@@ -128,9 +124,7 @@ const SignInForm = ({ className, ...props }: SignInFormProps) => {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background text-muted-foreground px-2">
-              Or continue with
-            </span>
+            <span className="bg-background text-muted-foreground px-2">Or continue with</span>
           </div>
         </div>
 
@@ -139,7 +133,7 @@ const SignInForm = ({ className, ...props }: SignInFormProps) => {
             variant="outline"
             type="button"
             disabled={isLoading}
-            onClick={() => signIn("google", { redirect: false })}
+            onClick={() => signIn('google', { redirect: false })}
           >
             <GrGoogle />
             <span className="pl-1">Google</span>
@@ -148,7 +142,7 @@ const SignInForm = ({ className, ...props }: SignInFormProps) => {
             variant="outline"
             type="button"
             disabled={isLoading}
-            onClick={() => signIn("facebook", { redirect: false })}
+            onClick={() => signIn('facebook', { redirect: false })}
           >
             <FaFacebook />
             <span className="pl-1">Facebook</span>

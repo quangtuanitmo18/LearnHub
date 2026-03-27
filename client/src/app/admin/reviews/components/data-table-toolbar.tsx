@@ -1,20 +1,13 @@
-"use client";
+'use client';
 
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { DataTableViewOptions } from "@/components/table/data-table-view-options";
-import { DataTableFacetedFilter } from "@/components/table/data-table-faceted-filter";
-import { IReview } from "@/types/review";
-import {
-  Search,
-  Trash2,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Star,
-} from "lucide-react";
+import { Cross2Icon } from '@radix-ui/react-icons';
+import { Table } from '@tanstack/react-table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { DataTableViewOptions } from '@/components/table/data-table-view-options';
+import { DataTableFacetedFilter } from '@/components/table/data-table-faceted-filter';
+import { IReview } from '@/types/review';
+import { Search, Trash2, Clock, CheckCircle, XCircle, Star } from 'lucide-react';
 
 interface FilterState {
   search: string;
@@ -33,18 +26,18 @@ interface DataTableToolbarProps {
 // Filter options for status
 const statusOptions = [
   {
-    label: "Pending",
-    value: "PENDING",
+    label: 'Pending',
+    value: 'PENDING',
     icon: Clock,
   },
   {
-    label: "Approved",
-    value: "APPROVED",
+    label: 'Approved',
+    value: 'APPROVED',
     icon: CheckCircle,
   },
   {
-    label: "Rejected",
-    value: "REJECTED",
+    label: 'Rejected',
+    value: 'REJECTED',
     icon: XCircle,
   },
 ] as const;
@@ -52,28 +45,28 @@ const statusOptions = [
 // Filter options for ratings
 const ratingOptions = [
   {
-    label: "5 Stars",
-    value: "5",
+    label: '5 Stars',
+    value: '5',
     icon: Star,
   },
   {
-    label: "4 Stars",
-    value: "4",
+    label: '4 Stars',
+    value: '4',
     icon: Star,
   },
   {
-    label: "3 Stars",
-    value: "3",
+    label: '3 Stars',
+    value: '3',
     icon: Star,
   },
   {
-    label: "2 Stars",
-    value: "2",
+    label: '2 Stars',
+    value: '2',
     icon: Star,
   },
   {
-    label: "1 Star",
-    value: "1",
+    label: '1 Star',
+    value: '1',
     icon: Star,
   },
 ] as const;
@@ -85,10 +78,7 @@ const DataTableToolbar = ({
   selectedRowCount,
   onBulkDelete,
 }: DataTableToolbarProps) => {
-  const isFiltered =
-    filters.search ||
-    filters.status.length > 0 ||
-    filters.rating.length > 0;
+  const isFiltered = filters.search || filters.status.length > 0 || filters.rating.length > 0;
 
   // Handle search input
   const handleSearchChange = (value: string) => {
@@ -108,7 +98,7 @@ const DataTableToolbar = ({
   // Reset all filters
   const resetFilters = () => {
     onFiltersChange({
-      search: "",
+      search: '',
       status: [],
       rating: [],
     });
@@ -119,12 +109,12 @@ const DataTableToolbar = ({
       <div className="flex flex-1 items-center space-x-2">
         {/* Search input */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder="Search reviews..."
             value={filters.search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-9 h-8 w-[150px] lg:w-[250px]"
+            className="h-8 w-[150px] pl-9 lg:w-[250px]"
           />
         </div>
 
@@ -146,11 +136,7 @@ const DataTableToolbar = ({
 
         {/* Reset filters button */}
         {isFiltered && (
-          <Button
-            variant="ghost"
-            onClick={resetFilters}
-            className="h-8 px-2 lg:px-3"
-          >
+          <Button variant="ghost" onClick={resetFilters} className="h-8 px-2 lg:px-3">
             Reset
             <Cross2Icon className="ml-2 h-4 w-4" />
           </Button>
@@ -160,12 +146,7 @@ const DataTableToolbar = ({
       <div className="flex items-center space-x-2">
         {/* Bulk delete button */}
         {selectedRowCount > 0 && (
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={onBulkDelete}
-            className="h-8"
-          >
+          <Button variant="destructive" size="sm" onClick={onBulkDelete} className="h-8">
             <Trash2 className="mr-2 h-4 w-4" />
             Delete ({selectedRowCount})
           </Button>

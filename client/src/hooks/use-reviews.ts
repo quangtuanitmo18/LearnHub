@@ -1,30 +1,26 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { keepPreviousData } from "@tanstack/react-query";
-import ReviewsService from "@/services/reviews";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData } from '@tanstack/react-query';
+import ReviewsService from '@/services/reviews';
 import {
   CreateReviewRequest,
   IReview,
   UpdateReviewRequest,
   AdminReviewsFilterParams,
-} from "@/types/review";
-import { toast } from "sonner";
-import { useState, useEffect, useCallback } from "react";
+} from '@/types/review';
+import { toast } from 'sonner';
+import { useState, useEffect, useCallback } from 'react';
 
 // Query keys
 export const reviewsKeys = {
-  all: ["reviews"] as const,
-  lists: () => [...reviewsKeys.all, "list"] as const,
-  list: (filters: AdminReviewsFilterParams) =>
-    [...reviewsKeys.lists(), filters] as const,
-  courseReviews: (courseId: string) =>
-    [...reviewsKeys.all, "course", courseId] as const,
-  courseReviewsWithFilter: (
-    courseId: string,
-    filters?: Record<string, string | number>
-  ) => [...reviewsKeys.courseReviews(courseId), filters] as const,
+  all: ['reviews'] as const,
+  lists: () => [...reviewsKeys.all, 'list'] as const,
+  list: (filters: AdminReviewsFilterParams) => [...reviewsKeys.lists(), filters] as const,
+  courseReviews: (courseId: string) => [...reviewsKeys.all, 'course', courseId] as const,
+  courseReviewsWithFilter: (courseId: string, filters?: Record<string, string | number>) =>
+    [...reviewsKeys.courseReviews(courseId), filters] as const,
   courseReviewStats: (courseId: string) =>
-    [...reviewsKeys.all, "course", courseId, "stats"] as const,
-  details: () => [...reviewsKeys.all, "detail"] as const,
+    [...reviewsKeys.all, 'course', courseId, 'stats'] as const,
+  details: () => [...reviewsKeys.all, 'detail'] as const,
   detail: (id: string) => [...reviewsKeys.details(), id] as const,
 };
 
@@ -37,7 +33,7 @@ export function useCourseReviews(
     page?: number;
     limit?: number;
     minStar?: number;
-  }
+  },
 ) {
   return useQuery({
     queryKey: reviewsKeys.courseReviewsWithFilter(courseId, params),
@@ -65,7 +61,7 @@ export function useCourseReviewsWithLoadMore(
   initialParams?: {
     limit?: number;
     minStar?: number;
-  }
+  },
 ) {
   const [page, setPage] = useState(1);
   const [allReviews, setAllReviews] = useState<IReview[]>([]);
@@ -93,7 +89,7 @@ export function useCourseReviewsWithLoadMore(
       }),
     enabled: !!courseId,
   });
-  console.log("useCourseReviewsWithLoadMore - reviewsData:", reviewsData);
+  console.log('useCourseReviewsWithLoadMore - reviewsData:', reviewsData);
 
   // Update reviews when data changes
   useEffect(() => {
@@ -146,8 +142,7 @@ export function useCreateReview() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CreateReviewRequest) =>
-      ReviewsService.submitReview(data),
+    mutationFn: (data: CreateReviewRequest) => ReviewsService.submitReview(data),
     onSuccess: (_, variables) => {
       // Invalidate and refetch course reviews and stats
       queryClient.invalidateQueries({
@@ -157,10 +152,10 @@ export function useCreateReview() {
         queryKey: reviewsKeys.courseReviewStats(variables.courseId),
       });
 
-      toast.success("Review submitted successfully!");
+      toast.success('Review submitted successfully!');
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to submit review");
+      toast.error(error.message || 'Failed to submit review');
     },
   });
 }
@@ -172,8 +167,7 @@ export function useUpdateReview() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: UpdateReviewRequest) =>
-      ReviewsService.updateReview(data),
+    mutationFn: (data: UpdateReviewRequest) => ReviewsService.updateReview(data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: reviewsKeys.courseReviews(variables.courseId),
@@ -182,10 +176,10 @@ export function useUpdateReview() {
         queryKey: reviewsKeys.courseReviewStats(variables.courseId),
       });
 
-      toast.success("Review updated successfully!");
+      toast.success('Review updated successfully!');
     },
     onError: () => {
-      toast.error("Failed to update review");
+      toast.error('Failed to update review');
     },
   });
 }
@@ -207,10 +201,10 @@ export function useDeleteReview() {
         queryKey: reviewsKeys.courseReviewStats(variables.courseId),
       });
 
-      toast.success("Review deleted successfully!");
+      toast.success('Review deleted successfully!');
     },
     onError: () => {
-      toast.error("Failed to delete review");
+      toast.error('Failed to delete review');
     },
   });
 }
@@ -231,7 +225,7 @@ export function useToggleReviewLike() {
       });
     },
     onError: () => {
-      toast.error("Failed to update like");
+      toast.error('Failed to update like');
     },
   });
 }
@@ -243,7 +237,7 @@ export function useToggleReviewLike() {
  */
 export function useAdminReviews(params: AdminReviewsFilterParams) {
   return useQuery({
-    queryKey: [...reviewsKeys.lists(), "admin", params],
+    queryKey: [...reviewsKeys.lists(), 'admin', params],
     queryFn: () => ReviewsService.getAdminReviews(params),
     placeholderData: keepPreviousData,
   });
@@ -269,12 +263,10 @@ export function useUpdateReviewStatus() {
         queryKey: reviewsKeys.detail(reviewId),
       });
 
-      toast.success("Review status updated successfully");
+      toast.success('Review status updated successfully');
     },
     onError: (error) => {
-      toast.error(
-        error.message || "Failed to update review status. Please try again."
-      );
+      toast.error(error.message || 'Failed to update review status. Please try again.');
     },
   });
 }
@@ -286,8 +278,7 @@ export function useDeleteAdminReview() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (reviewId: string) =>
-      ReviewsService.deleteAdminReview(reviewId),
+    mutationFn: (reviewId: string) => ReviewsService.deleteAdminReview(reviewId),
     onSuccess: (_, reviewId) => {
       // Invalidate and refetch admin reviews list
       queryClient.invalidateQueries({
@@ -299,10 +290,10 @@ export function useDeleteAdminReview() {
         queryKey: reviewsKeys.detail(reviewId),
       });
 
-      toast.success("Review deleted successfully");
+      toast.success('Review deleted successfully');
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to delete review. Please try again.");
+      toast.error(error.message || 'Failed to delete review. Please try again.');
     },
   });
 }
@@ -314,8 +305,7 @@ export function useBulkDeleteAdminReviews() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (reviewIds: string[]) =>
-      ReviewsService.bulkDeleteAdminReviews(reviewIds),
+    mutationFn: (reviewIds: string[]) => ReviewsService.bulkDeleteAdminReviews(reviewIds),
     onSuccess: (_, reviewIds) => {
       // Invalidate and refetch admin reviews list
       queryClient.invalidateQueries({
@@ -330,15 +320,11 @@ export function useBulkDeleteAdminReviews() {
       });
 
       toast.success(
-        `Successfully deleted ${reviewIds.length} review${
-          reviewIds.length === 1 ? "" : "s"
-        }`
+        `Successfully deleted ${reviewIds.length} review${reviewIds.length === 1 ? '' : 's'}`,
       );
     },
     onError: (error) => {
-      toast.error(
-        error.message || "Failed to delete reviews. Please try again."
-      );
+      toast.error(error.message || 'Failed to delete reviews. Please try again.');
     },
   });
 }

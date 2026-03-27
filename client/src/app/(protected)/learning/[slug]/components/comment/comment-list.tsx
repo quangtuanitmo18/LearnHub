@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { MessageCircle, Loader2 } from "lucide-react";
-import CommentItem from "./comment-item";
+import { Button } from '@/components/ui/button';
+import { MessageCircle, Loader2 } from 'lucide-react';
+import CommentItem from './comment-item';
 
-import { Editor as TipTapEditor } from "@tiptap/react";
-import { IComment } from "@/types/comment";
+import { Editor as TipTapEditor } from '@tiptap/react';
+import { IComment } from '@/types/comment';
 
 interface CommentListProps {
   comments: IComment[];
@@ -52,14 +52,14 @@ const CommentList = ({
   // Error State
   if (error) {
     return (
-      <div className="text-center text-red-500 py-8 sm:py-12 px-4">
-        <MessageCircle className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
+      <div className="px-4 py-8 text-center text-red-500 sm:py-12">
+        <MessageCircle className="mx-auto mb-3 h-10 w-10 opacity-50 sm:mb-4 sm:h-12 sm:w-12" />
         <p className="text-xs sm:text-sm">Failed to load comments</p>
         <Button
           variant="outline"
           size="sm"
           onClick={onRefetch}
-          className="mt-2 h-8 sm:h-9 text-xs sm:text-sm"
+          className="mt-2 h-8 text-xs sm:h-9 sm:text-sm"
         >
           Try again
         </Button>
@@ -70,8 +70,8 @@ const CommentList = ({
   // Loading State
   if (isLoading) {
     return (
-      <div className="text-center text-gray-500 py-8 sm:py-12 px-4">
-        <Loader2 className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 animate-spin opacity-50" />
+      <div className="px-4 py-8 text-center text-gray-500 sm:py-12">
+        <Loader2 className="mx-auto mb-3 h-10 w-10 animate-spin opacity-50 sm:mb-4 sm:h-12 sm:w-12" />
         <p className="text-xs sm:text-sm">Loading comments...</p>
       </div>
     );
@@ -80,10 +80,10 @@ const CommentList = ({
   // Empty State
   if (comments.length === 0) {
     return (
-      <div className="text-center text-gray-500 py-8 sm:py-12 px-4">
-        <MessageCircle className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
+      <div className="px-4 py-8 text-center text-gray-500 sm:py-12">
+        <MessageCircle className="mx-auto mb-3 h-10 w-10 opacity-50 sm:mb-4 sm:h-12 sm:w-12" />
         <p className="text-xs sm:text-sm">No comments yet</p>
-        <p className="text-[10px] sm:text-xs mt-1">Be the first to comment!</p>
+        <p className="mt-1 text-[10px] sm:text-xs">Be the first to comment!</p>
       </div>
     );
   }

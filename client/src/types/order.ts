@@ -1,20 +1,20 @@
-import { ListResponse, BaseFilterParams } from "./common";
-import { MembershipPlan } from "./membership";
+import { ListResponse, BaseFilterParams } from './common';
+import { MembershipPlan } from './membership';
 
 // Order interfaces
 export enum OrderStatus {
-  PENDING = "PENDING",
-  COMPLETED = "COMPLETED",
-  CANCELLED = "CANCELLED",
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum PaymentMethod {
-  STRIPE = "STRIPE",
-  BANK_TRANSFER = "BANK_TRANSFER",
+  STRIPE = 'STRIPE',
+  BANK_TRANSFER = 'BANK_TRANSFER',
 }
 
 export enum OrderType {
-  COURSE = "COURSE",
+  COURSE = 'COURSE',
 }
 
 export interface OrderUser {

@@ -1,9 +1,9 @@
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-import CoursesService from "@/services/courses";
+import CoursesService from '@/services/courses';
 
-import CoursesContent from "./components/courses-content";
-import CoursesHeader from "./components/courses-header";
+import CoursesContent from './components/courses-content';
+import CoursesHeader from './components/courses-header';
 
 // Server-side data fetching function
 async function fetchInitialCoursesData() {

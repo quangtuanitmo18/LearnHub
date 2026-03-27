@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useDeleteBlog } from "@/hooks/use-blogs";
-import { IBlog } from "@/types/blog";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useDeleteBlog } from '@/hooks/use-blogs';
+import { IBlog } from '@/types/blog';
 
 interface BlogsDeleteDialogProps {
   currentRow: IBlog; // Alternative prop name for compatibility
@@ -10,11 +10,7 @@ interface BlogsDeleteDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const BlogsDeleteDialog = ({
-  currentRow,
-  open,
-  onOpenChange,
-}: BlogsDeleteDialogProps) => {
+const BlogsDeleteDialog = ({ currentRow, open, onOpenChange }: BlogsDeleteDialogProps) => {
   const deleteBlogMutation = useDeleteBlog();
 
   const handleDelete = () => {

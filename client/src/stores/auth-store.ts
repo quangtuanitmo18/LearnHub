@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { AuthService, type CurrentUser } from "@/services/auth";
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { AuthService, type CurrentUser } from '@/services/auth';
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 // Use the CurrentUser type from auth service
 export type AuthUser = CurrentUser;
@@ -20,10 +20,7 @@ interface AuthState {
   setLoading: (loading: boolean) => void;
 
   // Permission helper - only keep the one we actually use
-  canPerformAction: (
-    resource: string,
-    action: "create" | "read" | "update" | "delete"
-  ) => boolean;
+  canPerformAction: (resource: string, action: 'create' | 'read' | 'update' | 'delete') => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -75,9 +72,9 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: "auth-store",
-    }
-  )
+      name: 'auth-store',
+    },
+  ),
 );
 
 // Selectors for performance optimization
@@ -88,20 +85,20 @@ export const useIsLoading = () => useAuthStore((state) => state.isLoading);
 // Main permission selector
 export const useCanPerformAction = (
   resource: string,
-  action: "create" | "read" | "update" | "delete"
+  action: 'create' | 'read' | 'update' | 'delete',
 ) => useAuthStore((state) => state.canPerformAction(resource, action));
 
 // Token management helpers (only store tokens, not user data)
 function getTokenFromStorage(): string | null {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("access_token");
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('access_token');
   }
   return null;
 }
 
 function clearTokenFromStorage(): void {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
   }
 }

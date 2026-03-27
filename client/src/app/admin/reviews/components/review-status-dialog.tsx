@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,25 +9,25 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useUpdateReviewStatus } from "@/hooks/use-reviews";
-import { IReview, ReviewStatus } from "@/types/review";
-import { getStatusConfig } from "@/utils/common";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+} from '@/components/ui/select';
+import { useUpdateReviewStatus } from '@/hooks/use-reviews';
+import { IReview, ReviewStatus } from '@/types/review';
+import { getStatusConfig } from '@/utils/common';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 // Status labels
 const STATUS_LABELS: Record<ReviewStatus, string> = {
-  [ReviewStatus.PENDING]: "Pending",
-  [ReviewStatus.APPROVED]: "Approved",
-  [ReviewStatus.REJECTED]: "Rejected",
+  [ReviewStatus.PENDING]: 'Pending',
+  [ReviewStatus.APPROVED]: 'Approved',
+  [ReviewStatus.REJECTED]: 'Rejected',
 };
 
 interface ReviewStatusDialogProps {
@@ -36,14 +36,8 @@ interface ReviewStatusDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const ReviewStatusDialog = ({
-  review,
-  open,
-  onOpenChange,
-}: ReviewStatusDialogProps) => {
-  const [selectedStatus, setSelectedStatus] = useState<ReviewStatus>(
-    review.status as ReviewStatus
-  );
+const ReviewStatusDialog = ({ review, open, onOpenChange }: ReviewStatusDialogProps) => {
+  const [selectedStatus, setSelectedStatus] = useState<ReviewStatus>(review.status as ReviewStatus);
 
   // Use the mutation hook for updating review status
   const { mutate: updateReviewStatus, isPending } = useUpdateReviewStatus();
@@ -66,7 +60,7 @@ const ReviewStatusDialog = ({
         onSuccess: () => {
           onOpenChange(false);
         },
-      }
+      },
     );
   };
 
@@ -90,28 +84,23 @@ const ReviewStatusDialog = ({
         <div className="space-y-4">
           {/* Current Status */}
           <div>
-            <label className="text-sm font-medium text-muted-foreground">
-              Current Status
-            </label>
+            <label className="text-muted-foreground text-sm font-medium">Current Status</label>
             <div className="mt-1">
               <Badge
-                className={`rounded-full capitalize border ${currentStatusConfig.bgColor} ${currentStatusConfig.textColor} ${currentStatusConfig.borderColor}`}
+                className={`rounded-full border capitalize ${currentStatusConfig.bgColor} ${currentStatusConfig.textColor} ${currentStatusConfig.borderColor}`}
               >
                 <span
                   className={`size-1.5 rounded-full ${currentStatusConfig.dotColor}`}
                   aria-hidden="true"
                 />
-                {STATUS_LABELS[review.status as ReviewStatus] ||
-                  currentStatusConfig.label}
+                {STATUS_LABELS[review.status as ReviewStatus] || currentStatusConfig.label}
               </Badge>
             </div>
           </div>
 
           {/* New Status */}
           <div>
-            <label className="text-sm font-medium text-muted-foreground">
-              New Status
-            </label>
+            <label className="text-muted-foreground text-sm font-medium">New Status</label>
             <Select
               value={selectedStatus}
               onValueChange={(value) => setSelectedStatus(value as ReviewStatus)}
@@ -145,12 +134,12 @@ const ReviewStatusDialog = ({
 
           {/* Preview */}
           {selectedStatus !== (review.status as ReviewStatus) && (
-            <div className="p-3 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground mb-2">Preview:</p>
+            <div className="bg-muted rounded-lg p-3">
+              <p className="text-muted-foreground mb-2 text-sm">Preview:</p>
               <div className="flex items-center gap-2">
                 <span className="text-sm">Status will change to:</span>
                 <Badge
-                  className={`rounded-full capitalize border ${newStatusConfig.bgColor} ${newStatusConfig.textColor} ${newStatusConfig.borderColor}`}
+                  className={`rounded-full border capitalize ${newStatusConfig.bgColor} ${newStatusConfig.textColor} ${newStatusConfig.borderColor}`}
                 >
                   <span
                     className={`size-1.5 rounded-full ${newStatusConfig.dotColor}`}
@@ -164,12 +153,7 @@ const ReviewStatusDialog = ({
         </div>
 
         <DialogFooter>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleClose}
-            disabled={isPending}
-          >
+          <Button type="button" variant="outline" onClick={handleClose} disabled={isPending}>
             Cancel
           </Button>
           <Button

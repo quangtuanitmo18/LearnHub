@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useBulkDeleteAdminReviews } from "@/hooks/use-reviews";
-import { toast } from "sonner";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useBulkDeleteAdminReviews } from '@/hooks/use-reviews';
+import { toast } from 'sonner';
 
 interface ReviewsBulkDeleteDialogProps {
   selectedReviews: string[];
@@ -24,8 +24,8 @@ const ReviewsBulkDeleteDialog = ({
       onSuccess: () => {
         toast.success(
           `Successfully deleted ${selectedReviews.length} review${
-            selectedReviews.length === 1 ? "" : "s"
-          }`
+            selectedReviews.length === 1 ? '' : 's'
+          }`,
         );
         onSuccess?.();
       },

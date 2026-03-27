@@ -1,18 +1,14 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import RolesService from "@/services/roles";
-import type {
-  CreateRoleRequest,
-  UpdateRoleRequest,
-  RolesFilterParams,
-} from "@/types/role";
-import { toast } from "sonner";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import RolesService from '@/services/roles';
+import type { CreateRoleRequest, UpdateRoleRequest, RolesFilterParams } from '@/types/role';
+import { toast } from 'sonner';
 
 // Query keys for roles
 export const roleKeys = {
-  all: ["roles"] as const,
-  lists: () => [...roleKeys.all, "list"] as const,
+  all: ['roles'] as const,
+  lists: () => [...roleKeys.all, 'list'] as const,
   list: (filters: RolesFilterParams) => [...roleKeys.lists(), filters] as const,
-  detail: (id: string) => [...roleKeys.all, "detail", id] as const,
+  detail: (id: string) => [...roleKeys.all, 'detail', id] as const,
 };
 
 // Default empty params object for stable reference
@@ -42,14 +38,13 @@ export function useCreateRole() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (roleData: CreateRoleRequest) =>
-      RolesService.createRole(roleData),
+    mutationFn: (roleData: CreateRoleRequest) => RolesService.createRole(roleData),
     onSuccess: () => {
       // Invalidate and refetch roles list
       queryClient.invalidateQueries({ queryKey: roleKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to create role");
+      toast.error(error?.message || 'Failed to create role');
     },
   });
 }
@@ -59,8 +54,7 @@ export function useUpdateRole() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (roleData: UpdateRoleRequest) =>
-      RolesService.updateRole(roleData),
+    mutationFn: (roleData: UpdateRoleRequest) => RolesService.updateRole(roleData),
     onSuccess: (updatedRole) => {
       // Update the role in the cache
       queryClient.setQueryData(roleKeys.detail(updatedRole.id), updatedRole);
@@ -68,7 +62,7 @@ export function useUpdateRole() {
       queryClient.invalidateQueries({ queryKey: roleKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to update role");
+      toast.error(error?.message || 'Failed to update role');
     },
   });
 }
@@ -88,7 +82,7 @@ export function useDeleteRole() {
       queryClient.invalidateQueries({ queryKey: roleKeys.lists() });
     },
     onError: (error) => {
-      toast.error(error?.message || "Failed to delete role");
+      toast.error(error?.message || 'Failed to delete role');
     },
   });
 }

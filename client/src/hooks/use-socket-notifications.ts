@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useCallback, useRef } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { useEffect, useCallback, useRef } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import {
   connectNotificationSocket,
   disconnectNotificationSocket,
   SOCKET_EVENTS,
-} from "@/lib/socket";
-import { useIsAuthenticated } from "@/stores/auth-store";
-import { notificationKeys } from "@/hooks/use-notifications";
-import type { NotificationCount } from "@/types/notification";
+} from '@/lib/socket';
+import { useIsAuthenticated } from '@/stores/auth-store';
+import { notificationKeys } from '@/hooks/use-notifications';
+import type { NotificationCount } from '@/types/notification';
 
 // Types for socket events based on BE response
 export interface NewCourseEvent {
@@ -38,9 +38,7 @@ interface UseSocketNotificationsOptions {
 /**
  * Hook to manage real-time notifications via Socket.IO
  */
-export function useSocketNotifications(
-  options: UseSocketNotificationsOptions = {}
-) {
+export function useSocketNotifications(options: UseSocketNotificationsOptions = {}) {
   const { onNewCourse, onNotificationCount, showToasts = true } = options;
 
   const queryClient = useQueryClient();
@@ -49,8 +47,8 @@ export function useSocketNotifications(
 
   // Get access token from localStorage
   const getAccessToken = useCallback(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("access_token");
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('access_token');
     }
     return null;
   }, []);
@@ -59,18 +57,15 @@ export function useSocketNotifications(
   const handleNotificationCount = useCallback(
     (data: NotificationCountEvent) => {
       // Update the cache directly for instant UI update
-      queryClient.setQueryData<NotificationCount>(
-        notificationKeys.count,
-        (old) => ({
-          total: data.total ?? old?.total ?? 0,
-          unread: data.unread ?? old?.unread ?? 0,
-        })
-      );
+      queryClient.setQueryData<NotificationCount>(notificationKeys.count, (old) => ({
+        total: data.total ?? old?.total ?? 0,
+        unread: data.unread ?? old?.unread ?? 0,
+      }));
 
       // Call custom handler if provided
       onNotificationCount?.(data);
     },
-    [queryClient, onNotificationCount]
+    [queryClient, onNotificationCount],
   );
 
   // Handle new course notification
@@ -97,7 +92,7 @@ export function useSocketNotifications(
       // Call custom handler if provided
       onNewCourse?.(data);
     },
-    [queryClient, showToasts, onNewCourse]
+    [queryClient, showToasts, onNewCourse],
   );
 
   // Handle new generic notification
@@ -122,17 +117,17 @@ export function useSocketNotifications(
 
     // Connection event handlers
     socket.on(SOCKET_EVENTS.CONNECT, () => {
-      console.log("[Socket] Connected to notification server");
+      console.log('[Socket] Connected to notification server');
       socketConnectedRef.current = true;
     });
 
     socket.on(SOCKET_EVENTS.DISCONNECT, (reason) => {
-      console.log("[Socket] Disconnected:", reason);
+      console.log('[Socket] Disconnected:', reason);
       socketConnectedRef.current = false;
     });
 
     socket.on(SOCKET_EVENTS.CONNECT_ERROR, (error) => {
-      console.error("[Socket] Connection error:", error.message);
+      console.error('[Socket] Connection error:', error.message);
     });
 
     // Notification event handlers

@@ -1,10 +1,10 @@
-import { ListResponse, BaseFilterParams } from "./common";
-import { IMedia } from "./media";
+import { ListResponse, BaseFilterParams } from './common';
+import { IMedia } from './media';
 
 export enum PostStatus {
-  DRAFT = "DRAFT",
-  PUBLISHED = "PUBLISHED",
-  ARCHIVED = "ARCHIVED",
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  ARCHIVED = 'ARCHIVED',
 }
 
 export interface IPostAuthor {

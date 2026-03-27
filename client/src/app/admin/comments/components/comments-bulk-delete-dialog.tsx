@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import AlertDialogDestructive from "@/components/alert-dialog";
-import { useBulkDeleteComments } from "@/hooks/use-comments";
-import { IComment } from "@/types/comment";
-import { toast } from "sonner";
+import AlertDialogDestructive from '@/components/alert-dialog';
+import { useBulkDeleteComments } from '@/hooks/use-comments';
+import { IComment } from '@/types/comment';
+import { toast } from 'sonner';
 
 interface CommentsBulkDeleteDialogProps {
   selectedComments: IComment[];
@@ -25,9 +25,7 @@ const CommentsBulkDeleteDialog = ({
 
     bulkDeleteMutation.mutate(commentIds, {
       onSuccess: () => {
-        toast.success(
-          `${selectedComments.length} comments deleted successfully!`
-        );
+        toast.success(`${selectedComments.length} comments deleted successfully!`);
         onSuccess?.();
       },
     });

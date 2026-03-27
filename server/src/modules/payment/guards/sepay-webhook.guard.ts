@@ -12,8 +12,8 @@ export class SepayWebhookGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-      const authHeader = request.headers['authorization'];
-      console.log('SepayWebhookGuard - Authorization Header:', authHeader);
+    const authHeader = request.headers['authorization'];
+    console.log('SepayWebhookGuard - Authorization Header:', authHeader);
 
     if (!authHeader) {
       throw new UnauthorizedException('Missing Authorization header');
@@ -23,10 +23,14 @@ export class SepayWebhookGuard implements CanActivate {
     const [prefix, apiKey] = authHeader.split(' ');
 
     if (prefix !== 'Apikey') {
-      throw new UnauthorizedException('Invalid Authorization format. Expected: Apikey {API_KEY}');
+      throw new UnauthorizedException(
+        'Invalid Authorization format. Expected: Apikey {API_KEY}',
+      );
     }
 
-    const expectedApiKey = this.configService.get<string>('payment.sepayApiKey');
+    const expectedApiKey = this.configService.get<string>(
+      'payment.sepayApiKey',
+    );
 
     if (!expectedApiKey) {
       throw new UnauthorizedException('SePay API key not configured');

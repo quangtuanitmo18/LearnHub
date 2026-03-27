@@ -17,7 +17,10 @@ export class OrderQueueService {
   /**
    * Schedule order cancellation after 24 hours
    */
-  async scheduleCancelOrder(orderId: string, orderCode: string): Promise<string> {
+  async scheduleCancelOrder(
+    orderId: string,
+    orderCode: string,
+  ): Promise<string> {
     const jobData: CancelOrderJobData = { orderId, orderCode };
 
     const job = await this.orderQueue.add(

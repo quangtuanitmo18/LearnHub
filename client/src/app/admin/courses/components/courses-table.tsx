@@ -1,18 +1,14 @@
-"use client";
+'use client';
 
-import { DataTable, DataTablePagination } from "@/components/table";
-import { useCourses } from "@/hooks/use-courses";
-import { useDebounce } from "@/hooks/use-debounce";
-import {
-  VisibilityState,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { columns } from "./courses-columns";
-import DataTableToolbar from "./data-table-toolbar";
-import CoursesBulkDeleteDialog from "./courses-bulk-delete-dialog";
-import { TABLE_CONSTANTS, PAGINATION_CONSTANTS } from "@/constants";
+import { DataTable, DataTablePagination } from '@/components/table';
+import { useCourses } from '@/hooks/use-courses';
+import { useDebounce } from '@/hooks/use-debounce';
+import { VisibilityState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { columns } from './courses-columns';
+import DataTableToolbar from './data-table-toolbar';
+import CoursesBulkDeleteDialog from './courses-bulk-delete-dialog';
+import { TABLE_CONSTANTS, PAGINATION_CONSTANTS } from '@/constants';
 
 // Filter state interface for better organization
 interface FilterState {
@@ -29,26 +25,19 @@ const CoursesTable = () => {
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE
-  );
-  const [pageSize, setPageSize] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE
-  );
+  const [currentPage, setCurrentPage] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE);
+  const [pageSize, setPageSize] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE);
 
   // Filter state - grouped for better performance
   const [filters, setFilters] = useState<FilterState>({
-    search: "",
+    search: '',
     status: [],
     type: [],
     level: [],
   });
 
   // Debounce search input
-  const debouncedSearch = useDebounce(
-    filters.search,
-    TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS
-  );
+  const debouncedSearch = useDebounce(filters.search, TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS);
 
   // Optimized query parameters
   const queryParams = useMemo(
@@ -60,14 +49,7 @@ const CoursesTable = () => {
       type: filters.type,
       level: filters.level,
     }),
-    [
-      currentPage,
-      pageSize,
-      debouncedSearch,
-      filters.status,
-      filters.type,
-      filters.level,
-    ]
+    [currentPage, pageSize, debouncedSearch, filters.status, filters.type, filters.level],
   );
 
   const { data: coursesData, isLoading } = useCourses(queryParams);
@@ -96,7 +78,7 @@ const CoursesTable = () => {
 
   const handleClearFilters = useCallback(() => {
     setFilters({
-      search: "",
+      search: '',
       status: [],
       type: [],
       level: [],
@@ -122,10 +104,7 @@ const CoursesTable = () => {
   }, []);
 
   // Memoized courses data
-  const courses = useMemo(
-    () => coursesData?.result || [],
-    [coursesData?.result]
-  );
+  const courses = useMemo(() => coursesData?.result || [], [coursesData?.result]);
 
   // Get selected courses for bulk operations
   const selectedCourses = useMemo(() => {

@@ -1,22 +1,16 @@
-"use client";
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { ROUTE_CONFIG } from "@/configs/routes";
-import { DEFAULT_AVATAR } from "@/constants";
-import { useAuthStore } from "@/stores/auth-store";
-import { useRouter } from "next/navigation";
-import {
-  MdArticle,
-  MdLogout,
-  MdPerson,
-  MdSchool,
-  MdSettings,
-} from "react-icons/md";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { ROUTE_CONFIG } from '@/configs/routes';
+import { DEFAULT_AVATAR } from '@/constants';
+import { useAuthStore } from '@/stores/auth-store';
+import { useRouter } from 'next/navigation';
+import { MdArticle, MdLogout, MdPerson, MdSchool, MdSettings } from 'react-icons/md';
 
-export type ProfileTab = "account" | "courses" | "posts" | "settings";
+export type ProfileTab = 'account' | 'courses' | 'posts' | 'settings';
 
 interface ProfileSidebarProps {
   activeTab: ProfileTab;
@@ -25,23 +19,23 @@ interface ProfileSidebarProps {
 
 const sidebarItems = [
   {
-    id: "account" as ProfileTab,
-    label: "Account",
+    id: 'account' as ProfileTab,
+    label: 'Account',
     icon: MdPerson,
   },
   {
-    id: "courses" as ProfileTab,
-    label: "My Courses",
+    id: 'courses' as ProfileTab,
+    label: 'My Courses',
     icon: MdSchool,
   },
   {
-    id: "posts" as ProfileTab,
-    label: "My Posts",
+    id: 'posts' as ProfileTab,
+    label: 'My Posts',
     icon: MdArticle,
   },
   {
-    id: "settings" as ProfileTab,
-    label: "Settings",
+    id: 'settings' as ProfileTab,
+    label: 'Settings',
     icon: MdSettings,
   },
 ];
@@ -60,35 +54,29 @@ const ProfileSidebar = ({ activeTab, onTabChange }: ProfileSidebarProps) => {
   if (!user) return null;
 
   const avatarUrl = user.avatar || DEFAULT_AVATAR;
-  const userInitials = user.username
-    ? user.username.slice(0, 2).toUpperCase()
-    : "U";
+  const userInitials = user.username ? user.username.slice(0, 2).toUpperCase() : 'U';
 
   return (
     <>
       {/* Desktop Sidebar */}
-      <Card className="hidden lg:block h-fit pt-0 border-0 shadow-lg bg-linear-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+      <Card className="hidden h-fit border-0 bg-linear-to-br from-white to-gray-50 pt-0 shadow-lg lg:block dark:from-gray-900 dark:to-gray-800">
         <CardContent className="p-0">
           {/* User Profile Header */}
-          <div className="p-6 flex flex-col items-center gap-2 justify-center bg-linear-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20">
+          <div className="from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 flex flex-col items-center justify-center gap-2 bg-linear-to-br p-6">
             <div className="relative">
-              <div className="h-20 w-20 relative">
-                <Avatar className="w-full h-full mx-auto mb-4 ring-4 ring-white/50 shadow-lg">
+              <div className="relative h-20 w-20">
+                <Avatar className="mx-auto mb-4 h-full w-full shadow-lg ring-4 ring-white/50">
                   <AvatarImage src={avatarUrl} alt={user.username} />
-                  <AvatarFallback className="bg-linear-to-br from-primary to-primary/80 text-white text-lg font-bold">
+                  <AvatarFallback className="from-primary to-primary/80 bg-linear-to-br text-lg font-bold text-white">
                     {userInitials}
                   </AvatarFallback>
                 </Avatar>
                 {/* Online indicator */}
-                <div className="absolute bottom-2 right-0 size-3 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+                <div className="absolute right-0 bottom-2 size-3 rounded-full border-2 border-white bg-green-500 shadow-sm"></div>
               </div>
             </div>
-            <h3 className="font-bold text-lg text-gray-900 dark:text-white">
-              {user.username}
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
-              {user.email}
-            </p>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{user.username}</h3>
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{user.email}</p>
           </div>
 
           <Separator className="border-gray-200 dark:border-gray-700" />
@@ -103,16 +91,14 @@ const ProfileSidebar = ({ activeTab, onTabChange }: ProfileSidebarProps) => {
                 <Button
                   key={item.id}
                   variant="ghost"
-                  className={`w-full justify-start mb-2 h-12 transition-all duration-200 font-medium ${
+                  className={`mb-2 h-12 w-full justify-start font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-gradient-to-r from-primary to-primary/90 text-white hover:text-white shadow-md hover:shadow-lg transform scale-[1.02]"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                      ? 'from-primary to-primary/90 scale-[1.02] transform bg-gradient-to-r text-white shadow-md hover:text-white hover:shadow-lg'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
                   }`}
                   onClick={() => onTabChange(item.id)}
                 >
-                  <Icon
-                    className={`h-5 w-5 mr-3 ${isActive ? "text-white" : ""}`}
-                  />
+                  <Icon className={`mr-3 h-5 w-5 ${isActive ? 'text-white' : ''}`} />
                   {item.label}
                 </Button>
               );
@@ -123,10 +109,10 @@ const ProfileSidebar = ({ activeTab, onTabChange }: ProfileSidebarProps) => {
             {/* Logout Button */}
             <Button
               variant="ghost"
-              className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20 h-12 font-medium transition-all duration-200"
+              className="h-12 w-full justify-start font-medium text-red-600 transition-all duration-200 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/20"
               onClick={handleLogout}
             >
-              <MdLogout className="h-5 w-5 mr-3" />
+              <MdLogout className="mr-3 h-5 w-5" />
               Logout
             </Button>
           </div>
@@ -134,26 +120,26 @@ const ProfileSidebar = ({ activeTab, onTabChange }: ProfileSidebarProps) => {
       </Card>
 
       {/* Mobile Navigation */}
-      <div className="lg:hidden space-y-3 sm:space-y-4">
+      <div className="space-y-3 sm:space-y-4 lg:hidden">
         {/* User Profile Card - Mobile */}
-        <Card className="border-0 shadow-md bg-linear-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+        <Card className="border-0 bg-linear-to-br from-white to-gray-50 shadow-md dark:from-gray-900 dark:to-gray-800">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <Avatar className="h-14 w-14 sm:h-16 sm:w-16 ring-2 ring-white/50 shadow-md">
+                <Avatar className="h-14 w-14 shadow-md ring-2 ring-white/50 sm:h-16 sm:w-16">
                   <AvatarImage src={avatarUrl} alt={user.username} />
-                  <AvatarFallback className="bg-linear-to-br from-primary to-primary/80 text-white text-sm sm:text-base font-bold">
+                  <AvatarFallback className="from-primary to-primary/80 bg-linear-to-br text-sm font-bold text-white sm:text-base">
                     {userInitials}
                   </AvatarFallback>
                 </Avatar>
                 {/* Online indicator */}
-                <div className="absolute bottom-0 right-0 size-2.5 sm:size-3 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
+                <div className="absolute right-0 bottom-0 size-2.5 rounded-full border-2 border-white bg-green-500 shadow-sm sm:size-3"></div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-base sm:text-lg text-gray-900 dark:text-white truncate">
+              <div className="min-w-0 flex-1">
+                <h3 className="truncate text-base font-bold text-gray-900 sm:text-lg dark:text-white">
                   {user.username}
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
+                <p className="truncate text-xs text-gray-600 sm:text-sm dark:text-gray-400">
                   {user.email}
                 </p>
               </div>
@@ -161,7 +147,7 @@ const ProfileSidebar = ({ activeTab, onTabChange }: ProfileSidebarProps) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20 h-8 w-8 sm:h-9 sm:w-9 p-0 shrink-0"
+                className="h-8 w-8 shrink-0 p-0 text-red-600 hover:bg-red-50 hover:text-red-700 sm:h-9 sm:w-9 dark:hover:bg-red-950/20"
                 onClick={handleLogout}
               >
                 <MdLogout className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -171,7 +157,7 @@ const ProfileSidebar = ({ activeTab, onTabChange }: ProfileSidebarProps) => {
         </Card>
 
         {/* Horizontal Tabs - Mobile */}
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="scrollbar-hide flex gap-2 overflow-x-auto pb-2">
           {sidebarItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -179,12 +165,12 @@ const ProfileSidebar = ({ activeTab, onTabChange }: ProfileSidebarProps) => {
             return (
               <Button
                 key={item.id}
-                variant={isActive ? "default" : "outline"}
+                variant={isActive ? 'default' : 'outline'}
                 size="sm"
-                className={`shrink-0 flex items-center gap-1.5 sm:gap-2 h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm font-medium transition-all duration-200 ${
+                className={`flex h-9 shrink-0 items-center gap-1.5 px-3 text-xs font-medium transition-all duration-200 sm:h-10 sm:gap-2 sm:px-4 sm:text-sm ${
                   isActive
-                    ? "bg-gradient-to-r from-primary to-primary/90 shadow-md"
-                    : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                    ? 'from-primary to-primary/90 bg-gradient-to-r shadow-md'
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                 }`}
                 onClick={() => onTabChange(item.id)}
               >

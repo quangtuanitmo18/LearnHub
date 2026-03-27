@@ -1,4 +1,4 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import type {
   ILesson,
   LessonFormData,
@@ -6,17 +6,16 @@ import type {
   UpdateLessonRequest,
   ReorderLessonsRequest,
   LessonsFilterParams,
-} from "@/types/lesson";
+} from '@/types/lesson';
 
 const ENDPOINTS = {
-  LESSONS: "/lessons",
+  LESSONS: '/lessons',
   LESSON: (id: string) => `/lessons/${id}`,
   LESSON_BY_SLUG: (slug: string) => `/lessons/slug/${slug}`,
   LESSON_TOGGLE_PUBLISH: (id: string) => `/lessons/${id}/toggle-publish`,
-  LESSON_REORDER: "/lessons/reorder",
+  LESSON_REORDER: '/lessons/reorder',
   LESSONS_BY_CHAPTER: (chapterId: string) => `/lessons/chapter/${chapterId}`,
-  PUBLISHED_LESSONS_BY_CHAPTER: (chapterId: string) =>
-    `/lessons/chapter/${chapterId}/published`,
+  PUBLISHED_LESSONS_BY_CHAPTER: (chapterId: string) => `/lessons/chapter/${chapterId}/published`,
 } as const;
 
 export class LessonsService {
@@ -25,7 +24,7 @@ export class LessonsService {
     try {
       const response = await ApiService.get<ILesson[]>(
         ENDPOINTS.LESSONS,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
       return response || [];
     } catch {
@@ -36,22 +35,16 @@ export class LessonsService {
   // Get lessons by chapter ID
   static async getLessonsByChapter(chapterId: string): Promise<ILesson[]> {
     try {
-      return await ApiService.get<ILesson[]>(
-        ENDPOINTS.LESSONS_BY_CHAPTER(chapterId)
-      );
+      return await ApiService.get<ILesson[]>(ENDPOINTS.LESSONS_BY_CHAPTER(chapterId));
     } catch {
       return [];
     }
   }
 
   // Get published lessons by chapter ID (for public course view)
-  static async getPublishedLessonsByChapter(
-    chapterId: string
-  ): Promise<ILesson[]> {
+  static async getPublishedLessonsByChapter(chapterId: string): Promise<ILesson[]> {
     try {
-      return await ApiService.get<ILesson[]>(
-        ENDPOINTS.PUBLISHED_LESSONS_BY_CHAPTER(chapterId)
-      );
+      return await ApiService.get<ILesson[]>(ENDPOINTS.PUBLISHED_LESSONS_BY_CHAPTER(chapterId));
     } catch {
       return [];
     }
@@ -63,14 +56,8 @@ export class LessonsService {
   }
 
   // Get lesson by ID
-  static async getLesson(
-    id: string,
-    params?: Record<string, unknown>
-  ): Promise<ILesson> {
-    const response = await ApiService.get<ILesson>(
-      ENDPOINTS.LESSON(id),
-      params
-    );
+  static async getLesson(id: string, params?: Record<string, unknown>): Promise<ILesson> {
+    const response = await ApiService.get<ILesson>(ENDPOINTS.LESSON(id), params);
     return response;
   }
 
@@ -78,7 +65,7 @@ export class LessonsService {
   static async createLesson(lessonData: CreateLessonRequest): Promise<ILesson> {
     const response = await ApiService.post<ILesson, CreateLessonRequest>(
       ENDPOINTS.LESSONS,
-      lessonData
+      lessonData,
     );
     return response;
   }
@@ -88,7 +75,7 @@ export class LessonsService {
     const { id, ...updateData } = lessonData;
     const response = await ApiService.put<ILesson, Partial<LessonFormData>>(
       ENDPOINTS.LESSON(id),
-      updateData
+      updateData,
     );
     return response;
   }
@@ -101,19 +88,14 @@ export class LessonsService {
   // Toggle publish status
   static async toggleLessonPublish(id: string): Promise<ILesson> {
     const response = await ApiService.patch<{ lesson: ILesson }>(
-      ENDPOINTS.LESSON_TOGGLE_PUBLISH(id)
+      ENDPOINTS.LESSON_TOGGLE_PUBLISH(id),
     );
     return response.lesson;
   }
 
   // Reorder lessons
-  static async reorderLessons(
-    reorderData: ReorderLessonsRequest
-  ): Promise<void> {
-    return ApiService.put<void, ReorderLessonsRequest>(
-      ENDPOINTS.LESSON_REORDER,
-      reorderData
-    );
+  static async reorderLessons(reorderData: ReorderLessonsRequest): Promise<void> {
+    return ApiService.put<void, ReorderLessonsRequest>(ENDPOINTS.LESSON_REORDER, reorderData);
   }
 }
 

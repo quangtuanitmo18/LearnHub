@@ -3,17 +3,17 @@ import {
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
+} from '@radix-ui/react-icons';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { getPageNumbers } from "@/utils/common";
-import { PaginationMeta } from "@/types/common";
+} from '@/components/ui/select';
+import { getPageNumbers } from '@/utils/common';
+import { PaginationMeta } from '@/types/common';
 
 interface DataTablePaginationProps {
   pagination: PaginationMeta;
@@ -92,11 +92,11 @@ export function DataTablePagination({
           {/* Page number buttons */}
           {pageNumbers.map((pageNumber, index) => (
             <div key={`${pageNumber}-${index}`} className="flex items-center">
-              {pageNumber === "..." ? (
+              {pageNumber === '...' ? (
                 <span className="text-muted-foreground px-1 text-sm">...</span>
               ) : (
                 <Button
-                  variant={page === pageNumber ? "default" : "outline"}
+                  variant={page === pageNumber ? 'default' : 'outline'}
                   className="h-8 min-w-8 px-2"
                   onClick={() => onPageChange(pageNumber as number)}
                 >

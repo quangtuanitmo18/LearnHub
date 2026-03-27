@@ -1,14 +1,14 @@
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-import FloatingButtons from "@/components/floating-buttons";
-import { MembershipPlans } from "@/components/membership";
-import { generateHomeMetadata } from "@/components/seo";
-import TetFlowerEffect from "@/components/tet-flower-effect";
-import BlogsService from "@/services/blogs";
-import CoursesService from "@/services/courses";
-import BlogSection from "./components/blog-section";
-import FeaturedCoursesSection from "./components/featured-courses-section";
-import HeroSection from "./components/hero-section";
+import FloatingButtons from '@/components/floating-buttons';
+import { MembershipPlans } from '@/components/membership';
+import { generateHomeMetadata } from '@/components/seo';
+import TetFlowerEffect from '@/components/tet-flower-effect';
+import BlogsService from '@/services/blogs';
+import CoursesService from '@/services/courses';
+import BlogSection from './components/blog-section';
+import FeaturedCoursesSection from './components/featured-courses-section';
+import HeroSection from './components/hero-section';
 
 // SEO Metadata for Home Page
 export const metadata = generateHomeMetadata();

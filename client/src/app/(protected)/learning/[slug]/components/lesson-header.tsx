@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { CircularProgress } from "@/components/ui/circular-progress";
-import { ArrowLeft } from "lucide-react";
+import React from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { CircularProgress } from '@/components/ui/circular-progress';
+import { ArrowLeft } from 'lucide-react';
 
 interface LessonHeaderProps {
   courseTitle: string;
@@ -24,27 +24,25 @@ const LessonHeader = ({
     totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-slate-900 text-white border-b border-slate-700">
-      <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 h-14 sm:h-16">
+    <div className="fixed top-0 right-0 left-0 z-50 border-b border-slate-700 bg-slate-900 text-white">
+      <div className="flex h-14 items-center justify-between px-3 sm:h-16 sm:px-4 md:px-6">
         {/* Left Section */}
-        <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4 min-w-0 flex-1">
+        <div className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-3 md:space-x-4">
           <Link href={`/courses/${courseSlug}`}>
             <Button
               variant="ghost"
               size="sm"
-              className="text-white hover:bg-slate-800 hover:text-white p-1.5 sm:p-2 transition-all duration-200 group h-8 w-8 sm:h-9 sm:w-9"
+              className="group h-8 w-8 p-1.5 text-white transition-all duration-200 hover:bg-slate-800 hover:text-white sm:h-9 sm:w-9 sm:p-2"
             >
-              <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 group-hover:text-white transition-colors duration-200" />
+              <ArrowLeft className="h-3.5 w-3.5 transition-colors duration-200 group-hover:text-white sm:h-4 sm:w-4" />
             </Button>
           </Link>
 
-          <h1 className="font-semibold text-xs sm:text-sm md:text-base truncate">
-            {courseTitle}
-          </h1>
+          <h1 className="truncate text-xs font-semibold sm:text-sm md:text-base">{courseTitle}</h1>
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-6 text-xs sm:text-sm shrink-0">
+        <div className="flex shrink-0 items-center space-x-2 text-xs sm:space-x-4 sm:text-sm md:space-x-6">
           {/* Circular Progress */}
           <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3">
             <CircularProgress
@@ -52,10 +50,10 @@ const LessonHeader = ({
               size="sm"
               color="blue"
               thickness={3}
-              className="text-white w-8 h-8 sm:w-10 sm:h-10"
+              className="h-8 w-8 text-white sm:h-10 sm:w-10"
             />
-            <div className="text-center hidden sm:block">
-              <div className="text-xs sm:text-sm font-semibold whitespace-nowrap">
+            <div className="hidden text-center sm:block">
+              <div className="text-xs font-semibold whitespace-nowrap sm:text-sm">
                 {completedLessons}/{totalLessons} lessons
               </div>
             </div>
@@ -64,14 +62,10 @@ const LessonHeader = ({
           <Button
             variant="ghost"
             size="sm"
-            className="hidden md:flex text-white hover:bg-slate-800 hover:text-white items-center space-x-2 transition-all duration-200 group h-9"
+            className="group hidden h-9 items-center space-x-2 text-white transition-all duration-200 hover:bg-slate-800 hover:text-white md:flex"
           >
-            <span className="group-hover:scale-110 transition-transform duration-200">
-              🔗
-            </span>
-            <span className="group-hover:text-white transition-colors duration-200">
-              Guide
-            </span>
+            <span className="transition-transform duration-200 group-hover:scale-110">🔗</span>
+            <span className="transition-colors duration-200 group-hover:text-white">Guide</span>
           </Button>
         </div>
       </div>

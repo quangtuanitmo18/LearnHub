@@ -1,27 +1,25 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import type {
   CreateRoleRequest,
   IRole,
   RolesFilterParams,
   RolesListResponse,
   UpdateRoleRequest,
-} from "@/types/role";
+} from '@/types/role';
 
 const ENDPOINTS = {
-  ROLES: "/roles",
+  ROLES: '/roles',
   ROLE: (id: string) => `/roles/${id}`,
-  ROLE_STATS: "/roles/stats",
+  ROLE_STATS: '/roles/stats',
 } as const;
 
 export class RolesService {
   // Get roles
-  static async getRoles(
-    params?: RolesFilterParams
-  ): Promise<RolesListResponse> {
+  static async getRoles(params?: RolesFilterParams): Promise<RolesListResponse> {
     try {
       return await ApiService.get<RolesListResponse>(
         ENDPOINTS.ROLES,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
     } catch {
       return {
@@ -44,10 +42,7 @@ export class RolesService {
   // Update role
   static async updateRole(roleData: UpdateRoleRequest): Promise<IRole> {
     const { id, ...updateData } = roleData;
-    return ApiService.put<IRole, Omit<UpdateRoleRequest, "id">>(
-      ENDPOINTS.ROLE(id),
-      updateData
-    );
+    return ApiService.put<IRole, Omit<UpdateRoleRequest, 'id'>>(ENDPOINTS.ROLE(id), updateData);
   }
 
   // Delete role

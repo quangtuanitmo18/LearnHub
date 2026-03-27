@@ -1,8 +1,8 @@
-import { ListResponse, BaseFilterParams } from "./common";
+import { ListResponse, BaseFilterParams } from './common';
 
 export enum CategoryStatus {
-  ACTIVE = "ACTIVE",
-  INACTIVE = "INACTIVE",
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
 }
 
 export interface ICategory {

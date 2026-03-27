@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Loader2 } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Loader2 } from 'lucide-react';
 
-import type { Cart, CartSummary, OrderDiscount } from "@/types/cart";
-import type { ICoupon } from "@/types/coupon";
-import CouponCard from "./coupon-card";
-import ManualDiscountInput from "./manual-discount-input";
+import type { Cart, CartSummary, OrderDiscount } from '@/types/cart';
+import type { ICoupon } from '@/types/coupon';
+import CouponCard from './coupon-card';
+import ManualDiscountInput from './manual-discount-input';
 
-import { formatPrice } from "@/utils/format";
+import { formatPrice } from '@/utils/format';
 
 interface DiscountDrawerProps {
   cart: Cart;
@@ -50,52 +50,45 @@ const DiscountDrawer = ({
   };
 
   return (
-    <SheetContent className="w-full sm:max-w-lg px-4 sm:px-6 flex flex-col h-full">
-      <SheetHeader className="px-0 shrink-0">
-        <SheetTitle className="text-left text-base sm:text-lg">
-          Discount Codes
-        </SheetTitle>
+    <SheetContent className="flex h-full w-full flex-col px-4 sm:max-w-lg sm:px-6">
+      <SheetHeader className="shrink-0 px-0">
+        <SheetTitle className="text-left text-base sm:text-lg">Discount Codes</SheetTitle>
       </SheetHeader>
 
-      <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6 px-0 flex-1 flex flex-col overflow-hidden">
+      <div className="mt-4 flex flex-1 flex-col space-y-4 overflow-hidden px-0 sm:mt-6 sm:space-y-6">
         {/* Manual Code Input */}
         <ManualDiscountInput
           manualDiscountCode={manualDiscountCode}
           isApplyingDiscount={
-            applyingCouponCode === manualDiscountCode &&
-            manualDiscountCode.length > 0
+            applyingCouponCode === manualDiscountCode && manualDiscountCode.length > 0
           }
           onManualDiscountCodeChange={onManualDiscountCodeChange}
           onApplyDiscount={onApplyDiscount}
         />
 
         {/* Available Discount Vouchers */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <h3 className="text-xs sm:text-sm font-medium text-gray-700 mb-3 sm:mb-4 shrink-0">
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <h3 className="mb-3 shrink-0 text-xs font-medium text-gray-700 sm:mb-4 sm:text-sm">
             Our discount codes
           </h3>
 
-          <ScrollArea className="flex-1  h-full">
+          <ScrollArea className="h-full flex-1">
             <div className="pr-4">
               {isCouponsLoading && (
                 <div className="flex items-center justify-center py-6 sm:py-8">
-                  <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-gray-400" />
-                  <span className="ml-2 text-xs sm:text-sm text-gray-500">
-                    Loading coupons...
-                  </span>
+                  <Loader2 className="h-5 w-5 animate-spin text-gray-400 sm:h-6 sm:w-6" />
+                  <span className="ml-2 text-xs text-gray-500 sm:text-sm">Loading coupons...</span>
                 </div>
               )}
 
               {!isCouponsLoading && coupons.length === 0 && (
-                <div className="text-center py-6 sm:py-8">
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    No discount codes available
-                  </p>
+                <div className="py-6 text-center sm:py-8">
+                  <p className="text-xs text-gray-500 sm:text-sm">No discount codes available</p>
                 </div>
               )}
 
               {coupons.length > 0 && (
-                <div className="space-y-3 mb-10 sm:space-y-4">
+                <div className="mb-10 space-y-3 sm:space-y-4">
                   {coupons.map((coupon) => (
                     <CouponCard
                       key={coupon.id}
@@ -116,18 +109,18 @@ const DiscountDrawer = ({
 
       {/* Summary Footer */}
       {appliedDiscount && (
-        <div className="border-t pt-3 sm:pt-4 shrink-0 -mx-4 sm:-mx-6 px-4 sm:px-6">
-          <div className="bg-green-50 rounded-lg p-3 sm:p-4">
-            <div className="flex justify-between items-center mb-1.5 sm:mb-2">
-              <span className="font-semibold text-sm sm:text-base text-green-800">
+        <div className="-mx-4 shrink-0 border-t px-4 pt-3 sm:-mx-6 sm:px-6 sm:pt-4">
+          <div className="rounded-lg bg-green-50 p-3 sm:p-4">
+            <div className="mb-1.5 flex items-center justify-between sm:mb-2">
+              <span className="text-sm font-semibold text-green-800 sm:text-base">
                 {formatPrice(summary.total)}
               </span>
             </div>
-            <div className="text-xs sm:text-sm text-green-600">
+            <div className="text-xs text-green-600 sm:text-sm">
               You save {formatPrice(summary.discountAmount)}
             </div>
             <Button
-              className="w-full mt-2 sm:mt-3 h-10 sm:h-11 text-sm sm:text-base"
+              className="mt-2 h-10 w-full text-sm sm:mt-3 sm:h-11 sm:text-base"
               onClick={handleContinue}
             >
               Continue

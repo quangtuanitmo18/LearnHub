@@ -1,13 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import "@vidstack/react/player/styles/default/theme.css";
-import "@vidstack/react/player/styles/default/layouts/video.css";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
-import {
-  defaultLayoutIcons,
-  DefaultVideoLayout,
-} from "@vidstack/react/player/layouts/default";
+import React from 'react';
+import '@vidstack/react/player/styles/default/theme.css';
+import '@vidstack/react/player/styles/default/layouts/video.css';
+import { MediaPlayer, MediaProvider } from '@vidstack/react';
+import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
 
 interface LessonVideoPlayerProps {
   videoUrl: string;
@@ -26,33 +23,27 @@ const LessonVideoPlayer = ({
   const handleVideoEnd = () => {
     onComplete?.();
   };
-  console.log("videoUrl", videoUrl);
+  console.log('videoUrl', videoUrl);
 
   if (!videoUrl) {
     return (
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-        <div className="relative w-full bg-gray-900 rounded-lg aspect-video">
+        <div className="relative aspect-video w-full rounded-lg bg-gray-900">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-white text-center px-4">
-              <h3 className="text-base sm:text-lg font-medium mb-2">
-                No video available
-              </h3>
-              <p className="text-sm sm:text-base text-gray-400">
-                Video URL is not provided
-              </p>
+            <div className="px-4 text-center text-white">
+              <h3 className="mb-2 text-base font-medium sm:text-lg">No video available</h3>
+              <p className="text-sm text-gray-400 sm:text-base">Video URL is not provided</p>
             </div>
           </div>
         </div>
 
         {/* Title and Description */}
-        <div className="mt-4 sm:mt-6 bg-white p-4 sm:p-6 rounded-lg">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
-            {title}
-          </h1>
+        <div className="mt-4 rounded-lg bg-white p-4 sm:mt-6 sm:p-6">
+          <h1 className="mb-3 text-xl font-bold text-gray-900 sm:mb-4 sm:text-2xl">{title}</h1>
           {description && (
             <div className="prose prose-sm sm:prose prose-gray max-w-none">
               <div
-                className="text-sm sm:text-base text-gray-700 leading-relaxed"
+                className="text-sm leading-relaxed text-gray-700 sm:text-base"
                 dangerouslySetInnerHTML={{ __html: description }}
               />
             </div>
@@ -66,7 +57,7 @@ const LessonVideoPlayer = ({
     <div className="min-h-full">
       {/* Video Player */}
       <div className="w-full bg-black px-0 sm:px-4 md:px-8 lg:px-12 xl:px-16">
-        <div className="aspect-video bg-black rounded-lg overflow-hidden">
+        <div className="aspect-video overflow-hidden rounded-lg bg-black">
           <MediaPlayer
             title={title}
             src={videoUrl}
@@ -81,14 +72,12 @@ const LessonVideoPlayer = ({
       </div>
 
       {/* Title and Description */}
-      <div className="w-full mt-4 sm:mt-6 pb-6 sm:pb-8 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
-          {title}
-        </h1>
+      <div className="mt-4 w-full px-4 pb-6 sm:mt-6 sm:px-6 sm:pb-8 md:px-8 lg:px-12 xl:px-16">
+        <h1 className="mb-3 text-xl font-bold text-gray-900 sm:mb-4 sm:text-2xl">{title}</h1>
         {description && (
           <div className="prose prose-sm sm:prose prose-gray max-w-none">
             <div
-              className="text-sm sm:text-base text-gray-700 leading-relaxed"
+              className="text-sm leading-relaxed text-gray-700 sm:text-base"
               dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>

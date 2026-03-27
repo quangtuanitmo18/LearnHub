@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { MediaService } from "@/services/media";
-import { getMediaDisplayUrl } from "@/types/media";
-import Image from "next/image";
-import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { MdDelete, MdFileUpload } from "react-icons/md";
-import { toast } from "sonner";
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { MediaService } from '@/services/media';
+import { getMediaDisplayUrl } from '@/types/media';
+import Image from 'next/image';
+import { useCallback, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { MdDelete, MdFileUpload } from 'react-icons/md';
+import { toast } from 'sonner';
 
 interface BackendImageUploadProps {
   value?: string;
@@ -23,7 +23,7 @@ export function BackendImageUpload({
   onChange,
   disabled = false,
   maxSize = 4 * 1024 * 1024, // 4MB default
-  accept = { "image/*": [".jpg", ".jpeg", ".png", ".webp"] },
+  accept = { 'image/*': ['.jpg', '.jpeg', '.png', '.webp'] },
 }: BackendImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
 
@@ -55,7 +55,7 @@ export function BackendImageUpload({
         });
 
         if (!presignedData || presignedData.length === 0) {
-          throw new Error("Failed to get upload URL");
+          throw new Error('Failed to get upload URL');
         }
 
         const { mediaId, uploadUrl } = presignedData[0];
@@ -70,46 +70,43 @@ export function BackendImageUpload({
         const fileUrl = getMediaDisplayUrl(media);
         if (fileUrl) {
           onChange(fileUrl);
-          toast.success("File uploaded successfully!");
+          toast.success('File uploaded successfully!');
         } else {
-          throw new Error("Upload failed - no file URL received");
+          throw new Error('Upload failed - no file URL received');
         }
       } catch (error: any) {
         toast.error(
-          `Upload failed: ${
-            error?.response?.data?.message || error?.message || "Unknown error"
-          }`
+          `Upload failed: ${error?.response?.data?.message || error?.message || 'Unknown error'}`,
         );
       } finally {
         setIsUploading(false);
       }
     },
-    [disabled, maxSize, onChange]
+    [disabled, maxSize, onChange],
   );
 
-  const { getRootProps, getInputProps, isDragActive, isDragReject } =
-    useDropzone({
-      onDrop,
-      accept,
-      maxFiles: 1,
-      maxSize,
-      disabled: disabled || isUploading,
-    });
+  const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
+    onDrop,
+    accept,
+    maxFiles: 1,
+    maxSize,
+    disabled: disabled || isUploading,
+  });
 
   const handleRemove = () => {
     if (disabled || isUploading) return;
-    onChange("");
+    onChange('');
   };
 
   if (value) {
     return (
-      <div className="relative w-full max-w-sm mx-auto">
+      <div className="relative mx-auto w-full max-w-sm">
         <Image
           src={value}
           alt="Uploaded image"
           width={300}
           height={200}
-          className="rounded-lg object-cover border w-full"
+          className="w-full rounded-lg border object-cover"
         />
         <Button
           type="button"
@@ -130,48 +127,46 @@ export function BackendImageUpload({
       <div
         {...getRootProps()}
         className={cn(
-          "relative border-2 border-dashed rounded-lg p-6 cursor-pointer transition-colors",
-          "hover:bg-muted/25",
-          isDragActive && "border-primary bg-primary/5",
-          isDragReject && "border-destructive bg-destructive/5",
-          (disabled || isUploading) && "cursor-not-allowed opacity-60",
-          !isDragActive && !isDragReject && "border-muted-foreground/25"
+          'relative cursor-pointer rounded-lg border-2 border-dashed p-6 transition-colors',
+          'hover:bg-muted/25',
+          isDragActive && 'border-primary bg-primary/5',
+          isDragReject && 'border-destructive bg-destructive/5',
+          (disabled || isUploading) && 'cursor-not-allowed opacity-60',
+          !isDragActive && !isDragReject && 'border-muted-foreground/25',
         )}
       >
         <input {...getInputProps()} />
 
-        <div className="flex flex-col items-center justify-center text-center space-y-3">
-          <div className="p-3 rounded-full bg-muted">
-            <MdFileUpload className="h-6 w-6 text-muted-foreground" />
+        <div className="flex flex-col items-center justify-center space-y-3 text-center">
+          <div className="bg-muted rounded-full p-3">
+            <MdFileUpload className="text-muted-foreground h-6 w-6" />
           </div>
 
           <div className="space-y-2">
             <p className="text-sm font-medium">
               {isUploading
-                ? "Uploading..."
+                ? 'Uploading...'
                 : isDragActive
-                ? "Drop your image here"
-                : "Click to upload or drag and drop"}
+                  ? 'Drop your image here'
+                  : 'Click to upload or drag and drop'}
             </p>
 
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               PNG, JPG, JPEG, WebP up to {(maxSize / (1024 * 1024)).toFixed(1)}
               MB
             </p>
           </div>
 
           {isUploading && (
-            <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+            <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
               <div className="bg-primary h-full w-1/3 animate-pulse" />
             </div>
           )}
         </div>
 
         {isDragReject && (
-          <div className="absolute inset-0 flex items-center justify-center bg-destructive/10 rounded-lg">
-            <p className="text-sm text-destructive font-medium">
-              Invalid file type
-            </p>
+          <div className="bg-destructive/10 absolute inset-0 flex items-center justify-center rounded-lg">
+            <p className="text-destructive text-sm font-medium">Invalid file type</p>
           </div>
         )}
       </div>

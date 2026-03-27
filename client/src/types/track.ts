@@ -22,4 +22,3 @@ export interface ToggleTrackRequest {
   courseId: string;
   lessonId: string;
 }
-

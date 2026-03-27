@@ -1,22 +1,22 @@
-import { AuthInitializer } from "@/components/auth/auth-initializer";
-import { QueryProvider } from "@/components/providers/query-provider";
-import NextAuthSessionProvider from "@/components/providers/session-provider";
-import { StructuredData } from "@/components/seo/structured-data";
-import { SEO_CONFIG, STRUCTURED_DATA } from "@/configs/seo";
-import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import NextTopLoader from "nextjs-toploader";
-import { Toaster } from "sonner";
-import "./globals.css";
+import { AuthInitializer } from '@/components/auth/auth-initializer';
+import { QueryProvider } from '@/components/providers/query-provider';
+import NextAuthSessionProvider from '@/components/providers/session-provider';
+import { StructuredData } from '@/components/seo/structured-data';
+import { SEO_CONFIG, STRUCTURED_DATA } from '@/configs/seo';
+import type { Metadata, Viewport } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from 'sonner';
+import './globals.css';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 // Simplified root metadata
@@ -26,16 +26,16 @@ export const metadata: Metadata = {
     template: `%s | ${SEO_CONFIG.siteName}`,
   },
   description: SEO_CONFIG.defaultDescription,
-  keywords: SEO_CONFIG.keywords.join(", "),
+  keywords: SEO_CONFIG.keywords.join(', '),
   authors: [{ name: SEO_CONFIG.business.name }],
   creator: SEO_CONFIG.business.name,
   publisher: SEO_CONFIG.business.name,
-  generator: "Next.js",
+  generator: 'Next.js',
 
   // OpenGraph
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    type: 'website',
+    locale: 'en_US',
     url: SEO_CONFIG.siteUrl,
     siteName: SEO_CONFIG.siteName,
     title: SEO_CONFIG.defaultTitle,
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 
   // Twitter
   twitter: {
-    card: "summary_large_image",
+    card: 'summary_large_image',
     site: SEO_CONFIG.social.twitter,
     creator: SEO_CONFIG.social.twitter,
     title: SEO_CONFIG.defaultTitle,
@@ -62,13 +62,13 @@ export const metadata: Metadata = {
 
   // Verification (only if set)
   verification: Object.fromEntries(
-    Object.entries(SEO_CONFIG.verification).filter(([, value]) => value)
+    Object.entries(SEO_CONFIG.verification).filter(([, value]) => value),
   ),
 };
 
 // Simplified viewport
 export const viewport: Viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
@@ -83,21 +83,13 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <head>
         {/* Structured Data */}
-        <StructuredData
-          data={[STRUCTURED_DATA.organization, STRUCTURED_DATA.website]}
-        />
+        <StructuredData data={[STRUCTURED_DATA.organization, STRUCTURED_DATA.website]} />
 
         {/* Performance Hints */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextTopLoader
           height={4}
           color="#2563eb"

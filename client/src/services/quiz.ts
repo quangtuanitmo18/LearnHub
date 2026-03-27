@@ -1,4 +1,4 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import {
   QuizAdmin,
   QuizQuestionAdmin,
@@ -9,13 +9,13 @@ import {
   AttemptResultResponse,
   AttemptsListResponse,
   AnswerPayload,
-} from "@/types/quiz";
+} from '@/types/quiz';
 
 // ========== ENDPOINTS ==========
 
 const ENDPOINTS = {
   // Admin endpoints (quiz management)
-  QUIZZES: "/quiz-questions",
+  QUIZZES: '/quiz-questions',
   QUIZ: (id: string) => `/quiz-questions/${id}`,
   QUIZ_BY_LESSON: (lessonId: string) => `/quiz-questions/lesson/${lessonId}`,
   QUIZ_QUESTIONS: (quizId: string) => `/quiz-questions/${quizId}/questions`,
@@ -43,10 +43,7 @@ export class QuizService {
    * POST /api/quizzes/:lessonId/attempts/start
    */
   static async startAttempt(lessonId: string): Promise<StartAttemptResponse> {
-    return ApiService.post<StartAttemptResponse>(
-      ENDPOINTS.START_ATTEMPT(lessonId),
-      {}
-    );
+    return ApiService.post<StartAttemptResponse>(ENDPOINTS.START_ATTEMPT(lessonId), {});
   }
 
   /**
@@ -54,9 +51,7 @@ export class QuizService {
    * GET /api/attempts/:attemptId
    */
   static async loadAttempt(attemptId: string): Promise<LoadAttemptResponse> {
-    return ApiService.get<LoadAttemptResponse>(
-      ENDPOINTS.LOAD_ATTEMPT(attemptId)
-    );
+    return ApiService.get<LoadAttemptResponse>(ENDPOINTS.LOAD_ATTEMPT(attemptId));
   }
 
   /**
@@ -65,11 +60,11 @@ export class QuizService {
    */
   static async saveAnswers(
     attemptId: string,
-    answers: AnswerPayload[]
+    answers: AnswerPayload[],
   ): Promise<SaveAnswersResponse> {
     return ApiService.put<SaveAnswersResponse, { answers: AnswerPayload[] }>(
       ENDPOINTS.SAVE_ANSWERS(attemptId),
-      { answers }
+      { answers },
     );
   }
 
@@ -79,11 +74,11 @@ export class QuizService {
    */
   static async submitAttempt(
     attemptId: string,
-    answers: AnswerPayload[]
+    answers: AnswerPayload[],
   ): Promise<SubmitAttemptResponse> {
     return ApiService.post<SubmitAttemptResponse, { answers: AnswerPayload[] }>(
       ENDPOINTS.SUBMIT_ATTEMPT(attemptId),
-      { answers }
+      { answers },
     );
   }
 
@@ -91,12 +86,8 @@ export class QuizService {
    * Get attempt result for review
    * GET /api/attempts/:attemptId/result
    */
-  static async getAttemptResult(
-    attemptId: string
-  ): Promise<AttemptResultResponse> {
-    return ApiService.get<AttemptResultResponse>(
-      ENDPOINTS.ATTEMPT_RESULT(attemptId)
-    );
+  static async getAttemptResult(attemptId: string): Promise<AttemptResultResponse> {
+    return ApiService.get<AttemptResultResponse>(ENDPOINTS.ATTEMPT_RESULT(attemptId));
   }
 
   /**
@@ -105,9 +96,7 @@ export class QuizService {
    */
   static async listAttempts(lessonId: string): Promise<AttemptsListResponse> {
     try {
-      return await ApiService.get<AttemptsListResponse>(
-        ENDPOINTS.LIST_ATTEMPTS(lessonId)
-      );
+      return await ApiService.get<AttemptsListResponse>(ENDPOINTS.LIST_ATTEMPTS(lessonId));
     } catch {
       return {
         lessonId,
@@ -125,16 +114,9 @@ export class QuizService {
    */
   static async getQuizByLesson(lessonId: string): Promise<QuizAdmin | null> {
     try {
-      return await ApiService.get<QuizAdmin>(
-        ENDPOINTS.QUIZ_BY_LESSON(lessonId)
-      );
+      return await ApiService.get<QuizAdmin>(ENDPOINTS.QUIZ_BY_LESSON(lessonId));
     } catch (error: unknown) {
-      if (
-        error &&
-        typeof error === "object" &&
-        "status" in error &&
-        error.status === 404
-      ) {
+      if (error && typeof error === 'object' && 'status' in error && error.status === 404) {
         return null;
       }
       throw error;
@@ -151,13 +133,10 @@ export class QuizService {
   /**
    * Save quiz questions (admin)
    */
-  static async saveQuizQuestions(
-    questions: QuizQuestionAdmin[]
-  ): Promise<QuizAdmin> {
-    return ApiService.post<QuizAdmin, { questions: QuizQuestionAdmin[] }>(
-      ENDPOINTS.QUIZZES,
-      { questions }
-    );
+  static async saveQuizQuestions(questions: QuizQuestionAdmin[]): Promise<QuizAdmin> {
+    return ApiService.post<QuizAdmin, { questions: QuizQuestionAdmin[] }>(ENDPOINTS.QUIZZES, {
+      questions,
+    });
   }
 
   /**
@@ -165,11 +144,11 @@ export class QuizService {
    */
   static async updateQuizQuestions(
     quizId: string,
-    questions: QuizQuestionAdmin[]
+    questions: QuizQuestionAdmin[],
   ): Promise<QuizAdmin> {
     return ApiService.put<QuizAdmin, { questions: QuizQuestionAdmin[] }>(
       `${ENDPOINTS.QUIZ(quizId)}/questions`,
-      { questions }
+      { questions },
     );
   }
 
@@ -199,11 +178,11 @@ export class QuizService {
    */
   static async addQuestion(
     quizId: string,
-    question: QuizQuestionAdmin
+    question: QuizQuestionAdmin,
   ): Promise<QuizQuestionAdmin> {
     return ApiService.post<QuizQuestionAdmin, QuizQuestionAdmin>(
       ENDPOINTS.QUIZ_QUESTIONS(quizId),
-      question
+      question,
     );
   }
 
@@ -213,34 +192,28 @@ export class QuizService {
   static async updateQuestion(
     quizId: string,
     questionId: string,
-    question: QuizQuestionAdmin
+    question: QuizQuestionAdmin,
   ): Promise<QuizQuestionAdmin> {
     return ApiService.put<QuizQuestionAdmin, QuizQuestionAdmin>(
       ENDPOINTS.QUIZ_QUESTION(quizId, questionId),
-      question
+      question,
     );
   }
 
   /**
    * Delete question (admin)
    */
-  static async deleteQuestion(
-    quizId: string,
-    questionId: string
-  ): Promise<void> {
+  static async deleteQuestion(quizId: string, questionId: string): Promise<void> {
     return ApiService.delete<void>(ENDPOINTS.QUIZ_QUESTION(quizId, questionId));
   }
 
   /**
    * Reorder questions (admin)
    */
-  static async reorderQuestions(
-    quizId: string,
-    questionIds: string[]
-  ): Promise<QuizAdmin> {
+  static async reorderQuestions(quizId: string, questionIds: string[]): Promise<QuizAdmin> {
     return ApiService.put<QuizAdmin, { questionIds: string[] }>(
       `${ENDPOINTS.QUIZ(quizId)}/reorder-questions`,
-      { questionIds }
+      { questionIds },
     );
   }
 }

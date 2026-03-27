@@ -1,26 +1,23 @@
 import {
-  Injectable,
   BadRequestException,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { LessonType, QuestionType } from 'src/shared/constants/lesson.constant';
+import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
+import { PrismaService } from 'src/shared/services/prisma.service';
+import { ChapterRepository } from '../chapter/chapter.repository';
+import { CourseRepository } from '../course/course.repository';
 import {
+  ArticleContentDto,
   CreateLessonDto,
-  UpdateLessonDto,
-  ReorderLessonsDto,
   QuizContentDto,
   QuizQuestionDto,
-  ArticleContentDto,
+  ReorderLessonsDto,
+  UpdateLessonDto,
   VideoContentDto,
 } from './dto/lesson.dto';
-import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { LessonRepository } from './lesson.repository';
-import { CourseRepository } from '../course/course.repository';
-import { ChapterRepository } from '../chapter/chapter.repository';
-import { PrismaService } from 'src/shared/services/prisma.service';
-import {
-  LessonType,
-  QuestionType,
-} from 'src/shared/constants/lesson.constant';
 
 @Injectable()
 export class LessonService {
@@ -37,7 +34,6 @@ export class LessonService {
     return this.lessonRepository.findAll(paginationQuery);
   }
 
-
   async getLessonsByChapter(chapterId: string) {
     const chapter = await this.chapterRepository.findOneOrNull({
       id: chapterId,
@@ -47,7 +43,6 @@ export class LessonService {
     }
     return this.lessonRepository.findByChapter(chapterId);
   }
-
 
   async getPublishedLessonsByChapter(chapterId: string) {
     const chapter = await this.chapterRepository.findOneOrNull({
@@ -59,7 +54,6 @@ export class LessonService {
     return this.lessonRepository.findPublishedByChapter(chapterId);
   }
 
-
   async getLessonById(id: string) {
     const lesson = await this.lessonRepository.findWithContent({ id });
     if (!lesson) {
@@ -67,7 +61,6 @@ export class LessonService {
     }
     return lesson;
   }
-
 
   // ============ CREATE OPERATIONS ============
 
@@ -118,7 +111,7 @@ export class LessonService {
         return this.createQuizLesson(dto, orderToUse);
       default:
         throw new BadRequestException(
-          `Unsupported lesson type: ${dto.lesson.type}`,
+          `Unsupported lesson type: ${String(dto.lesson.type as unknown)}`,
         );
     }
   }
@@ -349,7 +342,9 @@ export class LessonService {
         break;
 
       default:
-        throw new BadRequestException(`Unknown question type: ${type}`);
+        throw new BadRequestException(
+          `Unknown question type: ${String(type as unknown)}`,
+        );
     }
   }
 
@@ -426,7 +421,7 @@ export class LessonService {
         }
       }
 
-      const updatedLesson = await tx.lesson.update({
+      await tx.lesson.update({
         where: { id },
         data: updateData,
       });
@@ -505,7 +500,7 @@ export class LessonService {
 
       // Create new questions with options
       for (const questionDto of content.questions) {
-        this.validateQuizQuestion(questionDto);
+        this.validateQuizQuestion(questionDto as QuizQuestionDto);
 
         await tx.quizQuestion.create({
           data: {
@@ -539,7 +534,6 @@ export class LessonService {
     // Prisma cascade will handle related records (article, video, quiz, questions, options)
     return this.lessonRepository.delete({ id });
   }
-
 
   // ============ REORDER OPERATIONS ============
 

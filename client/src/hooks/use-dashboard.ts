@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import DashboardService from "@/services/dashboard";
+import { useQuery } from '@tanstack/react-query';
+import DashboardService from '@/services/dashboard';
 
 // Query keys for dashboard
 export const dashboardKeys = {
-  all: ["dashboard"] as const,
-  stats: () => [...dashboardKeys.all, "stats"] as const,
-  overview: () => [...dashboardKeys.all, "overview"] as const,
-  recentSales: () => [...dashboardKeys.all, "recent-sales"] as const,
+  all: ['dashboard'] as const,
+  stats: () => [...dashboardKeys.all, 'stats'] as const,
+  overview: () => [...dashboardKeys.all, 'overview'] as const,
+  recentSales: () => [...dashboardKeys.all, 'recent-sales'] as const,
 } as const;
 
 // Hook to get dashboard statistics
@@ -38,4 +38,3 @@ export function useRecentSales() {
     staleTime: 1 * 60 * 1000, // Consider data stale after 1 minute
   });
 }
-

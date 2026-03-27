@@ -1,20 +1,18 @@
 import {
-  Injectable,
   BadRequestException,
-  NotFoundException,
+  Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/shared/services/prisma.service';
-import { TransferType, WebhookPaymentBodyDto } from './dto/payment.dto';
 import { OrderStatus, OrderType } from 'src/shared/constants/order.constant';
-import { OrderQueueService } from '../order/services/order-queue.service';
 import { MembershipDuration } from 'src/shared/constants/user.constant';
+import { PrismaService } from 'src/shared/services/prisma.service';
 import { EmailQueueService } from '../email/services';
-import { StripeService } from './services/stripe.service';
 import { NotificationService } from '../notification/notification.service';
-import Stripe from 'stripe';
-import th from 'zod/v4/locales/th.js';
+import { OrderQueueService } from '../order/services/order-queue.service';
+import { TransferType, WebhookPaymentBodyDto } from './dto/payment.dto';
+import { StripeService } from './services/stripe.service';
 
 @Injectable()
 export class PaymentRepository {
@@ -147,7 +145,10 @@ export class PaymentRepository {
         const membershipPlan = (updatedOrder as any).membershipPlan;
 
         if (membershipPlan && membershipPlan !== 'NONE') {
-          const planDuration = MembershipDuration[membershipPlan];
+          const planDuration =
+            MembershipDuration[
+              membershipPlan as keyof typeof MembershipDuration
+            ];
           const planStartDate = new Date();
           const planEndDate = new Date();
           planEndDate.setMonth(planEndDate.getMonth() + planDuration);
@@ -156,7 +157,7 @@ export class PaymentRepository {
           await tx.user.update({
             where: { id: updatedOrder.userId },
             data: {
-              plan: membershipPlan as any,
+              plan: membershipPlan,
               planStartDate,
               planEndDate,
               isMembership: true,
@@ -389,27 +390,19 @@ export class PaymentRepository {
 
     switch (event.type) {
       case 'checkout.session.completed':
-        await this.handleCheckoutSessionCompleted(
-          event.data.object as Stripe.Checkout.Session,
-        );
+        await this.handleCheckoutSessionCompleted(event.data.object);
         break;
 
       case 'checkout.session.expired':
-        await this.handleCheckoutSessionExpired(
-          event.data.object as Stripe.Checkout.Session,
-        );
+        this.handleCheckoutSessionExpired(event.data.object);
         break;
 
       case 'payment_intent.succeeded':
-        this.logger.log(
-          `Payment intent succeeded: ${(event.data.object as Stripe.PaymentIntent).id}`,
-        );
+        this.logger.log(`Payment intent succeeded: ${event.data.object.id}`);
         break;
 
       case 'payment_intent.payment_failed':
-        await this.handlePaymentFailed(
-          event.data.object as Stripe.PaymentIntent,
-        );
+        this.handlePaymentFailed(event.data.object);
         break;
 
       default:
@@ -475,7 +468,7 @@ export class PaymentRepository {
   /**
    * Handle expired checkout session
    */
-  private async handleCheckoutSessionExpired(session: Stripe.Checkout.Session) {
+  private handleCheckoutSessionExpired(session: Stripe.Checkout.Session) {
     const { orderId, orderCode } = session.metadata || {};
 
     if (!orderId || !orderCode) {
@@ -489,7 +482,7 @@ export class PaymentRepository {
   /**
    * Handle failed payment
    */
-  private async handlePaymentFailed(paymentIntent: Stripe.PaymentIntent) {
+  private handlePaymentFailed(paymentIntent: Stripe.PaymentIntent) {
     this.logger.error(
       `Payment failed: ${paymentIntent.id} - ${paymentIntent.last_payment_error?.message}`,
     );
@@ -527,7 +520,7 @@ export class PaymentRepository {
           price: Number(item.price),
         })) || [];
 
-      this.notificationService.notifyPaymentSuccess({
+      void this.notificationService.notifyPaymentSuccess({
         orderId: order.id,
         orderCode: order.code,
         userId: user?.id || order.userId,

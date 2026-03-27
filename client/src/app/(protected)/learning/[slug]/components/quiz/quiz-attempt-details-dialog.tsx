@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useMemo } from "react";
-import { Badge } from "@/components/ui/badge";
+import React, { useMemo } from 'react';
+import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Table,
   TableBody,
@@ -16,8 +16,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useAttemptResult } from "@/hooks/use-quiz";
+} from '@/components/ui/table';
+import { useAttemptResult } from '@/hooks/use-quiz';
 
 interface QuizAttemptDetailsDialogProps {
   open: boolean;
@@ -30,8 +30,10 @@ const QuizAttemptDetailsDialog = ({
   attemptId,
   onOpenChange,
 }: QuizAttemptDetailsDialogProps) => {
-  const { data: attemptResultData, isLoading: isAttemptResultLoading } =
-    useAttemptResult(attemptId, { enabled: open && !!attemptId });
+  const { data: attemptResultData, isLoading: isAttemptResultLoading } = useAttemptResult(
+    attemptId,
+    { enabled: open && !!attemptId },
+  );
 
   const answerRows = useMemo(() => {
     const answers = attemptResultData?.answers ?? [];
@@ -40,16 +42,14 @@ const QuizAttemptDetailsDialog = ({
         .map((id) => a.question.options.find((o) => o.id === id)?.text)
         .filter((t): t is string => !!t);
 
-      const correctTexts = (a.question.options ?? [])
-        .filter((o) => o.isCorrect)
-        .map((o) => o.text);
+      const correctTexts = (a.question.options ?? []).filter((o) => o.isCorrect).map((o) => o.text);
 
       return {
         no: idx + 1,
         type: a.question.type,
         question: a.question.text,
-        selected: selectedTexts.length > 0 ? selectedTexts.join(", ") : "-",
-        correct: correctTexts.length > 0 ? correctTexts.join(", ") : "-",
+        selected: selectedTexts.length > 0 ? selectedTexts.join(', ') : '-',
+        correct: correctTexts.length > 0 ? correctTexts.join(', ') : '-',
         isCorrect: a.isCorrect,
       };
     });
@@ -57,21 +57,19 @@ const QuizAttemptDetailsDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-7xl! max-h-[80vh] flex flex-col overflow-hidden">
+      <DialogContent className="flex max-h-[80vh] max-w-7xl! flex-col overflow-hidden">
         <DialogHeader>
           <DialogTitle>Quiz Attempt Details</DialogTitle>
-          <DialogDescription>
-            Review your answers and see the correct responses.
-          </DialogDescription>
+          <DialogDescription>Review your answers and see the correct responses.</DialogDescription>
         </DialogHeader>
 
-        <div className="flex-1 overflow-auto border border-gray-200 rounded-lg">
+        <div className="flex-1 overflow-auto rounded-lg border border-gray-200">
           {isAttemptResultLoading ? (
-            <div className="flex items-center justify-center h-32">
+            <div className="flex h-32 items-center justify-center">
               <div className="text-sm text-gray-500">Loading details...</div>
             </div>
           ) : answerRows.length === 0 ? (
-            <div className="flex items-center justify-center h-32">
+            <div className="flex h-32 items-center justify-center">
               <div className="text-sm text-gray-500">No detail data.</div>
             </div>
           ) : (
@@ -90,20 +88,18 @@ const QuizAttemptDetailsDialog = ({
                 {answerRows.map((row) => (
                   <TableRow key={row.no} className="hover:bg-gray-50/50">
                     <TableCell className="font-medium">{row.no}</TableCell>
-                    <TableCell className="text-xs sm:text-sm text-gray-700">
-                      {row.type}
-                    </TableCell>
-                    <TableCell className="whitespace-normal text-xs sm:text-sm text-gray-900">
+                    <TableCell className="text-xs text-gray-700 sm:text-sm">{row.type}</TableCell>
+                    <TableCell className="text-xs whitespace-normal text-gray-900 sm:text-sm">
                       {row.question}
                     </TableCell>
                     <TableCell
-                      className={`whitespace-normal text-xs sm:text-sm ${
-                        row.isCorrect ? "text-green-700" : "text-pink-700"
+                      className={`text-xs whitespace-normal sm:text-sm ${
+                        row.isCorrect ? 'text-green-700' : 'text-pink-700'
                       }`}
                     >
                       {row.selected}
                     </TableCell>
-                    <TableCell className="whitespace-normal text-xs sm:text-sm text-gray-900">
+                    <TableCell className="text-xs whitespace-normal text-gray-900 sm:text-sm">
                       {row.correct}
                     </TableCell>
                     <TableCell className="text-center">
@@ -111,11 +107,11 @@ const QuizAttemptDetailsDialog = ({
                         variant="secondary"
                         className={
                           row.isCorrect
-                            ? "bg-green-100 text-green-700"
-                            : "bg-pink-100 text-pink-700"
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-pink-100 text-pink-700'
                         }
                       >
-                        {row.isCorrect ? "Correct" : "Incorrect"}
+                        {row.isCorrect ? 'Correct' : 'Incorrect'}
                       </Badge>
                     </TableCell>
                   </TableRow>

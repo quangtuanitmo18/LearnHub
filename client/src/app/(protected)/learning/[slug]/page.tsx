@@ -1,44 +1,36 @@
-"use client";
+'use client';
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
-import dynamic from "next/dynamic";
-import { notFound, useSearchParams } from "next/navigation";
-import React from "react";
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { notFound, useSearchParams } from 'next/navigation';
+import React from 'react';
 
-import { useLesson, usePublishedLessonsByChapter } from "@/hooks/use-lessons";
-import { useUserCourseTracks } from "@/hooks/use-track";
-import { LessonType } from "@/types/lesson";
+import { useLesson, usePublishedLessonsByChapter } from '@/hooks/use-lessons';
+import { useUserCourseTracks } from '@/hooks/use-track';
+import { LessonType } from '@/types/lesson';
 
 // Static imports for critical components
-import Loader from "@/components/loader";
-import LessonCommentButton from "./components/comment/lesson-comment-button";
-import LessonHeader from "./components/lesson-header";
-import LessonNavigation from "./components/lesson-navigation";
-import { usePublishedChaptersByCourse } from "@/hooks/use-chapters";
+import Loader from '@/components/loader';
+import LessonCommentButton from './components/comment/lesson-comment-button';
+import LessonHeader from './components/lesson-header';
+import LessonNavigation from './components/lesson-navigation';
+import { usePublishedChaptersByCourse } from '@/hooks/use-chapters';
 
-const LessonSidebar = dynamic(() => import("./components/lesson-sidebar"));
+const LessonSidebar = dynamic(() => import('./components/lesson-sidebar'));
 
 // Dynamic imports with SSR configuration
-const LessonVideoPlayer = dynamic(
-  () => import("./components/lesson-video-player"),
-  {
-    ssr: false,
-  },
-);
+const LessonVideoPlayer = dynamic(() => import('./components/lesson-video-player'), {
+  ssr: false,
+});
 
-const LessonArticleContent = dynamic(
-  () => import("./components/lesson-article-content"),
-);
+const LessonArticleContent = dynamic(() => import('./components/lesson-article-content'));
 
-const LessonCommentDrawer = dynamic(
-  () => import("./components/comment/lesson-comment-drawer"),
-  {
-    ssr: false,
-  },
-);
+const LessonCommentDrawer = dynamic(() => import('./components/comment/lesson-comment-drawer'), {
+  ssr: false,
+});
 
-const LessonQuiz = dynamic(() => import("./components/quiz/lesson-quiz"), {
+const LessonQuiz = dynamic(() => import('./components/quiz/lesson-quiz'), {
   ssr: false,
 });
 
@@ -57,24 +49,20 @@ interface ChapterWithLessons {
 const LessonPage = () => {
   const searchParams = useSearchParams();
 
-  const lessonId = searchParams.get("id") || "";
+  const lessonId = searchParams.get('id') || '';
 
   // Fetch lesson data
-  const { data: lesson, isLoading } = useLesson(lessonId || "");
+  const { data: lesson, isLoading } = useLesson(lessonId || '');
 
   // Fetch course chapters
-  const { data: chapters = [] } = usePublishedChaptersByCourse(
-    lesson?.courseId || "",
-  );
-  console.log("Chapters data:", chapters);
+  const { data: chapters = [] } = usePublishedChaptersByCourse(lesson?.courseId || '');
+  console.log('Chapters data:', chapters);
 
   // Fetch lessons for current chapter (for navigation)
-  const { data: chapterLessons = [] } = usePublishedLessonsByChapter(
-    lesson?.chapterId || "",
-  );
+  const { data: chapterLessons = [] } = usePublishedLessonsByChapter(lesson?.chapterId || '');
 
   // Fetch user's tracking data
-  const { data: tracks } = useUserCourseTracks(lesson?.courseId || "");
+  const { data: tracks } = useUserCourseTracks(lesson?.courseId || '');
 
   const completedCount = React.useMemo(() => {
     return (tracks || []).length;
@@ -103,9 +91,7 @@ const LessonPage = () => {
   }, [chapters]);
 
   // Calculate previous/next lesson for navigation
-  const currentLessonIndex = chapterLessons.findIndex(
-    (l) => l?.id === lessonId,
-  );
+  const currentLessonIndex = chapterLessons.findIndex((l) => l?.id === lessonId);
   const previousLesson =
     currentLessonIndex > 0 ? chapterLessons[currentLessonIndex - 1] : undefined;
   const nextLesson =
@@ -126,7 +112,7 @@ const LessonPage = () => {
 
   // Find current chapter title from lesson data
   const currentChapterTitle = React.useMemo(() => {
-    return lesson?.chapter?.title || "Chapter";
+    return lesson?.chapter?.title || 'Chapter';
   }, [lesson?.chapter?.title]);
 
   // Render lesson content based on lesson type
@@ -137,17 +123,14 @@ const LessonPage = () => {
           <LessonVideoPlayer
             title={lesson?.title}
             isSidebarOpen={isSidebarOpen}
-            videoUrl={lesson?.video?.url || ""}
-            description={lesson?.description || ""}
+            videoUrl={lesson?.video?.url || ''}
+            description={lesson?.description || ''}
           />
         );
 
       case LessonType.ARTICLE:
         return (
-          <LessonArticleContent
-            title={lesson?.title}
-            content={lesson?.article?.content || ""}
-          />
+          <LessonArticleContent title={lesson?.title} content={lesson?.article?.content || ''} />
         );
 
       case LessonType.QUIZ:
@@ -157,9 +140,7 @@ const LessonPage = () => {
         return (
           <Alert>
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              Unknown lesson content type: {lesson?.type}
-            </AlertDescription>
+            <AlertDescription>Unknown lesson content type: {lesson?.type}</AlertDescription>
           </Alert>
         );
     }
@@ -178,30 +159,28 @@ const LessonPage = () => {
       {/* Backdrop overlay for mobile sidebar */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 lg:hidden"
+          className="bg-opacity-50 fixed inset-0 z-40 bg-black transition-opacity duration-300 lg:hidden"
           onClick={toggleSidebar}
         />
       )}
 
       <LessonHeader
-        courseTitle={lesson?.course?.title || "Course"}
-        courseSlug={lesson?.course?.slug || ""}
+        courseTitle={lesson?.course?.title || 'Course'}
+        courseSlug={lesson?.course?.slug || ''}
         completedLessons={completedCount}
         totalLessons={totalLessons}
       />
 
       <div
-        className={`pt-16 pb-16 h-screen transition-all duration-300 ${
-          isSidebarOpen ? "lg:pr-[23%]" : "pr-0"
+        className={`h-screen pt-16 pb-16 transition-all duration-300 ${
+          isSidebarOpen ? 'lg:pr-[23%]' : 'pr-0'
         }`}
       >
-        <div className="w-full h-full overflow-y-auto">
-          {renderLessonContent()}
-        </div>
+        <div className="h-full w-full overflow-y-auto">{renderLessonContent()}</div>
       </div>
 
       <LessonNavigation
-        courseSlug={lesson?.course?.slug || ""}
+        courseSlug={lesson?.course?.slug || ''}
         previousLesson={previousLesson ? { id: previousLesson?.id } : undefined}
         nextLesson={nextLesson ? { id: nextLesson?.id } : undefined}
         currentChapterTitle={currentChapterTitle}
@@ -210,12 +189,12 @@ const LessonPage = () => {
       />
 
       <LessonSidebar
-        courseTitle={lesson?.course?.title || "Course"}
-        courseSlug={lesson?.course?.slug || ""}
-        courseId={lesson?.courseId || ""}
+        courseTitle={lesson?.course?.title || 'Course'}
+        courseSlug={lesson?.course?.slug || ''}
+        courseId={lesson?.courseId || ''}
         chapters={sidebarChapters}
         currentLessonId={lessonId}
-        currentChapterId={lesson?.chapterId || ""}
+        currentChapterId={lesson?.chapterId || ''}
         tracks={tracks}
         isSidebarOpen={isSidebarOpen}
         onToggleSidebar={toggleSidebar}
@@ -223,7 +202,7 @@ const LessonPage = () => {
 
       <LessonCommentButton
         className={`bottom-20 sm:bottom-20 ${
-          isSidebarOpen ? "lg:right-[25%] right-4" : "right-4 sm:right-10"
+          isSidebarOpen ? 'right-4 lg:right-[25%]' : 'right-4 sm:right-10'
         }`}
         onClick={handleOpenComments}
       />

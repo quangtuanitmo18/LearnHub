@@ -1,4 +1,4 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import type {
   IComment,
   CreateCommentRequest,
@@ -8,10 +8,10 @@ import type {
   CommentsListResponse,
   CommentRepliesResponse,
   CommentsFilterParams,
-} from "@/types/comment";
+} from '@/types/comment';
 
 const ENDPOINTS = {
-  COMMENTS: "/comments",
+  COMMENTS: '/comments',
   COMMENT: (id: string) => `/comments/${id}`,
   LESSON_COMMENTS: (lessonId: string) => `/lessons/${lessonId}/comments`,
   COMMENT_REPLIES: (commentId: string) => `/comments/${commentId}/replies`,
@@ -21,13 +21,11 @@ const ENDPOINTS = {
 
 export class CommentsService {
   // Get all comments (admin)
-  static async getAllComments(
-    params?: CommentsFilterParams
-  ): Promise<CommentsListResponse> {
+  static async getAllComments(params?: CommentsFilterParams): Promise<CommentsListResponse> {
     try {
       return await ApiService.get<CommentsListResponse>(
         ENDPOINTS.COMMENTS,
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
     } catch {
       return {
@@ -47,12 +45,12 @@ export class CommentsService {
   // Get lesson comments
   static async getComments(
     lessonId: string,
-    params?: Omit<CommentsFilterParams, "lessonId">
+    params?: Omit<CommentsFilterParams, 'lessonId'>,
   ): Promise<CommentsListResponse> {
     try {
       return await ApiService.get<CommentsListResponse>(
         ENDPOINTS.LESSON_COMMENTS(lessonId),
-        params as Record<string, unknown>
+        params as Record<string, unknown>,
       );
     } catch {
       return {
@@ -77,23 +75,17 @@ export class CommentsService {
   // Create comment
   static async createComment(
     lessonId: string,
-    commentData: CreateCommentRequest
+    commentData: CreateCommentRequest,
   ): Promise<IComment> {
     return ApiService.post<IComment, CreateCommentRequest>(
       ENDPOINTS.LESSON_COMMENTS(lessonId),
-      commentData
+      commentData,
     );
   }
 
   // Update comment
-  static async updateComment(
-    id: string,
-    commentData: UpdateCommentRequest
-  ): Promise<IComment> {
-    return ApiService.put<IComment, UpdateCommentRequest>(
-      ENDPOINTS.COMMENT(id),
-      commentData
-    );
+  static async updateComment(id: string, commentData: UpdateCommentRequest): Promise<IComment> {
+    return ApiService.put<IComment, UpdateCommentRequest>(ENDPOINTS.COMMENT(id), commentData);
   }
 
   // Delete comment
@@ -102,34 +94,23 @@ export class CommentsService {
   }
 
   // Update comment status (admin only)
-  static async updateCommentStatus(
-    data: UpdateCommentStatusRequest
-  ): Promise<IComment> {
-    return ApiService.put<IComment, { status: string }>(
-      ENDPOINTS.COMMENT_STATUS(data.id),
-      { status: data.status }
-    );
+  static async updateCommentStatus(data: UpdateCommentStatusRequest): Promise<IComment> {
+    return ApiService.put<IComment, { status: string }>(ENDPOINTS.COMMENT_STATUS(data.id), {
+      status: data.status,
+    });
   }
 
   // Add/Update reaction (toggle)
-  static async reactToComment(
-    id: string,
-    reactionType: string
-  ): Promise<IComment> {
-    return ApiService.post<IComment, CommentReactionRequest>(
-      ENDPOINTS.COMMENT_REACT(id),
-      { type: reactionType }
-    );
+  static async reactToComment(id: string, reactionType: string): Promise<IComment> {
+    return ApiService.post<IComment, CommentReactionRequest>(ENDPOINTS.COMMENT_REACT(id), {
+      type: reactionType,
+    });
   }
 
   // Get replies
-  static async getReplies(
-    commentId: string
-  ): Promise<CommentRepliesResponse> {
+  static async getReplies(commentId: string): Promise<CommentRepliesResponse> {
     try {
-      return await ApiService.get<CommentRepliesResponse>(
-        ENDPOINTS.COMMENT_REPLIES(commentId)
-      );
+      return await ApiService.get<CommentRepliesResponse>(ENDPOINTS.COMMENT_REPLIES(commentId));
     } catch {
       return [];
     }
@@ -147,20 +128,16 @@ export class CommentsService {
 
   // Bulk delete comments
   static async bulkDeleteComments(commentIds: string[]): Promise<void> {
-    return ApiService.delete<void, { ids: string[] }>(
-      `${ENDPOINTS.COMMENTS}/bulk-delete`,
-      { ids:commentIds }
-    );
+    return ApiService.delete<void, { ids: string[] }>(`${ENDPOINTS.COMMENTS}/bulk-delete`, {
+      ids: commentIds,
+    });
   }
 
   // Report comment
-  static async reportComment(
-    id: string,
-    reason: string
-  ): Promise<{ success: boolean }> {
+  static async reportComment(id: string, reason: string): Promise<{ success: boolean }> {
     return ApiService.post<{ success: boolean }, { reason: string }>(
       `${ENDPOINTS.COMMENT(id)}/report`,
-      { reason }
+      { reason },
     );
   }
 }

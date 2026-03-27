@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { DataTableColumnHeader } from "@/components/table";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ICoupon, DiscountType, CouponStatus } from "@/types/coupon";
-import { ColumnDef } from "@tanstack/react-table";
-import { Tag, Percent, DollarSign, Calendar, Users } from "lucide-react";
-import DataTableRowActions from "./data-table-row-actions";
-import dayjs from "dayjs";
-import { getStatusConfig } from "@/utils/common";
-import { formatPrice } from "@/utils/format";
+import { DataTableColumnHeader } from '@/components/table';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ICoupon, DiscountType, CouponStatus } from '@/types/coupon';
+import { ColumnDef } from '@tanstack/react-table';
+import { Tag, Percent, DollarSign, Calendar, Users } from 'lucide-react';
+import DataTableRowActions from './data-table-row-actions';
+import dayjs from 'dayjs';
+import { getStatusConfig } from '@/utils/common';
+import { formatPrice } from '@/utils/format';
 
 // Helper function to get coupon status
 function getCouponStatus(coupon: ICoupon): CouponStatus {
@@ -31,12 +31,11 @@ function hasUsageLimit(coupon: ICoupon): boolean {
 
 export const columns: ColumnDef<ICoupon>[] = [
   {
-    id: "select",
+    id: 'select',
     header: ({ table }) => (
       <Checkbox
         checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
@@ -55,32 +54,26 @@ export const columns: ColumnDef<ICoupon>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "title",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Coupon" />
-    ),
+    accessorKey: 'title',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Coupon" />,
     cell: ({ row }) => {
       const coupon = row.original;
       return (
         <div className="flex items-center space-x-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Tag className="h-5 w-5 text-primary" />
+          <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-lg">
+            <Tag className="text-primary h-5 w-5" />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="font-medium text-foreground">{coupon.title}</div>
-            <div className="text-sm text-muted-foreground font-mono">
-              {coupon.code}
-            </div>
+            <div className="text-foreground font-medium">{coupon.title}</div>
+            <div className="text-muted-foreground font-mono text-sm">{coupon.code}</div>
           </div>
         </div>
       );
     },
   },
   {
-    accessorKey: "discountType",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Discount" />
-    ),
+    accessorKey: 'discountType',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Discount" />,
     cell: ({ row }) => {
       const coupon = row.original;
       const isPercentage = coupon.discountType === DiscountType.PERCENT;
@@ -97,8 +90,8 @@ export const columns: ColumnDef<ICoupon>[] = [
                 ? `${coupon.discountValue}%`
                 : `${coupon.discountValue.toLocaleString()} đ`}
             </div>
-            <div className="text-xs text-muted-foreground">
-              {isPercentage ? "Percentage" : "Fixed Amount"}
+            <div className="text-muted-foreground text-xs">
+              {isPercentage ? 'Percentage' : 'Fixed Amount'}
             </div>
           </div>
         </div>
@@ -106,10 +99,8 @@ export const columns: ColumnDef<ICoupon>[] = [
     },
   },
   {
-    accessorKey: "status",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
+    accessorKey: 'status',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
       const coupon = row.original;
       const status = getCouponStatus(coupon);
@@ -117,12 +108,9 @@ export const columns: ColumnDef<ICoupon>[] = [
 
       return (
         <Badge
-          className={`rounded-full capitalize border ${config.bgColor} ${config.textColor} ${config.borderColor} ${config.ringColor} focus-visible:outline-none`}
+          className={`rounded-full border capitalize ${config.bgColor} ${config.textColor} ${config.borderColor} ${config.ringColor} focus-visible:outline-none`}
         >
-          <span
-            className={`size-1.5 rounded-full ${config.dotColor}`}
-            aria-hidden="true"
-          />
+          <span className={`size-1.5 rounded-full ${config.dotColor}`} aria-hidden="true" />
           {status}
         </Badge>
       );
@@ -131,24 +119,22 @@ export const columns: ColumnDef<ICoupon>[] = [
     enableSorting: true,
   },
   {
-    accessorKey: "usage",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Usage" />
-    ),
+    accessorKey: 'usage',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Usage" />,
     cell: ({ row }) => {
       const coupon = row.original;
       const hasLimit = hasUsageLimit(coupon);
 
       return (
-        <div className="flex items-center space-x-2 ">
-          <Users className="h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center space-x-2">
+          <Users className="text-muted-foreground h-4 w-4" />
           <div className="text-sm">
             <div className="font-medium">
               {coupon.usedCount}
               {hasLimit && ` / ${coupon.maxUses}`}
             </div>
-            <div className="text-xs text-muted-foreground">
-              {hasLimit ? "Limited" : "Unlimited"}
+            <div className="text-muted-foreground text-xs">
+              {hasLimit ? 'Limited' : 'Unlimited'}
             </div>
           </div>
         </div>
@@ -157,10 +143,8 @@ export const columns: ColumnDef<ICoupon>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "courseIds",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Applicable Courses" />
-    ),
+    accessorKey: 'courseIds',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Applicable Courses" />,
     cell: ({ row }) => {
       const coupon = row.original;
       const courseCount = coupon.courses?.length || 0;
@@ -171,7 +155,7 @@ export const columns: ColumnDef<ICoupon>[] = [
             <Badge variant="outline">All Courses</Badge>
           ) : (
             <Badge variant="secondary">
-              {courseCount} Course{courseCount !== 1 ? "s" : ""}
+              {courseCount} Course{courseCount !== 1 ? 's' : ''}
             </Badge>
           )}
         </div>
@@ -180,32 +164,24 @@ export const columns: ColumnDef<ICoupon>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "minPurchaseAmount",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Min. Purchase" />
-    ),
+    accessorKey: 'minPurchaseAmount',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Min. Purchase" />,
     cell: ({ row }) => {
       const coupon = row.original;
-      return (
-        <div className="text-sm font-mono">
-          {formatPrice(coupon.minPurchaseAmount || 0)}
-        </div>
-      );
+      return <div className="font-mono text-sm">{formatPrice(coupon.minPurchaseAmount || 0)}</div>;
     },
   },
   {
-    accessorKey: "endDate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Expires" />
-    ),
+    accessorKey: 'endDate',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Expires" />,
     cell: ({ row }) => {
       const coupon = row.original;
 
       if (!coupon.endDate) {
         return (
           <div className="flex items-center space-x-2">
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">Never</span>
+            <Calendar className="text-muted-foreground h-4 w-4" />
+            <span className="text-muted-foreground text-sm">Never</span>
           </div>
         );
       }
@@ -215,21 +191,19 @@ export const columns: ColumnDef<ICoupon>[] = [
 
       return (
         <div className="flex items-center space-x-2">
-          <Calendar className="h-4 w-4 text-muted-foreground" />
+          <Calendar className="text-muted-foreground h-4 w-4" />
           <div className="text-sm">
-            <div className={`font-medium ${isExpired ? "text-red-600" : ""}`}>
-              {dayjs(endDate).format("MMM DD, YYYY")}
+            <div className={`font-medium ${isExpired ? 'text-red-600' : ''}`}>
+              {dayjs(endDate).format('MMM DD, YYYY')}
             </div>
-            <div className="text-xs text-muted-foreground">
-              {dayjs(endDate).format("h:mm A")}
-            </div>
+            <div className="text-muted-foreground text-xs">{dayjs(endDate).format('h:mm A')}</div>
           </div>
         </div>
       );
     },
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

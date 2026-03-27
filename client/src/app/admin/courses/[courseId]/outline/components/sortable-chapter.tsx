@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   closestCenter,
@@ -10,15 +10,15 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
   MdAccessTime,
   MdAdd,
@@ -28,29 +28,29 @@ import {
   MdEdit,
   MdMenuBook,
   MdMoreVert,
-} from "react-icons/md";
+} from 'react-icons/md';
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+} from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { IChapter } from "@/types/chapter";
-import { ILesson } from "@/types/lesson";
-import { secondsToTimeString } from "@/utils/format";
-import { useLessonsByChapter } from "@/hooks/use-lessons";
-import SortableLesson from "./sortable-lesson";
-import { Skeleton } from "@/components/ui/skeleton";
-import React from "react";
+} from '@/components/ui/dropdown-menu';
+import { IChapter } from '@/types/chapter';
+import { ILesson } from '@/types/lesson';
+import { secondsToTimeString } from '@/utils/format';
+import { useLessonsByChapter } from '@/hooks/use-lessons';
+import SortableLesson from './sortable-lesson';
+import { Skeleton } from '@/components/ui/skeleton';
+import React from 'react';
 
 interface SortableChapterProps {
   chapter: IChapter;
@@ -80,8 +80,10 @@ const SortableChapter = ({
   onLessonReorder,
 }: SortableChapterProps) => {
   // Fetch lessons only when chapter is expanded
-  const { data: lessons = [], isLoading: isLoadingLessons } =
-    useLessonsByChapter(chapter.id, isExpanded);
+  const { data: lessons = [], isLoading: isLoadingLessons } = useLessonsByChapter(
+    chapter.id,
+    isExpanded,
+  );
   console.log(lessons);
 
   // Use statistics from chapter data (from API response)
@@ -90,21 +92,12 @@ const SortableChapter = ({
   const totalChapterDuration = chapter.totalDuration || 0;
 
   // Local state for lesson drag
-  const [activeLessonId, setActiveLessonId] = React.useState<string | null>(
-    null
-  );
+  const [activeLessonId, setActiveLessonId] = React.useState<string | null>(null);
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: chapter.id,
     data: {
-      type: "chapter",
+      type: 'chapter',
       chapter,
     },
   });
@@ -122,7 +115,7 @@ const SortableChapter = ({
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleLessonDragStart = (event: DragStartEvent) => {
@@ -144,22 +137,20 @@ const SortableChapter = ({
       (lesson, index: number) => ({
         ...lesson,
         order: index + 1,
-      })
+      }),
     ) as ILesson[];
 
     onLessonReorder(chapter.id, reorderedLessons);
   };
 
-  const activeLesson = activeLessonId
-    ? lessons.find((l) => l.id === activeLessonId)
-    : null;
+  const activeLesson = activeLessonId ? lessons.find((l) => l.id === activeLessonId) : null;
 
   return (
     <Card
       ref={setNodeRef}
       style={style}
-      className={`mb-4 py-2 bg-card border border-border hover:bg-accent/30 transition-colors ${
-        isDragging ? "opacity-50" : ""
+      className={`bg-card border-border hover:bg-accent/30 mb-4 border py-2 transition-colors ${
+        isDragging ? 'opacity-50' : ''
       }`}
     >
       <Accordion
@@ -172,47 +163,43 @@ const SortableChapter = ({
           {/* Chapter Header */}
           <div className="group/chapter">
             <AccordionTrigger
-              className={`flex items-center justify-between p-4 hover:no-underline transition-colors ${
-                isExpanded ? "border-b border-border" : ""
+              className={`flex items-center justify-between p-4 transition-colors hover:no-underline ${
+                isExpanded ? 'border-border border-b' : ''
               }`}
             >
-              <div className="flex items-start gap-3 flex-1 min-w-0">
+              <div className="flex min-w-0 flex-1 items-start gap-3">
                 {/* Drag Handle */}
                 <div
                   {...attributes}
                   {...listeners}
-                  className="cursor-grab hover:cursor-grabbing text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground cursor-grab transition-colors hover:cursor-grabbing"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <MdDragIndicator className="h-4 w-4" />
                 </div>
 
-                <div className="flex  flex-col gap-1 flex-1 min-w-0">
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
                   <div className="flex items-center gap-1">
-                    <span className="text-sm font-medium ">
-                      {chapterIndex + 1}.
-                    </span>
-                    <h3 className="font-medium text-card-foreground truncate">
-                      {chapter.title}
-                    </h3>
+                    <span className="text-sm font-medium">{chapterIndex + 1}.</span>
+                    <h3 className="text-card-foreground truncate font-medium">{chapter.title}</h3>
                   </div>
                   {/* Chapter Meta Info */}
-                  <div className="flex items-center gap-4 mt-1 text-sm font-normal">
+                  <div className="mt-1 flex items-center gap-4 text-sm font-normal">
                     {/* Status */}
                     <div className="flex items-center gap-1">
                       <div
-                        className={`w-2 h-2 rounded-full ${
-                          chapter.isPublished ? "bg-green-500" : "bg-yellow-500"
+                        className={`h-2 w-2 rounded-full ${
+                          chapter.isPublished ? 'bg-green-500' : 'bg-yellow-500'
                         }`}
                       />
                       <span className="text-muted-foreground">
-                        {chapter.isPublished ? "Published" : "Draft"}
+                        {chapter.isPublished ? 'Published' : 'Draft'}
                       </span>
                     </div>
 
                     {/* Lessons Count */}
                     <div className="flex items-center gap-1">
-                      <MdMenuBook className="h-4 w-4 text-muted-foreground" />
+                      <MdMenuBook className="text-muted-foreground h-4 w-4" />
                       <span className="text-muted-foreground">
                         lessons: {publishedLessons}/{totalLessons}
                       </span>
@@ -220,7 +207,7 @@ const SortableChapter = ({
 
                     {/* Duration */}
                     <div className="flex items-center gap-1">
-                      <MdAccessTime className="h-4 w-4 text-muted-foreground" />
+                      <MdAccessTime className="text-muted-foreground h-4 w-4" />
                       <span className="text-muted-foreground">
                         Duration: {secondsToTimeString(totalChapterDuration)}
                       </span>
@@ -230,7 +217,7 @@ const SortableChapter = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex shrink-0 items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -240,7 +227,7 @@ const SortableChapter = ({
                   }}
                   className="h-8 px-3 text-xs"
                 >
-                  <MdAdd className="h-3 w-3 mr-1" />
+                  <MdAdd className="mr-1 h-3 w-3" />
                   Add Lesson
                 </Button>
 
@@ -263,7 +250,7 @@ const SortableChapter = ({
                         onEditChapter(chapter);
                       }}
                     >
-                      <MdEdit className="h-4 w-4 mr-2" />
+                      <MdEdit className="mr-2 h-4 w-4" />
                       Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -274,7 +261,7 @@ const SortableChapter = ({
                       }}
                       className="text-destructive focus:text-destructive"
                     >
-                      <MdDelete className="h-4 w-4 mr-2" />
+                      <MdDelete className="mr-2 h-4 w-4" />
                       Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -285,15 +272,12 @@ const SortableChapter = ({
 
           {/* Accordion Content - Lessons */}
           <AccordionContent className="p-0">
-            <div className="px-6 py-4 bg-muted/30">
+            <div className="bg-muted/30 px-6 py-4">
               {isLoadingLessons ? (
                 // Loading state for lessons
                 <div className="space-y-3">
                   {Array.from({ length: 3 }).map((_, index) => (
-                    <div
-                      key={index}
-                      className="bg-card rounded-lg p-4 border border-border"
-                    >
+                    <div key={index} className="bg-card border-border rounded-lg border p-4">
                       <div className="flex items-center gap-3">
                         <Skeleton className="h-4 w-4" />
                         <Skeleton className="h-4 w-48" />
@@ -306,29 +290,26 @@ const SortableChapter = ({
                   ))}
                 </div>
               ) : lessons.length === 0 ? (
-                <div className="bg-card rounded-lg p-8 text-center border border-dashed border-border">
-                  <div className="bg-muted rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <MdDescription className="h-8 w-8 text-muted-foreground" />
+                <div className="bg-card border-border rounded-lg border border-dashed p-8 text-center">
+                  <div className="bg-muted mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+                    <MdDescription className="text-muted-foreground h-8 w-8" />
                   </div>
-                  <h4 className="text-base font-semibold text-card-foreground mb-2">
+                  <h4 className="text-card-foreground mb-2 text-base font-semibold">
                     No lessons yet
                   </h4>
-                  <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-                    Get started by creating your first lesson. You can add
-                    videos, articles, or quizzes.
+                  <p className="text-muted-foreground mx-auto mb-6 max-w-sm text-sm">
+                    Get started by creating your first lesson. You can add videos, articles, or
+                    quizzes.
                   </p>
-                  <Button
-                    variant="outline"
-                    onClick={() => onAddLesson(chapter.id)}
-                  >
-                    <MdAdd className="h-4 w-4 mr-2" />
+                  <Button variant="outline" onClick={() => onAddLesson(chapter.id)}>
+                    <MdAdd className="mr-2 h-4 w-4" />
                     Create First Lesson
                   </Button>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                  <div className="mb-4 flex items-center justify-between">
+                    <h4 className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
                       Lessons ({lessons.length})
                     </h4>
                   </div>
@@ -357,12 +338,10 @@ const SortableChapter = ({
                     {/* Drag Overlay for Lessons */}
                     <DragOverlay>
                       {activeLesson ? (
-                        <div className="bg-white rounded-lg shadow-lg border-2 border-blue-500 p-4">
+                        <div className="rounded-lg border-2 border-blue-500 bg-white p-4 shadow-lg">
                           <div className="flex items-center gap-2">
                             <MdDragIndicator className="h-5 w-5 text-blue-500" />
-                            <span className="font-medium">
-                              {activeLesson.title}
-                            </span>
+                            <span className="font-medium">{activeLesson.title}</span>
                           </div>
                         </div>
                       ) : null}

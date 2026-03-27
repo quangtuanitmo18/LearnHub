@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import * as React from "react";
-import { BookOpen } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import * as React from 'react';
+import { BookOpen } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-import { usePublishedBlogs } from "@/hooks/use-blogs";
-import { IBlog } from "@/types/blog";
-import { BlogCardSkeleton } from "@/components/blog/blog-card-skeleton";
-import { BlogCard } from "@/components/blog/blog-card";
+import { usePublishedBlogs } from '@/hooks/use-blogs';
+import { IBlog } from '@/types/blog';
+import { BlogCardSkeleton } from '@/components/blog/blog-card-skeleton';
+import { BlogCard } from '@/components/blog/blog-card';
 
 // Blogs content component - Arrow function
 const BlogsContent = () => {
@@ -45,7 +45,7 @@ const BlogsContent = () => {
     <>
       {/* Blog Grid/List */}
       {isLoading && currentPage === 1 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 12 }, (_, i) => (
             <BlogCardSkeleton key={i} />
           ))}
@@ -53,7 +53,7 @@ const BlogsContent = () => {
       ) : allBlogs.length > 0 ? (
         <>
           {/* Blog Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {allBlogs.map((blog) => (
               <BlogCard key={blog.id} post={blog} />
             ))}
@@ -61,9 +61,7 @@ const BlogsContent = () => {
             {/* Load More Skeletons */}
             {isLoading &&
               currentPage > 1 &&
-              Array.from({ length: 12 }, (_, i) => (
-                <BlogCardSkeleton key={`loading-${i}`} />
-              ))}
+              Array.from({ length: 12 }, (_, i) => <BlogCardSkeleton key={`loading-${i}`} />)}
           </div>
 
           {/* Load More Button */}
@@ -73,7 +71,7 @@ const BlogsContent = () => {
                 variant="outline"
                 size="lg"
                 onClick={handleLoadMore}
-                className="px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base h-10 sm:h-12"
+                className="h-10 px-6 py-2.5 text-sm sm:h-12 sm:px-8 sm:py-3 sm:text-base"
               >
                 Load More Articles
               </Button>
@@ -82,20 +80,20 @@ const BlogsContent = () => {
 
           {/* End of Results Message */}
           {pagination && !pagination.hasNextPage && allBlogs.length > 0 && (
-            <div className="text-center py-6 sm:py-8">
-              <p className="text-gray-500 text-xs sm:text-sm">
+            <div className="py-6 text-center sm:py-8">
+              <p className="text-xs text-gray-500 sm:text-sm">
                 You&apos;ve reached the end of all articles
               </p>
             </div>
           )}
         </>
       ) : (
-        <div className="text-center py-12 sm:py-16 md:py-20 px-4">
-          <BookOpen className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400 mb-3 sm:mb-4" />
-          <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-1.5 sm:mb-2">
+        <div className="px-4 py-12 text-center sm:py-16 md:py-20">
+          <BookOpen className="mx-auto mb-3 h-10 w-10 text-gray-400 sm:mb-4 sm:h-12 sm:w-12" />
+          <h3 className="mb-1.5 text-base font-medium text-gray-900 sm:mb-2 sm:text-lg">
             No articles found
           </h3>
-          <p className="text-sm sm:text-base text-gray-600">
+          <p className="text-sm text-gray-600 sm:text-base">
             Check back later for new articles and insights.
           </p>
         </div>

@@ -56,7 +56,7 @@ export type CartResponse = Cart;
 export interface DiscountVoucher {
   code: string;
   label: string;
-  discountType: "percentage" | "fixed";
+  discountType: 'percentage' | 'fixed';
   discountValue: number;
   minOrderValue?: number;
 }

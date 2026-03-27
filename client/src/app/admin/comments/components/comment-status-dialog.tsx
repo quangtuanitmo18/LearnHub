@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { Button } from "@/components/ui/button";
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -20,30 +20,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useUpdateCommentStatus } from "@/hooks/use-comments";
-import { MdEdit } from "react-icons/md";
-import { toast } from "sonner";
-import {
-  IComment,
-  CommentStatus,
-  UpdateCommentStatusRequest,
-} from "@/types/comment";
-import { formatDistanceToNow } from "date-fns";
+} from '@/components/ui/select';
+import { useUpdateCommentStatus } from '@/hooks/use-comments';
+import { MdEdit } from 'react-icons/md';
+import { toast } from 'sonner';
+import { IComment, CommentStatus, UpdateCommentStatusRequest } from '@/types/comment';
+import { formatDistanceToNow } from 'date-fns';
 
 // Validation schema for status update only
 const commentValidationSchema = yup.object().shape({
   status: yup
     .mixed<CommentStatus>()
-    .oneOf(Object.values(CommentStatus), "Please select a valid status")
-    .required("Status is required"),
+    .oneOf(Object.values(CommentStatus), 'Please select a valid status')
+    .required('Status is required'),
 });
 
 type CommentFormData = yup.InferType<typeof commentValidationSchema>;
@@ -68,7 +64,7 @@ const CommentStatusDialog = ({
   // Initialize form
   const form = useForm<CommentFormData>({
     resolver: yupResolver(commentValidationSchema),
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
       status: comment.status,
     },
@@ -91,7 +87,7 @@ const CommentStatusDialog = ({
       };
 
       const result = await updateCommentMutation.mutateAsync(updateData);
-      toast.success("Comment status updated successfully");
+      toast.success('Comment status updated successfully');
 
       onOpenChange?.(false);
       form.reset();
@@ -101,17 +97,15 @@ const CommentStatusDialog = ({
       const errorMessage =
         error instanceof Error
           ? error.message
-          : (error as { response?: { data?: { message?: string } } })?.response
-              ?.data?.message || "Unknown error";
+          : (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
+            'Unknown error';
       toast.error(`Failed to update comment: ${errorMessage}`);
     }
   };
 
   // Truncate content but keep HTML for display
   const truncatedContent =
-    comment.content.length > 200
-      ? comment.content.substring(0, 200) + "..."
-      : comment.content;
+    comment.content.length > 200 ? comment.content.substring(0, 200) + '...' : comment.content;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -121,53 +115,48 @@ const CommentStatusDialog = ({
             <MdEdit className="h-5 w-5" />
             Update Comment Status
           </DialogTitle>
-          <DialogDescription>
-            Update the moderation status of this comment.
-          </DialogDescription>
+          <DialogDescription>Update the moderation status of this comment.</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* Comment Information Display */}
-            <div className="space-y-3 p-4 bg-muted/50 rounded-lg">
+            <div className="bg-muted/50 space-y-3 rounded-lg p-4">
               <div className="text-sm">
-                <span className="font-medium">Author:</span>{" "}
-                {comment.user?.username || "Unknown User"}
+                <span className="font-medium">Author:</span>{' '}
+                {comment.user?.username || 'Unknown User'}
               </div>
               <div className="text-sm">
-                <span className="font-medium">Email:</span>{" "}
-                {comment.user?.email || "Unknown Email"}
+                <span className="font-medium">Email:</span> {comment.user?.email || 'Unknown Email'}
               </div>
               <div className="text-sm">
-                <span className="font-medium">Created:</span>{" "}
+                <span className="font-medium">Created:</span>{' '}
                 {formatDistanceToNow(new Date(comment.createdAt), {
                   addSuffix: true,
                 })}
               </div>
               <div className="text-sm">
-                <span className="font-medium">Level:</span>{" "}
-                {comment.level === 0
-                  ? "Main Comment"
-                  : `Reply Level ${comment.level}`}
+                <span className="font-medium">Level:</span>{' '}
+                {comment.level === 0 ? 'Main Comment' : `Reply Level ${comment.level}`}
               </div>
               <div className="text-sm">
                 <span className="font-medium">Content:</span>
                 <div
-                  className="mt-1 p-2 bg-background rounded border text-sm leading-relaxed"
+                  className="bg-background mt-1 rounded border p-2 text-sm leading-relaxed"
                   dangerouslySetInnerHTML={{
                     __html: truncatedContent,
                   }}
                 />
               </div>
               <div className="text-sm">
-                <span className="font-medium">Current Status:</span>{" "}
+                <span className="font-medium">Current Status:</span>{' '}
                 <span
-                  className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                  className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
                     comment.status === CommentStatus.APPROVED
-                      ? "bg-green-100 text-green-800"
+                      ? 'bg-green-100 text-green-800'
                       : comment.status === CommentStatus.PENDING
-                      ? "bg-yellow-100 text-yellow-800"
-                      : "bg-red-100 text-red-800"
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
                   }`}
                 >
                   {comment.status}
@@ -188,15 +177,9 @@ const CommentStatusDialog = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={CommentStatus.PENDING}>
-                        Pending
-                      </SelectItem>
-                      <SelectItem value={CommentStatus.APPROVED}>
-                        Approved
-                      </SelectItem>
-                      <SelectItem value={CommentStatus.REJECTED}>
-                        Rejected
-                      </SelectItem>
+                      <SelectItem value={CommentStatus.PENDING}>Pending</SelectItem>
+                      <SelectItem value={CommentStatus.APPROVED}>Approved</SelectItem>
+                      <SelectItem value={CommentStatus.REJECTED}>Rejected</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -214,7 +197,7 @@ const CommentStatusDialog = ({
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Updating..." : "Update Status"}
+                {isLoading ? 'Updating...' : 'Update Status'}
               </Button>
             </DialogFooter>
           </form>

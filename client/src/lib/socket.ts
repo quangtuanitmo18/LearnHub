@@ -1,34 +1,34 @@
-"use client";
+'use client';
 
-import { io, Socket } from "socket.io-client";
+import { io, Socket } from 'socket.io-client';
 
 // Socket event types
 export const SOCKET_EVENTS = {
   // Notification events
-  NOTIFICATION_COUNT: "notification-count",
-  NEW_COURSE: "new-course",
-  NEW_NOTIFICATION: "new-notification",
+  NOTIFICATION_COUNT: 'notification-count',
+  NEW_COURSE: 'new-course',
+  NEW_NOTIFICATION: 'new-notification',
 
   // Video processing events
-  VIDEO_PROCESSING_STARTED: "video:processing:started",
-  VIDEO_PROCESSING_PROGRESS: "video:processing:progress",
-  VIDEO_PROCESSING_COMPLETED: "video:processing:completed",
-  VIDEO_PROCESSING_FAILED: "video:processing:failed",
+  VIDEO_PROCESSING_STARTED: 'video:processing:started',
+  VIDEO_PROCESSING_PROGRESS: 'video:processing:progress',
+  VIDEO_PROCESSING_COMPLETED: 'video:processing:completed',
+  VIDEO_PROCESSING_FAILED: 'video:processing:failed',
 
   // Connection events
-  CONNECT: "connect",
-  DISCONNECT: "disconnect",
-  CONNECT_ERROR: "connect_error",
+  CONNECT: 'connect',
+  DISCONNECT: 'disconnect',
+  CONNECT_ERROR: 'connect_error',
 } as const;
 
 // Socket configuration
 const SOCKET_URL =
   process.env.NEXT_PUBLIC_SOCKET_URL ||
-  process.env.NEXT_PUBLIC_API_URL?.replace("/api/v1", "") ||
-  "http://localhost:3000";
+  process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ||
+  'http://localhost:3000';
 
 // Notification namespace
-const NOTIFICATION_NAMESPACE = "/notifications";
+const NOTIFICATION_NAMESPACE = '/notifications';
 
 // Singleton socket instance for notifications
 let notificationSocket: Socket | null = null;
@@ -45,7 +45,7 @@ export function getNotificationSocket(accessToken?: string): Socket {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       timeout: 20000,
-      transports: ["websocket", "polling"],
+      transports: ['websocket', 'polling'],
       auth: accessToken ? { token: accessToken } : undefined,
     });
   }
@@ -96,7 +96,7 @@ export { notificationSocket };
 // ===========================================
 
 // Video namespace
-const VIDEO_NAMESPACE = "/video";
+const VIDEO_NAMESPACE = '/video';
 
 // Singleton socket instance for video processing
 let videoSocket: Socket | null = null;
@@ -116,37 +116,34 @@ export function getVideoSocket(accessToken?: string): Socket {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       timeout: 20000,
-      transports: ["websocket", "polling"],
+      transports: ['websocket', 'polling'],
       auth: accessToken ? { token: accessToken } : undefined,
     });
 
     // Auto-resubscribe on reconnect
-    videoSocket.on("connect", () => {
-      console.log("✅ [VideoSocket] Connected");
+    videoSocket.on('connect', () => {
+      console.log('✅ [VideoSocket] Connected');
       subscribedVideoIds.forEach((videoId) => {
-        videoSocket?.emit("subscribe:video", { videoId });
-        console.log("🔄 [VideoSocket] Resubscribed to:", videoId);
+        videoSocket?.emit('subscribe:video', { videoId });
+        console.log('🔄 [VideoSocket] Resubscribed to:', videoId);
       });
     });
 
-    videoSocket.on("connected", (data) => {
-      console.log("✅ [VideoSocket] Server confirmed:", data);
+    videoSocket.on('connected', (data) => {
+      console.log('✅ [VideoSocket] Server confirmed:', data);
     });
 
-    videoSocket.on("disconnect", (reason) => {
-      console.log("❌ [VideoSocket] Disconnected:", reason);
+    videoSocket.on('disconnect', (reason) => {
+      console.log('❌ [VideoSocket] Disconnected:', reason);
     });
 
-    videoSocket.on("error", (error) => {
-      console.error("❌ [VideoSocket] Error:", error);
+    videoSocket.on('error', (error) => {
+      console.error('❌ [VideoSocket] Error:', error);
     });
 
-    videoSocket.on(
-      "subscribed",
-      (data: { videoId: string; message: string }) => {
-        console.log("✅ [VideoSocket] Subscribed:", data.videoId);
-      }
-    );
+    videoSocket.on('subscribed', (data: { videoId: string; message: string }) => {
+      console.log('✅ [VideoSocket] Subscribed:', data.videoId);
+    });
   }
 
   return videoSocket;
@@ -176,8 +173,8 @@ export function connectVideoSocket(accessToken?: string): Socket {
 export function subscribeToVideo(videoId: string): void {
   subscribedVideoIds.add(videoId);
   if (videoSocket?.connected) {
-    videoSocket.emit("subscribe:video", { videoId });
-    console.log("📡 [VideoSocket] Subscribing to:", videoId);
+    videoSocket.emit('subscribe:video', { videoId });
+    console.log('📡 [VideoSocket] Subscribing to:', videoId);
   }
 }
 
@@ -187,8 +184,8 @@ export function subscribeToVideo(videoId: string): void {
 export function unsubscribeFromVideo(videoId: string): void {
   subscribedVideoIds.delete(videoId);
   if (videoSocket?.connected) {
-    videoSocket.emit("unsubscribe:video", { videoId });
-    console.log("📡 [VideoSocket] Unsubscribing from:", videoId);
+    videoSocket.emit('unsubscribe:video', { videoId });
+    console.log('📡 [VideoSocket] Unsubscribing from:', videoId);
   }
 }
 

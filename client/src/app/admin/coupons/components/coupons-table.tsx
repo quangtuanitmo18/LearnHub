@@ -1,18 +1,14 @@
-"use client";
+'use client';
 
-import { DataTable, DataTablePagination } from "@/components/table";
-import { useCoupons } from "@/hooks/use-coupons";
-import { useDebounce } from "@/hooks/use-debounce";
-import {
-  VisibilityState,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { columns } from "./coupons-columns";
-import DataTableToolbar from "./data-table-toolbar";
-import CouponsBulkDeleteDialog from "./coupons-bulk-delete-dialog";
-import { TABLE_CONSTANTS, PAGINATION_CONSTANTS } from "@/constants";
+import { DataTable, DataTablePagination } from '@/components/table';
+import { useCoupons } from '@/hooks/use-coupons';
+import { useDebounce } from '@/hooks/use-debounce';
+import { VisibilityState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { columns } from './coupons-columns';
+import DataTableToolbar from './data-table-toolbar';
+import CouponsBulkDeleteDialog from './coupons-bulk-delete-dialog';
+import { TABLE_CONSTANTS, PAGINATION_CONSTANTS } from '@/constants';
 
 // Filter state interface for better organization
 interface FilterState {
@@ -28,25 +24,18 @@ const CouponsTable = () => {
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE
-  );
-  const [pageSize, setPageSize] = useState(
-    PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE
-  );
+  const [currentPage, setCurrentPage] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE);
+  const [pageSize, setPageSize] = useState(PAGINATION_CONSTANTS.DEFAULT_PAGE_SIZE);
 
   // Filter state - grouped for better performance
   const [filters, setFilters] = useState<FilterState>({
-    search: "",
+    search: '',
     status: [],
     discountType: [],
   });
 
   // Debounce search input
-  const debouncedSearch = useDebounce(
-    filters.search,
-    TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS
-  );
+  const debouncedSearch = useDebounce(filters.search, TABLE_CONSTANTS.SEARCH_DEBOUNCE_MS);
 
   // Optimized query parameters
   const queryParams = useMemo(
@@ -57,13 +46,7 @@ const CouponsTable = () => {
       status: filters.status,
       discountType: filters.discountType,
     }),
-    [
-      currentPage,
-      pageSize,
-      debouncedSearch,
-      filters.status,
-      filters.discountType,
-    ]
+    [currentPage, pageSize, debouncedSearch, filters.status, filters.discountType],
   );
 
   const { data: couponsData, isLoading } = useCoupons(queryParams);
@@ -82,16 +65,13 @@ const CouponsTable = () => {
     setFilters((prev) => ({ ...prev, status }));
   }, []);
 
-  const handleDiscountTypeFilterChange = useCallback(
-    (discountType: string[]) => {
-      setFilters((prev) => ({ ...prev, discountType }));
-    },
-    []
-  );
+  const handleDiscountTypeFilterChange = useCallback((discountType: string[]) => {
+    setFilters((prev) => ({ ...prev, discountType }));
+  }, []);
 
   const handleClearFilters = useCallback(() => {
     setFilters({
-      search: "",
+      search: '',
       status: [],
       discountType: [],
     });
@@ -116,10 +96,7 @@ const CouponsTable = () => {
   }, []);
 
   // Memoized coupons data
-  const coupons = useMemo(
-    () => couponsData?.result || [],
-    [couponsData?.result]
-  );
+  const coupons = useMemo(() => couponsData?.result || [], [couponsData?.result]);
 
   // Get selected coupons for bulk operations
   const selectedCoupons = useMemo(() => {

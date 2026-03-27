@@ -1,4 +1,4 @@
-import { ApiService } from "@/lib/api-service";
+import { ApiService } from '@/lib/api-service';
 import type {
   NotificationListResponse,
   NotificationCount,
@@ -6,16 +6,16 @@ import type {
   NotificationRecipient,
   MarkMultipleReadRequest,
   DeleteMultipleNotificationsRequest,
-} from "@/types/notification";
+} from '@/types/notification';
 
 const ENDPOINTS = {
-  NOTIFICATIONS: "/notifications",
-  COUNT: "/notifications/count",
+  NOTIFICATIONS: '/notifications',
+  COUNT: '/notifications/count',
   MARK_READ: (id: string) => `/notifications/${id}/read`,
-  MARK_MULTIPLE_READ: "/notifications/mark-read",
-  MARK_ALL_READ: "/notifications/mark-all-read",
+  MARK_MULTIPLE_READ: '/notifications/mark-read',
+  MARK_ALL_READ: '/notifications/mark-all-read',
   DELETE_ONE: (id: string) => `/notifications/${id}`,
-  DELETE_MULTIPLE: "/notifications",
+  DELETE_MULTIPLE: '/notifications',
 } as const;
 
 export class NotificationService {
@@ -23,7 +23,7 @@ export class NotificationService {
    * Get all notifications for the current user with pagination
    */
   static async getNotifications(
-    params?: NotificationQueryParams
+    params?: NotificationQueryParams,
   ): Promise<NotificationListResponse> {
     return ApiService.get<NotificationListResponse>(ENDPOINTS.NOTIFICATIONS, {
       page: params?.page ?? 1,
@@ -44,20 +44,16 @@ export class NotificationService {
    * Mark a single notification as read
    */
   static async markAsRead(recipientId: string): Promise<NotificationRecipient> {
-    return ApiService.post<NotificationRecipient>(
-      ENDPOINTS.MARK_READ(recipientId)
-    );
+    return ApiService.post<NotificationRecipient>(ENDPOINTS.MARK_READ(recipientId));
   }
 
   /**
    * Mark multiple notifications as read
    */
-  static async markMultipleAsRead(
-    recipientIds: string[]
-  ): Promise<{ count: number }> {
+  static async markMultipleAsRead(recipientIds: string[]): Promise<{ count: number }> {
     return ApiService.post<{ count: number }, MarkMultipleReadRequest>(
       ENDPOINTS.MARK_MULTIPLE_READ,
-      { recipientIds }
+      { recipientIds },
     );
   }
 
@@ -71,24 +67,18 @@ export class NotificationService {
   /**
    * Delete a single notification
    */
-  static async deleteNotification(
-    recipientId: string
-  ): Promise<NotificationRecipient> {
-    return ApiService.delete<NotificationRecipient>(
-      ENDPOINTS.DELETE_ONE(recipientId)
-    );
+  static async deleteNotification(recipientId: string): Promise<NotificationRecipient> {
+    return ApiService.delete<NotificationRecipient>(ENDPOINTS.DELETE_ONE(recipientId));
   }
 
   /**
    * Delete multiple notifications
    */
-  static async deleteMultipleNotifications(
-    recipientIds: string[]
-  ): Promise<{ count: number }> {
-    return ApiService.delete<
-      { count: number },
-      DeleteMultipleNotificationsRequest
-    >(ENDPOINTS.DELETE_MULTIPLE, { recipientIds });
+  static async deleteMultipleNotifications(recipientIds: string[]): Promise<{ count: number }> {
+    return ApiService.delete<{ count: number }, DeleteMultipleNotificationsRequest>(
+      ENDPOINTS.DELETE_MULTIPLE,
+      { recipientIds },
+    );
   }
 }
 

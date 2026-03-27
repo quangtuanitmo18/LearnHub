@@ -31,7 +31,7 @@ export class CourseController {
   constructor(
     private readonly courseService: CourseService,
     private readonly userLessonProgressService: UserLessonProgressService,
-  ) { }
+  ) {}
 
   @Get()
   @RequirePermissions(PERMISSIONS.COURSE_READ)
@@ -119,7 +119,6 @@ export class CourseController {
   }
 
   @Get(':id/lessons/progress')
-
   @ResponseMessage('Course lesson progress retrieved successfully')
   async getLessonProgressByCourse(
     @Param('id') courseId: string,

@@ -1,16 +1,14 @@
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-import { notFound } from "next/navigation";
-import dynamicImport from "next/dynamic";
-import CoursesService from "@/services/courses";
-import CourseContent from "./components/course-content";
+import { notFound } from 'next/navigation';
+import dynamicImport from 'next/dynamic';
+import CoursesService from '@/services/courses';
+import CourseContent from './components/course-content';
 
 // Dynamic imports for heavy components
-const CourseHero = dynamicImport(() => import("./components/course-hero")); // Can be SSR
+const CourseHero = dynamicImport(() => import('./components/course-hero')); // Can be SSR
 
-const RelatedCourses = dynamicImport(
-  () => import("./components/related-courses")
-); // Can be SSR
+const RelatedCourses = dynamicImport(() => import('./components/related-courses')); // Can be SSR
 
 interface CourseDetailPageProps {
   params: Promise<{
@@ -33,7 +31,7 @@ const CourseDetailPage = async ({ params }: CourseDetailPageProps) => {
 
   // Fetch course data on server side
   const course = await fetchCourseData(resolvedParams.slug);
-  console.log("Course data:", course);
+  console.log('Course data:', course);
   // If course not found, trigger Next.js not-found page
   if (!course) {
     notFound();

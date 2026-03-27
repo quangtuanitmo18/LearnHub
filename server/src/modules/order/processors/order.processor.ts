@@ -30,7 +30,9 @@ export class OrderProcessor extends WorkerHost {
     }
   }
 
-  private async handleCancelUnpaidOrder(data: CancelOrderJobData): Promise<void> {
+  private async handleCancelUnpaidOrder(
+    data: CancelOrderJobData,
+  ): Promise<void> {
     const { orderId, orderCode } = data;
 
     this.logger.log(`Checking order ${orderCode} for cancellation...`);
@@ -47,9 +49,13 @@ export class OrderProcessor extends WorkerHost {
       // Only cancel if still PENDING
       if (order.status === OrderStatus.PENDING) {
         await this.orderRepository.updateStatus(orderId, OrderStatus.CANCELLED);
-        this.logger.log(`Order ${orderCode} cancelled due to non-payment after 24 hours`);
+        this.logger.log(
+          `Order ${orderCode} cancelled due to non-payment after 24 hours`,
+        );
       } else {
-        this.logger.log(`Order ${orderCode} is already ${order.status}, skipping cancellation`);
+        this.logger.log(
+          `Order ${orderCode} is already ${order.status}, skipping cancellation`,
+        );
       }
     } catch (error) {
       this.logger.error(`Failed to cancel order ${orderCode}:`, error);
@@ -59,7 +65,9 @@ export class OrderProcessor extends WorkerHost {
 
   @OnWorkerEvent('completed')
   onCompleted(job: Job<CancelOrderJobData>) {
-    this.logger.log(`Job ${job.name} (${job.id}) completed for order ${job.data.orderCode}`);
+    this.logger.log(
+      `Job ${job.name} (${job.id}) completed for order ${job.data.orderCode}`,
+    );
   }
 
   @OnWorkerEvent('failed')
