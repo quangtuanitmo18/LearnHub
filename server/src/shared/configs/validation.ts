@@ -12,6 +12,7 @@ const envSchema = Zod.object({
   JWT_REFRESH_SECRET: Zod.string(),
   JWT_REFRESH_EXPIRES_IN: Zod.string().optional(),
   AWS_S3_REGION: Zod.string(),
+  AWS_S3_ENDPOINT: Zod.string().optional(),
   AWS_S3_ACCESS_KEY_ID: Zod.string(),
   AWS_S3_SECRET_ACCESS_KEY: Zod.string(),
   AWS_S3_PUBLIC_BUCKET: Zod.string(),

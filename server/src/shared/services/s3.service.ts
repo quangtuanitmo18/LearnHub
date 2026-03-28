@@ -23,12 +23,15 @@ export class S3Service {
 
   constructor(private configService: ConfigService) {
     this.region =
-      this.configService.get<string>('aws.s3.region') || 'ap-southeast-1';
+      this.configService.get<string>('aws.s3.region') || 'ru-central1';
     this.publicBucket =
       this.configService.get<string>('aws.s3.publicBucket') || '';
 
+    const endpoint = this.configService.get<string>('aws.s3.endpoint');
+
     this.s3 = new S3({
       region: this.region,
+      endpoint,
       credentials: {
         secretAccessKey:
           this.configService.get<string>('aws.s3.secretAccessKey') || '',

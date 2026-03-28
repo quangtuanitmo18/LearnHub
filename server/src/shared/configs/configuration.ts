@@ -14,7 +14,9 @@ export const configuration = () => ({
   },
   aws: {
     s3: {
-      region: process.env.AWS_S3_REGION || 'us-east-1',
+      region: process.env.AWS_S3_REGION || 'ru-central1',
+      endpoint:
+        process.env.AWS_S3_ENDPOINT || 'https://storage.yandexcloud.net',
       publicBucket: process.env.AWS_S3_PUBLIC_BUCKET || '',
       rawBucket: process.env.AWS_S3_RAW_BUCKET || '',
       accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID || '',
