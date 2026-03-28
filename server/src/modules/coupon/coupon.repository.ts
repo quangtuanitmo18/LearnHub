@@ -1,18 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from 'src/generated/prisma/client';
-import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
+import { CouponStatus } from 'src/shared/constants/coupon.constant';
+import { PaginatedResponseDto } from 'src/shared/dto/pagination.dto';
 import { BaseService } from 'src/shared/services/base.service';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import {
+  CouponQueryDto,
   CreateCouponDto,
   UpdateCouponDto,
-  CouponQueryDto,
 } from './dto/coupon.dto';
-import {
-  CouponStatus,
-  type CouponStatusType,
-} from 'src/shared/constants/coupon.constant';
-import { PaginatedResponseDto } from 'src/shared/dto/pagination.dto';
 
 @Injectable()
 export class CouponRepository extends BaseService<
@@ -122,7 +118,7 @@ export class CouponRepository extends BaseService<
   /**
    * Find valid coupons (active, within date range, not expired)
    */
-  async findValid() {
+  findValid() {
     const now = new Date();
     return this.model.findMany({
       where: {

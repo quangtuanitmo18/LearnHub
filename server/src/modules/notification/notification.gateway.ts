@@ -1,18 +1,18 @@
+import { Logger } from '@nestjs/common';
 import {
-  WebSocketGateway,
-  WebSocketServer,
+  ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
   SubscribeMessage,
-  MessageBody,
-  ConnectedSocket,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
-import { Logger } from '@nestjs/common';
 import {
-  WsAuthMiddleware,
   AuthenticatedSocket,
+  WsAuthMiddleware,
 } from './middleware/ws-auth.middleware';
 
 interface ConnectedClient {
@@ -37,7 +37,10 @@ export class NotificationGateway
 
   afterInit(server: Server) {
     // Apply authentication middleware
-    server.use(this.wsAuthMiddleware.use());
+    const authMiddleware = this.wsAuthMiddleware.use();
+    server.use((socket, next) => {
+      void authMiddleware(socket, next);
+    });
   }
 
   handleConnection(client: AuthenticatedSocket) {

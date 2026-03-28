@@ -41,7 +41,6 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
         // If we have a custom message, remove the message from the data
         let responseData = data;
         if (customMessage && data?.message) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { message: _, ...dataWithoutMessage } = data;
           responseData =
             Object.keys(dataWithoutMessage).length > 0

@@ -1,11 +1,11 @@
-import { Controller, Post, Body, Delete, Get } from '@nestjs/common';
-import { ChatService } from './chat.service';
-import { ChatReplyDto, ChatMessageDto } from './dto/chat-response.dto';
+import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import {
   CurrentUser,
   JwtPayload,
 } from 'src/shared/decorators/current-user.decorator';
 import { ResponseMessage } from 'src/shared/decorators/response-message.decorator';
+import { ChatService } from './chat.service';
+import { ChatMessageDto, ChatReplyDto } from './dto/chat-response.dto';
 
 @Controller('chat')
 export class ChatController {
@@ -32,7 +32,7 @@ export class ChatController {
    */
   @Get('history')
   @ResponseMessage('Chat history retrieved successfully')
-  async getHistory(@CurrentUser() user: JwtPayload) {
+  getHistory(@CurrentUser() user: JwtPayload) {
     const messages = this.chatService.getHistory(user.sub);
 
     return {
@@ -47,7 +47,7 @@ export class ChatController {
    */
   @Delete('history')
   @ResponseMessage('Chat history cleared successfully')
-  async clearHistory(@CurrentUser() user: JwtPayload) {
+  clearHistory(@CurrentUser() user: JwtPayload) {
     this.chatService.clearHistory(user.sub);
 
     return { success: true };

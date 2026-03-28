@@ -667,9 +667,9 @@ const QuizTaking = ({
             ) : (
               <Button
                 onClick={handleSubmit}
-                disabled={submissionState.isSubmitting || (expiresAt && timeRemaining === 0)}
+                disabled={submissionState.isSubmitting || (!!expiresAt && timeRemaining === 0)}
                 className={`w-full rounded-lg py-3 text-base font-semibold shadow-sm transition-all duration-200 sm:py-4 sm:text-lg ${
-                  submissionState.isSubmitting || (expiresAt && timeRemaining === 0)
+                  submissionState.isSubmitting || (!!expiresAt && timeRemaining === 0)
                     ? 'cursor-not-allowed bg-gray-400'
                     : 'bg-blue-600 hover:bg-blue-700 hover:shadow-md active:bg-blue-800'
                 } text-white`}
@@ -757,9 +757,9 @@ const QuizTaking = ({
               ) : (
                 <Button
                   onClick={handleSubmit}
-                  disabled={submissionState.isSubmitting || (expiresAt && timeRemaining === 0)}
+                  disabled={submissionState.isSubmitting || (!!expiresAt && timeRemaining === 0)}
                   className={`h-auto rounded-lg px-3 py-1.5 text-[10px] font-semibold shadow-sm transition-all duration-200 sm:px-4 sm:py-2 sm:text-xs ${
-                    submissionState.isSubmitting || (expiresAt && timeRemaining === 0)
+                    submissionState.isSubmitting || (!!expiresAt && timeRemaining === 0)
                       ? 'cursor-not-allowed bg-gray-400'
                       : 'bg-blue-600 hover:bg-blue-700'
                   } text-white`}

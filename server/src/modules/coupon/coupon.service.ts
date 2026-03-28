@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CouponDiscountType } from 'src/shared/constants/coupon.constant';
-import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import { CourseRepository } from '../course/course.repository';
 import { CouponRepository } from './coupon.repository';
@@ -27,7 +26,7 @@ export class CouponService {
     return await this.couponRepository.findAllCoupons(couponQuery);
   }
 
-  async getValidCoupons() {
+  getValidCoupons() {
     return this.couponRepository.findValid();
   }
 

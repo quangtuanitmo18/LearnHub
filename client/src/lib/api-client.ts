@@ -119,15 +119,29 @@ apiClient.interceptors.response.use(
   },
 );
 
+const PROTECTED_PREFIXES = [
+  '/admin',
+  '/my-profile',
+  '/my-orders',
+  '/cart',
+  '/learning',
+  '/qr-payment',
+];
+
 function handleUnauthorized(): void {
   if (typeof window !== 'undefined') {
     // Clean up any legacy localStorage tokens
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
 
-    // Redirect to login if not already there
-    if (!window.location.pathname.startsWith('/auth/')) {
-      window.location.href = '/auth/sign-in';
+    const pathname = window.location.pathname;
+    const isProtectedRoute = PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+
+    // Only redirect to login if we are on a protected route
+    if (isProtectedRoute && !pathname.startsWith('/auth/')) {
+      const signInUrl = new URL('/auth/sign-in', window.location.origin);
+      signInUrl.searchParams.set('callbackUrl', pathname);
+      window.location.href = signInUrl.toString();
     }
   }
 }

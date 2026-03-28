@@ -1,11 +1,11 @@
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { ChatStore, ChatMessage } from './chat.store';
-import { Intent, IntentService } from './intent.service';
 import { CourseRepository } from '../course/course.repository';
 import { OrderRepository } from '../order/order.repository';
-import { ChatReplyDto, ChatCourseDto } from './dto/chat-response.dto';
+import { ChatMessage, ChatStore } from './chat.store';
+import { ChatCourseDto, ChatReplyDto } from './dto/chat-response.dto';
+import { Intent, IntentService } from './intent.service';
 
 interface CourseWithTags extends ChatCourseDto {
   tags?: string[];
@@ -361,6 +361,14 @@ Chỉ JSON:
   }
 
   /**
+   * Remove tags from course object for response
+   */
+  private stripTags(this: void, course: CourseWithTags): ChatCourseDto {
+    const { tags, ...rest } = course;
+    return rest;
+  }
+
+  /**
    * Pick courses to return in response
    */
   private pickCoursesForReply(
@@ -383,14 +391,6 @@ Chỉ JSON:
 
     // Fallback: return first 3 courses
     return courses.slice(0, 3).map(this.stripTags);
-  }
-
-  /**
-   * Remove tags from course object for response
-   */
-  private stripTags(course: CourseWithTags): ChatCourseDto {
-    const { tags, ...rest } = course;
-    return rest;
   }
 
   /**
