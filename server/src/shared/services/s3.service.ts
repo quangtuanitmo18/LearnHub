@@ -52,6 +52,7 @@ export class S3Service {
       Bucket: this.publicBucket,
       Key: key,
       ContentType: contentType,
+      ACL: 'public-read',
     });
 
     const uploadUrl = await getSignedUrl(this.s3, command, { expiresIn });

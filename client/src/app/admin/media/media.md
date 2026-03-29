@@ -168,14 +168,9 @@ export class MediaService {
 
     const results = await Promise.all(
       dto.files.map(async (file) => {
-        const type: MediaType = file.mimetype.startsWith('image/')
-          ? 'IMAGE'
-          : 'VIDEO';
+        const type: MediaType = file.mimetype.startsWith('image/') ? 'IMAGE' : 'VIDEO';
 
-        const { url, key } = await this.s3Service.generateUploadUrl(
-          file.filename,
-          file.mimetype,
-        );
+        const { url, key } = await this.s3Service.generateUploadUrl(file.filename, file.mimetype);
 
         const media = await this.prisma.media.create({
           data: {
@@ -432,15 +427,13 @@ async function fetchMyMedia() {
 ### 6.2. Build URL từ model
 
 ```ts
-const buildUrl = (base: string, key?: string | null) =>
-  key ? `${base}/${key}` : null;
+const buildUrl = (base: string, key?: string | null) => (key ? `${base}/${key}` : null);
 
 const isImage = (item: Media) => item.type === 'IMAGE';
 const isVideo = (item: Media) => item.type === 'VIDEO';
 
 const mediaUrl = (item: Media) => buildUrl(item.cdnBaseUrl, item.storageKey);
-const thumbUrl = (item: Media) =>
-  buildUrl(item.cdnBaseUrl, item.thumbnailKey ?? item.storageKey);
+const thumbUrl = (item: Media) => buildUrl(item.cdnBaseUrl, item.thumbnailKey ?? item.storageKey);
 const hlsUrl = (item: Media) => buildUrl(item.cdnBaseUrl, item.hlsPlaylistKey);
 ```
 
