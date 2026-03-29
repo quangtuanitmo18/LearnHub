@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CourseRepository } from '../course/course.repository';
@@ -19,7 +19,8 @@ interface GeminiParsedResponse {
 
 @Injectable()
 export class ChatService {
-  private model: any;
+  private openai: OpenAI | null = null;
+  private modelName: string;
 
   constructor(
     private readonly configService: ConfigService,
@@ -28,14 +29,17 @@ export class ChatService {
     private readonly courseRepository: CourseRepository,
     private readonly orderRepository: OrderRepository,
   ) {
-    const apiKey = this.configService.get<string>('gemini.apiKey');
+    const apiKey = this.configService.get<string>('openrouter.apiKey');
+    this.modelName = this.configService.get<string>('openrouter.model') || 'google/gemini-2.5-flash';
 
     if (!apiKey) {
       return;
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    this.openai = new OpenAI({
+      baseURL: 'https://openrouter.ai/api/v1',
+      apiKey: apiKey,
+    });
   }
 
   /**
@@ -48,9 +52,8 @@ export class ChatService {
     // 1. Classify intent
     const intent: Intent = await this.intentService.classify(userMessage);
 
-    // 2. Get chat history for Gemini format
+    // 2. Get chat history
     const history = this.store.getMessages(userId);
-    const geminiHistory = this.buildGeminiHistory(history);
 
     // 3. Get domain data based on intent
     let courses: CourseWithTags[] = [];
@@ -73,18 +76,27 @@ export class ChatService {
       orderContext,
     });
 
-    // 5. Generate response with Gemini
+    // 5. Generate response with OpenAI via OpenRouter
     let rawText: string;
     try {
-      if (!this.model) {
+      if (!this.openai) {
         rawText = this.getFallbackResponse(intent);
       } else {
-        const chat = this.model.startChat({ history: geminiHistory });
-        const result = await chat.sendMessage(prompt);
-        rawText = (await result.response).text();
+        const messages: any[] = [
+          { role: 'system', content: prompt },
+          ...history.map((m) => ({ role: m.role, content: m.content })),
+          { role: 'user', content: userMessage }
+        ];
+
+        const completion = await this.openai.chat.completions.create({
+          model: this.modelName,
+          messages: messages,
+          max_tokens: 1500,
+        });
+        rawText = completion.choices[0]?.message?.content || '';
       }
     } catch (error) {
-      console.error('Error generating Gemini response:', error);
+      console.error('Error generating OpenRouter response:', error);
       rawText = this.getFallbackResponse(intent);
     }
 
@@ -135,15 +147,7 @@ export class ChatService {
 
   // ==================== Private Helper Methods ====================
 
-  /**
-   * Build Gemini chat history format
-   */
-  private buildGeminiHistory(history: ChatMessage[]): any[] {
-    return history.map((m) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
-  }
+
 
   /**
    * Search courses by user message using repository

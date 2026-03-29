@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 
 export type Intent =
   | 'COURSE_ADVICE'
@@ -17,30 +17,40 @@ const VALID_INTENTS: Intent[] = [
 
 @Injectable()
 export class IntentService {
-  private model: any;
+  private openai: OpenAI | null = null;
+  private modelName: string;
 
   constructor(private readonly configService: ConfigService) {
-    const apiKey = this.configService.get<string>('gemini.apiKey');
+    const apiKey = this.configService.get<string>('openrouter.apiKey');
+    this.modelName =
+      this.configService.get<string>('openrouter.model') ||
+      'google/gemini-2.5-flash';
     if (!apiKey) {
       return;
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    this.openai = new OpenAI({
+      baseURL: 'https://openrouter.ai/api/v1',
+      apiKey: apiKey,
+    });
   }
 
   /**
-   * Classify user message intent using Gemini
+   * Classify user message intent using Gemini via OpenRouter
    */
   async classify(message: string): Promise<Intent> {
-    if (!this.model) {
+    if (!this.openai) {
       return 'COURSE_ADVICE';
     }
 
     try {
       const prompt = this.buildIntentPrompt(message);
-      const result = await this.model.generateContent(prompt);
-      const text = result.response.text();
+      const completion = await this.openai.chat.completions.create({
+        model: this.modelName,
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 1500,
+      });
+      const text = completion.choices[0]?.message?.content || '';
 
       // Try to parse JSON response
       const parsed = this.safeParseJson(text);

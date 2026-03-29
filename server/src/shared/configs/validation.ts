@@ -39,7 +39,8 @@ const envSchema = Zod.object({
   STRIPE_SUCCESS_URL: Zod.string().optional(),
   STRIPE_CANCEL_URL: Zod.string().optional(),
 
-  GEMINI_API_KEY: Zod.string().optional(),
+  OPENROUTER_API_KEY: Zod.string().optional(),
+  OPENROUTER_MODEL: Zod.string().optional(),
   GOOGLE_CLIENT_ID: Zod.string().optional(),
 });
 

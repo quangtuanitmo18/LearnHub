@@ -9,8 +9,9 @@ export const configuration = () => ({
     refreshSecret: process.env.JWT_REFRESH_SECRET,
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
   },
-  gemini: {
-    apiKey: process.env.GEMINI_API_KEY || '',
+  openrouter: {
+    apiKey: process.env.OPENROUTER_API_KEY || '',
+    model: process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash',
   },
   aws: {
     s3: {
