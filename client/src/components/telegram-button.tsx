@@ -1,8 +1,8 @@
 'use client';
 
-import { Send, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Send, Sparkles } from 'lucide-react';
 
 interface TelegramButtonProps {
   onClick?: () => void;
@@ -16,8 +16,8 @@ const TelegramButton = ({ onClick, telegramUrl }: TelegramButtonProps) => {
     } else if (telegramUrl) {
       window.open(telegramUrl, '_blank', 'noopener,noreferrer');
     } else {
-      // Default telegram link - LearnHub7 Phan
-      window.open('https://t.me/learnhub7phan', '_blank', 'noopener,noreferrer');
+      // Default telegram link - quangtuanitmo18
+      window.open('https://t.me/quangtuanitmo18', '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -92,7 +92,7 @@ const TelegramButton = ({ onClick, telegramUrl }: TelegramButtonProps) => {
 
       {/* Tooltip */}
       <div className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 transform rounded-lg bg-gray-900/90 px-2 py-1 text-xs whitespace-nowrap text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:block sm:px-3 sm:text-sm">
-        Contact @learnhub7phan
+        Contact @quangtuanitmo18
         <div className="absolute top-full left-1/2 -translate-x-1/2 transform border-4 border-transparent border-t-gray-900/90"></div>
       </div>
     </div>

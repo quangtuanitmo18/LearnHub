@@ -39,7 +39,7 @@ const HomePage = async () => {
       <FeaturedCoursesSection coursesData={courses} />
       <MembershipPlans />
       <BlogSection blogsData={blogs} />
-      <FloatingButtons telegramUrl="https://t.me/learnhub7phan" />
+      <FloatingButtons telegramUrl="https://t.me/quangtuanitmo18" />
     </>
   );
 };

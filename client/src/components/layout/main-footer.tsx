@@ -27,7 +27,7 @@ const MainFooter = () => {
       href: 'https://www.facebook.com/learnhub7dev/',
       icon: Facebook,
     },
-    { name: 'Telegram', href: 'https://t.me/learnhub7dev', icon: FaTelegram },
+    { name: 'Telegram', href: 'https://t.me/quangtuanitmo18', icon: FaTelegram },
     {
       name: 'Instagram',
       href: 'https://www.instagram.com/learnhub7dev/',
