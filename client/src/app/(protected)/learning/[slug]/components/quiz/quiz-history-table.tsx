@@ -1,9 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import QuizAttemptDetailsDialog from './quiz-attempt-details-dialog';
 import {
   Table,
   TableBody,
@@ -14,14 +12,16 @@ import {
 } from '@/components/ui/table';
 import { AttemptStatus, QuizAttempt } from '@/types/quiz';
 import { secondsToDisplayTime } from '@/utils/format';
+import { useState } from 'react';
 import {
   MdAccessTime,
   MdCancel,
   MdCheckCircle,
+  MdHourglassEmpty,
   MdQuiz,
   MdVisibility,
-  MdHourglassEmpty,
 } from 'react-icons/md';
+import QuizAttemptDetailsDialog from './quiz-attempt-details-dialog';
 
 interface QuizHistoryTableProps {
   attempts?: QuizAttempt[];
@@ -146,8 +146,8 @@ const QuizHistoryTable = ({
   const passedAttempts = submittedAttempts.filter((a) => a.passed === true);
 
   const scores = submittedAttempts
-    .filter((a) => a.score !== null && a.maxScore !== null && a.maxScore > 0)
-    .map((a) => ((a.score || 0) / (a.maxScore || 1)) * 100);
+    .filter((a) => a.score != null && a.maxScore != null && (a.maxScore ?? 0) > 0)
+    .map((a) => ((a.score ?? 0) / (a.maxScore ?? 1)) * 100);
 
   const highestScore = scores.length > 0 ? Math.max(...scores) : 0;
   const averageScore = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
@@ -193,8 +193,8 @@ const QuizHistoryTable = ({
                 .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime())
                 .map((attempt) => {
                   const scorePercent =
-                    attempt.maxScore && attempt.maxScore > 0
-                      ? ((attempt.score || 0) / attempt.maxScore) * 100
+                    (attempt.maxScore ?? 0) > 0
+                      ? ((attempt.score ?? 0) / (attempt.maxScore ?? 1)) * 100
                       : 0;
                   const duration = calculateDuration(attempt);
 

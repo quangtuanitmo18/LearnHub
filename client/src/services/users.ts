@@ -24,7 +24,10 @@ export class UsersService {
   // Get all users with optional filtering
   static async getUsers(params: UsersFilterParams): Promise<UsersListResponse> {
     try {
-      return await ApiService.get<UsersListResponse>(ENDPOINTS.USERS, params);
+      return await ApiService.get<UsersListResponse>(
+        ENDPOINTS.USERS,
+        params as unknown as Record<string, unknown>,
+      );
     } catch {
       return {
         result: [],

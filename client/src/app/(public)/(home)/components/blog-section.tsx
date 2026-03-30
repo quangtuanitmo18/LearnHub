@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { BlogCard } from '../../../../components/blog/blog-card';
-import { ArrowRight, BookOpen } from 'lucide-react';
 import { ROUTE_CONFIG } from '@/configs/routes';
 import type { BlogsListResponse } from '@/types/blog';
+import { ArrowRight, BookOpen } from 'lucide-react';
+import Link from 'next/link';
+import { BlogCard } from '../../../../components/blog/blog-card';
 
 interface BlogSectionProps {
   blogsData: BlogsListResponse;
@@ -10,7 +10,7 @@ interface BlogSectionProps {
 
 // Blog section component - Arrow function
 const BlogSection = ({ blogsData }: BlogSectionProps) => {
-  const blogs = blogsData?.blogs || [];
+  const blogs = blogsData?.result || [];
 
   return (
     <section className="bg-white py-12 sm:py-16 md:py-20 lg:py-20">

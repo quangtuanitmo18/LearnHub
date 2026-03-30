@@ -1,16 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
-import { toast } from 'sonner';
 import { MediaService } from '@/services/media';
+import { ListResponse } from '@/types/common';
 import {
   IMedia,
   MediaFilterParams,
-  MediaUploadProgress,
   MediaType,
+  MediaUploadProgress,
   validateImageFile,
   validateVideoFile,
 } from '@/types/media';
-import { ListResponse } from '@/types/common';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
 
 // ============================================================================
 // Query Keys
@@ -467,7 +467,7 @@ export function useMediaCacheHelpers() {
           result: old.result.filter((item) => item.id !== mediaId),
           meta: {
             ...old.meta,
-            total: old.meta.total - 1,
+            totalItems: old.meta.totalItems - 1,
           },
         };
       });
@@ -486,7 +486,7 @@ export function useMediaCacheHelpers() {
           result: [media, ...old.result],
           meta: {
             ...old.meta,
-            total: old.meta.total + 1,
+            totalItems: old.meta.totalItems + 1,
           },
         };
       });

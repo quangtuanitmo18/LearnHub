@@ -1,9 +1,9 @@
 'use client';
 
-import * as React from 'react';
-import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -33,20 +33,20 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Coupon, DiscountType } from '@/types/coupon';
 import { useCreateCoupon, useUpdateCoupon } from '@/hooks/use-coupons';
 import { useCourses } from '@/hooks/use-courses';
+import { DiscountType, ICoupon } from '@/types/coupon';
+import { CouponSchema, couponFormSchema } from '@/validators/coupon.validator';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { couponFormSchema, CouponSchema } from '@/validators/coupon.validator';
 
-import { cn } from '@/lib/utils';
 import { MultiSelect } from '@/components/multi-select';
-import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 import { NumericFormat } from 'react-number-format';
+import { toast } from 'sonner';
 
 interface CouponsActionDialogProps {
   mode?: 'create' | 'edit';
-  coupon?: Coupon;
+  coupon?: ICoupon;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -62,7 +62,7 @@ const CouponsActionDialog = ({
   const updateCouponMutation = useUpdateCoupon();
 
   // Fetch courses for selection
-  const { data: coursesData, isLoading: coursesLoading } = useCourses();
+  const { data: coursesData, isLoading: coursesLoading } = useCourses({});
 
   const defaultValues = React.useMemo(
     () => ({

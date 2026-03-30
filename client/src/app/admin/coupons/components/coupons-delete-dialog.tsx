@@ -2,12 +2,12 @@
 
 import AlertDialogDestructive from '@/components/alert-dialog';
 import { useDeleteCoupon } from '@/hooks/use-coupons';
-import { Coupon } from '@/types/coupon';
+import { ICoupon } from '@/types/coupon';
 
 interface CouponsDeleteDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentRow: Coupon;
+  currentRow: ICoupon;
 }
 
 const CouponsDeleteDialog = ({ open, onOpenChange, currentRow }: CouponsDeleteDialogProps) => {

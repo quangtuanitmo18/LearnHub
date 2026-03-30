@@ -1,19 +1,18 @@
 'use client';
 
-import React from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  MdQuiz,
-  MdPlayArrow,
-  MdRestartAlt,
-  MdAccessTime,
-  MdQuestionAnswer,
-  MdTrendingUp,
-  MdRefresh,
-} from 'react-icons/md';
-import { QuizAttempt, AttemptStatus } from '@/types/quiz';
-import { secondsToDisplayTime } from '@/utils/format';
 import { ILesson } from '@/types/lesson';
+import { AttemptStatus, QuizAttempt } from '@/types/quiz';
+import { secondsToDisplayTime } from '@/utils/format';
+import {
+  MdAccessTime,
+  MdPlayArrow,
+  MdQuestionAnswer,
+  MdQuiz,
+  MdRefresh,
+  MdRestartAlt,
+  MdTrendingUp,
+} from 'react-icons/md';
 
 interface QuizOverviewProps {
   lesson?: ILesson;
@@ -46,7 +45,7 @@ const QuizOverview = ({
 
   // Calculate attempts info
   const hasStarted = usedAttempts > 0;
-  const canRetake = maxAttempts === null || usedAttempts < maxAttempts;
+  const canRetake = maxAttempts == null || usedAttempts < maxAttempts;
 
   return (
     <div className="overflow-hidden">
@@ -151,7 +150,7 @@ const QuizOverview = ({
             </div>
           )}
 
-          {maxAttempts !== null && usedAttempts >= maxAttempts && !hasOngoingAttempt && (
+          {maxAttempts != null && usedAttempts >= maxAttempts && !hasOngoingAttempt && (
             <div className="mb-3 rounded-lg bg-gray-50 p-3 text-center sm:mb-4 sm:p-4">
               <p className="text-xs font-medium text-gray-500 italic sm:text-sm">
                 No attempts remaining

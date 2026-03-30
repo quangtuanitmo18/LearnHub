@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,7 +12,6 @@ import { IMedia, MediaStatus, MediaType, getThumbnailUrl } from '@/types/media';
 import { Check, Film, Image as ImageIcon, Loader2, Search } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Checkbox } from '@/components/ui/checkbox';
 
 interface MediaGalleryProps {
   onSelect?: (media: IMedia) => void;
@@ -371,7 +371,7 @@ export function MediaGallery({
       {meta && (
         <div className="text-muted-foreground flex items-center justify-between border-t pt-4 text-xs">
           <span>
-            Showing {mediaItems.length} of {meta.total} items
+            Showing {mediaItems.length} of {meta.totalItems} items
           </span>
           {multiSelect && selectedMediaMap.size > 0 && (
             <span className="text-foreground font-medium">

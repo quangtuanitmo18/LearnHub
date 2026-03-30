@@ -305,7 +305,8 @@ export default function MediaTable({ typeFilter }: MediaTableProps) {
       {meta && meta.totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-muted-foreground text-sm">
-            Showing {(page - 1) * 10 + 1} to {Math.min(page * 10, meta.total)} of {meta.total} items
+            Showing {(page - 1) * 10 + 1} to {Math.min(page * 10, meta.totalItems)} of{' '}
+            {meta.totalItems} items
           </p>
           <div className="flex items-center gap-2">
             <Button

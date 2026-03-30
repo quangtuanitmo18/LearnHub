@@ -1,25 +1,25 @@
 'use client';
 
-import { Clock, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Clock, Loader2 } from 'lucide-react';
 
-import CouponConditionsDialog from './coupon-conditions-dialog';
-import { useState } from 'react';
-import dayjs from 'dayjs';
-import type { ICoupon } from '@/types/coupon';
 import type { Cart } from '@/types/cart';
+import type { ICoupon } from '@/types/coupon';
 import { formatPrice } from '@/utils/format';
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import CouponConditionsDialog from './coupon-conditions-dialog';
 
 const isCouponApplicable = (coupon: ICoupon, cart: Cart): boolean => {
-  // If courseIds is empty or undefined, coupon applies to entire cart (always applicable)
-  if (!coupon.courseIds || coupon.courseIds.length === 0) {
+  // If courses is empty or undefined, coupon applies to entire cart (always applicable)
+  if (!coupon.courses || coupon.courses.length === 0) {
     return true;
   }
 
-  // For specific courses, check if any courses in cart match the coupon's courseIds
-  const cartCourseIds = cart.items.map((item) => item.courseId.id);
+  // For specific courses, check if any courses in cart match the coupon's courses
+  const cartCourseIds = cart.items.map((item) => item.course.id);
 
-  const couponCourseIds = coupon.courseIds.map((course) => course.id);
+  const couponCourseIds = coupon.courses.map((course) => course.id);
 
   // all cartCourseIds must be in couponCourseIds
   return cartCourseIds.every((courseId: string) => couponCourseIds.includes(courseId));
@@ -64,7 +64,7 @@ const CouponCard = ({
             <div className="relative z-10">
               <div className="text-[10px] font-bold sm:text-xs">HOT DISCOUNT</div>
               <div className="text-base leading-none font-bold sm:text-lg">
-                {coupon.discountType === 'percent'
+                {coupon.discountType === 'PERCENT'
                   ? `${coupon.discountValue}%`
                   : `${formatPrice(coupon.discountValue)}`}
               </div>

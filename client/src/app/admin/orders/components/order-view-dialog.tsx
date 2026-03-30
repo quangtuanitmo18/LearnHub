@@ -11,7 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { IOrder } from '@/types/order';
+import { IOrder, OrderStatus, PaymentMethod } from '@/types/order';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDate, formatPrice } from '@/utils/format';
@@ -20,17 +20,17 @@ import Image from 'next/image';
 
 // Status configuration
 const STATUS_CONFIG = {
-  pending: {
+  [OrderStatus.PENDING]: {
     label: 'Chờ thanh toán',
     className: 'bg-amber-50 text-amber-700 border-amber-200',
     variant: 'secondary' as const,
   },
-  completed: {
+  [OrderStatus.COMPLETED]: {
     label: 'Hoàn thành',
     className: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     variant: 'default' as const,
   },
-  cancelled: {
+  [OrderStatus.CANCELLED]: {
     label: 'Đã hủy',
     className: 'bg-red-50 text-red-700 border-red-200',
     variant: 'destructive' as const,
@@ -39,8 +39,8 @@ const STATUS_CONFIG = {
 
 // Payment method labels
 const PAYMENT_METHOD_LABELS = {
-  stripe: 'Stripe',
-  bank_transfer: 'Chuyển khoản ngân hàng',
+  [PaymentMethod.STRIPE]: 'Stripe',
+  [PaymentMethod.BANK_TRANSFER]: 'Chuyển khoản ngân hàng',
 } as const;
 
 interface OrderViewDialogProps {

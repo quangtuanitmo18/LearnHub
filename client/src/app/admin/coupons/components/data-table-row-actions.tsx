@@ -1,9 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { Row } from '@tanstack/react-table';
-import { IconEdit, IconTrash, IconCopy } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -13,15 +9,19 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { OPERATIONS, RESOURCES } from '@/configs/permission';
 import { usePermissions } from '@/hooks/use-permissions';
-import { RESOURCES, OPERATIONS } from '@/configs/permission';
-import { Coupon } from '@/types/coupon';
+import { ICoupon } from '@/types/coupon';
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { IconCopy, IconEdit, IconTrash } from '@tabler/icons-react';
+import { Row } from '@tanstack/react-table';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import CouponsActionDialog from './coupons-action-dialog';
 import CouponsDeleteDialog from './coupons-delete-dialog';
-import { toast } from 'sonner';
 
 interface DataTableRowActionsProps {
-  row: Row<Coupon>;
+  row: Row<ICoupon>;
 }
 
 const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {

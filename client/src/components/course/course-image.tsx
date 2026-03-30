@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { DEFAULT_THUMBNAIL } from '@/constants';
 import { IMedia, getMediaDisplayUrl } from '@/types/media';
+import Image from 'next/image';
 
 interface CourseImageProps {
-  image: IMedia | null | undefined;
+  image: IMedia | string | null | undefined;
   alt: string;
   fill?: boolean;
   className?: string;
@@ -24,7 +24,7 @@ export function CourseImage({
   sizes,
   priority,
 }: CourseImageProps) {
-  const imageUrl = image ? getMediaDisplayUrl(image) : null;
+  const imageUrl = typeof image === 'string' ? image : image ? getMediaDisplayUrl(image) : null;
 
   if (fill) {
     return (

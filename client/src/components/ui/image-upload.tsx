@@ -1,12 +1,12 @@
 'use client';
 
-import * as React from 'react';
-import { UploadDropzone } from '@/utils/uploadthing';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { MdCloudUpload, MdDelete, MdImage, MdFileUpload } from 'react-icons/md';
+import { UploadDropzone } from '@uploadthing/react';
 import Image from 'next/image';
+import * as React from 'react';
+import { MdCloudUpload, MdDelete, MdFileUpload, MdImage } from 'react-icons/md';
 
 interface ImageUploadProps {
   value?: string;
@@ -143,9 +143,10 @@ export function ImageUpload({
         <div className="space-y-3">
           {!value ? (
             <div className="space-y-2">
+              {/* @ts-expect-error - Bypass uploadthing generic type without router defined */}
               <UploadDropzone
                 endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
+                onClientUploadComplete={(res: any) => {
                   console.log('Upload completed:', res);
                   if (res?.[0]) {
                     console.log('Setting image URL:', res[0].url);

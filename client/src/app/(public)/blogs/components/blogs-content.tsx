@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import * as React from 'react';
-import { BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { BookOpen } from 'lucide-react';
+import * as React from 'react';
+import { useState } from 'react';
 
+import { BlogCard } from '@/components/blog/blog-card';
+import { BlogCardSkeleton } from '@/components/blog/blog-card-skeleton';
 import { usePublishedBlogs } from '@/hooks/use-blogs';
 import { IBlog } from '@/types/blog';
-import { BlogCardSkeleton } from '@/components/blog/blog-card-skeleton';
-import { BlogCard } from '@/components/blog/blog-card';
 
 // Blogs content component - Arrow function
 const BlogsContent = () => {
@@ -20,18 +20,17 @@ const BlogsContent = () => {
     page: currentPage,
     limit: 12,
   });
-
-  const pagination = blogsData?.pagination;
+  const pagination = blogsData?.meta;
 
   // Update allBlogs when new data comes in
   React.useEffect(() => {
-    if (blogsData?.blogs) {
+    if (blogsData?.result) {
       if (currentPage === 1) {
         // Reset for first load
-        setAllBlogs(blogsData.blogs);
+        setAllBlogs(blogsData.result);
       } else {
         // Append for load more
-        setAllBlogs((prev) => [...prev, ...blogsData.blogs]);
+        setAllBlogs((prev) => [...prev, ...blogsData.result]);
       }
     }
   }, [blogsData, currentPage]);

@@ -1,21 +1,21 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import { DataTableColumnHeader } from '@/components/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { IUser, UserStatus, UserType } from '@/types/user';
-import { DataTableColumnHeader } from '@/components/table';
-import DataTableRowActions from './data-table-row-actions';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getStatusConfig } from '@/utils/common';
+import { ColumnDef } from '@tanstack/react-table';
+import DataTableRowActions from './data-table-row-actions';
 
 const getUserTypeBadgeVariant = (userType: UserType) => {
   switch (userType) {
-    case 'facebook':
+    case UserType.FACEBOOK:
       return 'outline';
-    case 'google':
+    case UserType.GOOGLE:
       return 'outline';
-    case 'default':
+    case UserType.DEFAULT:
       return 'secondary';
     default:
       return 'secondary';

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   MembershipBadge,
   MembershipComparison,
@@ -35,8 +37,8 @@ export default function MembershipPage() {
 
       {/* Membership Plans */}
       <MembershipPlans
-        onSelectPlan={(plan, isYearly) => {
-          console.log(`Selected plan: ${plan}, Yearly: ${isYearly}`);
+        onSelectPlan={(plan) => {
+          console.log(`Selected plan: ${plan}`);
         }}
       />
 

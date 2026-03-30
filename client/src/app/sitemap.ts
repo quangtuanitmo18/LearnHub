@@ -1,7 +1,7 @@
 import { SEO_CONFIG } from '@/configs/seo';
-import { MetadataRoute } from 'next';
-import CoursesService from '@/services/courses';
 import BlogsService from '@/services/blogs';
+import CoursesService from '@/services/courses';
+import { MetadataRoute } from 'next';
 
 // Define your static routes and their priorities
 const STATIC_ROUTES = [
@@ -22,8 +22,8 @@ async function getDynamicRoutes() {
     ]);
 
     return {
-      courses: coursesData.courses || [],
-      blogs: blogsData.blogs || [],
+      courses: coursesData.result || [],
+      blogs: blogsData.result || [],
     };
   } catch (error) {
     console.error('Error fetching dynamic routes for sitemap:', error);

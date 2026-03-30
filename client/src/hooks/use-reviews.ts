@@ -1,14 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { keepPreviousData } from '@tanstack/react-query';
 import ReviewsService from '@/services/reviews';
 import {
+  AdminReviewsFilterParams,
   CreateReviewRequest,
   IReview,
   UpdateReviewRequest,
-  AdminReviewsFilterParams,
 } from '@/types/review';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { useState, useEffect, useCallback } from 'react';
 
 // Query keys
 export const reviewsKeys = {
@@ -96,10 +95,10 @@ export function useCourseReviewsWithLoadMore(
     if (reviewsData) {
       if (page === 1) {
         // First load - replace all reviews
-        setAllReviews(reviewsData.result);
+        setAllReviews(reviewsData.reviews);
       } else {
         // Load more - append new reviews
-        setAllReviews((prev) => [...prev, ...reviewsData.result]);
+        setAllReviews((prev) => [...prev, ...reviewsData.reviews]);
       }
       setHasNextPage(reviewsData.hasNextPage);
       setIsLoadingMore(false);
