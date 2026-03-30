@@ -72,6 +72,7 @@ import { SharedModule } from './shared/shared.module';
           host: configService.get('redis.host'),
           port: configService.get('redis.port'),
           password: configService.get('redis.password'),
+          ...(configService.get('redis.tls') ? { tls: {} } : {}),
         },
       }),
       inject: [ConfigService],
