@@ -9,7 +9,7 @@ const prisma = new PrismaService();
 
 async function main() {
   console.log(
-    '🌱 Đang dọn dẹp dữ liệu cũ (Xóa dữ liệu liên quan để seed mới)...',
+    '🌱 Cleaning up old data (Deleting related data to seed from scratch)...',
   );
   await prisma.commentReaction.deleteMany();
   await prisma.comment.deleteMany();
@@ -27,7 +27,7 @@ async function main() {
   await prisma.media.deleteMany();
   await prisma.category.deleteMany();
 
-  console.log('🌱 Bắt đầu tạo Role và Users...');
+  console.log('🌱 Starting to create Roles and Users...');
 
   // Create default roles with permissions
   const superAdminRole = await prisma.role.upsert({
@@ -130,8 +130,8 @@ async function main() {
     },
   });
 
-  console.log('✅ Đã tạo Roles và Users thành công!');
-  console.log('🌱 Đang tạo Categories (Danh mục khóa học)...');
+  console.log('✅ Roles and Users created successfully!');
+  console.log('🌱 Creating Categories...');
   const categoriesData = [
     { name: 'Web Development', slug: 'web-development' },
     { name: 'Mobile Development', slug: 'mobile-development' },
@@ -149,7 +149,7 @@ async function main() {
     categories.push(created);
   }
 
-  console.log('🌱 Đang tạo Media (Unsplash Thumbnails)...');
+  console.log('🌱 Creating Media (Unsplash Thumbnails)...');
   const mediaData = [
     {
       storageKey:
@@ -192,14 +192,14 @@ async function main() {
     medias.push(media);
   }
 
-  console.log('🌱 Đang tạo Khóa học (Courses), Chapters và Lessons...');
+  console.log('🌱 Creating Courses, Chapters and Lessons...');
   const coursesData: any[] = [
     {
       title: 'Mastering Next.js 15 & NestJS: Fullstack E-Learning',
       slug: 'mastering-nextjs-nestjs-fullstack',
       description:
-        'Khóa học toàn diện xây dựng hệ thống E-learning với Next.js 15 App Router ở Frontend và NestJS ở Backend. Chuẩn kiến trúc Microservices và RESTful API.',
-      excerpt: 'Học cách xây dựng web app thực tế với Next.js và NestJS.',
+        'A comprehensive course on building production-ready E-learning systems with Next.js 15 App Router on the Frontend and NestJS on the Backend, using Microservices and RESTful API architectures.',
+      excerpt: 'Learn to build real-world web apps with Next.js and NestJS.',
       price: 1500000,
       oldPrice: 2500000,
       level: 'ADVANCED',
@@ -210,8 +210,8 @@ async function main() {
       title: 'React Native IOS & Android',
       slug: 'react-native-ios-android',
       description:
-        'Phát triển ứng dụng di động đa nền tảng tối ưu hiệu năng với React Native, Expo, Reanimated và Zustand.',
-      excerpt: 'Làm chủ Mobile App Development.',
+        'Develop cross-platform mobile applications optimized for performance using React Native, Expo, Reanimated, and Zustand.',
+      excerpt: 'Master Mobile App Development.',
       price: 1200000,
       oldPrice: 1800000,
       level: 'INTERMEDIATE',
@@ -219,11 +219,11 @@ async function main() {
       imageId: medias[1].id,
     },
     {
-      title: 'Trí tuệ Nhân tạo với Python (AI & Machine Learning)',
+      title: 'Artificial Intelligence with Python (AI & Machine Learning)',
       slug: 'ai-machine-learning-python',
       description:
-        'Cung cấp nền tảng Toán học, thống kê, và kỹ năng lập trình Python để huấn luyện các mô hình Machine Learning thực tế.',
-      excerpt: 'Bước chân vào thế giới AI/ML chuyên nghiệp.',
+        'Provides a solid foundation in Mathematics, statistics, and Python programming skills to train practical Machine Learning models.',
+      excerpt: 'Step into the world of professional AI/ML.',
       price: 2000000,
       oldPrice: 3000000,
       level: 'BEGINNER',
@@ -243,10 +243,10 @@ async function main() {
       },
     });
 
-    // Tạo Chapters cho Course
+    // Create Chapters for Course
     const ch1 = await prisma.chapter.create({
       data: {
-        title: 'Chương 1: Giới thiệu khóa học và Thiết lập',
+        title: 'Chapter 1: Course Introduction and Setup',
         order: 1,
         isPublished: true,
         courseId: course.id,
@@ -255,19 +255,19 @@ async function main() {
 
     const ch2 = await prisma.chapter.create({
       data: {
-        title: 'Chương 2: Kiến thức Tiền đề',
+        title: 'Chapter 2: Prerequisites',
         order: 2,
         isPublished: true,
         courseId: course.id,
       },
     });
 
-    // Tạo Các Lessons (Video, Article, Quiz)
+    // Create Lessons (Video, Article, Quiz)
 
-    // Bài 1: Video (Lấy tạm link Youtube)
+    // Lesson 1: Video (Temporary Youtube link)
     await prisma.lesson.create({
       data: {
-        title: 'Bài 1: Giới thiệu tổng quan (Video)',
+        title: 'Lesson 1: Overview and Introduction (Video)',
         type: 'VIDEO',
         slug: `${course.slug}-lesson-overview`,
         order: 1,
@@ -284,10 +284,10 @@ async function main() {
       },
     });
 
-    // Bài 2: Article (Rich Text / Markdown)
+    // Lesson 2: Article (Rich Text / Markdown)
     await prisma.lesson.create({
       data: {
-        title: 'Bài 2: Hướng dẫn cài đặt file biến môi trường (Bài viết)',
+        title: 'Lesson 2: Environment Variable Setup Guide (Article)',
         type: 'ARTICLE',
         slug: `${course.slug}-lesson-env-setup`,
         order: 2,
@@ -298,17 +298,17 @@ async function main() {
         article: {
           create: {
             content:
-              '<h2>1. Cài đặt biến môi trường</h2><p>Vui lòng sao chép nội dung file `.env.example` sang `.env` và điền Database URL.</p><br/><ul><li>Bước 1: Cài đặt Node.js</li><li>Bước 2: Sử dụng Docker để set up Database.</li></ul>',
+              '<h2>1. Setup Environment Variables</h2><p>Please copy the contents of `.env.example` to a new `.env` file and configure the Database URL.</p><br/><ul><li>Step 1: Install Node.js</li><li>Step 2: Use Docker to set up the Database.</li></ul>',
             durationSec: 300,
           },
         },
       },
     });
 
-    // Bài 3: Quiz (Trắc nghiệm)
+    // Lesson 3: Quiz (Multiple Choice)
     await prisma.lesson.create({
       data: {
-        title: 'Bài 3: Trắc nghiệm kiến thức khởi tạo (Quiz)',
+        title: 'Lesson 3: Introductory Knowledge Test (Quiz)',
         type: 'QUIZ',
         slug: `${course.slug}-lesson-quiz-1`,
         order: 3,
@@ -325,7 +325,7 @@ async function main() {
               create: [
                 {
                   type: 'MULTIPLE_CHOICE',
-                  text: 'Ngôn ngữ chính sử dụng để code ứng dụng theo hướng Native Mobile là?',
+                  text: 'What are the main programming languages used for developing Native Mobile applications?',
                   order: 1,
                   points: 10,
                   options: {
@@ -338,7 +338,7 @@ async function main() {
                 },
                 {
                   type: 'SINGLE_CHOICE',
-                  text: 'Next.js 15 sử dụng mô hình nào để lấy dữ liệu mạnh mẽ nhất?',
+                  text: 'Which data fetching model is most heavily promoted in Next.js 15?',
                   order: 2,
                   points: 10,
                   options: {
@@ -356,89 +356,88 @@ async function main() {
     });
   }
 
-  console.log('🌱 Đang tạo Bài viết chuyên sâu (Blogs)...');
+  console.log('🌱 Creating in-depth articles (Blogs)...');
 
   const longBlogContent1 = `
-# Giải Phẫu Toàn Diện Kiến Trúc Microservices: Khi Hệ Thống Lớn Đòi Hỏi Sự Phân Tán
+# A Comprehensive Anatomy of Microservices Architecture: When Large Systems Demand Decentralization
 
-Trong thập kỷ vừa qua, kiến trúc Microservices đã trở thành tiêu chuẩn vàng cho các hệ thống phần mềm quy mô lớn. Từ Netflix, Uber cho đến các startup đang phát triển nhanh chóng, tất cả đều áp dụng kiến trúc này để giải quyết các hạn chế của Monolithic (kiến trúc nguyên khối).
+Over the past decade, Microservices architecture has become the gold standard for large-scale software systems. From Netflix and Uber to fast-growing startups, everyone is adopting this architecture to overcome the limitations of the Monolithic approach.
 
-Nhưng Microservices có thực sự là "chiếc đũa thần" giải quyết mọi bài toán? Hay nó lại mang đến một loạt các thách thức mới về mặt quản lý hệ thống phân tán? Giới hạn trong vài trang bài viết mở màn, chúng ta sẽ bắt đầu phân tích từ gốc rễ vấn đề.
+But is Microservices truly a "magic wand" that solves all problems? Or does it bring a new set of challenges regarding distributed system management? In this introductory article, we will start analyzing from the root of the problem.
 
-## 1. Điểm Yếu Cốt Lõi Của Kiến Trúc Nguyên Khối (Monolithic)
+## 1. Core Weaknesses of Monolithic Architecture
 
-Trước khi kiến trúc Microservices xuất hiện, Monolithic thống trị thế giới phát triển phần mềm. Mọi tính năng, luồng nghiệp vụ, cấu hình dữ liệu và cơ chế giao tiếp đều được gộp chung trong một "cục" duy nhất. 
+Before Microservices emerged, Monolithic architecture dominated the software development world. Every feature, business flow, data configuration, and communication mechanism was bundled into a single unit.
 
-### Ưu điểm
-- **Dễ khởi đầu:** Chỉ cần 1 codebase.
-- **Dễ theo dõi:** Tìm kiếm lỗi (tracing bugs) nằm trong 1 repo duy nhất.
-- **Triển khai đơn giản:** Build tất cả thành 1 file duy nhất.
+### Advantages
+- **Easy to start:** Only requires 1 codebase.
+- **Easy to monitor:** Tracing bugs happens in a single repository.
+- **Simple deployment:** Builds everything into a single artifact.
 
-### Khuyết điểm 
-Khi hệ thống có quy mô phát triển hơn:
-1. **Khắc suất khi triển khai (Deployment Risk):** Một lỗi nhỏ ở logic thanh toán có thể làm chết toàn bộ website bao gồm cả hiển thị thông tin hay giao diện đăng kí.
-2. **Quá tải tài nguyên con người:** Nhóm Backend 50 người không thể đồng thời làm việc trên cùng một repo vì những conflict Git nối tiếp.
-3. **Mắc kẹt vĩnh viễn với Framework:** Đã chọn dùng NestJS thì toàn bộ phải dùng NestJS. Bạn không thể "cắm" một module Machine Learning bằng Python vào giữa nguyên khối bằng JavaScript một cách trực tiếp mà không ảnh hưởng cấu trúc.
+### Disadvantages 
+As the system scales:
+1. **Deployment Risk:** A minor bug in payment logic can crash the entire website, including the homepage or registration interface.
+2. **Human Resource Overload:** A backend team of 50 people cannot work simultaneously on the same repository without causing endless Git conflicts.
+3. **Framework Lock-in:** Once you choose NestJS, everything must use NestJS. You cannot simply "plug in" a Python Machine Learning module directly into a JavaScript monolith without disrupting the structure.
 
 ---
 
-## 2. Microservices Không Phải Là Giải Pháp Ma Thuật (Silver Bullet)
+## 2. Microservices Is Not A Silver Bullet
 
-Dù mang lại khả năng phân tách trách nhiệm tối thượng tuyệt đẹp đến nhường nào, các developer cần hiểu rằng hệ thống microservices mang lại độ trễ cực cao trong môi trường giao tiếp Network.
+Despite offering incredibly beautiful segregation of responsibilities, developers must understand that microservices architecture introduces significant latency in the network communication environment.
 
-### A. Giao Tiếp Triệu Gọi Trễ (Network Latency)
-Các service không còn ở trong chung một process ở cấp bộ nhớ cục bộ mà phải băng qua đường cáp mạng nội bộ, gọi qua HTTP/TCP. Điều này kéo theo thời gian trễ lớn gấp 10 lần gọi In-memory. 
-Vì lẽ này, **giao tiếp phi đồng bộ (Asynchronous Messaging)** thông qua RabbitMQ hoặc Kafka ra đời.
+### A. Network Latency
+Services no longer reside in the same process at the local memory level; they must cross internal network cables via HTTP/TCP protocols. This increases latency up to 10 times compared to In-memory calls. 
+For this reason, **Asynchronous Messaging** via RabbitMQ or Kafka was born.
 
-### B. Quản Trị Đa Dữ Liệu Phân Tán (Distributed Data Governance)
-Transaction (giao dịch) từng được đảm bảo dễ dàng bằng ACID trong cơ sở dữ liệu quan hệ SQL. Nhưng khi Microservices nảy nở, thông tin một đơn hàng nằm ở Service A, thanh toán ở Service B và giao hàng ở Service C, bạn cần ứng dụng các thuật toán Event Sourcing hoặc Saga Pattern để xử lý khi tiến trình bị gián đoạn.
+### B. Distributed Data Governance
+Transactions were once easily guaranteed by ACID properties in relational SQL databases. But when Microservices flourish, an order's information is in Service A, payment in Service B, and delivery in Service C. You must implement algorithms like Event Sourcing or the Saga Pattern to handle interrupted processes.
 
-## 3. Lời Khuyên Dành Riêng Cho Người Mới Bắt Đầu
+## 3. Advice for Beginners
 
-Bất cứ ai học về cấu trúc máy chủ cũng sẽ thích thú mô hình Microservices. Tuy nhiên, nếu bạn xây dựng một dự án một mình, khởi động bằng Monolithic (NestJS) được phân chia module nội bộ rõ ràng chính là phương pháp an toàn và hoàn hảo nhất. Đừng phân rã hệ thống khi hệ thống bạn còn chưa ra đời!
+Anyone studying server architecture will find the Microservices model fascinating. However, if you are building a solo project, starting with a Monolith (like NestJS) that is clearly modularized internally is the safest and most perfect approach. Do not decompose your system before it has even launched!
 
-\n\n\n*(Hết nội dung)*
+\n\n\n*(End of article)*
 `;
 
   const longBlogContent2 = `
-# Học UI/UX Nhập Môn: Làm Chủ Tính "Thẩm Mỹ Tối Giản" Để Tăng Tỷ Lệ Chuyển Đổi Khách Hàng
+# UI/UX for Beginners: Mastering "Minimalist Aesthetics" to Boost Conversion Rates
 
-Giữa kỉ nguyên người dùng trở nên lướt nhanh hơn, tập trung ngắn hơn và lười đọc hơn, UI/UX tối giản không còn là một khuynh hướng thời trang nghệ thuật, mà trở thành công cụ ép buộc thiết yếu tạo ra doanh thu. Bài viết này trình bày phân tích các góc cạnh của "Sự tối giản" trong thiết kế sản phẩm.
+In an era where users scroll faster, have shorter attention spans, and are lazier to read, minimalist UI/UX is no longer just an artistic fashion trend—it has become a mandatory tool for generating revenue. This article presents an analysis of various angles of "Minimalism" in product design.
 
-## Sự Tối Giản Ở Giao Diện Không Phải Là Xóa Bỏ
+## Minimalism in Interfaces Is Not Erasure
 
-Tối giản (Minimalism) thường xuyên bị hiểu nhầm là loại bỏ sạch chi tiết, sử dụng màu trắng phủ lên mọi nơi và chỉ để chữ.
-Thực ra, tối giản là: 
-- Xóa bỏ **sự nhiễu loạn thị giác (Visual Noise)**.
-- Tập trung tuyệt đối vào **Hành động cốt lõi (Core Action)**.
+Minimalism is constantly misunderstood as wiping out all details, painting everything white, and leaving only text.
+In reality, minimalism means: 
+- Eliminating **Visual Noise**.
+- Focusing absolutely on the **Core Action (Call-to-Action)**.
 
-### Màu sắc và Độ Tương Phản
+### Color and Contrast
 
-Việc lựa chọn 1 màu chủ đạo, 1 màu hỗ trợ và vô vàn sắc thái của màu xám (từ trắng đến đen) giúp thị giác nghỉ ngơi mạnh mẽ. \n
-Hơn nữa, một nguyên lý ít được để ý đến gọi là "60-30-10": 
-- 60% Dành cho màu Nền (thường là màu xám nhạt/trắng)
-- 30% Độ phủ của các màu sắc khác đi kèm phụ
-- 10% Tập trung duy nhất cho "Call-to-Action", ví dụ: Màu Đỏ hoặc Cam nổi bần bật để thôi thúc người trải nghiệm click vào nút Mua ngay.
+Choosing 1 primary color, 1 secondary color, and countless shades of gray (from white to black) gives the eyes a strong visual rest. \n
+Furthermore, a crucial but often overlooked principle is the "60-30-10" rule: 
+- 60% assigned to the Background color (usually light gray/white)
+- 30% coverage for accompanying secondary colors
+- 10% exclusive focus for the "Call-to-Action", for example: Vivid Red or Orange to urge the user to click the "Buy Now" button.
 
-## Trải Nghiệm Người Dùng Và Sự Thấu Xót Trong Tính Khả Dụng (Usability)
+## User Experience and Empathy in Usability
 
-Giao diện tốt chỉ chiếm 10% thành công khi UX chịu trách nhiệm 90% còn lại. Thiết kế tồi là khi nút "Hủy khóa học" ở rất to và rõ, trong khi nút "Lưu thay đổi" bé xíu góc màn hình. \n
+A good interface only accounts for 10% of success, while UX is responsible for the remaining 90%. Bad design is when the "Cancel Subscription" button is huge and prominent, while the "Save Changes" button is tiny in the corner of the screen. \n
 
-Điều quan trọng nhất là bạn cần cung cấp một **Feedback Ngay Lập Tức** cho mọi hành vi người dùng bằng Skeleton, Spinner (Vòng tròn tải xoay vòng) thay vì để ứng dụng bất động.
+The most critical aspect is providing **Immediate Feedback** for every user action using Skeletons or Spinners instead of leaving the application seemingly frozen.
 
 ...
 
-Hành trình UI/UX là một kỉ nguyên vô tận để khám phá. Chúng ta hãy chú ý hơn vào đôi mắt của Khách hàng, khi đó sản phẩm tự nhiên sẽ trở nên xuất sắc.
+The UI/UX journey is an endless era to explore. Let us pay closer attention to our customers' eyes; when we do, the product will naturally become excellent.
 `;
 
   await prisma.blog.upsert({
     where: { slug: 'giai-phau-kien-truc-microservices' },
     update: {},
     create: {
-      title: 'Giải Phẫu Toàn Diện Kiến Trúc Microservices',
+      title: 'A Comprehensive Anatomy of Microservices Architecture',
       slug: 'giai-phau-kien-truc-microservices',
-      excerpt:
-        'Hướng dẫn chi tiết, những thách thức cần vượt qua của Microservices.',
+      excerpt: 'A detailed guide uncovering the challenges of Microservices.',
       content: longBlogContent1,
       thumbnail:
         'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200',
@@ -453,10 +452,10 @@ Hành trình UI/UX là một kỉ nguyên vô tận để khám phá. Chúng ta 
     where: { slug: 'hoc-ui-ux-toi-gian-va-chuyen-doi' },
     update: {},
     create: {
-      title: 'Làm Chủ Tính "Thẩm Mỹ Tối Giản" Trong UI/UX',
+      title: 'Mastering "Minimalist Aesthetics" in UI/UX',
       slug: 'hoc-ui-ux-toi-gian-va-chuyen-doi',
       excerpt:
-        'Mối quan hệ giữa sự tĩnh lặng của thị giác và gia tăng lợi nhuận doanh nghiệp.',
+        'The relationship between visual silence and increasing business revenue.',
       content: longBlogContent2,
       thumbnail:
         'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1200',
@@ -467,7 +466,7 @@ Hành trình UI/UX là một kỉ nguyên vô tận để khám phá. Chúng ta 
     },
   });
 
-  console.log('✅ Hoàn tất toàn bộ qúa trình Seed Dữ Liệu chuẩn Production!');
+  console.log('✅ Completed the Production-ready Data Seeding process!');
 }
 
 main()
