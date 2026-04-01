@@ -20,10 +20,9 @@ const techStack: TechCategory[] = [
       { name: 'Next.js 15' },
       { name: 'Redux Toolkit' },
       { name: 'React Query' },
-      { name: 'TailwindCSS' },
+      { name: 'Tailwind CSS' },
       { name: 'Zustand' },
-      { name: 'Shadcn/UI' },
-      { name: 'Hero UI' },
+      { name: 'Shadcn UI' },
     ],
   },
   {
@@ -34,7 +33,7 @@ const techStack: TechCategory[] = [
       { name: 'NestJS' },
       { name: 'Express.js' },
       { name: 'Socket.IO' },
-      { name: 'Bull Queue' },
+      { name: 'BullMQ' },
       { name: 'Redis' },
     ],
   },
@@ -42,7 +41,7 @@ const techStack: TechCategory[] = [
     icon: Database,
     title: 'Database & Cache',
     color: 'text-purple-500',
-    technologies: [{ name: 'MongoDB' }, { name: 'Redis Cache' }, { name: 'Mongoose' }],
+    technologies: [{ name: 'PostgreSQL' }, { name: 'Redis Cache' }, { name: 'Prisma ORM' }],
   },
   {
     icon: Lock,
@@ -71,7 +70,7 @@ const techStack: TechCategory[] = [
       { name: 'Nginx' },
       { name: 'GitHub Actions' },
       { name: 'Cloudflare' },
-      { name: 'aapanel' },
+      { name: 'VPS' },
     ],
   },
   {
@@ -89,7 +88,7 @@ const techStack: TechCategory[] = [
     icon: Zap,
     title: 'AI & Automation',
     color: 'text-orange-500',
-    technologies: [{ name: 'Gemini AI' }, { name: 'Bull Queue' }, { name: 'Email Auto' }],
+    technologies: [{ name: 'Gemini AI' }, { name: 'BullMQ' }, { name: 'Auto Mailer' }],
   },
 ];
 
@@ -99,12 +98,12 @@ function TechStackSection() {
       <div className="container mx-auto px-4">
         <div className="mb-8 text-center">
           <Badge className="mb-4" variant="outline">
-            Công nghệ
+            Technologies
           </Badge>
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Tech Stack Hiện Đại</h2>
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Modern Tech Stack</h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Sử dụng những công nghệ tiên tiến nhất để xây dựng một nền tảng mạnh mẽ, scalable và
-            maintainable
+            Built with state-of-the-art technologies to ensure a robust, scalable, and maintainable
+            platform.
           </p>
         </div>
 

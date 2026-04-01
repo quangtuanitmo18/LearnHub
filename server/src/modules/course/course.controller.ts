@@ -47,6 +47,13 @@ export class CourseController {
     return this.courseService.getPublishedCourses(publicQuery);
   }
 
+  @Get('my-courses')
+  @RequirePermissions(PERMISSIONS.COURSE_READ)
+  @ResponseMessage('My courses retrieved successfully')
+  async getMyCourses(@CurrentUser('sub') userId: string) {
+    return await this.courseService.getMyCourses(userId);
+  }
+
   @Get(':id')
   @RequirePermissions(PERMISSIONS.COURSE_READ)
   @ResponseMessage('Course retrieved successfully')

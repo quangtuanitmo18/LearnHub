@@ -10,11 +10,11 @@ function ArchitectureSection() {
       <div className="container mx-auto px-4">
         <div className="mb-8 text-center">
           <Badge className="mb-4" variant="outline">
-            Kiến trúc
+            Architecture
           </Badge>
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Kiến Trúc Hệ Thống</h2>
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">System Architecture</h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Được thiết kế với tư duy microservices, dễ dàng mở rộng và bảo trì
+            Designed with a scalable and maintainable service-oriented architecture.
           </p>
         </div>
 
@@ -28,7 +28,7 @@ function ArchitectureSection() {
                 </div>
                 <CardTitle className="text-xl">Frontend Layer</CardTitle>
               </div>
-              <CardDescription>Next.js 15 App Router với rendering tối ưu</CardDescription>
+              <CardDescription>Next.js 15 App Router with optimized rendering</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-2">
@@ -37,9 +37,9 @@ function ArchitectureSection() {
                   Rendering Strategy
                 </div>
                 <ul className="text-muted-foreground ml-6 space-y-1 text-sm">
-                  <li>• SSR cho SEO pages</li>
-                  <li>• CSR cho interactive components</li>
-                  <li>• ISR cho dynamic content</li>
+                  <li>• SSR for SEO pages</li>
+                  <li>• CSR for interactive components</li>
+                  <li>• ISR for dynamic content</li>
                   <li>• Code splitting & lazy loading</li>
                 </ul>
               </div>
@@ -49,9 +49,9 @@ function ArchitectureSection() {
                   State Management
                 </div>
                 <ul className="text-muted-foreground ml-6 space-y-1 text-sm">
-                  <li>• Zustand cho UI state</li>
-                  <li>• React Query cho server state</li>
-                  <li>• Redux Toolkit cho global state</li>
+                  <li>• Zustand for UI state</li>
+                  <li>• React Query for server state</li>
+                  <li>• Redux Toolkit for global state</li>
                 </ul>
               </div>
             </CardContent>
@@ -66,7 +66,7 @@ function ArchitectureSection() {
                 </div>
                 <CardTitle className="text-xl">Backend Layer</CardTitle>
               </div>
-              <CardDescription>NestJS với kiến trúc module-based</CardDescription>
+              <CardDescription>NestJS with module-based architecture</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-2">
@@ -76,9 +76,9 @@ function ArchitectureSection() {
                 </div>
                 <ul className="text-muted-foreground ml-6 space-y-1 text-sm">
                   <li>• RESTful API design</li>
-                  <li>• GraphQL cho complex queries</li>
-                  <li>• Socket.IO cho realtime</li>
-                  <li>• Bull Queue cho async tasks</li>
+                  <li>• WebSocket / Socket.IO for realtime</li>
+                  <li>• BullMQ for background tasks</li>
+                  <li>• Stripe / VietQR integration</li>
                 </ul>
               </div>
               <div className="space-y-2">
@@ -89,7 +89,7 @@ function ArchitectureSection() {
                 <ul className="text-muted-foreground ml-6 space-y-1 text-sm">
                   <li>• Redis caching layer</li>
                   <li>• Database indexing</li>
-                  <li>• Query optimization</li>
+                  <li>• Query optimization with Prisma</li>
                 </ul>
               </div>
             </CardContent>
@@ -104,7 +104,7 @@ function ArchitectureSection() {
                 </div>
                 <CardTitle className="text-xl">Infrastructure</CardTitle>
               </div>
-              <CardDescription>DevOps và deployment tự động hoá</CardDescription>
+              <CardDescription>DevOps and automated deployment</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-2">
@@ -125,8 +125,8 @@ function ArchitectureSection() {
                   Scalability
                 </div>
                 <ul className="text-muted-foreground ml-6 space-y-1 text-sm">
-                  <li>• Load balancing với Nginx</li>
-                  <li>• CDN với Cloudflare</li>
+                  <li>• Load balancing with Nginx</li>
+                  <li>• CDN via Cloudflare</li>
                   <li>• Horizontal scaling ready</li>
                 </ul>
               </div>
@@ -139,7 +139,7 @@ function ArchitectureSection() {
           <Card className="overflow-hidden">
             <CardHeader className="text-center">
               <CardTitle>Data Flow</CardTitle>
-              <CardDescription>Luồng dữ liệu từ client đến server</CardDescription>
+              <CardDescription>Data flow from client to server</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap items-center justify-center gap-4 py-6">
@@ -148,7 +148,7 @@ function ArchitectureSection() {
                 </Badge>
                 <ArrowRight className="text-muted-foreground h-4 w-4" />
                 <Badge variant="secondary" className="px-4 py-2">
-                  Next.js API Routes
+                  Next.js Actions
                 </Badge>
                 <ArrowRight className="text-muted-foreground h-4 w-4" />
                 <Badge variant="secondary" className="px-4 py-2">
@@ -160,7 +160,7 @@ function ArchitectureSection() {
                 </Badge>
                 <ArrowRight className="text-muted-foreground h-4 w-4" />
                 <Badge variant="secondary" className="px-4 py-2">
-                  MongoDB
+                  PostgreSQL
                 </Badge>
               </div>
             </CardContent>

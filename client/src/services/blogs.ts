@@ -9,7 +9,7 @@ import {
 
 const ENDPOINTS = {
   BLOGS: '/blogs',
-  BLOGS_PUBLISH: '/blogs/publish',
+  BLOGS_PUBLISH: '/blogs/published',
   BLOGS_ALL: '/blogs/all',
   BLOG: (id: string) => `/blogs/${id}`,
   BLOG_BY_SLUG: (slug: string) => `/blogs/slug/${slug}`,

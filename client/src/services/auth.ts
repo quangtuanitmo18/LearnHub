@@ -6,19 +6,19 @@ const ENDPOINTS = {
   LOGOUT: '/auth/logout',
   REFRESH: '/auth/refresh',
   PROFILE: '/auth/profile',
-  ME: '/auth/me', // Add me endpoint
+  ME: '/auth/me',
   REGISTER: '/auth/register',
   GOOGLE_AUTH: '/auth/google',
   FACEBOOK_AUTH: '/auth/facebook',
   FORGOT_PASSWORD: '/auth/forgot-password',
   RESET_PASSWORD: '/auth/reset-password',
-  VERIFY_EMAIL: '/auth/verify-email',
-  RESEND_VERIFICATION: '/auth/resend-verification',
+  VERIFY_EMAIL: '/auth/verify-otp',
+  RESEND_VERIFICATION: '/auth/resend-otp',
   UPDATE_PROFILE: '/auth/profile',
-  CHANGE_PASSWORD: '/auth/password/change',
-  AVATAR_PRESIGNED: '/auth/avatar/presigned',
-  AVATAR_UPLOAD_COMPLETE: '/auth/avatar/upload-complete',
-  AVATAR_DELETE: '/auth/avatar',
+  CHANGE_PASSWORD: '/auth/change-password',
+  AVATAR_PRESIGNED: '/users/avatar/presigned',
+  AVATAR_UPLOAD_COMPLETE: '/users/avatar/upload-complete',
+  AVATAR_DELETE: '/users/avatar',
 } as const;
 
 // Auth types

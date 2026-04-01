@@ -22,5 +22,9 @@ export {
   generateLearningMetadata,
   generateSearchMetadata,
   generateCategoryMetadata,
+  generateHelpMetadata,
+  generateTermsMetadata,
+  generatePrivacyMetadata,
+  generateRefundMetadata,
 } from './page-seo';
 export { Breadcrumbs, BREADCRUMB_CONFIGS } from './breadcrumbs';

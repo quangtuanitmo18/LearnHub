@@ -66,11 +66,25 @@ export class UserController {
     return this.userService.deleteAvatar(userId);
   }
 
+  @Get('stats')
+  @RequirePermissions(PERMISSIONS.USER_READ)
+  @ResponseMessage('User stats retrieved successfully')
+  async getUserStats() {
+    return this.userService.getUserStats();
+  }
+
   @Get()
   @RequirePermissions(PERMISSIONS.USER_READ)
   @ResponseMessage('Users retrieved successfully')
   async getAllUsers(@Query() userQuery: UserQueryDto) {
     return this.userService.getAllUsers(userQuery);
+  }
+
+  @Post('bulk-delete')
+  @RequirePermissions(PERMISSIONS.USER_DELETE)
+  @ResponseMessage('Users deleted successfully')
+  async bulkDeleteUsers(@Body() body: { userIds: string[] }) {
+    return this.userService.bulkDeleteUsers(body.userIds);
   }
 
   @Get(':id')

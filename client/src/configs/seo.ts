@@ -83,6 +83,30 @@ export const PAGE_SEO = {
     description:
       "Need help with your learning journey? Get in touch with our support team. We're here to help you succeed and make the most of your educational experience.",
   },
+
+  help: {
+    title: 'Help Center - Find Answers & Support',
+    description:
+      'Find answers to frequently asked questions, detailed guides, and get support for your LearnHub experience. We are here to help you succeed.',
+  },
+
+  terms: {
+    title: 'Terms of Service',
+    description:
+      'Review the Terms of Service for LearnHub. Understand your rights and responsibilities as a user of our online learning platform.',
+  },
+
+  privacy: {
+    title: 'Privacy Policy',
+    description:
+      'Learn how LearnHub protects your privacy and secures your personal information. Read our comprehensive privacy policy and data practices.',
+  },
+
+  refund: {
+    title: 'Refund Policy',
+    description:
+      'Understand our course refund policy at LearnHub. Find out about our 30-day money-back guarantee and under what conditions refunds are issued.',
+  },
 };
 
 // 🎯 Templates for Dynamic Pages

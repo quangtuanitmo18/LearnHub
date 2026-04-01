@@ -12,8 +12,7 @@ import {
 
 const ENDPOINTS = {
   COUPONS: '/coupons',
-  COUPONS_ALL: '/coupons/all',
-  ACTIVE_COUPONS: '/coupons/active',
+  ACTIVE_COUPONS: '/coupons/valid',
   VALID_COUPONS: '/coupons/valid',
   VALIDATE_COUPON: '/coupons/validate',
 } as const;
@@ -39,11 +38,10 @@ export class CouponService {
     }
   }
 
-  // Get all coupons
+  // Get all coupons (unpaginated)
   static async getAllCoupons(): Promise<ICoupon[]> {
     try {
-      const response = await ApiService.get<{ coupons: ICoupon[] }>(ENDPOINTS.COUPONS_ALL);
-      return response.coupons || [];
+      return await ApiService.get<ICoupon[]>(ENDPOINTS.VALID_COUPONS);
     } catch {
       return [];
     }

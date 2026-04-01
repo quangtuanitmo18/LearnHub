@@ -60,10 +60,10 @@ const TetFlowerEffect = () => {
       <button
         onClick={() => setIsVisible(false)}
         className="fixed top-20 right-4 z-[60] flex items-center gap-1.5 rounded-full bg-red-500/80 px-3 py-1.5 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:bg-red-600"
-        title="Tắt hiệu ứng hoa"
+        title="Hide flower effect"
       >
         <span>🌸</span>
-        <span className="hidden sm:inline">Tắt hoa</span>
+        <span className="hidden sm:inline">Hide flowers</span>
       </button>
 
       {/* Container hoa rơi */}
@@ -84,7 +84,7 @@ const TetFlowerEffect = () => {
           >
             <Image
               src={flower.src}
-              alt="Hoa mai đào"
+              alt="Falling flower"
               width={flower.size}
               height={flower.size}
               className="animate-flower-sway drop-shadow-md"

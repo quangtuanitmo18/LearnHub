@@ -1,5 +1,5 @@
-import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
 // SEO Metadata for Demo Page
 export const metadata: Metadata = {
@@ -31,19 +31,17 @@ const TechStackSection = dynamic(() => import('./components/tech-stack-section')
 const FeaturesSection = dynamic(() => import('./components/features-section'));
 const ArchitectureSection = dynamic(() => import('./components/architecture-section'));
 const VersionsSection = dynamic(() => import('./components/versions-section'));
-const DemoLinksSection = dynamic(() => import('./components/demo-links-section'));
 const CTASection = dynamic(() => import('./components/cta-section'));
 
 function DemoPage() {
   return (
     <div className="min-h-screen">
       <HeroSection />
-      <VideoDemoSection />
+      {/* <VideoDemoSection /> */}
       <TechStackSection />
       <FeaturesSection />
       <ArchitectureSection />
       <VersionsSection />
-      <DemoLinksSection />
       <CTASection />
     </div>
   );

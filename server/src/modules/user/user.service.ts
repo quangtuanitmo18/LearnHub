@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/shared/services/prisma.service';
 import {
   CreateUserDto,
   UpdateUserDto,
@@ -43,8 +44,46 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly s3Service: S3Service,
     private readonly configService: ConfigService,
+    private readonly prismaService: PrismaService,
   ) {
     this.cdnBaseUrl = this.configService.get<string>('cdn.baseUrl') || '';
+  }
+
+  async getUserStats() {
+    const [
+      totalUsers,
+      activeUsers,
+      inactiveUsers,
+      bannedUsers,
+      facebookUsers,
+      googleUsers,
+      defaultUsers,
+    ] = await Promise.all([
+      this.prismaService.user.count(),
+      this.prismaService.user.count({ where: { status: 'ACTIVE' } }),
+      this.prismaService.user.count({ where: { status: 'INACTIVE' } }),
+      this.prismaService.user.count({ where: { status: 'BANNED' } }),
+      this.prismaService.user.count({ where: { userType: 'FACEBOOK' } }),
+      this.prismaService.user.count({ where: { userType: 'GOOGLE' } }),
+      this.prismaService.user.count({ where: { userType: 'DEFAULT' } }),
+    ]);
+
+    return {
+      totalUsers,
+      activeUsers,
+      inactiveUsers,
+      bannedUsers,
+      facebookUsers,
+      googleUsers,
+      defaultUsers,
+    };
+  }
+
+  async bulkDeleteUsers(userIds: string[]) {
+    await this.prismaService.user.deleteMany({
+      where: { id: { in: userIds } },
+    });
+    return { message: `${userIds.length} users deleted successfully` };
   }
 
   async getAllUsers(userQuery?: UserQueryDto) {

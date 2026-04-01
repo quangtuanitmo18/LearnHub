@@ -21,17 +21,17 @@ const BlogsContent = () => {
     limit: 12,
   });
 
-  const pagination = blogsData?.pagination;
+  const pagination = blogsData?.meta;
 
   // Update allBlogs when new data comes in
   React.useEffect(() => {
-    if (blogsData?.blogs) {
+    if (blogsData?.result) {
       if (currentPage === 1) {
         // Reset for first load
-        setAllBlogs(blogsData.blogs);
+        setAllBlogs(blogsData.result);
       } else {
         // Append for load more
-        setAllBlogs((prev) => [...prev, ...blogsData.blogs]);
+        setAllBlogs((prev) => [...prev, ...blogsData.result]);
       }
     }
   }, [blogsData, currentPage]);

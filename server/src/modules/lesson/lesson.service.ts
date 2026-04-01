@@ -62,6 +62,35 @@ export class LessonService {
     return lesson;
   }
 
+  async getLessonBySlug(slug: string) {
+    const lesson = await this.lessonRepository.findWithContent({ slug });
+    if (!lesson) {
+      throw new NotFoundException('Lesson not found');
+    }
+    return lesson;
+  }
+
+  async togglePublish(id: string) {
+    const lesson = await this.lessonRepository.findOneOrNull({ id });
+    if (!lesson) {
+      throw new NotFoundException('Lesson not found');
+    }
+
+    const updated = await this.prismaService.lesson.update({
+      where: { id },
+      data: { published: !lesson.published },
+      include: {
+        article: true,
+        video: true,
+        quiz: true,
+        course: { select: { id: true, title: true, slug: true } },
+        chapter: { select: { id: true, title: true, order: true } },
+      },
+    });
+
+    return { lesson: updated };
+  }
+
   // ============ CREATE OPERATIONS ============
 
   async createLesson(dto: CreateLessonDto) {

@@ -36,6 +36,76 @@ export class CourseService {
     return await this.courseRepository.findPublishedWithFilters(publicQuery);
   }
 
+  /**
+   * Get user's enrolled courses with progress
+   */
+  async getMyCourses(userId: string) {
+    // 1. Get all courses the user is enrolled in via completed orders
+    const orders = await this.prismaService.orderItem.findMany({
+      where: {
+        order: {
+          userId,
+          status: OrderStatus.COMPLETED,
+          orderType: 'COURSE',
+        },
+      },
+      select: {
+        courseId: true,
+      },
+      distinct: ['courseId'],
+    });
+
+    if (!orders || orders.length === 0) {
+      return [];
+    }
+
+    const courseIds = orders.map((order) => order.courseId);
+
+    // 2. Fetch course details and calculate progress for each
+    const enrolledCourses = await Promise.all(
+      courseIds.map(async (courseId) => {
+        // Fetch course details
+        const course = await this.prismaService.course.findUnique({
+          where: { id: courseId },
+          include: {
+            image: true,
+          },
+        });
+
+        if (!course) return null;
+
+        // Fetch statistics in parallel
+        const [totalLessons, reviewStats, completedLessons] = await Promise.all([
+          this.courseRepository.getTotalLessons(courseId),
+          this.courseRepository.getReviewStats(courseId),
+          this.prismaService.userLessonProgress.count({
+            where: {
+              userId,
+              courseId,
+            },
+          }),
+        ]);
+
+        return {
+          id: course.id,
+          title: course.title,
+          slug: course.slug,
+          image: course.image
+            ? `${course.image.cdnBaseUrl}/${course.image.storageKey}`
+            : '',
+          description: course.description || '',
+          level: course.level,
+          averageRating: reviewStats.averageRating || 0,
+          totalReviews: reviewStats.totalReviews || 0,
+          totalLessons: totalLessons || 0,
+          completedLessons: completedLessons || 0,
+        };
+      }),
+    );
+
+    return enrolledCourses.filter(Boolean);
+  }
+
   async getCourseById(id: string) {
     const course = await this.courseRepository.findOneOrNull({ id });
     if (!course) {

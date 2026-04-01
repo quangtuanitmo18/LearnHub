@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { PERMISSIONS } from 'src/shared/configs/permission';
 import { RequirePermissions } from 'src/shared/decorators/permission.decorator';
+import { Public } from 'src/shared/decorators/public.decorator';
 import { ResponseMessage } from 'src/shared/decorators/response-message.decorator';
 import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { PermissionGuard } from 'src/shared/guards/permission.guard';
@@ -25,6 +26,13 @@ import {
 @UseGuards(PermissionGuard)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
+
+  @Get('all')
+  @Public()
+  @ResponseMessage('All categories retrieved successfully')
+  async getAllCategoriesUnpaginated() {
+    return this.categoryService.getAllCategoriesUnpaginated();
+  }
 
   @Get()
   @RequirePermissions(PERMISSIONS.CATEGORY_READ)

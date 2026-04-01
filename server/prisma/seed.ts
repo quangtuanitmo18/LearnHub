@@ -82,6 +82,31 @@ async function main() {
     },
   });
 
+  const instructorRole = await prisma.role.upsert({
+    where: { name: SYSTEM_ROLE_NAMES.INSTRUCTOR },
+    update: {},
+    create: {
+      name: SYSTEM_ROLE_NAMES.INSTRUCTOR,
+      description: 'Instructor with course management permissions',
+      permissions: [
+        PERMISSIONS.COURSE_CREATE,
+        PERMISSIONS.COURSE_READ,
+        PERMISSIONS.COURSE_UPDATE,
+        PERMISSIONS.COURSE_DELETE,
+        PERMISSIONS.VIDEO_CREATE,
+        PERMISSIONS.VIDEO_READ,
+        PERMISSIONS.VIDEO_UPDATE,
+        PERMISSIONS.VIDEO_DELETE,
+        PERMISSIONS.IMAGE_CREATE,
+        PERMISSIONS.IMAGE_READ,
+        PERMISSIONS.IMAGE_UPDATE,
+        PERMISSIONS.IMAGE_DELETE,
+        PERMISSIONS.BLOG_READ,
+        PERMISSIONS.BLOG_CREATE,
+      ],
+    },
+  });
+
   // Create default super admin user
   const hashedPassword = await bcrypt.hash('admin123', 10);
 
@@ -126,6 +151,84 @@ async function main() {
       userType: 'DEFAULT',
       roles: {
         connect: { id: studentRole.id },
+      },
+    },
+  });
+
+  const instructor = await prisma.user.upsert({
+    where: { email: 'instructor@example.com' },
+    update: {},
+    create: {
+      username: 'Alex Master',
+      email: 'instructor@example.com',
+      password: hashedPassword,
+      status: 'ACTIVE',
+      userType: 'DEFAULT',
+      avatar:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200',
+      roles: {
+        connect: { id: instructorRole.id },
+      },
+      instructorProfile: {
+        create: {
+          headline: 'Senior Engineering Leader & Tech Content Creator',
+          bio: 'Alex is a Senior Engineering Leader with over 10 years of experience building modern web applications. He specializes in React, Next.js, and Node.js ecosystems.',
+          website: 'https://alexmaster.dev',
+          youtube: 'https://youtube.com/@alexmaster',
+          linkedin: 'https://linkedin.com/in/alexmaster',
+        },
+      },
+    },
+  });
+
+  const instructor2 = await prisma.user.upsert({
+    where: { email: 'sarah.chen@example.com' },
+    update: {},
+    create: {
+      username: 'Sarah Chen',
+      email: 'sarah.chen@example.com',
+      password: hashedPassword,
+      status: 'ACTIVE',
+      userType: 'DEFAULT',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200',
+      roles: {
+        connect: { id: instructorRole.id },
+      },
+      instructorProfile: {
+        create: {
+          headline: 'Lead Mobile Developer & UI/UX Expert',
+          bio: 'Sarah is a mobile engineering expert with a passion for building beautiful, high-performance cross-platform applications using React Native and Flutter. She has helped scale mobile teams at top tech startups.',
+          website: 'https://sarahchen.dev',
+          youtube: 'https://youtube.com/@sarahcodes',
+          linkedin: 'https://linkedin.com/in/sarahchen',
+        },
+      },
+    },
+  });
+
+  const instructor3 = await prisma.user.upsert({
+    where: { email: 'marcus.j@example.com' },
+    update: {},
+    create: {
+      username: 'Marcus Johnson',
+      email: 'marcus.j@example.com',
+      password: hashedPassword,
+      status: 'ACTIVE',
+      userType: 'DEFAULT',
+      avatar:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200',
+      roles: {
+        connect: { id: instructorRole.id },
+      },
+      instructorProfile: {
+        create: {
+          headline: 'Data Scientist & AI Researcher',
+          bio: 'Marcus is a Data Scientist with a PhD in Machine Learning. He demystifies complex AI concepts and teaches practical implementations using Python, TensorFlow, and PyTorch.',
+          website: 'https://marcusai.io',
+          youtube: 'https://youtube.com/@marcus_o_ai',
+          linkedin: 'https://linkedin.com/in/marcusjohnson',
+        },
       },
     },
   });
@@ -205,6 +308,7 @@ async function main() {
       level: 'ADVANCED',
       categoryId: categories[0].id,
       imageId: medias[0].id,
+      authorId: instructor.id,
     },
     {
       title: 'React Native IOS & Android',
@@ -217,6 +321,7 @@ async function main() {
       level: 'INTERMEDIATE',
       categoryId: categories[1].id,
       imageId: medias[1].id,
+      authorId: instructor2.id,
     },
     {
       title: 'Trí tuệ Nhân tạo với Python (AI & Machine Learning)',
@@ -229,6 +334,7 @@ async function main() {
       level: 'BEGINNER',
       categoryId: categories[2].id,
       imageId: medias[2].id,
+      authorId: instructor3.id,
     },
   ];
 
@@ -239,7 +345,6 @@ async function main() {
       create: {
         ...courseData,
         status: 'PUBLISHED',
-        authorId: admin.id,
       },
     });
 
