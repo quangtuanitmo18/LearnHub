@@ -15,49 +15,22 @@ interface Version {
 
 const versions: Version[] = [
   {
-    version: 'V1',
-    title: 'Foundation',
-    status: 'completed',
-    description: 'Xây dựng nền tảng cơ bản với CRUD operations và authentication',
-    features: [
-      'Basic CRUD operations',
-      'User authentication & authorization',
-      'Course management',
-      'Simple payment integration',
-      'Basic admin dashboard',
-    ],
-  },
-  {
-    version: 'V2',
-    title: 'Production Ready',
+    version: 'V3.0',
+    title: 'Enterprise Scale LMS',
     status: 'current',
-    badge: 'Đang chạy',
-    description: 'Nâng cấp lên production với AI, realtime, và advanced features',
+    badge: 'Current Version',
+    description:
+      'A production-ready platform with full-stack capabilities, modern architecture, and enterprise features.',
     features: [
+      'Next.js 15 App Router & React 19',
+      'NestJS Module-based Backend',
+      'PostgreSQL & Prisma ORM',
       'AI Chatbot integration (Gemini)',
       'Realtime features (Socket.IO)',
-      'Advanced RBAC system',
-      'Multiple payment gateways',
+      'Advanced RBAC security system',
+      'Multiple payment gateways (Stripe, VietQR)',
       'Video streaming (HLS + MUX)',
-      'Bull Queue automation',
-      'Redis caching',
-      'CI/CD pipeline',
-    ],
-  },
-  {
-    version: 'V3',
-    title: 'Enterprise Scale',
-    status: 'upcoming',
-    badge: 'Sắp ra mắt',
-    description: 'Mở rộng lên quy mô enterprise với microservices và advanced analytics',
-    features: [
-      'Microservices architecture',
-      'Advanced analytics & reporting',
-      'Machine learning recommendations',
-      'Multi-tenant support',
-      'Advanced monitoring & logging',
-      'GraphQL API',
-      'Kubernetes deployment',
+      'BullMQ background jobs & Redis caching',
     ],
   },
 ];
@@ -79,16 +52,15 @@ function VersionsSection() {
       <div className="container mx-auto px-4">
         <div className="mb-8 text-center">
           <Badge className="mb-4" variant="outline">
-            Lộ trình
+            Roadmap
           </Badge>
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">3 Phiên Bản Tiến Hoá</h2>
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Current Version</h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Dự án được phát triển theo 3 giai đoạn, mỗi phiên bản nâng cao kỹ năng và tư duy xây
-            dựng hệ thống
+            Built and optimized for enterprise-scale deployments.
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="mx-auto max-w-4xl">
           {versions.map((version, index) => (
             <Card
               key={version.version}
@@ -112,7 +84,7 @@ function VersionsSection() {
                 <CardDescription className="text-sm">{version.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
+                <div className="grid gap-2 sm:grid-cols-2">
                   {version.features.map((feature) => (
                     <div key={feature} className="flex items-start gap-2">
                       <CheckCircle2 className="text-primary mt-0.5 h-4 w-4 shrink-0" />
@@ -121,11 +93,6 @@ function VersionsSection() {
                   ))}
                 </div>
               </CardContent>
-
-              {/* Connection line */}
-              {index < versions.length - 1 && (
-                <div className="bg-border absolute top-1/2 right-0 hidden h-0.5 w-8 translate-x-full -translate-y-1/2 lg:block" />
-              )}
             </Card>
           ))}
         </div>

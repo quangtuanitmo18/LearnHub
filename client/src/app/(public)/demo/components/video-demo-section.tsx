@@ -13,10 +13,10 @@ function VideoDemoSection() {
             <Play className="h-3 w-3" />
             Video Demo
           </Badge>
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Xem Demo Trực Tiếp</h2>
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Watch Demo In Action</h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Khám phá nền tảng LearnHub trong hành động - từ giao diện người dùng đến các tính năng
-            nâng cao
+            Explore the LearnHub platform in action - from the intuitive user interface to the
+            advanced backend features.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ function VideoDemoSection() {
             <div className="bg-card rounded-lg border p-4 text-center">
               <div className="text-primary mb-2 text-2xl font-bold">🚀</div>
               <div className="text-sm font-medium">Production Ready</div>
-              <div className="text-muted-foreground text-xs">Full-stack deployment</div>
+              <div className="text-muted-foreground text-xs">Full-stack setup</div>
             </div>
           </div>
         </div>

@@ -72,6 +72,62 @@ export function generateContactMetadata(): Metadata {
   });
 }
 
+// Help Center SEO
+export function generateHelpMetadata(): Metadata {
+  return generateMetadata({
+    title: PAGE_SEO.help.title,
+    description: PAGE_SEO.help.description,
+    canonical: '/help',
+    openGraph: {
+      type: 'website',
+      title: PAGE_SEO.help.title,
+      description: PAGE_SEO.help.description,
+    },
+  });
+}
+
+// Terms of Service SEO
+export function generateTermsMetadata(): Metadata {
+  return generateMetadata({
+    title: PAGE_SEO.terms.title,
+    description: PAGE_SEO.terms.description,
+    canonical: '/terms',
+    openGraph: {
+      type: 'website',
+      title: PAGE_SEO.terms.title,
+      description: PAGE_SEO.terms.description,
+    },
+  });
+}
+
+// Privacy Policy SEO
+export function generatePrivacyMetadata(): Metadata {
+  return generateMetadata({
+    title: PAGE_SEO.privacy.title,
+    description: PAGE_SEO.privacy.description,
+    canonical: '/privacy',
+    openGraph: {
+      type: 'website',
+      title: PAGE_SEO.privacy.title,
+      description: PAGE_SEO.privacy.description,
+    },
+  });
+}
+
+// Refund Policy SEO
+export function generateRefundMetadata(): Metadata {
+  return generateMetadata({
+    title: PAGE_SEO.refund.title,
+    description: PAGE_SEO.refund.description,
+    canonical: '/refund',
+    openGraph: {
+      type: 'website',
+      title: PAGE_SEO.refund.title,
+      description: PAGE_SEO.refund.description,
+    },
+  });
+}
+
 // Cart page SEO
 export function generateCartMetadata(): Metadata {
   return generateMetadata({

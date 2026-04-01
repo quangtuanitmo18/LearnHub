@@ -8,11 +8,12 @@ import {
 } from '@/types/post';
 
 const ENDPOINTS = {
-  POSTS: '/posts',
-  POSTS_PUBLISH: '/posts/publish',
-  POSTS_ALL: '/posts/all',
-  POST: (id: string) => `/posts/${id}`,
-  POST_BY_SLUG: (slug: string) => `/posts/slug/${slug}`,
+  POSTS: '/blogs',
+  POSTS_PUBLISH: '/blogs/published',
+  POSTS_ALL: '/blogs/all',
+  POST: (id: string) => `/blogs/${id}`,
+  POST_BY_SLUG: (slug: string) => `/blogs/slug/${slug}`,
+  BULK_DELETE: '/blogs/bulk-delete',
 } as const;
 
 export class PostsService {
@@ -61,8 +62,7 @@ export class PostsService {
   // Get all posts
   static async getAllPosts(): Promise<IPost[]> {
     try {
-      const response = await ApiService.get<{ posts: IPost[] }>(ENDPOINTS.POSTS_ALL);
-      return response.posts || [];
+      return await ApiService.get<IPost[]>(ENDPOINTS.POSTS_ALL);
     } catch {
       return [];
     }
@@ -75,8 +75,7 @@ export class PostsService {
 
   // Get post by slug
   static async getPostBySlug(slug: string): Promise<IPost> {
-    const response = await ApiService.get<{ post: IPost }>(ENDPOINTS.POST_BY_SLUG(slug));
-    return response.post;
+    return ApiService.get<IPost>(ENDPOINTS.POST_BY_SLUG(slug));
   }
 
   // Create post
@@ -97,7 +96,7 @@ export class PostsService {
 
   // Bulk operations
   static async bulkDeletePosts(postIds: string[]): Promise<void> {
-    return ApiService.delete<void, { ids: string[] }>(`${ENDPOINTS.POSTS}/bulk-delete`, {
+    return ApiService.delete<void, { ids: string[] }>(ENDPOINTS.BULK_DELETE, {
       ids: postIds,
     });
   }

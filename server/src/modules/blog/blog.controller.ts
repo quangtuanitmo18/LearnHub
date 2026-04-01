@@ -36,6 +36,13 @@ export class BlogController {
     return this.blogService.getAllBlogs(blogQuery);
   }
 
+  @Get('all')
+  @Public()
+  @ResponseMessage('All blogs retrieved successfully')
+  async getAllBlogsUnpaginated() {
+    return this.blogService.getAllBlogsUnpaginated();
+  }
+
   @Get('published')
   @Public()
   @ResponseMessage('Published blogs retrieved successfully')

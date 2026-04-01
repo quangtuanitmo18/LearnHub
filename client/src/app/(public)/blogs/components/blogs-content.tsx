@@ -20,6 +20,10 @@ const BlogsContent = () => {
     page: currentPage,
     limit: 12,
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> auth-cookie
   const pagination = blogsData?.meta;
 
   // Update allBlogs when new data comes in
