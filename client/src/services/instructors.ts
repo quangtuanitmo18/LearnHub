@@ -1,5 +1,9 @@
 import { ApiService } from '@/lib/api-service';
-import type { InstructorsListResponse, InstructorDetailResponse, InstructorProfile } from '@/types/instructor';
+import type {
+  InstructorsListResponse,
+  InstructorDetailResponse,
+  InstructorProfile,
+} from '@/types/instructor';
 
 const ENDPOINTS = {
   INSTRUCTORS: '/instructors',

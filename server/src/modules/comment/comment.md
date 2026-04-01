@@ -1,5 +1,3 @@
-
-
 Thiết kế cập nhật cho **Lesson** thay Post, dùng **enum ReactionType** với 6 types Facebook-style (LIKE|LOVE|HAHA|WOW|SAD|ANGRY). [^1]
 
 Schema/API hoàn chỉnh dưới đây, chỉ thay post → lesson.
@@ -49,16 +47,15 @@ model CommentReaction {
 }
 ```
 
-
 ## Sample Data (Lesson Context)
 
-| Table | id | content | lessonId | parentId | level | userId | type (reaction) |
-| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| Lesson | l1 | "Lesson 1: React Basics" | - | - | - | - | - |
-| Comment | c1 | "Great lesson!" | l1 | null | 0 | u1 | - |
-| Comment | c2 | "Need more examples" | l1 | c1 | 1 | u2 | - |
-| CommentReaction | cr1 | - | - | c1 | - | u2 | LIKE |
-| CommentReaction | cr2 | - | - | c1 | - | u3 | LOVE [^1] |
+| Table           | id  | content                  | lessonId | parentId | level | userId | type (reaction) |
+| :-------------- | :-- | :----------------------- | :------- | :------- | :---- | :----- | :-------------- |
+| Lesson          | l1  | "Lesson 1: React Basics" | -        | -        | -     | -      | -               |
+| Comment         | c1  | "Great lesson!"          | l1       | null     | 0     | u1     | -               |
+| Comment         | c2  | "Need more examples"     | l1       | c1       | 1     | u2     | -               |
+| CommentReaction | cr1 | -                        | -        | c1       | -     | u2     | LIKE            |
+| CommentReaction | cr2 | -                        | -        | c1       | -     | u3     | LOVE [^1]       |
 
 ## Workflow FE -> BE (Lesson)
 
@@ -75,15 +72,19 @@ model CommentReaction {
 
 ```json
 {
-  "comments": [{
-    "id": "c1", "content": "Great lesson!", "level": 0, "replyCount": 1,
-    "reactions": {"LIKE": 5, "LOVE": 2, "HAHA": 1},
-    "myReaction": "LIKE",
-    "user": {"id": "u1", "name": "Teacher"}
-  }]
+  "comments": [
+    {
+      "id": "c1",
+      "content": "Great lesson!",
+      "level": 0,
+      "replyCount": 1,
+      "reactions": { "LIKE": 5, "LOVE": 2, "HAHA": 1 },
+      "myReaction": "LIKE",
+      "user": { "id": "u1", "name": "Teacher" }
+    }
+  ]
 }
 ```
-
 
 ### 2. GET /api/comments/:id/replies
 
@@ -103,4 +104,3 @@ model CommentReaction {
 ### 5. PUT/DELETE /api/comments/:id
 
 Tương tự trước, cascade reactions/children.[^2]
-

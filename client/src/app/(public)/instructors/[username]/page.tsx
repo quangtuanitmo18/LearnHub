@@ -40,21 +40,25 @@ export default async function InstructorProfilePage({ params }: InstructorProfil
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+      <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8 flex text-sm text-gray-500">
-          <Link href="/" className="hover:text-emerald-600">Home</Link>
+          <Link href="/" className="hover:text-emerald-600">
+            Home
+          </Link>
           <span className="mx-2">/</span>
-          <Link href="/instructors" className="hover:text-emerald-600">Instructors</Link>
+          <Link href="/instructors" className="hover:text-emerald-600">
+            Instructors
+          </Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900 font-medium">{instructor.username}</span>
+          <span className="font-medium text-gray-900">{instructor.username}</span>
         </nav>
 
         {/* Profile Header */}
-        <div className="rounded-3xl bg-white p-8 shadow-sm border border-gray-100 mb-12">
-          <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
+        <div className="mb-12 rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
+          <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
             {/* Avatar */}
-            <Avatar className="h-32 w-32 shadow-xl ring-4 ring-emerald-50 shrink-0">
+            <Avatar className="h-32 w-32 shrink-0 shadow-xl ring-4 ring-emerald-50">
               <AvatarImage src={instructor.avatar ?? undefined} alt={instructor.username} />
               <AvatarFallback className="bg-linear-to-br from-emerald-500 to-teal-600 text-4xl font-bold text-white">
                 {initials}
@@ -63,17 +67,20 @@ export default async function InstructorProfilePage({ params }: InstructorProfil
 
             {/* Info */}
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{instructor.username}</h1>
+              <h1 className="mb-2 text-3xl font-bold text-gray-900">{instructor.username}</h1>
               {profile?.headline && (
-                <p className="text-lg text-emerald-700 font-medium mb-4">{profile.headline}</p>
+                <p className="mb-4 text-lg font-medium text-emerald-700">{profile.headline}</p>
               )}
 
-              <div className="flex flex-wrap items-center gap-6 mb-6 text-sm text-gray-600">
-                <div className="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full">
+              <div className="mb-6 flex flex-wrap items-center gap-6 text-sm text-gray-600">
+                <div className="flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5">
                   <BookOpen className="h-4 w-4 text-emerald-600" />
-                  <span className="font-semibold text-gray-900">{instructor._count?.courses ?? 0}</span> Courses
+                  <span className="font-semibold text-gray-900">
+                    {instructor._count?.courses ?? 0}
+                  </span>{' '}
+                  Courses
                 </div>
-                <div className="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full">
+                <div className="flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5">
                   <Calendar className="h-4 w-4 text-emerald-600" />
                   <span>Joined {joinedDate}</span>
                 </div>
@@ -87,7 +94,7 @@ export default async function InstructorProfilePage({ params }: InstructorProfil
                       href={profile.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2.5 rounded-full bg-gray-50 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
+                      className="rounded-full bg-gray-50 p-2.5 text-gray-600 transition-colors hover:bg-emerald-50 hover:text-emerald-600"
                       aria-label="Website"
                     >
                       <Globe className="h-5 w-5" />
@@ -98,7 +105,7 @@ export default async function InstructorProfilePage({ params }: InstructorProfil
                       href={profile.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2.5 rounded-full bg-gray-50 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                      className="rounded-full bg-gray-50 p-2.5 text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-600"
                       aria-label="LinkedIn"
                     >
                       <Linkedin className="h-5 w-5" />
@@ -109,7 +116,7 @@ export default async function InstructorProfilePage({ params }: InstructorProfil
                       href={profile.youtube}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2.5 rounded-full bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+                      className="rounded-full bg-gray-50 p-2.5 text-gray-600 transition-colors hover:bg-red-50 hover:text-red-600"
                       aria-label="YouTube"
                     >
                       <Youtube className="h-5 w-5" />
@@ -122,11 +129,13 @@ export default async function InstructorProfilePage({ params }: InstructorProfil
 
           {/* Bio */}
           {profile?.bio && (
-            <div className="mt-8 pt-8 border-t border-gray-100">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">About Me</h2>
-              <div className="prose prose-emerald max-w-none text-gray-600 leading-relaxed">
+            <div className="mt-8 border-t border-gray-100 pt-8">
+              <h2 className="mb-4 text-xl font-bold text-gray-900">About Me</h2>
+              <div className="prose prose-emerald max-w-none leading-relaxed text-gray-600">
                 {profile.bio.split('\n').map((paragraph, index) => (
-                  <p key={index} className="mb-4">{paragraph}</p>
+                  <p key={index} className="mb-4">
+                    {paragraph}
+                  </p>
                 ))}
               </div>
             </div>
@@ -135,29 +144,31 @@ export default async function InstructorProfilePage({ params }: InstructorProfil
 
         {/* Courses Section */}
         <div>
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <h2 className="text-2xl font-bold text-gray-900">
               Courses by <span className="text-emerald-600">{instructor.username}</span>
             </h2>
-            <Badge variant="outline" className="px-3 py-1 border-gray-200">
+            <Badge variant="outline" className="border-gray-200 px-3 py-1">
               {courses.length} {courses.length === 1 ? 'course' : 'courses'}
             </Badge>
           </div>
 
           {courses.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {courses.map((course: any) => (
-                <CourseCard 
-                  key={course.id} 
-                  course={{...course, author: { username: instructor.username }}} 
+                <CourseCard
+                  key={course.id}
+                  course={{ ...course, author: { username: instructor.username } }}
                 />
               ))}
             </div>
           ) : (
-            <div className="bg-white rounded-2xl p-12 text-center border border-gray-100 border-dashed">
-              <BookOpen className="mx-auto h-12 w-12 text-gray-300 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-1">No courses yet</h3>
-              <p className="text-gray-500">This instructor hasn't published any courses yet.</p>
+            <div className="rounded-2xl border border-dashed border-gray-100 bg-white p-12 text-center">
+              <BookOpen className="mx-auto mb-4 h-12 w-12 text-gray-300" />
+              <h3 className="mb-1 text-lg font-medium text-gray-900">No courses yet</h3>
+              <p className="text-gray-500">
+                This instructor hasn&apos;t published any courses yet.
+              </p>
             </div>
           )}
         </div>

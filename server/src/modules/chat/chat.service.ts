@@ -30,7 +30,9 @@ export class ChatService {
     private readonly orderRepository: OrderRepository,
   ) {
     const apiKey = this.configService.get<string>('openrouter.apiKey');
-    this.modelName = this.configService.get<string>('openrouter.model') || 'google/gemini-2.5-flash';
+    this.modelName =
+      this.configService.get<string>('openrouter.model') ||
+      'google/gemini-2.5-flash';
 
     if (!apiKey) {
       return;
@@ -85,7 +87,7 @@ export class ChatService {
         const messages: any[] = [
           { role: 'system', content: prompt },
           ...history.map((m) => ({ role: m.role, content: m.content })),
-          { role: 'user', content: userMessage }
+          { role: 'user', content: userMessage },
         ];
 
         const completion = await this.openai.chat.completions.create({
@@ -146,8 +148,6 @@ export class ChatService {
   }
 
   // ==================== Private Helper Methods ====================
-
-
 
   /**
    * Search courses by user message using repository

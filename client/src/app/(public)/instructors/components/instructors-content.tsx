@@ -44,19 +44,19 @@ const InstructorsContent = () => {
       <div className="container mx-auto px-4 sm:px-6">
         {/* Search bar */}
         <div className="mb-8 flex items-center gap-3 sm:mb-10">
-          <div className="relative flex-1 max-w-md">
+          <div className="relative max-w-md flex-1">
             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
               id="instructor-search"
               type="search"
               placeholder="Search instructors..."
-              className="pl-10 bg-white border-gray-200 focus:border-emerald-400 focus:ring-emerald-400/20"
+              className="border-gray-200 bg-white pl-10 focus:border-emerald-400 focus:ring-emerald-400/20"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           {!isLoading && (
-            <span className="whitespace-nowrap text-sm text-gray-500">
+            <span className="text-sm whitespace-nowrap text-gray-500">
               {filteredInstructors.length} instructor{filteredInstructors.length !== 1 ? 's' : ''}
             </span>
           )}
@@ -83,7 +83,9 @@ const InstructorsContent = () => {
             </div>
             <h3 className="mb-2 text-lg font-semibold text-gray-900">No instructors found</h3>
             <p className="text-gray-500">
-              {search ? `No results for "${search}". Try a different keyword.` : 'Check back later.'}
+              {search
+                ? `No results for "${search}". Try a different keyword.`
+                : 'Check back later.'}
             </p>
           </div>
         )}

@@ -41,8 +41,8 @@ function CTASection() {
               Support the Project
             </div>
             <p className="text-muted-foreground text-sm">
-              If this open-source project helps you in your learning journey or career, don't forget
-              to drop a comment and star the repository! Thank you so much for your support!
+              If this open-source project helps you in your learning journey or career, don&apos;t
+              forget to drop a comment and star the repository! Thank you so much for your support!
             </p>
           </div>
 

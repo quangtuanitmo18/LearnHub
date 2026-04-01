@@ -27,7 +27,9 @@ const InstructorsHeader = () => {
           {/* Badge */}
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-sm sm:mb-6 sm:px-4 sm:py-2">
             <GraduationCap className="h-3 w-3 text-emerald-200 sm:h-4 sm:w-4" />
-            <span className="text-xs font-medium text-emerald-100 sm:text-sm">Expert Instructors</span>
+            <span className="text-xs font-medium text-emerald-100 sm:text-sm">
+              Expert Instructors
+            </span>
           </div>
 
           {/* Main heading */}
@@ -40,7 +42,8 @@ const InstructorsHeader = () => {
 
           {/* Subtitle */}
           <p className="mx-auto mb-6 max-w-3xl px-4 text-base leading-relaxed text-emerald-100 sm:mb-8 sm:text-lg md:text-xl">
-            Our instructors are industry leaders and practitioners with real-world experience, ready to guide your learning journey.
+            Our instructors are industry leaders and practitioners with real-world experience, ready
+            to guide your learning journey.
           </p>
 
           {/* Stats */}

@@ -75,16 +75,18 @@ export class CourseService {
         if (!course) return null;
 
         // Fetch statistics in parallel
-        const [totalLessons, reviewStats, completedLessons] = await Promise.all([
-          this.courseRepository.getTotalLessons(courseId),
-          this.courseRepository.getReviewStats(courseId),
-          this.prismaService.userLessonProgress.count({
-            where: {
-              userId,
-              courseId,
-            },
-          }),
-        ]);
+        const [totalLessons, reviewStats, completedLessons] = await Promise.all(
+          [
+            this.courseRepository.getTotalLessons(courseId),
+            this.courseRepository.getReviewStats(courseId),
+            this.prismaService.userLessonProgress.count({
+              where: {
+                userId,
+                courseId,
+              },
+            }),
+          ],
+        );
 
         return {
           id: course.id,

@@ -7,9 +7,9 @@ import Link from 'next/link';
 
 function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-background pt-24 md:pt-32">
+    <section className="bg-background relative overflow-hidden pt-24 md:pt-32">
       {/* Background decoration */}
-      <div className="absolute inset-0 z-0 bg-linear-to-b from-primary/5 to-transparent dark:from-primary/10" />
+      <div className="from-primary/5 dark:from-primary/10 absolute inset-0 z-0 bg-linear-to-b to-transparent" />
       <div
         className="absolute inset-0 z-0 bg-size-[24px_24px]"
         style={{
@@ -18,7 +18,7 @@ function HeroSection() {
         }}
       />
 
-      <div className="container relative z-10 mx-auto px-4">
+      <div className="relative z-10 container mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center">
           {/* Badge */}
           <div className="mb-6 flex justify-center">
@@ -31,7 +31,7 @@ function HeroSection() {
           {/* Main Heading */}
           <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
             Fullstack LMS Project
-            <span className="bg-linear-to-r from-primary to-primary/60 block bg-clip-text text-transparent">
+            <span className="from-primary to-primary/60 block bg-linear-to-r bg-clip-text text-transparent">
               From A to Z
             </span>
           </h1>

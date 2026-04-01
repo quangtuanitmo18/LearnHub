@@ -118,11 +118,7 @@ export class QuizQuestionService {
     return created;
   }
 
-  async updateQuestion(
-    quizId: string,
-    questionId: string,
-    question: any,
-  ) {
+  async updateQuestion(quizId: string, questionId: string, question: any) {
     // Delete old options
     await this.prismaService.quizOption.deleteMany({
       where: { questionId },

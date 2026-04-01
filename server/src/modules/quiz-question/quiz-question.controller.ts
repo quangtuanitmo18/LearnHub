@@ -17,9 +17,7 @@ import { QuizQuestionService } from './quiz-question.service';
 @Controller('quiz-questions')
 @UseGuards(PermissionGuard)
 export class QuizQuestionController {
-  constructor(
-    private readonly quizQuestionService: QuizQuestionService,
-  ) {}
+  constructor(private readonly quizQuestionService: QuizQuestionService) {}
 
   @Get('lesson/:lessonId')
   @RequirePermissions(PERMISSIONS.COURSE_READ)
@@ -76,10 +74,7 @@ export class QuizQuestionController {
   @Post(':quizId/questions')
   @RequirePermissions(PERMISSIONS.COURSE_UPDATE)
   @ResponseMessage('Question added successfully')
-  addQuestion(
-    @Param('quizId') quizId: string,
-    @Body() question: any,
-  ) {
+  addQuestion(@Param('quizId') quizId: string, @Body() question: any) {
     return this.quizQuestionService.addQuestion(quizId, question);
   }
 
@@ -115,9 +110,6 @@ export class QuizQuestionController {
     @Param('quizId') quizId: string,
     @Body() body: { questionIds: string[] },
   ) {
-    return this.quizQuestionService.reorderQuestions(
-      quizId,
-      body.questionIds,
-    );
+    return this.quizQuestionService.reorderQuestions(quizId, body.questionIds);
   }
 }

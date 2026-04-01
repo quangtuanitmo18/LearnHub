@@ -16,6 +16,7 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      'prettier/prettier': ['error', { endOfLine: 'lf' }],
     },
   },
 ];

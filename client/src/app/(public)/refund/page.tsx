@@ -13,10 +13,10 @@ export default function RefundPolicyPage() {
             1. Our 30-Day Money-Back Guarantee
           </h2>
           <p className="mb-4 leading-relaxed">
-            We want you to be absolutely satisfied with your learning experience at LearnHub. That's
-            why we offer a comprehensive 30-day money-back guarantee for all individual course
-            purchases. If you are unhappy with a course, you can request a full refund within 30
-            days of purchasing it.
+            We want you to be absolutely satisfied with your learning experience at LearnHub.
+            That&apos;s why we offer a comprehensive 30-day money-back guarantee for all individual
+            course purchases. If you are unhappy with a course, you can request a full refund within
+            30 days of purchasing it.
           </p>
           <p className="leading-relaxed">
             Please note that our refund policy is governed by the guidelines below to protect our
@@ -55,9 +55,15 @@ export default function RefundPolicyPage() {
             To request a refund, please follow these steps:
             <ol className="mt-2 ml-6 list-decimal space-y-2">
               <li>Log in to your LearnHub account.</li>
-              <li>Navigate to your "Purchase History" or "Order Details" page.</li>
-              <li>Find the course you wish to refund and click the "Request Refund" button.</li>
-              <li>Provide a brief explanation of why the course didn't meet your expectations.</li>
+              <li>
+                Navigate to your &quot;Purchase History&quot; or &quot;Order Details&quot; page.
+              </li>
+              <li>
+                Find the course you wish to refund and click the &quot;Request Refund&quot; button.
+              </li>
+              <li>
+                Provide a brief explanation of why the course didn&apos;t meet your expectations.
+              </li>
             </ol>
           </div>
           <p className="mt-4 leading-relaxed">
