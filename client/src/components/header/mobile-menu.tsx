@@ -20,6 +20,7 @@ import { GiGraduateCap } from 'react-icons/gi';
 
 const navigation = [
   { name: 'Courses', href: ROUTE_CONFIG.COURSES },
+  { name: 'Instructors', href: ROUTE_CONFIG.INSTRUCTORS },
   { name: 'Blogs', href: ROUTE_CONFIG.BLOGS },
   { name: 'About', href: ROUTE_CONFIG.ABOUT },
   { name: 'Contact', href: ROUTE_CONFIG.CONTACT },
@@ -55,7 +56,7 @@ export default function MobileMenu() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-blue-600 to-purple-600">
               <GiGraduateCap size={18} className="text-white" />
             </div>
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent">
+            <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent">
               LearnHub
             </span>
           </SheetTitle>
@@ -113,7 +114,7 @@ export default function MobileMenu() {
                 </Button>
                 <Button
                   size="sm"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                   asChild
                 >
                   <Link href={ROUTE_CONFIG.AUTH.SIGN_UP}>Get Started 🚀</Link>

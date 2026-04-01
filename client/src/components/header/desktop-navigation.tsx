@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const navigation = [
   { name: 'Courses', href: ROUTE_CONFIG.COURSES },
+  { name: 'Instructors', href: ROUTE_CONFIG.INSTRUCTORS },
   { name: 'Blogs', href: ROUTE_CONFIG.BLOGS },
   { name: 'About', href: ROUTE_CONFIG.ABOUT },
   { name: 'Contact', href: ROUTE_CONFIG.CONTACT },
@@ -37,7 +38,7 @@ export function DesktopNavigation() {
             {item.name}
             <span
               className={cn(
-                'absolute -bottom-1 left-0 h-0.5 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300',
+                'absolute -bottom-1 left-0 h-0.5 rounded-full bg-linear-to-r from-blue-600 to-purple-600 transition-all duration-300',
                 isActive ? 'w-full' : 'w-0 group-hover:w-full',
               )}
             ></span>
