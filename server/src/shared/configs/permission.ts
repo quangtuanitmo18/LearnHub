@@ -133,6 +133,7 @@ export const SYSTEM_ROLE_NAMES = {
   SUPER_ADMIN: 'Super Admin',
   ADMIN: 'Admin',
   STUDENT: 'Student',
+  INSTRUCTOR: 'Instructor',
   GUEST: 'Guest',
 } as const;
 

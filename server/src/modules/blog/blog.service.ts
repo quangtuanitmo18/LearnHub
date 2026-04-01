@@ -22,6 +22,13 @@ export class BlogService {
     return await this.blogRepository.findAllBlogs(blogQuery);
   }
 
+  async getAllBlogsUnpaginated() {
+    const blogs = await this.blogRepository.findMany(undefined, {
+      createdAt: 'desc',
+    });
+    return { blogs };
+  }
+
   async getPublishedBlogs(paginationQuery?: PaginationQueryDto) {
     return this.blogRepository.findPublished(paginationQuery);
   }

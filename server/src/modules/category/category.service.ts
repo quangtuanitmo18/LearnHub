@@ -15,6 +15,13 @@ export class CategoryService {
     return this.categoryRepository.findAll(paginationQuery);
   }
 
+  async getAllCategoriesUnpaginated() {
+    const categories = await this.categoryRepository.findMany(undefined, {
+      createdAt: 'desc',
+    });
+    return { categories };
+  }
+
   async getCategoryById(id: string) {
     const category = await this.categoryRepository.findOneOrNull({ id });
     if (!category) {

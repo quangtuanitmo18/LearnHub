@@ -22,8 +22,10 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { QuizAttemptModule } from './modules/quiz-attempt/quiz-attempt.module';
+import { QuizQuestionModule } from './modules/quiz-question/quiz-question.module';
 import { ReviewModule } from './modules/review/review.module';
 import { RoleModule } from './modules/role/role.module';
+import { SearchModule } from './modules/search/search.module';
 import { StatsModule } from './modules/stats/stats.module';
 import { UserLessonProgressModule } from './modules/user-lesson-progress/user-lesson-progress.module';
 import { UserModule } from './modules/user/user.module';
@@ -33,6 +35,7 @@ import { GlobalExceptionFilter } from './shared/filters/global-exception.filter'
 import { PermissionGuard } from './shared/guards/permission.guard';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 import { SharedModule } from './shared/shared.module';
+import { InstructorModule } from './modules/instructor/instructor.module';
 
 @Module({
   imports: [
@@ -54,10 +57,12 @@ import { SharedModule } from './shared/shared.module';
     EmailModule,
     NotificationModule,
     QuizAttemptModule,
+    QuizQuestionModule,
     ChatModule,
     CommentModule,
     UserLessonProgressModule,
     StatsModule,
+    SearchModule,
     SharedModule,
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
@@ -77,6 +82,7 @@ import { SharedModule } from './shared/shared.module';
       }),
       inject: [ConfigService],
     }),
+    InstructorModule,
   ],
   controllers: [AppController],
   providers: [

@@ -143,9 +143,27 @@ model User {
   notifications NotificationRecipient[]
   media         Media[]
   lessonProgress UserLessonProgress[]
-
+  instructorProfile InstructorProfile?
   @@index([email], name: "idx_user_email")
   @@index([resetPasswordToken], name: "idx_user_reset_token")
+}
+
+model InstructorProfile {
+  id          String   @id @default(uuid())
+  headline    String?
+  bio         String?  @db.Text
+  website     String?
+  youtube     String?
+  linkedin    String?
+  
+  // relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @unique
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId], name: "idx_instructor_profile_user")
 }
 
 model Role {

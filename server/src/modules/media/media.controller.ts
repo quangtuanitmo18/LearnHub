@@ -6,7 +6,10 @@ import {
   Body,
   Param,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { PERMISSIONS } from 'src/shared/configs/permission';
+import { RequirePermissions } from 'src/shared/decorators/permission.decorator';
 import { MediaService } from './media.service';
 import {
   RequestPresignedDto,
@@ -17,8 +20,10 @@ import {
 } from './dto/media.dto';
 import { Public } from 'src/shared/decorators/public.decorator';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
+import { PermissionGuard } from 'src/shared/guards/permission.guard';
 
 @Controller('media')
+@UseGuards(PermissionGuard)
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
@@ -112,6 +117,7 @@ export class MediaController {
    * Get all media with pagination (admin)
    */
   @Get()
+  @RequirePermissions(PERMISSIONS.IMAGE_READ)
   async getAll(@Query() filterQuery: MediaFilterDto) {
     return this.mediaService.getAll(filterQuery);
   }
