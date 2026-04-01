@@ -3,12 +3,13 @@ import { QueryProvider } from '@/components/providers/query-provider';
 import NextAuthSessionProvider from '@/components/providers/session-provider';
 import { StructuredData } from '@/components/seo/structured-data';
 import { SEO_CONFIG, STRUCTURED_DATA } from '@/configs/seo';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 import './globals.css';
-
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -99,6 +100,8 @@ export default function RootLayout({
           shadow="0 0 10px rgba(37, 99, 235, 0.6), 0 0 20px rgba(124, 58, 237, 0.3)"
           zIndex={9999}
         />
+        <Analytics />
+        <SpeedInsights />
 
         <NextAuthSessionProvider>
           <AuthInitializer>
