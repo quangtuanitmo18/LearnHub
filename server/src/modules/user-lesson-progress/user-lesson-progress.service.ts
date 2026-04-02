@@ -3,9 +3,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UserLessonProgressRepository } from './user-lesson-progress.repository';
+import { PrismaService } from 'src/shared/services/prisma.service';
 import { LessonRepository } from '../lesson/lesson.repository';
 import { UserRepository } from '../user/user.repository';
+import { UserLessonProgressRepository } from './user-lesson-progress.repository';
 
 @Injectable()
 export class UserLessonProgressService {
@@ -13,6 +14,7 @@ export class UserLessonProgressService {
     private readonly userLessonProgressRepository: UserLessonProgressRepository,
     private readonly lessonRepository: LessonRepository,
     private readonly userRepository: UserRepository,
+    private readonly prismaService: PrismaService,
   ) {}
 
   async toggleProgress(userId: string, lessonId: string): Promise<any> {
@@ -20,9 +22,39 @@ export class UserLessonProgressService {
     if (!lesson) {
       throw new NotFoundException('Lesson not found');
     }
-    const user = await this.userRepository.findOneOrNull({ id: userId });
+    const user = await this.userRepository.findByIdWithRoles(userId);
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+
+    const isAdmin = user.roles.some(
+      (role) => role.name === 'Admin' || role.name === 'Super Admin',
+    );
+
+    if (!isAdmin) {
+      // Check ownership
+      const order = await this.prismaService.order.findFirst({
+        where: {
+          userId,
+          status: 'COMPLETED',
+          items: {
+            some: {
+              courseId: lesson.courseId,
+            },
+          },
+        },
+      });
+
+      const hasMembership =
+        user.isMembership &&
+        user.planEndDate &&
+        new Date(user.planEndDate) > new Date();
+
+      if (!order && !hasMembership) {
+        throw new ForbiddenException(
+          'You must purchase this course or have an active membership to access this feature',
+        );
+      }
     }
 
     return this.userLessonProgressRepository.toggleProgress(

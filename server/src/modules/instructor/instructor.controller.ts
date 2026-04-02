@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { InstructorService } from './instructor.service';
-import { Public } from '../../shared/decorators/public.decorator';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
+import { Public } from '../../shared/decorators/public.decorator';
 import { UpdateInstructorProfileDto } from './dto/update-instructor-profile.dto';
+import { InstructorService } from './instructor.service';
 
 @Controller('instructors')
 export class InstructorController {
@@ -13,7 +13,7 @@ export class InstructorController {
   async getInstructors() {
     const instructors = await this.instructorService.findAll();
     return {
-      message: 'Lấy danh sách giảng viên thành công',
+      message: 'Successfully retrieved instructors',
       data: instructors,
     };
   }
@@ -23,7 +23,7 @@ export class InstructorController {
   async getInstructorByUsername(@Param('username') username: string) {
     const instructor = await this.instructorService.findByUsername(username);
     return {
-      message: 'Lấy thông tin giảng viên thành công',
+      message: 'Successfully retrieved instructor info',
       data: instructor,
     };
   }
@@ -36,7 +36,7 @@ export class InstructorController {
   ) {
     const profile = await this.instructorService.updateProfile(user.sub, data);
     return {
-      message: 'Cập nhật hồ sơ giảng viên thành công',
+      message: 'Successfully updated instructor profile',
       data: profile,
     };
   }

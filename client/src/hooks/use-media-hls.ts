@@ -104,11 +104,11 @@ export function useDeleteMedia() {
   return useMutation({
     mutationFn: (id: string) => MediaService.delete(id),
     onSuccess: () => {
-      toast.success('Xóa media thành công');
+      toast.success('Successfully deleted media');
       queryClient.invalidateQueries({ queryKey: mediaKeys.all });
     },
     onError: (error: Error) => {
-      toast.error(`Xóa media thất bại: ${error.message}`);
+      toast.error(`Failed to delete media: ${error.message}`);
     },
   });
 }
@@ -122,11 +122,11 @@ export function useDeleteManyMedia() {
   return useMutation({
     mutationFn: (ids: string[]) => MediaService.deleteMany(ids),
     onSuccess: (_, ids) => {
-      toast.success(`Xóa ${ids.length} media thành công`);
+      toast.success(`Successfully deleted ${ids.length} media items`);
       queryClient.invalidateQueries({ queryKey: mediaKeys.all });
     },
     onError: (error: Error) => {
-      toast.error(`Xóa media thất bại: ${error.message}`);
+      toast.error(`Failed to delete media: ${error.message}`);
     },
   });
 }

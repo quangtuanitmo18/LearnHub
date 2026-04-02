@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { MdSchool, MdPlayCircleOutline, MdCheckCircle } from 'react-icons/md';
+import { MdCheckCircle, MdPlayCircleOutline, MdSchool } from 'react-icons/md';
 
 interface ProfileStatsCardsProps {
   totalCourses: number;
@@ -41,9 +40,9 @@ const ProfileStatsCards = ({
 
         // Define colors for each card based on the image
         const iconColors = [
-          'bg-red-500', // Các khóa học của bạn - red
-          'bg-orange-500', // Đang học - orange
-          'bg-green-500', // Đã hoàn thành - red
+          'bg-red-500', // Your courses - red
+          'bg-orange-500', // In progress - orange
+          'bg-green-500', // Completed - green
         ];
 
         return (

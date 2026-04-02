@@ -74,7 +74,7 @@ export function useCancelOrder() {
     },
     onError: (error) => {
       console.error('Cancel order error:', error);
-      toast.error('Không thể hủy đơn hàng. Vui lòng thử lại.');
+      toast.error('Cannot cancel order. Please try again.');
     },
   });
 }

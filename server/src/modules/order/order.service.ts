@@ -1,35 +1,35 @@
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   ForbiddenException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
-import { OrderRepository } from './order.repository';
+import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { CartRepository } from '../cart/cart.repository';
 import { CouponRepository } from '../coupon/coupon.repository';
 import { CouponService } from '../coupon/coupon.service';
 import { CourseRepository } from '../course/course.repository';
-import { UserRepository } from '../user/user.repository';
-import { OrderQueueService } from './services/order-queue.service';
 import { EmailQueueService } from '../email/services';
+import { UserRepository } from '../user/user.repository';
 import {
   CheckoutDto,
-  UpdateOrderStatusDto,
-  OrderQueryDto,
   MembershipCheckoutDto,
+  OrderQueryDto,
+  UpdateOrderStatusDto,
 } from './dto/order.dto';
-import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
+import { OrderRepository } from './order.repository';
+import { OrderQueueService } from './services/order-queue.service';
 
 import { CourseStatus } from 'src/generated/prisma/enums';
 import {
   OrderStatus,
-  OrderType,
   OrderStatusType,
+  OrderType,
 } from 'src/shared/constants/order.constant';
 import {
+  MembershipDuration,
   MembershipPlan,
   MembershipPrice,
-  MembershipDuration,
 } from 'src/shared/constants/user.constant';
 
 @Injectable()
@@ -49,7 +49,10 @@ export class OrderService {
    * Checkout - Create order from cart
    */
   async checkout(userId: string, checkoutDto: CheckoutDto) {
-    const { paymentMethod, couponCode, courseIds } = checkoutDto;
+    const { paymentMethod, couponCode } = checkoutDto;
+
+    // Remove duplicates to prevent double-charging for the same course
+    const courseIds = [...new Set(checkoutDto.courseIds)];
 
     let subTotal = 0;
     const orderItems: Array<{
@@ -63,6 +66,18 @@ export class OrderService {
 
     // Validate and fetch courses
     for (const courseId of courseIds) {
+      // Check if user already purchased the course
+      const hasPurchased = await this.orderRepository.hasUserPurchasedCourse(
+        userId,
+        courseId,
+      );
+
+      if (hasPurchased) {
+        throw new BadRequestException(
+          `You have already purchased the course with ID ${courseId}`,
+        );
+      }
+
       const course = await this.courseRepository.findOneOrNull({
         id: courseId,
       });
@@ -292,6 +307,13 @@ export class OrderService {
           }
         }
       }
+    }
+
+    if (
+      updateStatusDto.status === OrderStatus.COMPLETED ||
+      updateStatusDto.status === OrderStatus.CANCELLED
+    ) {
+      await this.orderQueueService.cancelScheduledCancellation(orderId);
     }
 
     return this.orderRepository.updateStatus(orderId, updateStatusDto.status);

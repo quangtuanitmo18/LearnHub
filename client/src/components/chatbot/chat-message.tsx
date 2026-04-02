@@ -1,14 +1,14 @@
 'use client';
 
-import { BookOpen } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { CourseImage } from '@/components/course/course-image';
 import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { CourseImage } from '@/components/course/course-image';
-import Link from 'next/link';
-import { formatPrice } from '@/utils/format';
 import { DEFAULT_AVATAR } from '@/constants';
+import { cn } from '@/lib/utils';
+import { formatPrice } from '@/utils/format';
+import { BookOpen } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface ChatMessageProps {
   message: string;
@@ -125,7 +125,7 @@ const ChatMessage = ({
                         >
                           <div className="w-full rounded-lg border border-gray-200/50 bg-white/60 p-2 transition-colors duration-200 hover:bg-white/80">
                             <div className="flex items-start gap-2">
-                              {/* Course Image - Khối 1 (Smaller) */}
+                              {/* Course Image - Block 1 (Smaller) */}
                               <div className="shrink-0">
                                 <div className="relative h-10 w-14 overflow-hidden rounded bg-gray-100">
                                   {course.image ? (
@@ -143,7 +143,7 @@ const ChatMessage = ({
                                 </div>
                               </div>
 
-                              {/* Title + Price - Khối 2 */}
+                              {/* Title + Price - Block 2 */}
                               <div className="flex min-w-0 flex-1 flex-col gap-1.5">
                                 {/* Course Title */}
                                 <div>

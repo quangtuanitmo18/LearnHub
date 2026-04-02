@@ -1,31 +1,37 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Delete,
   Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
   Param,
+  Post,
   Query,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PERMISSIONS } from 'src/shared/configs/permission';
+import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { RequirePermissions } from 'src/shared/decorators/permission.decorator';
-import { MediaService } from './media.service';
+import { Public } from 'src/shared/decorators/public.decorator';
+import { PermissionGuard } from 'src/shared/guards/permission.guard';
 import {
+  MediaFilterDto,
+  PresignedUrlResponseItem,
   RequestPresignedDto,
   UploadCompleteDto,
   VideoProcessedDto,
-  PresignedUrlResponseItem,
-  MediaFilterDto,
 } from './dto/media.dto';
-import { Public } from 'src/shared/decorators/public.decorator';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
-import { PermissionGuard } from 'src/shared/guards/permission.guard';
+import { MediaService } from './media.service';
 
 @Controller('media')
 @UseGuards(PermissionGuard)
 export class MediaController {
-  constructor(private readonly mediaService: MediaService) {}
+  constructor(
+    private readonly mediaService: MediaService,
+    private readonly configService: ConfigService,
+  ) {}
 
   // ==================== IMAGE ENDPOINTS ====================
 
@@ -82,7 +88,20 @@ export class MediaController {
    */
   @Public()
   @Post('videos/processed')
-  async videoProcessed(@Body() dto: VideoProcessedDto) {
+  async videoProcessed(
+    @Body() dto: VideoProcessedDto,
+    @Headers('x-api-key') apiKey: string,
+  ) {
+    const webhookSecret =
+      this.configService.get<string>('aws.webhookSecret') ||
+      this.configService.get<string>('AWS_WEBHOOK_SECRET');
+
+    if (webhookSecret && apiKey !== webhookSecret) {
+      throw new UnauthorizedException(
+        'Invalid or missing x-api-key webhook signature',
+      );
+    }
+
     const media = await this.mediaService.markVideoProcessed(dto);
     return { success: true, media };
   }

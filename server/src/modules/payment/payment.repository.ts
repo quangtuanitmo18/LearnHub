@@ -59,6 +59,21 @@ export class PaymentRepository {
         );
       }
 
+      // Check if order is already completed
+      if (order.status === OrderStatus.COMPLETED) {
+        this.logger.warn(
+          `Order ${order.code} already processed via SePay webhook`,
+        );
+        return {
+          order: {
+            id: order.id,
+            code: order.code,
+            status: OrderStatus.COMPLETED,
+          },
+          message: 'Order already completed',
+        };
+      }
+
       // Complete the order
       const completedOrder = await this.completeOrder(order.id);
 

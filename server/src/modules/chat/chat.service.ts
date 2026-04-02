@@ -1,6 +1,6 @@
-import OpenAI from 'openai';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import OpenAI from 'openai';
 import { CourseRepository } from '../course/course.repository';
 import { OrderRepository } from '../order/order.repository';
 import { ChatMessage, ChatStore } from './chat.store';
@@ -206,7 +206,7 @@ export class ChatService {
    */
   private buildCourseContext(courses: CourseWithTags[]): string {
     if (!courses.length) {
-      return 'Không có khóa học nào phù hợp trong danh sách.';
+      return 'No suitable courses found in the list.';
     }
 
     return courses
@@ -222,17 +222,17 @@ export class ChatService {
    */
   private buildOrderContext(order: any): string {
     if (!order) {
-      return 'Người dùng chưa có đơn hàng nào trong hệ thống.';
+      return 'User has no orders in the system.';
     }
 
     const itemNames = order.items?.map((i: any) => i.title).join(', ') || 'N/A';
 
-    return `Đơn hàng mới nhất:
-- Mã đơn: ${order.code}
-- Trạng thái: ${order.status}
-- Tổng tiền: ${order.totalAmount}
-- Các khóa học: ${itemNames}
-- Ngày tạo: ${order.createdAt}`;
+    return `Latest order:
+- Order code: ${order.code}
+- Status: ${order.status}
+- Total amount: ${order.totalAmount}
+- Courses: ${itemNames}
+- Created at: ${order.createdAt}`;
   }
 
   /**
@@ -249,25 +249,25 @@ export class ChatService {
     if (intent === 'COURSE_ADVICE') {
       return `
 [ROLE]
-Bạn là trợ lý tư vấn khóa học lập trình cho nền tảng học online.
+You are a programming course advisor assistant for an online learning platform.
 
-[NGỮ CẢNH KHOÁ HỌC]
+[COURSE CONTEXT]
 ${courseContext}
 
-[YÊU CẦU NGƯỜI DÙNG]
+[USER REQUEST]
 "${message}"
 
-[NHIỆM VỤ]
-1. Hiểu mục tiêu, trình độ và chủ đề mà học viên quan tâm.
-2. Chọn tối đa 3 khóa học trong NGỮ CẢNH KHOÁ HỌC phù hợp nhất.
-3. Viết câu trả lời thân thiện, dễ hiểu, bằng tiếng Việt.
-4. Tạo 3–4 câu hỏi gợi ý (suggestions) để người dùng bấm tiếp tục.
+[TASK]
+1. Understand the goal, level, and topic the student is interested in.
+2. Select up to 3 most suitable courses from the COURSE CONTEXT.
+3. Write a friendly, easy-to-understand answer in English.
+4. Create 3–4 suggestion questions for the user to click next.
 
-[ĐỊNH DẠNG OUTPUT]
-Chỉ trả về JSON:
+[OUTPUT FORMAT]
+Return JSON only:
 
 {
-  "answer": "string - câu trả lời cho người dùng",
+  "answer": "string - answer for the user",
   "suggestions": ["string", "..."],
   "courseIds": ["id1", "id2"]
 }
@@ -277,21 +277,21 @@ Chỉ trả về JSON:
     if (intent === 'ORDER_STATUS') {
       return `
 [ROLE]
-Bạn là nhân viên hỗ trợ khách hàng cho nền tảng khóa học online.
+You are a customer support agent for an online course platform.
 
-[NGỮ CẢNH ĐƠN HÀNG]
+[ORDER CONTEXT]
 ${orderContext}
 
-[YÊU CẦU NGƯỜI DÙNG]
+[USER REQUEST]
 "${message}"
 
-[NHIỆM VỤ]
-1. Dựa vào NGỮ CẢNH ĐƠN HÀNG để giải thích trạng thái đơn hàng hiện tại.
-2. Nói rõ bước tiếp theo mà học viên nên làm.
-3. Nếu không thấy đơn hàng trong context, hãy nói rõ và gợi ý kiểm tra lại email/mã đơn.
+[TASK]
+1. Explain the current order status based on the ORDER CONTEXT.
+2. Clearly state the next step the student should take.
+3. If the order is not found in the context, explicitly state so and suggest checking their email/order code.
 
-[ĐỊNH DẠNG OUTPUT]
-Chỉ trả về JSON:
+[OUTPUT FORMAT]
+Return JSON only:
 
 {
   "answer": "string",
@@ -304,17 +304,17 @@ Chỉ trả về JSON:
     if (intent === 'SMALL_TALK') {
       return `
 [ROLE]
-Bạn là trợ lý thân thiện.
+You are a friendly assistant.
 
-[YÊU CẦU NGƯỜI DÙNG]
+[USER REQUEST]
 "${message}"
 
-[NHIỆM VỤ]
-1. Trả lời chào hỏi thân thiện, ngắn gọn.
-2. Sau đó gợi ý người dùng hỏi về khóa học hoặc lộ trình học lập trình.
+[TASK]
+1. Reply with a friendly, short greeting.
+2. Then suggest the user ask about courses or programming learning paths.
 
-[ĐỊNH DẠNG OUTPUT]
-Chỉ JSON:
+[OUTPUT FORMAT]
+JSON only:
 
 {
   "answer": "string",
@@ -327,17 +327,17 @@ Chỉ JSON:
     // OUT_OF_SCOPE
     return `
 [ROLE]
-Bạn là trợ lý giới hạn phạm vi hỗ trợ trong lĩnh vực khóa học lập trình và đơn hàng.
+You are an assistant with limited scope, supporting only programming courses and orders.
 
-[YÊU CẦU NGƯỜI DÙNG]
+[USER REQUEST]
 "${message}"
 
-[NHIỆM VỤ]
-1. Lịch sự từ chối trả lời vì câu hỏi ngoài phạm vi.
-2. Gợi ý họ hỏi về khóa học, lộ trình học lập trình hoặc đơn hàng.
+[TASK]
+1. Politely refuse to answer because the question is out of scope.
+2. Suggest asking about courses, programming learning paths, or orders.
 
-[ĐỊNH DẠNG OUTPUT]
-Chỉ JSON:
+[OUTPUT FORMAT]
+JSON only:
 
 {
   "answer": "string",
@@ -408,25 +408,25 @@ Chỉ JSON:
 
     if (intent === 'COURSE_ADVICE') {
       return [
-        'Bạn muốn học về ngôn ngữ lập trình nào?',
-        'Bạn quan tâm đến lập trình front-end, back-end hay fullstack?',
-        'Ngân sách của bạn là bao nhiêu cho một khóa học?',
-        'Bạn đang ở cấp độ nào (beginner, intermediate, advanced)?',
+        'Which programming language do you want to learn?',
+        'Are you interested in front-end, back-end, or fullstack programming?',
+        'What is your budget for a course?',
+        'What is your current level (beginner, intermediate, advanced)?',
       ];
     }
 
     if (intent === 'ORDER_STATUS') {
       return [
-        'Kiểm tra trạng thái đơn hàng gần nhất',
-        'Tôi bị trừ tiền nhưng chưa vào học được',
-        'Tôi muốn xuất hóa đơn cho khóa học',
+        'Check latest order status',
+        'I was charged but cannot access the course',
+        'I want an invoice for the course',
       ];
     }
 
     return [
-      'Tư vấn giúp mình lộ trình học lập trình từ đầu',
-      'Gợi ý khóa học JavaScript cho người mới',
-      'Kiểm tra đơn hàng mua khóa học gần đây',
+      'Please advise me on a programming learning path from scratch',
+      'Suggest JavaScript courses for beginners',
+      'Check recent course orders',
     ];
   }
 
@@ -453,11 +453,11 @@ Chỉ JSON:
     if (intent === 'COURSE_ADVICE') {
       return JSON.stringify({
         answer:
-          'Xin chào! Tôi là trợ lý tư vấn khóa học. Hiện tại hệ thống đang bận, vui lòng thử lại sau hoặc liên hệ hỗ trợ qua email.',
+          'Hello! I am the course advisor assistant. The system is currently busy, please try again later or contact support via email.',
         suggestions: [
-          'Tư vấn khóa học lập trình',
-          'Xem các khóa học phổ biến',
-          'Liên hệ hỗ trợ',
+          'Programming course advice',
+          'View popular courses',
+          'Contact support',
         ],
         courseIds: [],
       });
@@ -466,19 +466,15 @@ Chỉ JSON:
     if (intent === 'ORDER_STATUS') {
       return JSON.stringify({
         answer:
-          'Xin lỗi, tôi không thể kiểm tra đơn hàng của bạn ngay bây giờ. Vui lòng liên hệ bộ phận hỗ trợ để được giúp đỡ.',
-        suggestions: ['Liên hệ hỗ trợ', 'Xem lịch sử đơn hàng trong tài khoản'],
+          'Sorry, I cannot check your order right now. Please contact support for help.',
+        suggestions: ['Contact support', 'View order history in account'],
         courseIds: [],
       });
     }
 
     return JSON.stringify({
-      answer: 'Xin chào! Tôi có thể giúp gì cho bạn về khóa học lập trình?',
-      suggestions: [
-        'Tư vấn khóa học',
-        'Kiểm tra đơn hàng',
-        'Xem các khóa học phổ biến',
-      ],
+      answer: 'Hello! How can I help you with programming courses?',
+      suggestions: ['Course advice', 'Check order', 'View popular courses'],
       courseIds: [],
     });
   }

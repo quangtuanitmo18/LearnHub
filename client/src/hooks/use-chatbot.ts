@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { Message } from '@/types/chatbot';
 import ChatbotService, { SendMessageRequest } from '@/services/chatbot';
+import { Message } from '@/types/chatbot';
+import { useMutation } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 
 interface UseChatbotReturn {
   isOpen: boolean;
@@ -53,7 +53,7 @@ export function useChatbot(): UseChatbotReturn {
       // Add error message
       const errorMessage: Message = {
         id: generateMessageId(),
-        text: 'Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.',
+        text: 'Sorry, an error occurred. Please try again later.',
         isUser: false,
         timestamp: new Date(),
       };

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 interface Flower {
   id: number;
@@ -28,21 +28,21 @@ const TetFlowerEffect = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Tạo hoa ngẫu nhiên
+    // Create random flowers
     const generateFlowers = () => {
       const newFlowers: Flower[] = [];
-      const flowerCount = 25; // Số lượng hoa
+      const flowerCount = 25; // Number of flowers
 
       for (let i = 0; i < flowerCount; i++) {
         newFlowers.push({
           id: i,
           src: FLOWER_IMAGES[Math.floor(Math.random() * FLOWER_IMAGES.length)],
-          left: Math.random() * 100, // Vị trí ngang (%)
-          animationDuration: 8 + Math.random() * 10, // Thời gian rơi (8-18s)
-          animationDelay: Math.random() * 10, // Delay ngẫu nhiên
-          size: 40 + Math.random() * 25, // Kích thước (40-65px)
-          rotation: Math.random() * 360, // Góc xoay ban đầu
-          swayAmount: 30 + Math.random() * 50, // Độ lắc ngang
+          left: Math.random() * 100, // Horizontal position (%)
+          animationDuration: 8 + Math.random() * 10, // Fall duration (8-18s)
+          animationDelay: Math.random() * 10, // Random delay
+          size: 40 + Math.random() * 25, // Size (40-65px)
+          rotation: Math.random() * 360, // Initial rotation angle
+          swayAmount: 30 + Math.random() * 50, // Horizontal sway amount
         });
       }
 
@@ -56,7 +56,7 @@ const TetFlowerEffect = () => {
 
   return (
     <>
-      {/* Nút bật/tắt hiệu ứng */}
+      {/* Toggle effect button */}
       <button
         onClick={() => setIsVisible(false)}
         className="fixed top-20 right-4 z-[60] flex items-center gap-1.5 rounded-full bg-red-500/80 px-3 py-1.5 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:bg-red-600"
@@ -66,7 +66,7 @@ const TetFlowerEffect = () => {
         <span className="hidden sm:inline">Hide flowers</span>
       </button>
 
-      {/* Container hoa rơi */}
+      {/* Flower fall container */}
       <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
         {flowers.map((flower) => (
           <div

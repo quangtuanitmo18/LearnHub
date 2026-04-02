@@ -339,13 +339,13 @@ export class AuthService {
       throw new BadRequestException('User not found');
     }
 
-    // Get purchased courses (from completed orders for COURSE type)
+    // Get purchased courses (from completed orders for COURSE type or legacy orders)
     const purchasedCourses = await this.prismaService.orderItem.findMany({
       where: {
         order: {
           userId: userId,
           status: 'COMPLETED',
-          orderType: 'COURSE',
+          OR: [{ orderType: 'COURSE' }, { orderType: null }],
         },
       },
       select: {
@@ -461,25 +461,24 @@ export class AuthService {
       throw new BadRequestException('User not found');
     }
 
-    // Verify current password
-    const isCurrentPasswordValid = await bcrypt.compare(
-      currentPassword,
-      user.password || '',
-    );
-
-    if (!isCurrentPasswordValid) {
-      throw new BadRequestException('Current password is incorrect');
-    }
-
-    // Check if new password is same as current
-    const isSamePassword = await bcrypt.compare(
-      newPassword,
-      user.password || '',
-    );
-    if (isSamePassword) {
-      throw new BadRequestException(
-        'New password must be different from current password',
+    // Verify current password if user has one
+    if (user.password) {
+      const isCurrentPasswordValid = await bcrypt.compare(
+        currentPassword,
+        user.password,
       );
+
+      if (!isCurrentPasswordValid) {
+        throw new BadRequestException('Current password is incorrect');
+      }
+
+      // Check if new password is same as current
+      const isSamePassword = await bcrypt.compare(newPassword, user.password);
+      if (isSamePassword) {
+        throw new BadRequestException(
+          'New password must be different from current password',
+        );
+      }
     }
 
     // Hash and save new password

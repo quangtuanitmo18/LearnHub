@@ -233,8 +233,8 @@ async function main() {
     },
   });
 
-  console.log('✅ Đã tạo Roles và Users thành công!');
-  console.log('🌱 Đang tạo Categories (Danh mục khóa học)...');
+  console.log('✅ Successfully created Roles and Users!');
+  console.log('🌱 Creating Categories...');
   const categoriesData = [
     { name: 'Web Development', slug: 'web-development' },
     { name: 'Mobile Development', slug: 'mobile-development' },
@@ -537,11 +537,11 @@ The UI/UX journey is an endless era to explore. Let us pay closer attention to o
 `;
 
   await prisma.blog.upsert({
-    where: { slug: 'giai-phau-kien-truc-microservices' },
+    where: { slug: 'anatomy-of-microservices-architecture' },
     update: {},
     create: {
       title: 'A Comprehensive Anatomy of Microservices Architecture',
-      slug: 'giai-phau-kien-truc-microservices',
+      slug: 'anatomy-of-microservices-architecture',
       excerpt: 'A detailed guide uncovering the challenges of Microservices.',
       content: longBlogContent1,
       thumbnail:
@@ -554,11 +554,11 @@ The UI/UX journey is an endless era to explore. Let us pay closer attention to o
   });
 
   await prisma.blog.upsert({
-    where: { slug: 'hoc-ui-ux-toi-gian-va-chuyen-doi' },
+    where: { slug: 'mastering-minimalist-aesthetics-in-ui-ux' },
     update: {},
     create: {
       title: 'Mastering "Minimalist Aesthetics" in UI/UX',
-      slug: 'hoc-ui-ux-toi-gian-va-chuyen-doi',
+      slug: 'mastering-minimalist-aesthetics-in-ui-ux',
       excerpt:
         'The relationship between visual silence and increasing business revenue.',
       content: longBlogContent2,

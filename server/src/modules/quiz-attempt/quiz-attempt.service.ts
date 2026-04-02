@@ -1,24 +1,75 @@
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   ForbiddenException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
-import { QuizAttemptRepository } from './quiz-attempt.repository';
+import { AttemptStatus } from 'src/generated/prisma/enums';
+import { PrismaService } from 'src/shared/services/prisma.service';
 import {
-  SaveAnswersDto,
-  SubmitAttemptDto,
-  AttemptMetaResponseDto,
   AttemptContentResponseDto,
-  SubmitResultResponseDto,
+  AttemptMetaResponseDto,
   AttemptResultResponseDto,
   AttemptsListResponseDto,
+  SaveAnswersDto,
+  SubmitAttemptDto,
+  SubmitResultResponseDto,
 } from './dto/quiz-attempt.dto';
-import { AttemptStatus } from 'src/generated/prisma/enums';
+import { QuizAttemptRepository } from './quiz-attempt.repository';
 
 @Injectable()
 export class QuizAttemptService {
-  constructor(private readonly quizAttemptRepository: QuizAttemptRepository) {}
+  constructor(
+    private readonly quizAttemptRepository: QuizAttemptRepository,
+    private readonly prismaService: PrismaService,
+  ) {}
+
+  private async verifyCourseAccess(userId: string, lessonId: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      include: { roles: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isAdmin = user.roles.some(
+      (role) => role.name === 'Admin' || role.name === 'Super Admin',
+    );
+
+    if (isAdmin) return;
+
+    const lesson = await this.prismaService.lesson.findUnique({
+      where: { id: lessonId },
+      select: { courseId: true },
+    });
+
+    if (!lesson) {
+      throw new NotFoundException('Lesson not found');
+    }
+
+    const order = await this.prismaService.order.findFirst({
+      where: {
+        userId,
+        status: 'COMPLETED',
+        items: {
+          some: { courseId: lesson.courseId },
+        },
+      },
+    });
+
+    const hasMembership =
+      user.isMembership &&
+      user.planEndDate &&
+      new Date(user.planEndDate) > new Date();
+
+    if (!order && !hasMembership) {
+      throw new ForbiddenException(
+        'You must purchase this course or have an active membership to access quizzes',
+      );
+    }
+  }
 
   /**
    * Check if attempt is expired and update status if needed (Lazy-expire)
@@ -47,6 +98,8 @@ export class QuizAttemptService {
     lessonId: string,
     userId: string,
   ): Promise<AttemptMetaResponseDto> {
+    await this.verifyCourseAccess(userId, lessonId);
+
     // Find the quiz
     const quiz = await this.quizAttemptRepository.findQuizByLessonId(lessonId);
     if (!quiz) {
@@ -424,6 +477,8 @@ export class QuizAttemptService {
     lessonId: string,
     userId: string,
   ): Promise<AttemptsListResponseDto> {
+    await this.verifyCourseAccess(userId, lessonId);
+
     // Get quiz for maxAttempts
     const quiz = await this.quizAttemptRepository.findQuizByLessonId(lessonId);
     if (!quiz) {
