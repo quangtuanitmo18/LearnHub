@@ -2,15 +2,15 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCreateMembershipOrder } from '@/hooks/use-membership';
+import { useCreateStripeCheckout } from '@/hooks/use-payment';
 import { cn } from '@/lib/utils';
+import { MembershipPlan } from '@/types/membership';
+import { PaymentMethod } from '@/types/order';
+import { formatPrice } from '@/utils/format';
 import { Check, Crown, Diamond, Medal, Sparkles, Star, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useCreateMembershipOrder } from '@/hooks/use-membership';
-import { useCreateStripeCheckout } from '@/hooks/use-payment';
-import { PaymentMethod } from '@/types/order';
-import { MembershipPlan } from '@/types/membership';
-import { formatPrice } from '@/utils/format';
 
 // Re-export MembershipPlan for backwards compatibility
 export { MembershipPlan };
@@ -208,8 +208,6 @@ export function MembershipPlans({ onSelectPlan, currentPlan }: MembershipPlansPr
       },
     );
   };
-
-
 
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
