@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
-import '@vidstack/react/player/styles/default/theme.css';
-import '@vidstack/react/player/styles/default/layouts/video.css';
 import { MediaPlayer, MediaProvider } from '@vidstack/react';
-import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
+import { DefaultVideoLayout, defaultLayoutIcons } from '@vidstack/react/player/layouts/default';
+import '@vidstack/react/player/styles/default/layouts/video.css';
+import '@vidstack/react/player/styles/default/theme.css';
 
 interface LessonVideoPlayerProps {
   videoUrl: string;
@@ -43,7 +42,7 @@ const LessonVideoPlayer = ({
           {description && (
             <div className="prose prose-sm sm:prose prose-gray max-w-none">
               <div
-                className="text-sm leading-relaxed text-gray-700 sm:text-base"
+                className="tiptap ProseMirror text-sm leading-relaxed text-gray-700 sm:text-base"
                 dangerouslySetInnerHTML={{ __html: description }}
               />
             </div>
@@ -77,7 +76,7 @@ const LessonVideoPlayer = ({
         {description && (
           <div className="prose prose-sm sm:prose prose-gray max-w-none">
             <div
-              className="text-sm leading-relaxed text-gray-700 sm:text-base"
+              className="tiptap ProseMirror text-sm leading-relaxed text-gray-700 sm:text-base"
               dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>

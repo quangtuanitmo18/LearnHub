@@ -464,76 +464,59 @@ async function main() {
   console.log('🌱 Creating in-depth articles (Blogs)...');
 
   const longBlogContent1 = `
-# A Comprehensive Anatomy of Microservices Architecture: When Large Systems Demand Decentralization
-
-Over the past decade, Microservices architecture has become the gold standard for large-scale software systems. From Netflix and Uber to fast-growing startups, everyone is adopting this architecture to overcome the limitations of the Monolithic approach.
-
-But is Microservices truly a "magic wand" that solves all problems? Or does it bring a new set of challenges regarding distributed system management? In this introductory article, we will start analyzing from the root of the problem.
-
-## 1. Core Weaknesses of Monolithic Architecture
-
-Before Microservices emerged, Monolithic architecture dominated the software development world. Every feature, business flow, data configuration, and communication mechanism was bundled into a single unit.
-
-### Advantages
-- **Easy to start:** Only requires 1 codebase.
-- **Easy to monitor:** Tracing bugs happens in a single repository.
-- **Simple deployment:** Builds everything into a single artifact.
-
-### Disadvantages 
-As the system scales:
-1. **Deployment Risk:** A minor bug in payment logic can crash the entire website, including the homepage or registration interface.
-2. **Human Resource Overload:** A backend team of 50 people cannot work simultaneously on the same repository without causing endless Git conflicts.
-3. **Framework Lock-in:** Once you choose NestJS, everything must use NestJS. You cannot simply "plug in" a Python Machine Learning module directly into a JavaScript monolith without disrupting the structure.
-
----
-
-## 2. Microservices Is Not A Silver Bullet
-
-Despite offering incredibly beautiful segregation of responsibilities, developers must understand that microservices architecture introduces significant latency in the network communication environment.
-
-### A. Network Latency
-Services no longer reside in the same process at the local memory level; they must cross internal network cables via HTTP/TCP protocols. This increases latency up to 10 times compared to In-memory calls. 
-For this reason, **Asynchronous Messaging** via RabbitMQ or Kafka was born.
-
-### B. Distributed Data Governance
-Transactions were once easily guaranteed by ACID properties in relational SQL databases. But when Microservices flourish, an order's information is in Service A, payment in Service B, and delivery in Service C. You must implement algorithms like Event Sourcing or the Saga Pattern to handle interrupted processes.
-
-## 3. Advice for Beginners
-
-Anyone studying server architecture will find the Microservices model fascinating. However, if you are building a solo project, starting with a Monolith (like NestJS) that is clearly modularized internally is the safest and most perfect approach. Do not decompose your system before it has even launched!
-
-\n\n\n*(End of article)*
+<h1>A Comprehensive Anatomy of Microservices Architecture: When Large Systems Demand Decentralization</h1>
+<p>Over the past decade, Microservices architecture has become the gold standard for large-scale software systems. From Netflix and Uber to fast-growing startups, everyone is adopting this architecture to overcome the limitations of the Monolithic approach.</p>
+<p>But is Microservices truly a "magic wand" that solves all problems? Or does it bring a new set of challenges regarding distributed system management? In this introductory article, we will start analyzing from the root of the problem.</p>
+<h2>1. Core Weaknesses of Monolithic Architecture</h2>
+<p>Before Microservices emerged, Monolithic architecture dominated the software development world. Every feature, business flow, data configuration, and communication mechanism was bundled into a single unit.</p>
+<h3>Advantages</h3>
+<ul>
+  <li><strong>Easy to start:</strong> Only requires 1 codebase.</li>
+  <li><strong>Easy to monitor:</strong> Tracing bugs happens in a single repository.</li>
+  <li><strong>Simple deployment:</strong> Builds everything into a single artifact.</li>
+</ul>
+<h3>Disadvantages</h3>
+<p>As the system scales:</p>
+<ol>
+  <li><strong>Deployment Risk:</strong> A minor bug in payment logic can crash the entire website, including the homepage or registration interface.</li>
+  <li><strong>Human Resource Overload:</strong> A backend team of 50 people cannot work simultaneously on the same repository without causing endless Git conflicts.</li>
+  <li><strong>Framework Lock-in:</strong> Once you choose NestJS, everything must use NestJS. You cannot simply "plug in" a Python Machine Learning module directly into a JavaScript monolith without disrupting the structure.</li>
+</ol>
+<hr />
+<h2>2. Microservices Is Not A Silver Bullet</h2>
+<p>Despite offering incredibly beautiful segregation of responsibilities, developers must understand that microservices architecture introduces significant latency in the network communication environment.</p>
+<h3>A. Network Latency</h3>
+<p>Services no longer reside in the same process at the local memory level; they must cross internal network cables via HTTP/TCP protocols. This increases latency up to 10 times compared to In-memory calls. For this reason, <strong>Asynchronous Messaging</strong> via RabbitMQ or Kafka was born.</p>
+<h3>B. Distributed Data Governance</h3>
+<p>Transactions were once easily guaranteed by ACID properties in relational SQL databases. But when Microservices flourish, an order's information is in Service A, payment in Service B, and delivery in Service C. You must implement algorithms like Event Sourcing or the Saga Pattern to handle interrupted processes.</p>
+<h2>3. Advice for Beginners</h2>
+<p>Anyone studying server architecture will find the Microservices model fascinating. However, if you are building a solo project, starting with a Monolith (like NestJS) that is clearly modularized internally is the safest and most perfect approach. Do not decompose your system before it has even launched!</p>
+<br/><br/><br/>
+<p><em>(End of article)</em></p>
 `;
 
   const longBlogContent2 = `
-# UI/UX for Beginners: Mastering "Minimalist Aesthetics" to Boost Conversion Rates
-
-In an era where users scroll faster, have shorter attention spans, and are lazier to read, minimalist UI/UX is no longer just an artistic fashion trend—it has become a mandatory tool for generating revenue. This article presents an analysis of various angles of "Minimalism" in product design.
-
-## Minimalism in Interfaces Is Not Erasure
-
-Minimalism is constantly misunderstood as wiping out all details, painting everything white, and leaving only text.
-In reality, minimalism means: 
-- Eliminating **Visual Noise**.
-- Focusing absolutely on the **Core Action (Call-to-Action)**.
-
-### Color and Contrast
-
-Choosing 1 primary color, 1 secondary color, and countless shades of gray (from white to black) gives the eyes a strong visual rest. \n
-Furthermore, a crucial but often overlooked principle is the "60-30-10" rule: 
-- 60% assigned to the Background color (usually light gray/white)
-- 30% coverage for accompanying secondary colors
-- 10% exclusive focus for the "Call-to-Action", for example: Vivid Red or Orange to urge the user to click the "Buy Now" button.
-
-## User Experience and Empathy in Usability
-
-A good interface only accounts for 10% of success, while UX is responsible for the remaining 90%. Bad design is when the "Cancel Subscription" button is huge and prominent, while the "Save Changes" button is tiny in the corner of the screen. \n
-
-The most critical aspect is providing **Immediate Feedback** for every user action using Skeletons or Spinners instead of leaving the application seemingly frozen.
-
-...
-
-The UI/UX journey is an endless era to explore. Let us pay closer attention to our customers' eyes; when we do, the product will naturally become excellent.
+<h1>UI/UX for Beginners: Mastering "Minimalist Aesthetics" to Boost Conversion Rates</h1>
+<p>In an era where users scroll faster, have shorter attention spans, and are lazier to read, minimalist UI/UX is no longer just an artistic fashion trend—it has become a mandatory tool for generating revenue. This article presents an analysis of various angles of "Minimalism" in product design.</p>
+<h2>Minimalism in Interfaces Is Not Erasure</h2>
+<p>Minimalism is constantly misunderstood as wiping out all details, painting everything white, and leaving only text. In reality, minimalism means: </p>
+<ul>
+  <li>Eliminating <strong>Visual Noise</strong>.</li>
+  <li>Focusing absolutely on the <strong>Core Action (Call-to-Action)</strong>.</li>
+</ul>
+<h3>Color and Contrast</h3>
+<p>Choosing 1 primary color, 1 secondary color, and countless shades of gray (from white to black) gives the eyes a strong visual rest.</p>
+<p>Furthermore, a crucial but often overlooked principle is the "60-30-10" rule: </p>
+<ul>
+  <li>60% assigned to the Background color (usually light gray/white)</li>
+  <li>30% coverage for accompanying secondary colors</li>
+  <li>10% exclusive focus for the "Call-to-Action", for example: Vivid Red or Orange to urge the user to click the "Buy Now" button.</li>
+</ul>
+<h2>User Experience and Empathy in Usability</h2>
+<p>A good interface only accounts for 10% of success, while UX is responsible for the remaining 90%. Bad design is when the "Cancel Subscription" button is huge and prominent, while the "Save Changes" button is tiny in the corner of the screen.</p>
+<p>The most critical aspect is providing <strong>Immediate Feedback</strong> for every user action using Skeletons or Spinners instead of leaving the application seemingly frozen.</p>
+<p>...</p>
+<p>The UI/UX journey is an endless era to explore. Let us pay closer attention to our customers' eyes; when we do, the product will naturally become excellent.</p>
 `;
 
   await prisma.blog.upsert({

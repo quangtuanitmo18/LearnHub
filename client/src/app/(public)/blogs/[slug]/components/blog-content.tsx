@@ -1,10 +1,10 @@
 'use client';
 
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ROUTE_CONFIG } from '@/configs/routes';
 import { IBlog } from '@/types/blog';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 interface BlogContentProps {
   blog: IBlog;
@@ -16,7 +16,10 @@ const BlogContent = ({ blog }: BlogContentProps) => {
     <>
       {/* Article Content */}
       <article className="mb-8 max-w-none sm:mb-10 md:mb-12">
-        <div dangerouslySetInnerHTML={{ __html: blog.content }} className="rich-content" />
+        <div
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+          className="tiptap ProseMirror rich-content"
+        />
       </article>
 
       {/* Article Footer */}

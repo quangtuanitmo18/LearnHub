@@ -1,10 +1,10 @@
 import { ApiService } from '@/lib/api-service';
 import {
-  IBlog,
-  CreateBlogRequest,
-  UpdateBlogRequest,
-  BlogsListResponse,
   BlogsFilterParams,
+  BlogsListResponse,
+  CreateBlogRequest,
+  IBlog,
+  UpdateBlogRequest,
 } from '@/types/blog';
 
 const ENDPOINTS = {
@@ -75,8 +75,7 @@ export class BlogsService {
 
   // Get blog by slug
   static async getBlogBySlug(slug: string): Promise<IBlog> {
-    const response = await ApiService.get<{ blog: IBlog }>(ENDPOINTS.BLOG_BY_SLUG(slug));
-    return response.blog;
+    return await ApiService.get<IBlog>(ENDPOINTS.BLOG_BY_SLUG(slug));
   }
 
   // Create blog

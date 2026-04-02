@@ -1,20 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { CourseQA, IPublicCourse } from '@/types/course';
+import { formatDuration } from '@/utils/format';
 import {
-  CheckCircle,
-  BookOpen,
-  Target,
   AlertTriangle,
-  Lightbulb,
-  FileText,
-  MessageCircleQuestion,
+  BookOpen,
+  CheckCircle,
   ChevronDown,
   ChevronUp,
+  FileText,
+  Lightbulb,
+  MessageCircleQuestion,
+  Target,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { IPublicCourse, CourseQA } from '@/types/course';
-import { formatDuration } from '@/utils/format';
+import { useState } from 'react';
 
 interface CourseOverviewProps {
   course: IPublicCourse;
@@ -74,7 +74,7 @@ const CourseOverview = ({ course, activeTab, onTabChange }: CourseOverviewProps)
               </h3>
               <div className="relative">
                 <div
-                  className={`rich-content text-sm leading-relaxed text-gray-600 transition-all duration-300 sm:text-base ${
+                  className={`tiptap ProseMirror text-sm leading-relaxed text-gray-600 transition-all duration-300 sm:text-base ${
                     !isDescriptionExpanded && shouldTruncate ? 'max-h-60 overflow-hidden' : ''
                   }`}
                   dangerouslySetInnerHTML={{

@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface LessonArticleContentProps {
   title: string;
   content: string;
@@ -40,7 +38,7 @@ const LessonArticleContent = ({ title, content }: LessonArticleContentProps) => 
             }}
           >
             <div
-              className="prose prose-sm sm:prose md:prose-lg prose-gray max-w-none leading-relaxed"
+              className="tiptap ProseMirror max-w-none leading-relaxed"
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
