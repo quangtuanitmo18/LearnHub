@@ -345,7 +345,7 @@ export class AuthService {
         order: {
           userId: userId,
           status: 'COMPLETED',
-          OR: [{ orderType: 'COURSE' }, { orderType: null }],
+          OR: [{ orderType: 'COURSE' }, { orderType: undefined }],
         },
       },
       select: {

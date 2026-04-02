@@ -280,7 +280,7 @@ export type OrderWhereInput = {
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[];
   id?: Prisma.StringFilter<'Order'> | string;
   code?: Prisma.StringFilter<'Order'> | string;
-  orderType?: Prisma.EnumOrderTypeFilter<'Order'> | $Enums.OrderType;
+  orderType?: Prisma.EnumOrderTypeFilter<'Order'> | $Enums.OrderType | null;
   couponCode?: Prisma.StringNullableFilter<'Order'> | string | null;
   subTotal?:
     | Prisma.DecimalFilter<'Order'>
