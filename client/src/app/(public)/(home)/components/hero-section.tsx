@@ -7,7 +7,6 @@ import { ROUTE_CONFIG } from '@/configs/routes';
 import { ArrowRight, BookOpen, CheckCircle, Star, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SlSocialYoutube } from 'react-icons/sl';
 // Hero section component - Arrow function
 const HeroSection = () => {
   const stats = [
@@ -69,11 +68,11 @@ const HeroSection = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="mx-auto flex w-full max-w-md flex-col gap-3 sm:flex-row sm:gap-4 lg:mx-0">
+            <div className="mx-auto flex w-full max-w-xs flex-col gap-3 sm:flex-row sm:gap-4 lg:mx-0">
               {/* Primary CTA - Start Learning */}
               <Button
                 size="lg"
-                className="group relative h-12 w-full overflow-hidden rounded-xl border-0 bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 px-6 text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:from-blue-700 hover:via-blue-800 hover:to-purple-700 hover:shadow-2xl sm:h-14 sm:flex-1 sm:px-8 sm:text-base"
+                className="group relative h-12 w-full overflow-hidden rounded-xl border-0 bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 px-6 text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:from-blue-700 hover:via-blue-800 hover:to-purple-700 hover:shadow-2xl sm:h-14 sm:w-auto sm:flex-none sm:px-8 sm:text-base"
                 asChild
               >
                 <Link href={ROUTE_CONFIG.COURSES}>
@@ -83,22 +82,6 @@ const HeroSection = () => {
                     Start Learning
                   </span>
                   <ArrowRight className="relative z-10 ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />
-                </Link>
-              </Button>
-
-              {/* Secondary CTA - Watch Demo */}
-              <Button
-                variant="ghost"
-                size="lg"
-                className="group relative h-12 w-full overflow-hidden rounded-xl border-2 border-gray-200 px-6 text-sm font-semibold text-gray-700 transition-all duration-300 hover:border-blue-300 hover:bg-linear-to-br hover:from-blue-50 hover:via-blue-100/50 hover:to-purple-50 hover:text-blue-600 hover:shadow-xl hover:shadow-blue-200/25 sm:h-14 sm:flex-1 sm:px-8 sm:text-base"
-                asChild
-              >
-                <Link href="https://www.youtube.com/watch?v=B1UvPId3hxY" target="_blank">
-                  <div className="absolute inset-0 rounded-xl bg-linear-to-br from-blue-500/0 to-purple-500/0 transition-all duration-300 group-hover:from-blue-500/5 group-hover:to-purple-500/5"></div>
-                  <SlSocialYoutube className="relative z-10 mr-2 h-4 w-4 fill-current transition-transform duration-300 group-hover:scale-110 sm:h-5 sm:w-5" />
-                  <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">
-                    Watch Demo
-                  </span>
                 </Link>
               </Button>
             </div>
