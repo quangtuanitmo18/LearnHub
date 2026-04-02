@@ -8,7 +8,7 @@ import { useEnrollFree } from '@/hooks/use-courses';
 import { useUser } from '@/stores/auth-store';
 import { IPublicCourse } from '@/types/course';
 import { IChapter } from '@/types/chapter';
-import { formatDuration } from '@/utils/format';
+import { formatDuration, formatPrice } from '@/utils/format';
 import { getLastLessonForCourse } from '@/utils/last-course-lesson';
 import { usePublishedLessonsByChapter } from '@/hooks/use-lessons';
 import {
@@ -235,7 +235,7 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
             <div className="relative">
               {/* Label */}
               <div className="mb-3 text-xs font-medium text-green-600 sm:text-sm">
-                GIÁ BÁN ƯU ĐÃI
+                SPECIAL OFFER
               </div>
 
               {/* Price Container */}
@@ -243,15 +243,14 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
                 {/* Discounted Price with Gradient */}
                 <div className="flex items-baseline gap-0.5">
                   <span className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-                    {new Intl.NumberFormat('vi-VN').format(course.price)}
+                    {formatPrice(course.price)}
                   </span>
-                  <span className="text-2xl font-bold decoration-2 sm:text-3xl">đ</span>
                 </div>
 
                 {/* Original Price with Strikethrough */}
                 {course.oldPrice && (
                   <span className="text-base text-gray-400 line-through sm:text-lg">
-                    {new Intl.NumberFormat('vi-VN').format(course.oldPrice)} đ
+                    {formatPrice(course.oldPrice)}
                   </span>
                 )}
 

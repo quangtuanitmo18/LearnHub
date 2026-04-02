@@ -10,6 +10,7 @@ import { useAllCategories } from '@/hooks/use-categories';
 import type { ICategory } from '@/types/category';
 import { Star, TrendingUp, RotateCcw, Folder } from 'lucide-react';
 import { CourseLevel } from '@/types/course';
+import { formatPrice } from '@/utils/format';
 
 // Extended category interface with course count
 interface ICategoryWithCount extends ICategory {
@@ -39,11 +40,11 @@ console.log('levels', levels);
 
 const priceRanges = [
   { id: 'free', label: 'Free', range: [0, 0] },
-  { id: 'under-500k', label: 'Under 500K', range: [0, 500000] },
-  { id: '500k-1m', label: '500K-1M', range: [500000, 1000000] },
-  { id: '1m-3m', label: '1M-3M', range: [1000000, 3000000] },
-  { id: '3m-5m', label: '3M-5M', range: [3000000, 5000000] },
-  { id: '5m-plus', label: '5M+', range: [5000000, 10000000] },
+  { id: 'under-50', label: 'Under $50', range: [0, 50] },
+  { id: '50-100', label: '$50-$100', range: [50, 100] },
+  { id: '100-200', label: '$100-$200', range: [100, 200] },
+  { id: '200-300', label: '$200-$300', range: [200, 300] },
+  { id: '300-plus', label: '$300+', range: [300, 500] },
 ];
 
 const CoursesFilters = ({
@@ -98,7 +99,7 @@ const CoursesFilters = ({
 
   const clearAllFilters = () => {
     onCategoryChange('all');
-    onPriceRangeChange([0, 5000000]);
+    onPriceRangeChange([0, 500]);
     onLevelsChange([]);
     onRatingChange(0);
   };
@@ -174,14 +175,14 @@ const CoursesFilters = ({
             <Slider
               value={priceRange}
               onValueChange={onPriceRangeChange}
-              max={5000000}
+              max={500}
               min={0}
-              step={50000}
+              step={10}
               className="w-full"
             />
             <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-600 sm:mt-2 sm:text-xs">
-              <span>{priceRange[0].toLocaleString()} VND</span>
-              <span>{priceRange[1].toLocaleString()} VND+</span>
+              <span>{formatPrice(priceRange[0])}</span>
+              <span>{formatPrice(priceRange[1])}+</span>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-1.5 sm:gap-2">

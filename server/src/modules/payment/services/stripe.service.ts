@@ -11,7 +11,7 @@ export interface CreateCheckoutSessionParams {
   lineItems: {
     name: string;
     description?: string;
-    amount: number; // in smallest currency unit (cents for USD, VND is already smallest unit)
+    amount: number; // in nominal currency (e.g., dollars, will be multiplied by 100 for Stripe)
     quantity: number;
     imageUrl?: string;
   }[];
@@ -77,7 +77,7 @@ export class StripeService {
       orderCode,
       userId,
       userEmail,
-      currency = 'vnd',
+      currency = 'usd',
       lineItems,
       metadata,
     } = params;
@@ -106,7 +106,7 @@ export class StripeService {
               description: item.description,
               images: item.imageUrl ? [item.imageUrl] : undefined,
             },
-            unit_amount: item.amount, // Amount in smallest unit (cents for USD, VND already smallest)
+            unit_amount: Math.round(item.amount * 100), // Convert to cents
           },
           quantity: item.quantity,
         })),

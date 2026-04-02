@@ -328,26 +328,26 @@ export class PaymentRepository {
       imageUrl?: string;
     }> = [];
 
-    // Determine currency (default to VND for Vietnam)
-    const currency = 'vnd'; // Can be made dynamic based on user's country/preference
+    // Determine currency (default to USD for international payments)
+    const currency = 'usd'; 
 
     if ((order as any).orderType === OrderType.MEMBERSHIP) {
       // Membership order
       lineItems.push({
         name: `${(order as any).membershipPlan} Membership`,
         description: `Premium membership plan`,
-        amount: Math.round(Number(order.totalAmount)), // VND doesn't need conversion
-        quantity: 1,
-      });
-    } else {
-      // Course order
-      for (const item of order.items) {
-        lineItems.push({
-          name: item.title || 'Course',
-          description: `Course purchase`,
-          amount: Math.round(Number(item.price)), // VND doesn't need conversion
+          amount: Number(order.totalAmount), // in USD, decimal
           quantity: 1,
-          imageUrl: item.thumbnail || undefined,
+        });
+      } else {
+        // Course order
+        for (const item of order.items) {
+          lineItems.push({
+            name: item.title || 'Course',
+            description: `Course purchase`,
+            amount: Number(item.price), // in USD, decimal
+            quantity: 1,
+            imageUrl: item.thumbnail || undefined,
         });
       }
 
@@ -356,12 +356,12 @@ export class PaymentRepository {
       if (totalDiscount > 0) {
         // Calculate total and expected amount
         const totalItemsPrice = order.items.reduce(
-          (sum, item) => sum + Math.round(Number(item.price)),
+          (sum, item) => sum + Number(item.price),
           0,
         );
-        const expectedTotal = Math.round(Number(order.totalAmount));
+        const expectedTotal = Number(order.totalAmount);
 
-        if (totalItemsPrice !== expectedTotal && lineItems.length > 0) {
+        if (Math.abs(totalItemsPrice - expectedTotal) > 0.01 && lineItems.length > 0) {
           // Apply discount by reducing total
           const discountAmount = totalItemsPrice - expectedTotal;
           // Adjust last item to reflect discount

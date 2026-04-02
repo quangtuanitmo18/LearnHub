@@ -5,9 +5,9 @@
 import dayjs from 'dayjs';
 
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat('vi-VN', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'VND',
+    currency: 'USD',
   }).format(price);
 }
 

@@ -10,6 +10,7 @@ import { useCreateMembershipOrder } from '@/hooks/use-membership';
 import { useCreateStripeCheckout } from '@/hooks/use-payment';
 import { PaymentMethod } from '@/types/order';
 import { MembershipPlan } from '@/types/membership';
+import { formatPrice } from '@/utils/format';
 
 // Re-export MembershipPlan for backwards compatibility
 export { MembershipPlan };
@@ -43,7 +44,7 @@ const membershipPlans: MembershipPlanData[] = [
     id: MembershipPlan.COPPER,
     name: 'Copper',
     description: 'Perfect for beginners starting their learning journey',
-    price: 99000,
+    price: 9.99,
     duration: 1,
     icon: Medal,
     gradient: 'from-amber-600 via-orange-500 to-amber-700',
@@ -67,7 +68,7 @@ const membershipPlans: MembershipPlanData[] = [
     id: MembershipPlan.SILVER,
     name: 'Silver',
     description: 'Ideal for dedicated learners seeking more content',
-    price: 249000,
+    price: 24.99,
     duration: 3,
     savingsPercent: 16,
     icon: Star,
@@ -92,7 +93,7 @@ const membershipPlans: MembershipPlanData[] = [
     id: MembershipPlan.GOLD,
     name: 'Gold',
     description: 'Best value for serious professionals and teams',
-    price: 449000,
+    price: 44.99,
     duration: 6,
     savingsPercent: 25,
     icon: Crown,
@@ -118,7 +119,7 @@ const membershipPlans: MembershipPlanData[] = [
     id: MembershipPlan.DIAMOND,
     name: 'Diamond',
     description: 'Ultimate experience with exclusive perks and support',
-    price: 799000,
+    price: 79.99,
     duration: 12,
     savingsPercent: 33,
     icon: Diamond,
@@ -208,9 +209,7 @@ export function MembershipPlans({ onSelectPlan, currentPlan }: MembershipPlansPr
     );
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN').format(price);
-  };
+
 
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
@@ -319,7 +318,6 @@ export function MembershipPlans({ onSelectPlan, currentPlan }: MembershipPlansPr
                       <span className="text-3xl font-bold text-gray-900 sm:text-4xl">
                         {formatPrice(plan.price)}
                       </span>
-                      <span className="ml-1 text-sm text-gray-500">VND</span>
                     </div>
                     <div className="mt-2 flex items-center gap-2">
                       <p className="text-sm text-gray-600">

@@ -771,9 +771,9 @@ const CoursesActionDialog = ({
                               customInput={Input}
                               thousandSeparator=","
                               decimalSeparator="."
-                              suffix=" ₫"
+                              prefix="$"
                               allowNegative={false}
-                              placeholder="0 ₫"
+                              placeholder="$0"
                               disabled={form.watch('isFree')}
                               onValueChange={(values) => onChange(values.floatValue)}
                             />
@@ -798,9 +798,9 @@ const CoursesActionDialog = ({
                               customInput={Input}
                               thousandSeparator=","
                               decimalSeparator="."
-                              suffix=" ₫"
+                              prefix="$"
                               allowNegative={false}
-                              placeholder="0 ₫"
+                              placeholder="$0"
                               disabled={form.watch('isFree')}
                               onValueChange={(values) => onChange(values.floatValue)}
                             />

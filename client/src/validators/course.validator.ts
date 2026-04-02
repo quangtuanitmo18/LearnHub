@@ -71,7 +71,7 @@ const courseFormSchema = yup.object({
       }
       return true;
     })
-    .test('reasonable-price', 'Price seems too high (maximum 1,000,000,000 ₫)', function (value) {
+    .test('reasonable-price', 'Price seems too high (maximum $1,000,000,000)', function (value) {
       const { isFree } = this.parent;
       if (!isFree && value) {
         return value <= 1000000000;
@@ -92,7 +92,7 @@ const courseFormSchema = yup.object({
     })
     .test(
       'reasonable-old-price',
-      'Old price seems too high (maximum 1,000,000,000 ₫)',
+      'Old price seems too high (maximum $1,000,000,000)',
       function (value) {
         if (value && value > 0) {
           return value <= 1000000000;

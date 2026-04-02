@@ -41,6 +41,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { MultiSelect } from '@/components/multi-select';
 import { cn } from '@/lib/utils';
+import { formatPrice } from '@/utils/format';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'sonner';
 
@@ -218,7 +219,7 @@ const CouponsActionDialog = ({
                           </FormControl>
                           <SelectContent>
                             <SelectItem value={DiscountType.PERCENT}>Percentage (%)</SelectItem>
-                            <SelectItem value={DiscountType.FIXED}>Fixed Amount (đ)</SelectItem>
+                            <SelectItem value={DiscountType.FIXED}>Fixed Amount ($)</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -243,9 +244,10 @@ const CouponsActionDialog = ({
                             customInput={Input}
                             thousandSeparator=","
                             decimalSeparator="."
-                            suffix={discountType === DiscountType.PERCENT ? ' %' : ' ₫'}
+                            prefix={discountType === DiscountType.PERCENT ? undefined : '$'}
+                            suffix={discountType === DiscountType.PERCENT ? ' %' : undefined}
                             allowNegative={false}
-                            placeholder={discountType === DiscountType.PERCENT ? '10 %' : '10 ₫'}
+                            placeholder={discountType === DiscountType.PERCENT ? '10 %' : '$10'}
                             isAllowed={(values) => {
                               const { floatValue } = values;
                               // For percentage, limit to 100
@@ -287,9 +289,9 @@ const CouponsActionDialog = ({
                             customInput={Input}
                             thousandSeparator=","
                             decimalSeparator="."
-                            suffix=" ₫"
+                            prefix="$"
                             allowNegative={false}
-                            placeholder="0 ₫"
+                            placeholder="$0"
                             onValueChange={(values) => onChange(values.floatValue)}
                           />
                         </FormControl>
@@ -336,7 +338,7 @@ const CouponsActionDialog = ({
                   render={({ field }) => {
                     // Transform courses into options for MultiSelect
                     const courseOptions = courses.map((course) => ({
-                      label: `${course.title} - ${course.price.toLocaleString()} VND`,
+                      label: `${course.title} - ${formatPrice(course.price)}`,
                       value: course.id,
                     }));
 

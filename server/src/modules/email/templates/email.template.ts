@@ -9,9 +9,9 @@ import {
 } from '../interfaces';
 
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('vi-VN', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'VND',
+    currency: 'USD',
   }).format(amount);
 }
 

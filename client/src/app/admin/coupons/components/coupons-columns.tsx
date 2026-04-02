@@ -3,13 +3,13 @@
 import { DataTableColumnHeader } from '@/components/table';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ICoupon, DiscountType, CouponStatus } from '@/types/coupon';
-import { ColumnDef } from '@tanstack/react-table';
-import { Tag, Percent, DollarSign, Calendar, Users } from 'lucide-react';
-import DataTableRowActions from './data-table-row-actions';
-import dayjs from 'dayjs';
+import { CouponStatus, DiscountType, ICoupon } from '@/types/coupon';
 import { getStatusConfig } from '@/utils/common';
 import { formatPrice } from '@/utils/format';
+import { ColumnDef } from '@tanstack/react-table';
+import dayjs from 'dayjs';
+import { Calendar, DollarSign, Percent, Tag, Users } from 'lucide-react';
+import DataTableRowActions from './data-table-row-actions';
 
 // Helper function to get coupon status
 function getCouponStatus(coupon: ICoupon): CouponStatus {
@@ -86,9 +86,7 @@ export const columns: ColumnDef<ICoupon>[] = [
           )}
           <div>
             <div className="font-medium">
-              {isPercentage
-                ? `${coupon.discountValue}%`
-                : `${coupon.discountValue.toLocaleString()} đ`}
+              {isPercentage ? `${coupon.discountValue}%` : formatPrice(coupon.discountValue)}
             </div>
             <div className="text-muted-foreground text-xs">
               {isPercentage ? 'Percentage' : 'Fixed Amount'}

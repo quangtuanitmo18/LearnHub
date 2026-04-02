@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Copy } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'sonner';
+import { formatPrice } from '@/utils/format';
 
 interface BankTransferDetailsProps {
   amount: string;
@@ -17,7 +18,7 @@ export function BankTransferDetails({ amount, orderCode }: BankTransferDetailsPr
   }
 
   function formatAmount(amount: string) {
-    return new Intl.NumberFormat('vi-VN').format(parseInt(amount)) + 'đ';
+    return formatPrice(parseInt(amount) || 0);
   }
 
   return (

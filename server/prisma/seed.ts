@@ -303,8 +303,8 @@ async function main() {
       description:
         'A comprehensive course on building production-ready E-learning systems with Next.js 15 App Router on the Frontend and NestJS on the Backend, using Microservices and RESTful API architectures.',
       excerpt: 'Learn to build real-world web apps with Next.js and NestJS.',
-      price: 1500000,
-      oldPrice: 2500000,
+      price: 149.99,
+      oldPrice: 249.99,
       level: 'ADVANCED',
       categoryId: categories[0].id,
       imageId: medias[0].id,
@@ -316,8 +316,8 @@ async function main() {
       description:
         'Develop cross-platform mobile applications optimized for performance using React Native, Expo, Reanimated, and Zustand.',
       excerpt: 'Master Mobile App Development.',
-      price: 1200000,
-      oldPrice: 1800000,
+      price: 119.99,
+      oldPrice: 179.99,
       level: 'INTERMEDIATE',
       categoryId: categories[1].id,
       imageId: medias[1].id,
@@ -329,8 +329,8 @@ async function main() {
       description:
         'Provides a solid foundation in Mathematics, statistics, and Python programming skills to train practical Machine Learning models.',
       excerpt: 'Step into the world of professional AI/ML.',
-      price: 2000000,
-      oldPrice: 3000000,
+      price: 199.99,
+      oldPrice: 299.99,
       level: 'BEGINNER',
       categoryId: categories[2].id,
       imageId: medias[2].id,

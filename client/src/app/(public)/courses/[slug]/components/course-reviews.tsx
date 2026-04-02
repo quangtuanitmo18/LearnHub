@@ -1,26 +1,26 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Star, Filter, Edit, Trash2, MoreHorizontal, Check } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import WriteReviewDialog from './write-review-dialog';
-import { useUser } from '@/stores/auth-store';
+import { DEFAULT_AVATAR } from '@/constants';
 import {
-  useDeleteReview,
-  useCourseReviewsWithLoadMore,
   useCourseReviewStats,
+  useCourseReviewsWithLoadMore,
+  useDeleteReview,
 } from '@/hooks/use-reviews';
+import { useUser } from '@/stores/auth-store';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { DEFAULT_AVATAR } from '@/constants';
+import { Check, Edit, Filter, MoreHorizontal, Star, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import WriteReviewDialog from './write-review-dialog';
 
 dayjs.extend(relativeTime);
 
@@ -62,11 +62,17 @@ const CourseReviews = ({
   const { data: statsData, isLoading: isLoadingStats } = useCourseReviewStats(courseId);
 
   // Fetch reviews data with load more functionality
-  const { reviews, isLoading, isLoadingMore, hasNextPage, loadMore, reset } =
-    useCourseReviewsWithLoadMore(courseId, {
-      limit: 5,
-      minStar: selectedRatingFilter || undefined, // Use minStar for "star & up" filtering
-    });
+  const {
+    reviews = [],
+    isLoading,
+    isLoadingMore,
+    hasNextPage,
+    loadMore,
+    reset,
+  } = useCourseReviewsWithLoadMore(courseId, {
+    limit: 5,
+    minStar: selectedRatingFilter || undefined, // Use minStar for "star & up" filtering
+  });
 
   // Use stats from dedicated endpoint, fallback to props if not available
   const averageRating = statsData?.averageRating ?? fallbackAverageRating ?? 0;
