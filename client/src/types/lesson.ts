@@ -208,7 +208,7 @@ export interface LessonsListResponse {
     total: number;
     totalPages: number;
     hasNextPage?: boolean;
-    hasPrevPage?: boolean;
+    hasPreviousPage?: boolean;
   };
 }
 

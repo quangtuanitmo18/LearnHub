@@ -96,6 +96,7 @@ const LessonSidebar = ({
 
   return (
     <div
+      id="tour-sidebar"
       className={`fixed top-14 z-50 flex h-[calc(100vh-56px)] w-full flex-col overflow-hidden border-l border-gray-200 bg-white transition-all duration-300 ease-in-out sm:top-16 sm:h-[calc(100vh-64px)] lg:w-[23%] ${
         isSidebarOpen ? 'right-0' : '-right-full lg:-right-[23%]'
       }`}

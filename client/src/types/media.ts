@@ -218,7 +218,11 @@ export const getThumbnailUrl = (media: IMedia): string | null => {
   if (media.type === MediaType.IMAGE) {
     return getMediaDisplayUrl(media);
   }
-  return buildMediaUrl(media.cdnBaseUrl, media.thumbnailKey ?? media.storageKey);
+  // For videos, only return if we have an explicit thumbnail
+  if (media.thumbnailKey) {
+    return buildMediaUrl(media.cdnBaseUrl, media.thumbnailKey);
+  }
+  return null;
 };
 
 /**

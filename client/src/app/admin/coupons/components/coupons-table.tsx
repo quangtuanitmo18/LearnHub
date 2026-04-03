@@ -133,7 +133,7 @@ const CouponsTable = () => {
       />
 
       <div className="overflow-hidden rounded-md border">
-        <DataTable table={table} />
+        <DataTable table={table} isLoading={isLoading} />
       </div>
 
       {couponsData?.meta && (

@@ -123,7 +123,7 @@ const BlogsTable = () => {
       />
 
       <div className="overflow-hidden rounded-md border">
-        <DataTable table={table} />
+        <DataTable table={table} isLoading={isLoading} />
       </div>
 
       {blogsData?.meta && (

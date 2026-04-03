@@ -80,7 +80,7 @@ export class ReviewsService {
           totalItems: 0,
           totalPages: 0,
           hasNextPage: false,
-          hasPrevPage: false,
+          hasPreviousPage: false,
         },
       };
     }

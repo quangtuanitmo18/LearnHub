@@ -75,16 +75,14 @@ export interface AdminReviewsFilterParams extends BaseFilterParams {
 
 // Review response interfaces
 export interface CourseReviewsResponse {
-  reviews: IReview[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-  averageRating: number;
-  ratingDistribution: {
-    [key: string]: number;
+  result: IReview[];
+  meta: {
+    page: number;
+    limit: number;
+    totalItems: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
   };
 }
 

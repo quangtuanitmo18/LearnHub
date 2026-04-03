@@ -41,7 +41,7 @@ export class OrderService {
           totalItems: 0,
           totalPages: 0,
           hasNextPage: false,
-          hasPrevPage: false,
+          hasPreviousPage: false,
         },
       };
     }
@@ -63,7 +63,7 @@ export class OrderService {
           totalItems: 0,
           totalPages: 0,
           hasNextPage: false,
-          hasPrevPage: false,
+          hasPreviousPage: false,
         },
       };
     }
@@ -95,7 +95,7 @@ export class OrderService {
           totalItems: 0,
           totalPages: 0,
           hasNextPage: false,
-          hasPrevPage: false,
+          hasPreviousPage: false,
         },
       };
     }

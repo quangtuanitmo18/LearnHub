@@ -24,6 +24,8 @@ import {
   UpdateLessonRequest,
 } from '@/types/lesson';
 import { QuestionType } from '@/types/quiz';
+import Editor from '@/components/tiptap/editor';
+import Toolbar from '@/components/tiptap/toolbar';
 
 import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
 import { Badge } from '@/components/ui/badge';
@@ -953,12 +955,14 @@ const LessonFormDialog = ({
                           Article Content <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Textarea
-                            {...field}
-                            placeholder="Enter article content "
-                            rows={10}
-                            disabled={isLoading || isSubmitting}
-                          />
+                          <div className="overflow-hidden rounded-md border">
+                            <Toolbar />
+                            <Editor
+                              content={field.value || ''}
+                              onChange={(content) => field.onChange(content)}
+                              className="min-h-[400px]"
+                            />
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>

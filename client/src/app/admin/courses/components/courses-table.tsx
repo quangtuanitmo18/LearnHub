@@ -143,7 +143,7 @@ const CoursesTable = () => {
       />
 
       <div className="overflow-hidden rounded-md border">
-        <DataTable table={table} />
+        <DataTable table={table} isLoading={isLoading} />
       </div>
 
       {coursesData?.meta && (

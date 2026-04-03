@@ -29,6 +29,7 @@ const LessonNavigation = ({
 }: LessonNavigationProps) => {
   return (
     <div
+      id="tour-navigation"
       className={`fixed bottom-0 left-0 z-40 flex h-14 items-center border-t border-gray-200 bg-white px-3 transition-all duration-300 sm:h-16 sm:px-4 md:px-6 ${
         isSidebarOpen ? 'right-0 lg:right-[23%]' : 'right-0'
       }`}

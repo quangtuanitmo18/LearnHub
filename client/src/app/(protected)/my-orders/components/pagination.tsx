@@ -21,7 +21,7 @@ const Pagination = ({ pagination, currentPage, onPageChange }: PaginationProps) 
           variant="outline"
           size="sm"
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={!pagination.hasPrevPage}
+          disabled={!pagination.hasPreviousPage}
           className="h-8 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm"
         >
           <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />

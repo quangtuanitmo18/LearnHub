@@ -3,6 +3,8 @@ import {
   PutObjectCommand,
   GetObjectCommand,
   DeleteObjectCommand,
+  ListObjectsV2Command,
+  DeleteObjectsCommand,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable, Logger } from '@nestjs/common';
@@ -37,6 +39,8 @@ export class S3Service {
           this.configService.get<string>('aws.s3.secretAccessKey') || '',
         accessKeyId: this.configService.get<string>('aws.s3.accessKeyId') || '',
       },
+      requestChecksumCalculation: 'WHEN_REQUIRED',
+      responseChecksumValidation: 'WHEN_REQUIRED',
     });
   }
 
@@ -95,5 +99,49 @@ export class S3Service {
 
     await this.s3.send(command);
     this.logger.log(`Deleted file from S3: ${key}`);
+  }
+
+  /**
+   * Delete a folder and all its contents from S3
+   */
+  async deleteFolder(prefix: string): Promise<void> {
+    try {
+      let continuationToken: string | undefined = undefined;
+      let isTruncated = true;
+
+      while (isTruncated) {
+        const listCommand = new ListObjectsV2Command({
+          Bucket: this.publicBucket,
+          Prefix: prefix,
+          ContinuationToken: continuationToken,
+        });
+
+        // Use any because aws-sdk ServiceOutputTypes hides ListObjectsV2CommandOutput fields from TS
+        const listResponse = (await this.s3.send(listCommand)) as any;
+
+        if (listResponse.Contents && listResponse.Contents.length > 0) {
+          const deleteCommand = new DeleteObjectsCommand({
+            Bucket: this.publicBucket,
+            Delete: {
+              Objects: listResponse.Contents.map((item: any) => ({
+                Key: item.Key!,
+              })),
+            },
+          });
+
+          await this.s3.send(deleteCommand);
+          this.logger.log(
+            `Deleted ${listResponse.Contents.length} objects with prefix: ${prefix}`,
+          );
+        }
+
+        isTruncated = listResponse.IsTruncated ?? false;
+        continuationToken = listResponse.NextContinuationToken;
+      }
+    } catch (error) {
+      this.logger.error(
+        `Failed to delete folder ${prefix}: ${(error as Error).message}`,
+      );
+    }
   }
 }

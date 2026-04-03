@@ -5,7 +5,7 @@ export interface PaginationMeta {
   totalItems: number;
   totalPages: number;
   hasNextPage?: boolean;
-  hasPrevPage?: boolean;
+  hasPreviousPage?: boolean;
 }
 
 // Generic list response interface that can be used for any entity

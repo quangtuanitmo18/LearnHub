@@ -95,12 +95,12 @@ export function useCourseReviewsWithLoadMore(
     if (reviewsData) {
       if (page === 1) {
         // First load - replace all reviews
-        setAllReviews(reviewsData.reviews);
+        setAllReviews(reviewsData.result);
       } else {
         // Load more - append new reviews
-        setAllReviews((prev) => [...prev, ...reviewsData.reviews]);
+        setAllReviews((prev) => [...prev, ...reviewsData.result]);
       }
-      setHasNextPage(reviewsData.hasNextPage);
+      setHasNextPage(reviewsData.meta.hasNextPage);
       setIsLoadingMore(false);
     }
   }, [reviewsData, page]);
@@ -121,9 +121,7 @@ export function useCourseReviewsWithLoadMore(
 
   return {
     reviews: allReviews,
-    averageRating: reviewsData?.averageRating || 0,
-    total: reviewsData?.total || 0,
-    ratingDistribution: reviewsData?.ratingDistribution || {},
+    total: reviewsData?.meta.totalItems || 0,
     isLoading: isLoading && page === 1,
     isLoadingMore,
     hasNextPage,

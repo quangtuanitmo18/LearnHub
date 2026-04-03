@@ -53,7 +53,7 @@ const OrdersTable = () => {
     return params;
   }, [currentPage, pageSize, debouncedSearch, filters.status, filters.paymentMethod]);
 
-  const { data: ordersData } = useAdminOrders(queryParams);
+  const { data: ordersData, isLoading } = useAdminOrders(queryParams);
 
   // Reset to first page when filters change
   useEffect(() => {
@@ -121,7 +121,7 @@ const OrdersTable = () => {
       />
 
       <div className="overflow-hidden rounded-md border">
-        <DataTable table={table} />
+        <DataTable table={table} isLoading={isLoading} />
       </div>
 
       {ordersData?.meta && (

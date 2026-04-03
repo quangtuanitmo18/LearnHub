@@ -83,6 +83,6 @@ export interface ChaptersListResponse {
     total: number;
     totalPages: number;
     hasNextPage?: boolean;
-    hasPrevPage?: boolean;
+    hasPreviousPage?: boolean;
   };
 }

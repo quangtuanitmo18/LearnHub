@@ -4,13 +4,14 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { CircularProgress } from '@/components/ui/circular-progress';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Compass } from 'lucide-react';
 
 interface LessonHeaderProps {
   courseTitle: string;
   courseSlug: string;
   completedLessons: number;
   totalLessons: number;
+  onGuideClick?: () => void;
 }
 
 // Lesson header component - Arrow function
@@ -19,6 +20,7 @@ const LessonHeader = ({
   courseSlug,
   completedLessons,
   totalLessons,
+  onGuideClick,
 }: LessonHeaderProps) => {
   const progressPercentage =
     totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
@@ -44,7 +46,10 @@ const LessonHeader = ({
         {/* Right Section */}
         <div className="flex shrink-0 items-center space-x-2 text-xs sm:space-x-4 sm:text-sm md:space-x-6">
           {/* Circular Progress */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3">
+          <div
+            id="tour-progress"
+            className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3"
+          >
             <CircularProgress
               value={progressPercentage}
               size="sm"
@@ -62,9 +67,10 @@ const LessonHeader = ({
           <Button
             variant="ghost"
             size="sm"
+            onClick={onGuideClick}
             className="group hidden h-9 items-center space-x-2 text-white transition-all duration-200 hover:bg-slate-800 hover:text-white md:flex"
           >
-            <span className="transition-transform duration-200 group-hover:scale-110">🔗</span>
+            <Compass className="h-4 w-4 transition-transform duration-200 group-hover:rotate-45" />
             <span className="transition-colors duration-200 group-hover:text-white">Guide</span>
           </Button>
         </div>

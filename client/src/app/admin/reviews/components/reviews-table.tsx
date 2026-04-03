@@ -53,7 +53,7 @@ const ReviewsTable = () => {
     return params;
   }, [currentPage, pageSize, debouncedSearch, filters.status, filters.rating]);
 
-  const { data: reviewsData } = useAdminReviews(queryParams);
+  const { data: reviewsData, isLoading } = useAdminReviews(queryParams);
 
   // Reset to first page when filters change
   useEffect(() => {
@@ -121,7 +121,7 @@ const ReviewsTable = () => {
       />
 
       <div className="overflow-hidden rounded-md border">
-        <DataTable table={table} />
+        <DataTable table={table} isLoading={isLoading} />
       </div>
 
       {reviewsData?.meta && (

@@ -5,6 +5,7 @@ import QuizOverview from './quiz-overview';
 import QuizHistoryTable from './quiz-history-table';
 import QuizTaking from './quiz-taking';
 import QuizResult from './quiz-result';
+import QuizAttemptDetailsDialog from './quiz-attempt-details-dialog';
 import { useAttemptsList, useStartAttempt, useAttemptResult } from '@/hooks/use-quiz';
 import { ILesson } from '@/types/lesson';
 import { AttemptStatus, SubmitAttemptResponse } from '@/types/quiz';
@@ -20,6 +21,7 @@ const LessonQuiz = ({ lesson }: LessonQuizProps) => {
   const [quizState, setQuizState] = useState<QuizState>('overview');
   const [currentAttemptId, setCurrentAttemptId] = useState<string | null>(null);
   const [submitResult, setSubmitResult] = useState<SubmitAttemptResponse | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   console.log('LessonQuiz render:', submitResult);
 
   // Get lessonId for quiz
@@ -133,17 +135,24 @@ const LessonQuiz = ({ lesson }: LessonQuizProps) => {
         : 0;
 
     return (
-      <QuizResult
-        score={scorePercent}
-        totalQuestions={resultData.totalCount}
-        correctAnswers={resultData.correctCount}
-        timeSpent={timeSpent}
-        passingScore={lesson.quiz?.passScore || 70}
-        isPassed={resultData.passed}
-        onRetry={usedAttempts < (maxAttempts || Infinity) ? handleRetry : undefined}
-        onBackToOverview={handleBackToOverview}
-        onViewDetails={attemptResultData ? () => {} : undefined}
-      />
+      <>
+        <QuizResult
+          score={scorePercent}
+          totalQuestions={resultData.totalCount}
+          correctAnswers={resultData.correctCount}
+          timeSpent={timeSpent}
+          passingScore={lesson.quiz?.passScore || 70}
+          isPassed={resultData.passed}
+          onRetry={usedAttempts < (maxAttempts || Infinity) ? handleRetry : undefined}
+          onBackToOverview={handleBackToOverview}
+          onViewDetails={resultData ? () => setIsDetailsOpen(true) : undefined}
+        />
+        <QuizAttemptDetailsDialog
+          open={isDetailsOpen}
+          attemptId={currentAttemptId || resultData.attemptId}
+          onOpenChange={setIsDetailsOpen}
+        />
+      </>
     );
   }
 

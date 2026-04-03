@@ -110,7 +110,12 @@ export class CommentsService {
   // Get replies
   static async getReplies(commentId: string): Promise<CommentRepliesResponse> {
     try {
-      return await ApiService.get<CommentRepliesResponse>(ENDPOINTS.COMMENT_REPLIES(commentId));
+      const response = await ApiService.get<any>(ENDPOINTS.COMMENT_REPLIES(commentId));
+      // Support if backend returns { comments: [...] } or just an array
+      if (Array.isArray(response)) {
+        return response;
+      }
+      return response?.comments || [];
     } catch {
       return [];
     }

@@ -17,9 +17,9 @@ const LessonArticleContent = ({ title, content }: LessonArticleContentProps) => 
   };
 
   return (
-    <div className="h-full w-full bg-white">
+    <div className="w-full bg-white">
       {/* Main Content */}
-      <div className="mx-auto flex h-full max-w-4xl flex-col">
+      <div className="mx-auto flex max-w-4xl flex-col">
         {/* Article Header */}
         <div className="shrink-0 px-4 pt-6 pb-4 sm:px-6 sm:pt-8 sm:pb-6 md:pt-12 md:pb-8">
           <h1 className="mb-2 text-xl leading-tight font-bold text-gray-900 sm:mb-3 sm:text-2xl md:mb-4 md:text-3xl lg:text-4xl">
@@ -29,19 +29,11 @@ const LessonArticleContent = ({ title, content }: LessonArticleContentProps) => 
         </div>
 
         {/* Article Content */}
-        <div className="flex-1 overflow-hidden">
+        <div className="px-4 pb-6 sm:px-6 sm:pb-8 md:pb-12">
           <div
-            className="h-full overflow-y-auto px-4 pb-6 sm:px-6 sm:pb-8 md:pb-12"
-            style={{
-              scrollbarWidth: 'thin',
-              scrollbarColor: '#CBD5E0 #F7FAFC',
-            }}
-          >
-            <div
-              className="tiptap ProseMirror max-w-none leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          </div>
+            className="tiptap ProseMirror max-w-none leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         </div>
       </div>
     </div>

@@ -128,7 +128,7 @@ const OrdersContent = () => {
           pagination={{
             ...pagination,
             hasNextPage: pagination.hasNextPage ?? false,
-            hasPrevPage: pagination.hasPrevPage ?? false,
+            hasPreviousPage: pagination.hasPreviousPage ?? false,
           }}
           currentPage={currentPage}
           onPageChange={handlePageChange}

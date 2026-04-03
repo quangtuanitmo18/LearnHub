@@ -15,6 +15,7 @@ import Loader from '@/components/loader';
 import LessonCommentButton from './components/comment/lesson-comment-button';
 import LessonHeader from './components/lesson-header';
 import LessonNavigation from './components/lesson-navigation';
+import { useLessonTour } from './components/lesson-tour';
 import { usePublishedChaptersByCourse } from '@/hooks/use-chapters';
 
 const LessonSidebar = dynamic(() => import('./components/lesson-sidebar'));
@@ -110,6 +111,9 @@ const LessonPage = () => {
     setShowComments(true);
   };
 
+  // Guided tour
+  const { startTour } = useLessonTour();
+
   // Find current chapter title from lesson data
   const currentChapterTitle = React.useMemo(() => {
     return lesson?.chapter?.title || 'Chapter';
@@ -169,6 +173,7 @@ const LessonPage = () => {
         courseSlug={lesson?.course?.slug || ''}
         completedLessons={completedCount}
         totalLessons={totalLessons}
+        onGuideClick={startTour}
       />
 
       <div

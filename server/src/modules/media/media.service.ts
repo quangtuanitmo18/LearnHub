@@ -162,26 +162,18 @@ export class MediaService {
 
       this.logger.log(`Image ${mediaId} marked as COMPLETED`);
 
-      return {
-        mediaId: updated.id,
-        status: 'COMPLETED',
-        message: 'Image upload completed.',
-      };
+      return updated;
     }
 
-    // Video: mark as PROCESSING, wait for Lambda/MediaConvert
+    // Video: mark as COMPLETED directly since local webhook isn't configured for HLS
     const updated = await this.mediaRepository.updateStatus(
       mediaId,
       'COMPLETED',
     );
 
-    this.logger.log(`Video ${mediaId} marked as PROCESSING, waiting for HLS`);
+    this.logger.log(`Video ${mediaId} marked as COMPLETED`);
 
-    return {
-      mediaId: updated.id,
-      status: 'COMPLETED',
-      message: 'Video upload confirmed. Processing started.',
-    };
+    return updated;
   }
 
   /**
@@ -285,10 +277,33 @@ export class MediaService {
 
     // await this.mediaRepository.delete({ id });
 
-    await Promise.all([
-      this.s3Service.deleteFile(media.storageKey),
+    const keysToDelete: string[] = [];
+    if (media.storageKey) keysToDelete.push(media.storageKey);
+
+    const deletePromises: Promise<any>[] = [
       this.mediaRepository.delete({ id }),
-    ]);
+    ];
+
+    if (media.type === 'VIDEO') {
+      if (media.thumbnailKey) keysToDelete.push(media.thumbnailKey);
+      
+      // Clean up HLS files
+      if (media.hlsPlaylistKey) {
+        keysToDelete.push(media.hlsPlaylistKey);
+        const lastSlash = media.hlsPlaylistKey.lastIndexOf('/');
+        if (lastSlash > 0) {
+          const folderPrefix = media.hlsPlaylistKey.substring(0, lastSlash + 1);
+          deletePromises.push(this.s3Service.deleteFolder(folderPrefix));
+        }
+      }
+    }
+
+    // Add individual file deletion promises
+    for (const key of keysToDelete) {
+      deletePromises.push(this.s3Service.deleteFile(key));
+    }
+
+    await Promise.all(deletePromises);
 
     this.logger.log(`Media ${id} deleted`);
 

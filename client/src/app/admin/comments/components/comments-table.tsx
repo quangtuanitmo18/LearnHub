@@ -122,7 +122,7 @@ const CommentsTable = () => {
 
       <div className="overflow-hidden rounded-md border">
         <div className="overflow-x-auto">
-          <DataTable table={table} />
+          <DataTable table={table} isLoading={isLoading} />
         </div>
       </div>
 
@@ -134,7 +134,7 @@ const CommentsTable = () => {
             totalItems: commentsData.meta.totalItems,
             totalPages: commentsData.meta.totalPages,
             hasNextPage: commentsData.meta.hasNextPage,
-            hasPrevPage: commentsData.meta.hasPreviousPage,
+            hasPreviousPage: commentsData.meta.hasPreviousPage,
           }}
           currentDataLength={comments.length}
           pageSize={pageSize}

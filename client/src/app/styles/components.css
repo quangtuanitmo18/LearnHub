@@ -701,3 +701,98 @@ span[data-type='mention'] {
 .swiper-button-prev svg {
   width: 10px !important;
 }
+
+/* =====================
+   DRIVER.JS TOUR STYLING
+   ===================== */
+.learnhub-tour-popover {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset !important;
+  padding: 0 !important;
+  max-width: 380px !important;
+  overflow: hidden !important;
+}
+
+.learnhub-tour-popover .driver-popover-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  padding: 20px 24px 4px !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.learnhub-tour-popover .driver-popover-description {
+  font-size: 0.875rem !important;
+  color: #64748b !important;
+  line-height: 1.65 !important;
+  padding: 8px 24px 16px !important;
+}
+
+.learnhub-tour-popover .driver-popover-progress-text {
+  font-size: 0.75rem !important;
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+  padding: 0 24px !important;
+  letter-spacing: 0.025em !important;
+}
+
+.learnhub-tour-popover .driver-popover-footer {
+  padding: 12px 24px 20px !important;
+  gap: 10px !important;
+}
+
+.learnhub-tour-popover .driver-popover-navigation-btns {
+  gap: 10px !important;
+}
+
+.learnhub-tour-popover .driver-popover-prev-btn {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  padding: 8px 18px !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  text-shadow: none !important;
+}
+
+.learnhub-tour-popover .driver-popover-prev-btn:hover {
+  background: #e2e8f0 !important;
+  color: #1e293b !important;
+  transform: translateY(-1px) !important;
+}
+
+.learnhub-tour-popover .driver-popover-next-btn,
+.learnhub-tour-popover .driver-popover-close-btn-inside {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 8px 18px !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 14px -3px rgba(37, 99, 235, 0.45) !important;
+  transition: all 0.2s ease !important;
+  text-shadow: none !important;
+}
+
+.learnhub-tour-popover .driver-popover-next-btn:hover,
+.learnhub-tour-popover .driver-popover-close-btn-inside:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%) !important;
+  box-shadow: 0 6px 20px -3px rgba(37, 99, 235, 0.55) !important;
+  transform: translateY(-1px) !important;
+}
+
+.learnhub-tour-popover .driver-popover-arrow-side-left,
+.learnhub-tour-popover .driver-popover-arrow-side-right,
+.learnhub-tour-popover .driver-popover-arrow-side-top,
+.learnhub-tour-popover .driver-popover-arrow-side-bottom {
+  border: none !important;
+}
+

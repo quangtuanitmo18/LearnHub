@@ -11,7 +11,7 @@ interface LessonCommentButtonProps {
 
 function LessonCommentButton({ className, onClick }: LessonCommentButtonProps) {
   return (
-    <div className={cn('fixed z-50', className)}>
+    <div id="tour-comments" className={cn('fixed z-50', className)}>
       <Button
         onClick={onClick}
         className={cn(
