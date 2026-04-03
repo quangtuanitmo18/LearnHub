@@ -1,13 +1,13 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { useEffect, useRef } from 'react';
-import { X, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Message } from '@/types/chatbot';
-import Link from 'next/link';
+import { LogIn, X } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 
 // Dynamic imports - default arrow function components
 const ChatMessage = dynamic(() => import('./chat-message'), {
@@ -140,11 +140,11 @@ const ChatbotDialog = ({
                 </div>
               </div>
               <h3 className="mb-2 text-lg font-bold text-gray-900 sm:mb-3 sm:text-xl dark:text-white">
-                Đăng nhập để chat với AI 🔐
+                Sign in to chat with AI 🔐
               </h3>
               <p className="mb-4 max-w-[280px] px-2 text-xs leading-relaxed text-gray-600 sm:mb-6 sm:max-w-[300px] sm:text-sm dark:text-gray-300">
-                Bạn cần đăng nhập để sử dụng tính năng AI Assistant. Đăng nhập ngay để nhận được hỗ
-                trợ về khóa học và câu hỏi học tập.
+                You need to sign in to use the AI Assistant feature. Sign in now to get help with
+                courses and learning questions.
               </p>
               <Link href="/auth/sign-in" className="w-full max-w-[180px] sm:max-w-[200px]">
                 <Button
@@ -152,7 +152,7 @@ const ChatbotDialog = ({
                   size="lg"
                 >
                   <LogIn className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                  Đăng nhập ngay
+                  Sign in now
                 </Button>
               </Link>
             </div>

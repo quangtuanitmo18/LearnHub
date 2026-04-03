@@ -71,24 +71,24 @@ export class IntentService {
   private buildIntentPrompt(message: string): string {
     return `
 [ROLE]
-Bạn là bộ phân loại intent cho chatbot tư vấn khóa học lập trình.
+You are an intent classifier for a programming course chatbot.
 
-[CÁC INTENT HỖ TRỢ]
-1. COURSE_ADVICE: Người dùng muốn được tư vấn chọn khóa học, hỏi về nội dung khóa, lộ trình học lập trình.
-2. ORDER_STATUS: Người dùng hỏi về thanh toán, trạng thái đơn hàng, bị trừ tiền, chưa học được dù đã mua, hóa đơn.
-3. SMALL_TALK: Câu chào hỏi, làm quen, hỏi bạn là ai, cảm ơn, v.v.
-4. OUT_OF_SCOPE: Câu hỏi không liên quan tới khóa học lập trình hoặc đơn hàng.
+[SUPPORTED INTENTS]
+1. COURSE_ADVICE: User wants advice on choosing courses, asks about course content, programming learning paths.
+2. ORDER_STATUS: User asks about payment, order status, being charged, unable to access course after purchase, invoices.
+3. SMALL_TALK: Greetings, getting to know you, asking who you are, thanking, etc.
+4. OUT_OF_SCOPE: Questions not related to programming courses or orders.
 
-[YÊU CẦU NGƯỜI DÙNG]
+[USER REQUEST]
 "${message}"
 
-[NHIỆM VỤ]
-- Chọn 1 intent phù hợp nhất trong 4 intent trên.
-- Trả về JSON:
+[TASK]
+- Select the 1 most suitable intent from the 4 intents above.
+- Return JSON:
 { "intent": "COURSE_ADVICE" | "ORDER_STATUS" | "SMALL_TALK" | "OUT_OF_SCOPE" }
 
-[ĐỊNH DẠNG OUTPUT]
-Chỉ trả về JSON, không giải thích thêm.
+[OUTPUT FORMAT]
+Only return JSON, no further explanations.
 `;
   }
 

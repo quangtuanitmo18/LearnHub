@@ -114,7 +114,7 @@ const ChatMessage = ({
                 {!isUser && courses && courses.length > 0 && (
                   <div className="mt-3 w-full">
                     <div className="mb-2 text-sm font-medium text-gray-700">
-                      📚 Khóa học được đề xuất:
+                      📚 Recommended courses:
                     </div>
                     <div className="max-h-[200px] w-full space-y-1.5 overflow-y-auto">
                       {courses.map((course) => (
@@ -160,7 +160,7 @@ const ChatMessage = ({
                                     </span>
                                   )}
                                   <span className="text-sm font-semibold text-blue-600">
-                                    {course.price === 0 ? 'Miễn phí' : formatPrice(course.price)}
+                                    {course.price === 0 ? 'Free' : formatPrice(course.price)}
                                   </span>
                                 </div>
                               </div>
@@ -175,7 +175,7 @@ const ChatMessage = ({
                 {/* Suggestions Section */}
                 {!isUser && suggestions && suggestions.length > 0 && (
                   <div className="mt-3 w-full max-w-full">
-                    <div className="mb-2 text-sm font-medium text-gray-700">💡 Bạn có thể hỏi:</div>
+                    <div className="mb-2 text-sm font-medium text-gray-700">💡 You could ask:</div>
                     <div className="grid w-full max-w-full grid-cols-1 gap-1.5">
                       {suggestions.map((suggestion, index) => (
                         <Button
