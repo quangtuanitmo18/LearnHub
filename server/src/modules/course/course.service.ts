@@ -61,51 +61,91 @@ export class CourseService {
 
     const courseIds = orders.map((order) => order.courseId);
 
-    // 2. Fetch course details and calculate progress for each
-    const enrolledCourses = await Promise.all(
-      courseIds.map(async (courseId) => {
-        // Fetch course details
-        const course = await this.prismaService.course.findUnique({
-          where: { id: courseId },
-          include: {
-            image: true,
-          },
-        });
+    // 2. Fetch all courses in a single query
+    const courses = await this.prismaService.course.findMany({
+      where: { id: { in: courseIds } },
+      include: {
+        image: true,
+      },
+    });
 
-        if (!course) return null;
+    if (!courses.length) return [];
 
-        // Fetch statistics in parallel
-        const [totalLessons, reviewStats, completedLessons] = await Promise.all(
+    // 3. Batch fetch all statistics in parallel (4 queries total instead of 4 * N)
+    const [totalLessonsGroups, reviewStatsGroups, completedLessonsGroups] =
+      await Promise.all([
+        // Total lessons per course
+        this.prismaService.lesson.groupBy({
+          by: ['courseId'],
+          where: { courseId: { in: courseIds } },
+          _count: { id: true },
+        }),
+        // Review stats per course
+        this.prismaService.review.groupBy({
+          by: ['courseId'],
+          where: { courseId: { in: courseIds }, status: 'APPROVED' },
+          _count: { id: true },
+          _avg: { star: true },
+        }),
+        // Completed lessons per course for this user
+        this.prismaService.userLessonProgress.groupBy({
+          by: ['courseId'],
+          where: { courseId: { in: courseIds }, userId },
+          _count: { id: true },
+        }),
+      ]);
+
+    // Create maps for O(1) lookup
+    const totalLessonsMap = new Map<string, number>(
+      totalLessonsGroups.map(
+        (g) => [g.courseId, g._count.id] as [string, number],
+      ),
+    );
+    const reviewsMap = new Map<
+      string,
+      { totalReviews: number; averageRating: number }
+    >(
+      reviewStatsGroups.map(
+        (g) =>
           [
-            this.courseRepository.getTotalLessons(courseId),
-            this.courseRepository.getReviewStats(courseId),
-            this.prismaService.userLessonProgress.count({
-              where: {
-                userId,
-                courseId,
-              },
-            }),
-          ],
-        );
-
-        return {
-          id: course.id,
-          title: course.title,
-          slug: course.slug,
-          image: course.image
-            ? `${course.image.cdnBaseUrl}/${course.image.storageKey}`
-            : '',
-          description: course.description || '',
-          level: course.level,
-          averageRating: reviewStats.averageRating || 0,
-          totalReviews: reviewStats.totalReviews || 0,
-          totalLessons: totalLessons || 0,
-          completedLessons: completedLessons || 0,
-        };
-      }),
+            g.courseId,
+            {
+              totalReviews: g._count.id || 0,
+              averageRating: g._avg.star ? Number(g._avg.star.toFixed(1)) : 0,
+            },
+          ] as [string, { totalReviews: number; averageRating: number }],
+      ),
+    );
+    const completedLessonsMap = new Map<string, number>(
+      completedLessonsGroups.map(
+        (g) => [g.courseId, g._count.id] as [string, number],
+      ),
     );
 
-    return enrolledCourses.filter(Boolean);
+    // 4. Transform to final response
+    const enrolledCourses = courses.map((course) => {
+      const reviewStats = reviewsMap.get(course.id) || {
+        totalReviews: 0,
+        averageRating: 0,
+      };
+
+      return {
+        id: course.id,
+        title: course.title,
+        slug: course.slug,
+        image: course.image
+          ? `${course.image.cdnBaseUrl}/${course.image.storageKey}`
+          : '',
+        description: course.description || '',
+        level: course.level,
+        averageRating: reviewStats.averageRating,
+        totalReviews: reviewStats.totalReviews,
+        totalLessons: totalLessonsMap.get(course.id) || 0,
+        completedLessons: completedLessonsMap.get(course.id) || 0,
+      };
+    });
+
+    return enrolledCourses;
   }
 
   async getCourseById(id: string) {

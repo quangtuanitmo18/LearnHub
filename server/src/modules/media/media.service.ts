@@ -286,7 +286,7 @@ export class MediaService {
 
     if (media.type === 'VIDEO') {
       if (media.thumbnailKey) keysToDelete.push(media.thumbnailKey);
-      
+
       // Clean up HLS files
       if (media.hlsPlaylistKey) {
         keysToDelete.push(media.hlsPlaylistKey);

@@ -449,27 +449,67 @@ export class CourseRepository extends BaseService<
       this.model.count({ where }),
     ]);
 
-    // Transform the results to include additional statistics
-    const transformedRecords = await Promise.all(
-      records.map(async (course: any) => {
-        const { _count, ...courseData } = course;
+    const courseIds = records.map((r: any) => r.id);
 
-        // Get additional statistics for each course
-        const [totalDuration, reviewStats] = await Promise.all([
-          this.getTotalDuration(course.id),
-          this.getReviewStats(course.id),
-        ]);
+    // Batch queries to avoid N+1 vulnerability
+    const [lessonGroups, reviewGroups] = await Promise.all([
+      courseIds.length > 0
+        ? this.prismaService.lesson.groupBy({
+            by: ['courseId'],
+            where: { courseId: { in: courseIds } },
+            _sum: { durationSec: true },
+          })
+        : [],
+      courseIds.length > 0
+        ? this.prismaService.review.groupBy({
+            by: ['courseId'],
+            where: { courseId: { in: courseIds }, status: 'APPROVED' },
+            _count: { id: true },
+            _avg: { star: true },
+          })
+        : [],
+    ]);
 
-        return {
-          ...courseData,
-          totalLessons: _count?.lessons || 0,
-          enrolledStudents: course.sold || 0,
-          totalDuration,
-          totalReviews: reviewStats.totalReviews,
-          averageRating: reviewStats.averageRating,
-        };
-      }),
+    const durationMap = new Map<string, number>(
+      lessonGroups.map(
+        (g) => [g.courseId, g._sum.durationSec || 0] as [string, number],
+      ),
     );
+
+    const reviewMap = new Map<
+      string,
+      { totalReviews: number; averageRating: number }
+    >(
+      reviewGroups.map(
+        (g) =>
+          [
+            g.courseId,
+            {
+              totalReviews: g._count.id || 0,
+              averageRating: g._avg.star ? Number(g._avg.star.toFixed(1)) : 0,
+            },
+          ] as [string, { totalReviews: number; averageRating: number }],
+      ),
+    );
+
+    // Transform the results locally without triggering DB loops
+    const transformedRecords = records.map((course: any) => {
+      const { _count, ...courseData } = course;
+
+      const reviewStats = reviewMap.get(course.id) || {
+        totalReviews: 0,
+        averageRating: 0,
+      };
+
+      return {
+        ...courseData,
+        totalLessons: _count?.lessons || 0,
+        enrolledStudents: course.sold || 0,
+        totalDuration: durationMap.get(course.id) || 0,
+        totalReviews: reviewStats.totalReviews,
+        averageRating: reviewStats.averageRating,
+      };
+    });
 
     return new PaginatedResponseDto(transformedRecords, total, page, limit);
   }

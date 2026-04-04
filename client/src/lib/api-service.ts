@@ -38,7 +38,9 @@ export class ApiService {
         params,
       });
 
-      return response.data.data;
+      return response.data.data !== undefined
+        ? response.data.data
+        : (response.data as unknown as T);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -49,7 +51,9 @@ export class ApiService {
     try {
       const response: AxiosResponse<ApiResponse<T>> = await apiClient.post(url, data);
 
-      return response.data.data;
+      return response.data.data !== undefined
+        ? response.data.data
+        : (response.data as unknown as T);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -60,7 +64,9 @@ export class ApiService {
     try {
       const response: AxiosResponse<ApiResponse<T>> = await apiClient.put(url, data);
 
-      return response.data.data;
+      return response.data.data !== undefined
+        ? response.data.data
+        : (response.data as unknown as T);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -71,7 +77,9 @@ export class ApiService {
     try {
       const response: AxiosResponse<ApiResponse<T>> = await apiClient.patch(url, data);
 
-      return response.data.data;
+      return response.data.data !== undefined
+        ? response.data.data
+        : (response.data as unknown as T);
     } catch (error) {
       throw this.handleError(error);
     }
@@ -84,7 +92,9 @@ export class ApiService {
         url,
         data ? { data } : undefined,
       );
-      return response.data.data;
+      return response.data.data !== undefined
+        ? response.data.data
+        : (response.data as unknown as T);
     } catch (error) {
       throw this.handleError(error);
     }

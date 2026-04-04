@@ -29,11 +29,14 @@ import {
   VerifyOtpDto,
 } from './dto/auth.dto';
 
+import { Throttle } from '@nestjs/throttler';
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
+  @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 requests per minute
   @Post('register')
   @ResponseMessage('User registered successfully')
   register(@Body() body: RegisterBodyDto) {
@@ -41,6 +44,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 login attempts per minute
   @Post('login')
   @ResponseMessage('Login successful')
   async login(
@@ -84,6 +88,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 3, ttl: 60000 } }) // 3 requests per minute for forgot password
   @Post('forgot-password')
   @ResponseMessage('Password reset email sent')
   forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
@@ -91,6 +96,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
   @Post('reset-password')
   @ResponseMessage('Password reset successful')
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
@@ -98,6 +104,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 5, ttl: 60000 } }) // Limit OTP verifications
   @Post('verify-otp')
   @ResponseMessage('Email verified successfully')
   verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
@@ -105,6 +112,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle({ default: { limit: 3, ttl: 60000 } }) // Limit OTP resends
   @Post('resend-otp')
   @ResponseMessage('OTP sent successfully')
   resendOtp(@Body() resendOtpDto: ResendOtpDto) {

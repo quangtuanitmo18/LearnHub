@@ -37,6 +37,8 @@ import { ResponseInterceptor } from './shared/interceptors/response.interceptor'
 import { SharedModule } from './shared/shared.module';
 import { InstructorModule } from './modules/instructor/instructor.module';
 
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+
 @Module({
   imports: [
     AuthModule,
@@ -82,6 +84,12 @@ import { InstructorModule } from './modules/instructor/instructor.module';
       }),
       inject: [ConfigService],
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000, // 60 seconds
+        limit: 50, // 50 requests per minute by default for all API endpoints
+      },
+    ]),
     InstructorModule,
   ],
   controllers: [AppController],
@@ -94,6 +102,10 @@ import { InstructorModule } from './modules/instructor/instructor.module';
     {
       provide: APP_FILTER,
       useClass: GlobalExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
     {
       provide: APP_GUARD,

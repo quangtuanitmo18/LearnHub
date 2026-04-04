@@ -204,7 +204,7 @@ export class AuthService {
   }
 
   // Verify email
-  static async verifyEmail(data: { token: string }): Promise<{
+  static async verifyEmail(data: { email: string; otp: string }): Promise<{
     success: boolean;
     message: string;
     statusCode: number;
@@ -215,7 +215,7 @@ export class AuthService {
         message: string;
         statusCode: number;
       },
-      { token: string }
+      { email: string; otp: string }
     >(ENDPOINTS.VERIFY_EMAIL, data);
 
     return res;

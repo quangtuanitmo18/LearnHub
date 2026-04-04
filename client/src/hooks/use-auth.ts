@@ -11,7 +11,7 @@ import {
 import { useAuthStore } from '@/stores/auth-store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { signIn, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 
 // Query keys for auth
@@ -32,7 +32,7 @@ export function useCurrentUser() {
 // Mutation hooks
 export function useVerifyEmail() {
   return useMutation({
-    mutationFn: (data: { token: string }) => AuthService.verifyEmail(data),
+    mutationFn: (data: { email: string; otp: string }) => AuthService.verifyEmail(data),
     onSuccess: (response) => {
       toast.success(response.message || 'Email verified successfully!');
     },
@@ -101,9 +101,9 @@ export function useRegister() {
 
   return useMutation({
     mutationFn: (userData: RegisterRequest) => AuthService.register(userData),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       toast.success('Registration successful! Please check your email to verify your account.');
-      router.push(ROUTE_CONFIG.AUTH.SIGN_IN);
+      router.push(`${ROUTE_CONFIG.AUTH.VERIFY_EMAIL}?email=${encodeURIComponent(variables.email)}`);
     },
     onError: async (error) => {
       await signOut({ redirect: false });
@@ -115,6 +115,7 @@ export function useRegister() {
 // Social authentication hook - handles both login and registration
 export function useSocialAuth(mode: 'login' | 'register') {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { getCurrentUser } = useAuthStore();
 
   // Start OAuth flow with NextAuth
@@ -138,7 +139,6 @@ export function useSocialAuth(mode: 'login' | 'register') {
 
       // Check if response has accessToken (login) or message (registration)
       const hasAccessToken = 'accessToken' in response && response.accessToken;
-
       if (hasAccessToken) {
         // Login flow - cookies are set by the server response
         // Clean up any legacy localStorage tokens
@@ -148,6 +148,9 @@ export function useSocialAuth(mode: 'login' | 'register') {
         }
         await getCurrentUser();
         toast.success('Login successful!');
+        const callbackUrl = searchParams?.get('callbackUrl') || ROUTE_CONFIG.HOME;
+        router.push(callbackUrl);
+        router.refresh();
       } else {
         // Registration flow
         toast.success((response as { message: string }).message || 'Registration successful!');
@@ -178,6 +181,8 @@ export function useSocialAuth(mode: 'login' | 'register') {
 // Direct login hook (bypasses NextAuth)
 export function useLogin() {
   const { getCurrentUser } = useAuthStore();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   return useMutation({
     mutationFn: (credentials: LoginRequest) => AuthService.login(credentials),
@@ -191,6 +196,9 @@ export function useLogin() {
         }
         await getCurrentUser();
         toast.success('Login successful!');
+        const callbackUrl = searchParams?.get('callbackUrl') || ROUTE_CONFIG.HOME;
+        router.push(callbackUrl);
+        router.refresh();
       } else {
         toast.error('Invalid login response');
       }

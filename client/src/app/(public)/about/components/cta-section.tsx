@@ -163,7 +163,7 @@ const CallToActionSection = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full border-2 border-white/30 py-6 font-semibold text-white backdrop-blur-sm hover:border-white/50 hover:bg-white/10"
+                  className="w-full border-2 border-white/30 bg-transparent py-6 font-semibold text-white backdrop-blur-sm hover:border-white/50 hover:bg-white/10"
                   asChild
                 >
                   <Link href="/auth/sign-up">Create Free Account</Link>

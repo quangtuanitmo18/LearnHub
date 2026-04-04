@@ -329,25 +329,25 @@ export class PaymentRepository {
     }> = [];
 
     // Determine currency (default to USD for international payments)
-    const currency = 'usd'; 
+    const currency = 'usd';
 
     if ((order as any).orderType === OrderType.MEMBERSHIP) {
       // Membership order
       lineItems.push({
         name: `${(order as any).membershipPlan} Membership`,
         description: `Premium membership plan`,
-          amount: Number(order.totalAmount), // in USD, decimal
+        amount: Number(order.totalAmount), // in USD, decimal
+        quantity: 1,
+      });
+    } else {
+      // Course order
+      for (const item of order.items) {
+        lineItems.push({
+          name: item.title || 'Course',
+          description: `Course purchase`,
+          amount: Number(item.price), // in USD, decimal
           quantity: 1,
-        });
-      } else {
-        // Course order
-        for (const item of order.items) {
-          lineItems.push({
-            name: item.title || 'Course',
-            description: `Course purchase`,
-            amount: Number(item.price), // in USD, decimal
-            quantity: 1,
-            imageUrl: item.thumbnail || undefined,
+          imageUrl: item.thumbnail || undefined,
         });
       }
 
@@ -361,7 +361,10 @@ export class PaymentRepository {
         );
         const expectedTotal = Number(order.totalAmount);
 
-        if (Math.abs(totalItemsPrice - expectedTotal) > 0.01 && lineItems.length > 0) {
+        if (
+          Math.abs(totalItemsPrice - expectedTotal) > 0.01 &&
+          lineItems.length > 0
+        ) {
           // Apply discount by reducing total
           const discountAmount = totalItemsPrice - expectedTotal;
           // Adjust last item to reflect discount

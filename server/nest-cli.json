@@ -7,7 +7,6 @@
     "assets": [
       {
         "include": "**/*.ejs",
-        "outDir": "dist/src",
         "watchAssets": true
       }
     ]
