@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import OpenAI from 'openai';
+import { ChatOpenAI } from '@langchain/openai';
+import { HumanMessage, SystemMessage } from '@langchain/core/messages';
+import { z } from 'zod';
 
 export type Intent =
   | 'COURSE_ADVICE'
@@ -17,7 +19,7 @@ const VALID_INTENTS: Intent[] = [
 
 @Injectable()
 export class IntentService {
-  private openai: OpenAI | null = null;
+  private llm: ChatOpenAI | null = null;
   private modelName: string;
 
   constructor(private readonly configService: ConfigService) {
@@ -29,9 +31,14 @@ export class IntentService {
       return;
     }
 
-    this.openai = new OpenAI({
-      baseURL: 'https://openrouter.ai/api/v1',
-      apiKey: apiKey,
+    this.llm = new ChatOpenAI({
+      model: this.modelName,
+      configuration: {
+        apiKey: apiKey,
+        baseURL: 'https://openrouter.ai/api/v1',
+      },
+      maxTokens: 50,
+      temperature: 0,
     });
   }
 
@@ -39,23 +46,31 @@ export class IntentService {
    * Classify user message intent using Gemini via OpenRouter
    */
   async classify(message: string): Promise<Intent> {
-    if (!this.openai) {
+    if (!this.llm) {
       return 'COURSE_ADVICE';
     }
 
     try {
       const prompt = this.buildIntentPrompt(message);
-      const completion = await this.openai.chat.completions.create({
-        model: this.modelName,
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 50,
-      });
-      const text = completion.choices[0]?.message?.content || '';
 
-      // Try to parse JSON response
-      const parsed = this.safeParseJson(text);
-      if (parsed?.intent && VALID_INTENTS.includes(parsed.intent)) {
-        return parsed.intent;
+      const structuredLlm = this.llm.withStructuredOutput(
+        z.object({
+          intent: z
+            .enum([
+              'COURSE_ADVICE',
+              'ORDER_STATUS',
+              'SMALL_TALK',
+              'OUT_OF_SCOPE',
+            ])
+            .describe('The classified intent of the user message'),
+        }),
+        { name: 'classify_intent' },
+      );
+
+      const result = await structuredLlm.invoke([new SystemMessage(prompt)]);
+
+      if (result?.intent && VALID_INTENTS.includes(result.intent as Intent)) {
+        return result.intent as Intent;
       }
 
       return 'COURSE_ADVICE';
@@ -90,18 +105,5 @@ You are an intent classifier for a programming course chatbot.
 [OUTPUT FORMAT]
 Only return JSON, no further explanations.
 `;
-  }
-
-  /**
-   * Safely parse JSON from Gemini response
-   */
-  private safeParseJson(text: string): { intent?: Intent } | null {
-    try {
-      // Remove markdown code blocks if present
-      const trimmed = text.trim().replace(/```json|```/g, '');
-      return JSON.parse(trimmed);
-    } catch {
-      return null;
-    }
   }
 }

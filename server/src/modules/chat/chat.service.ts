@@ -60,6 +60,12 @@ interface GeminiParsedResponse {
   courseIds: string[];
 }
 
+const chatReplySchema = z.object({
+  answer: z.string().describe('Friendly, easy-to-understand answer'),
+  suggestions: z.array(z.string()).describe('3-4 suggestion questions'),
+  courseIds: z.array(z.string()).describe('Array of course IDs if recommended'),
+});
+
 @Injectable()
 export class ChatService {
   private llm: ChatOpenAI | null = null;
@@ -86,9 +92,11 @@ export class ChatService {
     }
 
     this.llm = new ChatOpenAI({
-      modelName: this.modelName,
-      openAIApiKey: apiKey,
-      configuration: { baseURL: 'https://openrouter.ai/api/v1' },
+      model: this.modelName,
+      configuration: {
+        apiKey: apiKey,
+        baseURL: 'https://openrouter.ai/api/v1',
+      },
       maxTokens: 1500,
     });
   }
@@ -129,7 +137,6 @@ export class ChatService {
             const candidates = await this.retrievalService.hybridSearch(
               userMessage,
               state.expandedQuery || userMessage,
-              20,
             );
             const chunks = await this.retrievalService.rerank(
               userMessage,
@@ -177,7 +184,7 @@ export class ChatService {
           ? `${prompt}\n\n${memoryContext}`
           : prompt;
 
-        const history = this.store.getMessages(userId);
+        const history = await this.store.getMessages(userId);
         const messages = [
           new SystemMessage(fullPrompt),
           ...history.map((m) =>
@@ -219,17 +226,7 @@ export class ChatService {
 
             // Second LLM call with tool results + structured output
             const structuredLlm = this.llm.withStructuredOutput(
-              z.object({
-                answer: z
-                  .string()
-                  .describe('Friendly, easy-to-understand answer'),
-                suggestions: z
-                  .array(z.string())
-                  .describe('3-4 suggestion questions'),
-                courseIds: z
-                  .array(z.string())
-                  .describe('Array of course IDs if recommended'),
-              }),
+              chatReplySchema,
               { name: 'chat_reply' },
             );
 
@@ -242,20 +239,9 @@ export class ChatService {
           }
 
           // No tool calls — use structured output directly
-          const structuredLlm = this.llm.withStructuredOutput(
-            z.object({
-              answer: z
-                .string()
-                .describe('Friendly, easy-to-understand answer'),
-              suggestions: z
-                .array(z.string())
-                .describe('3-4 suggestion questions'),
-              courseIds: z
-                .array(z.string())
-                .describe('Array of course IDs if recommended'),
-            }),
-            { name: 'chat_reply' },
-          );
+          const structuredLlm = this.llm.withStructuredOutput(chatReplySchema, {
+            name: 'chat_reply',
+          });
           const structuredResponse = await structuredLlm.invoke(messages);
           return { rawText: JSON.stringify(structuredResponse) };
         } catch (e) {
@@ -281,23 +267,25 @@ export class ChatService {
       this.safeParseGeminiJson(rawText);
 
     // 7. Save messages to history
-    this.store.append(userId, {
+    await this.store.append(userId, {
       role: 'user',
       content: userMessage,
       createdAt: Date.now(),
     });
-    this.store.append(userId, {
+    await this.store.append(userId, {
       role: 'assistant',
       content: answer,
       createdAt: Date.now(),
     });
 
     // Tier 3: Fire-and-forget memory save (non-blocking)
-    const allMessages = this.store
-      .getMessages(userId)
-      .map((m) => ({ role: m.role, content: m.content }));
+    const allMessages = await this.store.getMessages(userId);
+    const mappedMessages = allMessages.map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
     this.memoryService
-      .saveMemory(userId, allMessages)
+      .saveMemory(userId, mappedMessages)
       .catch((err) => console.error('Memory save failed:', err));
 
     // 8. Select courses to return
@@ -318,15 +306,15 @@ export class ChatService {
   /**
    * Clear chat history for a user
    */
-  clearHistory(userId: string): void {
-    this.store.clear(userId);
+  async clearHistory(userId: string): Promise<void> {
+    await this.store.clear(userId);
   }
 
   /**
    * Get chat history for a user
    */
-  getHistory(userId: string): ChatMessage[] {
-    return this.store.getMessages(userId);
+  async getHistory(userId: string): Promise<ChatMessage[]> {
+    return await this.store.getMessages(userId);
   }
 
   // ==================== Private Helper Methods ====================

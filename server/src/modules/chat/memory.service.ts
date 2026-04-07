@@ -25,9 +25,11 @@ export class MemoryService {
 
     if (routerKey) {
       this.llm = new ChatOpenAI({
-        modelName: model,
-        openAIApiKey: routerKey,
-        configuration: { baseURL: 'https://openrouter.ai/api/v1' },
+        model: model,
+        configuration: {
+          apiKey: routerKey,
+          baseURL: 'https://openrouter.ai/api/v1',
+        },
         maxTokens: 500,
       });
     }
@@ -62,7 +64,8 @@ export class MemoryService {
     chatHistory: { role: string; content: string }[],
   ): Promise<void> {
     if (!this.llm || !userId || userId === 'guest') return;
-    if (chatHistory.length < 4) return; // Need at least 2 exchanges
+    // Only save memory every 4 messages (2 full exchanges) to save tokens
+    if (chatHistory.length < 4 || chatHistory.length % 4 !== 0) return;
 
     try {
       // Load existing memory

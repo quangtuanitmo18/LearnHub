@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import Redis from 'ioredis';
 
 export type ChatMessage = {
   role: 'user' | 'assistant';
@@ -12,66 +14,85 @@ type SessionData = {
 };
 
 const MAX_MESSAGES_PER_USER = 50;
-const TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
+const TTL_SEC = 2 * 60 * 60; // 2 hours in seconds
 
 @Injectable()
-export class ChatStore {
-  private store = new Map<string, SessionData>(); // key = userId ("guest" if not logged in)
+export class ChatStore implements OnModuleDestroy {
+  private redis: Redis;
 
-  /**
-   * Get or initialize a session for a user
-   */
-  private getOrInit(userId: string): SessionData {
-    const now = Date.now();
-    const existing = this.store.get(userId);
+  constructor(private configService: ConfigService) {
+    this.redis = new Redis({
+      host: this.configService.get<string>('REDIS_HOST') || 'localhost',
+      port: this.configService.get<number>('REDIS_PORT') || 6379,
+      password: this.configService.get<string>('REDIS_PASSWORD') || undefined,
+    });
+  }
 
-    // If no existing session, create a new one
-    if (!existing) {
-      const fresh: SessionData = { messages: [], updatedAt: now };
-      this.store.set(userId, fresh);
-      return fresh;
-    }
-
-    // If session is expired (older than TTL), reset it
-    if (now - existing.updatedAt > TTL_MS) {
-      const fresh: SessionData = { messages: [], updatedAt: now };
-      this.store.set(userId, fresh);
-      return fresh;
-    }
-
-    return existing;
+  onModuleDestroy() {
+    void this.redis.quit();
   }
 
   /**
    * Get all messages for a user
    */
-  getMessages(userId: string): ChatMessage[] {
-    return this.getOrInit(userId).messages;
+  async getMessages(userId: string): Promise<ChatMessage[]> {
+    const data = await this.redis.get(`chat_session:${userId}`);
+    if (!data) return [];
+
+    try {
+      const session = JSON.parse(data) as SessionData;
+      return session.messages;
+    } catch {
+      return [];
+    }
   }
 
   /**
    * Append a message to user's history (keeps max 50 messages)
    */
-  append(userId: string, msg: ChatMessage): void {
-    const session = this.getOrInit(userId);
+  async append(userId: string, msg: ChatMessage): Promise<void> {
+    const data = await this.redis.get(`chat_session:${userId}`);
+    let session: SessionData = { messages: [], updatedAt: Date.now() };
+
+    if (data) {
+      try {
+        session = JSON.parse(data);
+      } catch {
+        // Corrupted session data, start fresh
+      }
+    }
+
     const next = [...session.messages, msg];
     // Keep only the last MAX_MESSAGES_PER_USER messages
     session.messages = next.slice(-MAX_MESSAGES_PER_USER);
     session.updatedAt = Date.now();
-    this.store.set(userId, session);
+
+    await this.redis.set(
+      `chat_session:${userId}`,
+      JSON.stringify(session),
+      'EX',
+      TTL_SEC,
+    );
   }
 
   /**
    * Clear all messages for a user
    */
-  clear(userId: string): void {
-    this.store.delete(userId);
+  async clear(userId: string): Promise<void> {
+    await this.redis.del(`chat_session:${userId}`);
   }
 
   /**
    * Get the number of messages for a user
    */
-  getMessageCount(userId: string): number {
-    return this.getOrInit(userId).messages.length;
+  async getMessageCount(userId: string): Promise<number> {
+    const data = await this.redis.get(`chat_session:${userId}`);
+    if (!data) return 0;
+    try {
+      const session = JSON.parse(data) as SessionData;
+      return session.messages.length;
+    } catch {
+      return 0;
+    }
   }
 }

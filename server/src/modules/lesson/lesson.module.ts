@@ -11,7 +11,7 @@ import { LessonService } from './lesson.service';
 @Module({
   imports: [
     SharedModule,
-    AiWorkerModule,
+    forwardRef(() => AiWorkerModule),
     forwardRef(() => CourseModule),
     ChapterModule,
     forwardRef(() => UserLessonProgressModule),

@@ -31,9 +31,11 @@ export class KnowledgeGraphService {
 
     if (routerKey) {
       this.llm = new ChatOpenAI({
-        modelName: model,
-        openAIApiKey: routerKey,
-        configuration: { baseURL: 'https://openrouter.ai/api/v1' },
+        model: model,
+        configuration: {
+          apiKey: routerKey,
+          baseURL: 'https://openrouter.ai/api/v1',
+        },
         maxTokens: 1000,
       });
     }

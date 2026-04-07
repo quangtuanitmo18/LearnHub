@@ -1,16 +1,31 @@
 import { InjectQueue, Processor, WorkerHost } from '@nestjs/bullmq';
-import { Inject } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Job, Queue } from 'bullmq';
 import OpenAI from 'openai';
 import { PrismaService } from 'src/shared/services/prisma.service';
 
 @Processor('ai-embed')
 export class EmbedProcessor extends WorkerHost {
+  private readonly logger = new Logger(EmbedProcessor.name);
+  private embeddingClient: OpenAI | null = null;
+
   constructor(
     @Inject(PrismaService) private readonly prisma: PrismaService,
     @InjectQueue('ai-concept') private readonly conceptQueue: Queue,
+    private readonly configService: ConfigService,
   ) {
     super();
+
+    const jinaKey = this.configService.get<string>('JINA_API_KEY');
+    if (jinaKey) {
+      this.embeddingClient = new OpenAI({
+        apiKey: jinaKey,
+        baseURL: 'https://api.jina.ai/v1',
+      });
+    } else {
+      this.logger.warn('JINA_API_KEY not set — embedding processor disabled');
+    }
   }
 
   async process(job: Job<any, any, string>): Promise<any> {
@@ -25,12 +40,17 @@ export class EmbedProcessor extends WorkerHost {
   private async handleDocumentEmbed(data: any) {
     const { content, sourceType, courseId, lessonId, blogId, chunkIndex } =
       data;
-    const openai = new OpenAI();
 
-    const response = await openai.embeddings.create({
-      model: 'text-embedding-3-small',
+    if (!this.embeddingClient) {
+      this.logger.warn('Skipping embed — JINA_API_KEY not configured');
+      return { success: false, reason: 'no_api_key' };
+    }
+
+    const response = await this.embeddingClient.embeddings.create({
+      model: 'jina-embeddings-v4',
       input: content,
-    });
+      dimensions: 1024,
+    } as any);
     const embedding = response.data[0].embedding;
     const vectorLiteral = `[${embedding.join(',')}]`;
 

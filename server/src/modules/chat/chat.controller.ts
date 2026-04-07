@@ -32,8 +32,8 @@ export class ChatController {
    */
   @Get('history')
   @ResponseMessage('Chat history retrieved successfully')
-  getHistory(@CurrentUser() user: JwtPayload) {
-    const messages = this.chatService.getHistory(user.sub);
+  async getHistory(@CurrentUser() user: JwtPayload) {
+    const messages = await this.chatService.getHistory(user.sub);
 
     return {
       messages,
@@ -47,8 +47,8 @@ export class ChatController {
    */
   @Delete('history')
   @ResponseMessage('Chat history cleared successfully')
-  clearHistory(@CurrentUser() user: JwtPayload) {
-    this.chatService.clearHistory(user.sub);
+  async clearHistory(@CurrentUser() user: JwtPayload) {
+    await this.chatService.clearHistory(user.sub);
 
     return { success: true };
   }

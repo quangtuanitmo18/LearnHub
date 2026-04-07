@@ -20,15 +20,27 @@ export interface RetrievedChunk {
 @Injectable()
 export class RetrievalService {
   private readonly logger = new Logger(RetrievalService.name);
-  private readonly openai: OpenAI;
+  private readonly embeddingClient: OpenAI | null = null;
   private readonly llm: ChatOpenAI | null = null;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
   ) {
-    this.openai = new OpenAI();
+    // Jina AI for embeddings (OpenAI-compatible API)
+    const jinaKey = this.configService.get<string>('JINA_API_KEY');
+    if (jinaKey) {
+      this.embeddingClient = new OpenAI({
+        apiKey: jinaKey,
+        baseURL: 'https://api.jina.ai/v1',
+      });
+    } else {
+      this.logger.warn(
+        'JINA_API_KEY not set — embedding/hybrid search disabled',
+      );
+    }
 
+    // OpenRouter for LLM (reranking, query expansion)
     const routerKey = this.configService.get<string>('openrouter.apiKey');
     const model =
       this.configService.get<string>('openrouter.model') ||
@@ -36,9 +48,11 @@ export class RetrievalService {
 
     if (routerKey) {
       this.llm = new ChatOpenAI({
-        modelName: model,
-        openAIApiKey: routerKey,
-        configuration: { baseURL: 'https://openrouter.ai/api/v1' },
+        model: model,
+        configuration: {
+          apiKey: routerKey,
+          baseURL: 'https://openrouter.ai/api/v1',
+        },
         maxTokens: 500,
       });
     }
@@ -90,14 +104,19 @@ Reply with ONLY the hypothetical answer text, no preamble.`,
   async hybridSearch(
     userMessage: string,
     expandedQuery: string,
-    topK: number = 20,
+    topK: number = 5,
   ): Promise<RetrievedChunk[]> {
+    if (!this.embeddingClient) {
+      return [];
+    }
+
     try {
-      // Generate embedding from the expanded query for better semantic match
-      const embRes = await this.openai.embeddings.create({
-        model: 'text-embedding-3-small',
+      // Generate embedding using Jina AI (dimensions=1536 to match DB schema)
+      const embRes = await this.embeddingClient.embeddings.create({
+        model: 'jina-embeddings-v4',
         input: expandedQuery,
-      });
+        dimensions: 1024,
+      } as any);
       const vectorStr = `[${embRes.data[0].embedding.join(',')}]`;
 
       // Hybrid SQL: combine vector cosine distance + full-text rank via RRF
