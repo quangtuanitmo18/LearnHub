@@ -308,6 +308,10 @@ export type UserWhereInput = {
     Prisma.InstructorProfileNullableScalarRelationFilter,
     Prisma.InstructorProfileWhereInput
   > | null;
+  memory?: Prisma.XOR<
+    Prisma.UserMemoryNullableScalarRelationFilter,
+    Prisma.UserMemoryWhereInput
+  > | null;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -341,6 +345,7 @@ export type UserOrderByWithRelationInput = {
   media?: Prisma.MediaOrderByRelationAggregateInput;
   lessonProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput;
   instructorProfile?: Prisma.InstructorProfileOrderByWithRelationInput;
+  memory?: Prisma.UserMemoryOrderByWithRelationInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -388,6 +393,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     instructorProfile?: Prisma.XOR<
       Prisma.InstructorProfileNullableScalarRelationFilter,
       Prisma.InstructorProfileWhereInput
+    > | null;
+    memory?: Prisma.XOR<
+      Prisma.UserMemoryNullableScalarRelationFilter,
+      Prisma.UserMemoryWhereInput
     > | null;
   },
   'id' | 'email'
@@ -499,6 +508,7 @@ export type UserCreateInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -532,6 +542,7 @@ export type UserUncheckedCreateInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserUpdateInput = {
@@ -586,6 +597,7 @@ export type UserUpdateInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -640,6 +652,7 @@ export type UserUncheckedUpdateInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -1234,6 +1247,32 @@ export type UserUpdateOneRequiredWithoutLessonProgressNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutMemoryInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutMemoryInput,
+    Prisma.UserUncheckedCreateWithoutMemoryInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMemoryInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutMemoryNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutMemoryInput,
+    Prisma.UserUncheckedCreateWithoutMemoryInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMemoryInput;
+  upsert?: Prisma.UserUpsertWithoutMemoryInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutMemoryInput,
+      Prisma.UserUpdateWithoutMemoryInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutMemoryInput
+  >;
+};
+
 export type UserCreateWithoutInstructorProfileInput = {
   id?: string;
   username: string;
@@ -1264,6 +1303,7 @@ export type UserCreateWithoutInstructorProfileInput = {
   notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput;
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutInstructorProfileInput = {
@@ -1296,6 +1336,7 @@ export type UserUncheckedCreateWithoutInstructorProfileInput = {
   notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput;
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutInstructorProfileInput = {
@@ -1377,6 +1418,7 @@ export type UserUpdateWithoutInstructorProfileInput = {
   notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput;
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutInstructorProfileInput = {
@@ -1430,6 +1472,7 @@ export type UserUncheckedUpdateWithoutInstructorProfileInput = {
   notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput;
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutRolesInput = {
@@ -1462,6 +1505,7 @@ export type UserCreateWithoutRolesInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutRolesInput = {
@@ -1494,6 +1538,7 @@ export type UserUncheckedCreateWithoutRolesInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutRolesInput = {
@@ -1590,6 +1635,7 @@ export type UserCreateWithoutBlogsInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutBlogsInput = {
@@ -1622,6 +1668,7 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutBlogsInput = {
@@ -1703,6 +1750,7 @@ export type UserUpdateWithoutBlogsInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutBlogsInput = {
@@ -1756,6 +1804,7 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCoursesInput = {
@@ -1788,6 +1837,7 @@ export type UserCreateWithoutCoursesInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCoursesInput = {
@@ -1820,6 +1870,7 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCoursesInput = {
@@ -1901,6 +1952,7 @@ export type UserUpdateWithoutCoursesInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -1954,6 +2006,7 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutMediaInput = {
@@ -1986,6 +2039,7 @@ export type UserCreateWithoutMediaInput = {
   notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutMediaInput = {
@@ -2018,6 +2072,7 @@ export type UserUncheckedCreateWithoutMediaInput = {
   notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutMediaInput = {
@@ -2099,6 +2154,7 @@ export type UserUpdateWithoutMediaInput = {
   notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutMediaInput = {
@@ -2152,6 +2208,7 @@ export type UserUncheckedUpdateWithoutMediaInput = {
   notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCartsInput = {
@@ -2184,6 +2241,7 @@ export type UserCreateWithoutCartsInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCartsInput = {
@@ -2216,6 +2274,7 @@ export type UserUncheckedCreateWithoutCartsInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCartsInput = {
@@ -2297,6 +2356,7 @@ export type UserUpdateWithoutCartsInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCartsInput = {
@@ -2350,6 +2410,7 @@ export type UserUncheckedUpdateWithoutCartsInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutOrdersInput = {
@@ -2382,6 +2443,7 @@ export type UserCreateWithoutOrdersInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -2414,6 +2476,7 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -2495,6 +2558,7 @@ export type UserUpdateWithoutOrdersInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -2548,6 +2612,7 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutReviewsInput = {
@@ -2580,6 +2645,7 @@ export type UserCreateWithoutReviewsInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -2612,6 +2678,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -2693,6 +2760,7 @@ export type UserUpdateWithoutReviewsInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -2746,6 +2814,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutNotificationsInput = {
@@ -2778,6 +2847,7 @@ export type UserCreateWithoutNotificationsInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2810,6 +2880,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2891,6 +2962,7 @@ export type UserUpdateWithoutNotificationsInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -2944,6 +3016,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCommentsInput = {
@@ -2976,6 +3049,7 @@ export type UserCreateWithoutCommentsInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -3008,6 +3082,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -3089,6 +3164,7 @@ export type UserUpdateWithoutCommentsInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -3142,6 +3218,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCommentReactionsInput = {
@@ -3174,6 +3251,7 @@ export type UserCreateWithoutCommentReactionsInput = {
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCommentReactionsInput = {
@@ -3206,6 +3284,7 @@ export type UserUncheckedCreateWithoutCommentReactionsInput = {
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCommentReactionsInput = {
@@ -3287,6 +3366,7 @@ export type UserUpdateWithoutCommentReactionsInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCommentReactionsInput = {
@@ -3340,6 +3420,7 @@ export type UserUncheckedUpdateWithoutCommentReactionsInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutLessonProgressInput = {
@@ -3372,6 +3453,7 @@ export type UserCreateWithoutLessonProgressInput = {
   notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput;
   media?: Prisma.MediaCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutLessonProgressInput = {
@@ -3404,6 +3486,7 @@ export type UserUncheckedCreateWithoutLessonProgressInput = {
   notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput;
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutLessonProgressInput = {
@@ -3485,6 +3568,7 @@ export type UserUpdateWithoutLessonProgressInput = {
   notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput;
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutLessonProgressInput = {
@@ -3537,6 +3621,209 @@ export type UserUncheckedUpdateWithoutLessonProgressInput = {
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput;
   notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput;
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
+};
+
+export type UserCreateWithoutMemoryInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  resetPasswordToken?: string | null;
+  resetPasswordExpires?: Date | string | null;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput;
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput;
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
+  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+};
+
+export type UserUncheckedCreateWithoutMemoryInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  resetPasswordToken?: string | null;
+  resetPasswordExpires?: Date | string | null;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  isEmailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput;
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput;
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+};
+
+export type UserCreateOrConnectWithoutMemoryInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutMemoryInput,
+    Prisma.UserUncheckedCreateWithoutMemoryInput
+  >;
+};
+
+export type UserUpsertWithoutMemoryInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutMemoryInput,
+    Prisma.UserUncheckedUpdateWithoutMemoryInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutMemoryInput,
+    Prisma.UserUncheckedCreateWithoutMemoryInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutMemoryInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutMemoryInput,
+    Prisma.UserUncheckedUpdateWithoutMemoryInput
+  >;
+};
+
+export type UserUpdateWithoutMemoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput;
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput;
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutMemoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput;
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput;
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
 };
 
@@ -3591,6 +3878,7 @@ export type UserUpdateWithoutRolesInput = {
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRolesInput = {
@@ -3644,6 +3932,7 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateManyWithoutRolesInput = {
@@ -3881,6 +4170,7 @@ export type UserSelect<
     media?: boolean | Prisma.User$mediaArgs<ExtArgs>;
     lessonProgress?: boolean | Prisma.User$lessonProgressArgs<ExtArgs>;
     instructorProfile?: boolean | Prisma.User$instructorProfileArgs<ExtArgs>;
+    memory?: boolean | Prisma.User$memoryArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -4001,6 +4291,7 @@ export type UserInclude<
   media?: boolean | Prisma.User$mediaArgs<ExtArgs>;
   lessonProgress?: boolean | Prisma.User$lessonProgressArgs<ExtArgs>;
   instructorProfile?: boolean | Prisma.User$instructorProfileArgs<ExtArgs>;
+  memory?: boolean | Prisma.User$memoryArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -4030,6 +4321,7 @@ export type $UserPayload<
     media: Prisma.$MediaPayload<ExtArgs>[];
     lessonProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[];
     instructorProfile: Prisma.$InstructorProfilePayload<ExtArgs> | null;
+    memory: Prisma.$UserMemoryPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -4727,6 +5019,19 @@ export interface Prisma__UserClient<
   ): Prisma.Prisma__InstructorProfileClient<
     runtime.Types.Result.GetResult<
       Prisma.$InstructorProfilePayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
+  memory<T extends Prisma.User$memoryArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$memoryArgs<ExtArgs>>,
+  ): Prisma.Prisma__UserMemoryClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$UserMemoryPayload<ExtArgs>,
       T,
       'findUniqueOrThrow',
       GlobalOmitOptions
@@ -5580,6 +5885,28 @@ export type User$instructorProfileArgs<
    */
   include?: Prisma.InstructorProfileInclude<ExtArgs> | null;
   where?: Prisma.InstructorProfileWhereInput;
+};
+
+/**
+ * User.memory
+ */
+export type User$memoryArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the UserMemory
+   */
+  select?: Prisma.UserMemorySelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the UserMemory
+   */
+  omit?: Prisma.UserMemoryOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserMemoryInclude<ExtArgs> | null;
+  where?: Prisma.UserMemoryWhereInput;
 };
 
 /**

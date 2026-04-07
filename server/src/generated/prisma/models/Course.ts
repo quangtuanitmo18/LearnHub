@@ -378,6 +378,7 @@ export type CourseWhereInput = {
   cartItems?: Prisma.CartItemListRelationFilter;
   orderItems?: Prisma.OrderItemListRelationFilter;
   reviews?: Prisma.ReviewListRelationFilter;
+  documentChunks?: Prisma.DocumentChunkListRelationFilter;
 };
 
 export type CourseOrderByWithRelationInput = {
@@ -411,6 +412,7 @@ export type CourseOrderByWithRelationInput = {
   cartItems?: Prisma.CartItemOrderByRelationAggregateInput;
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput;
   reviews?: Prisma.ReviewOrderByRelationAggregateInput;
+  documentChunks?: Prisma.DocumentChunkOrderByRelationAggregateInput;
 };
 
 export type CourseWhereUniqueInput = Prisma.AtLeast<
@@ -475,6 +477,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<
     cartItems?: Prisma.CartItemListRelationFilter;
     orderItems?: Prisma.OrderItemListRelationFilter;
     reviews?: Prisma.ReviewListRelationFilter;
+    documentChunks?: Prisma.DocumentChunkListRelationFilter;
   },
   'id' | 'slug'
 >;
@@ -593,6 +596,7 @@ export type CourseCreateInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateInput = {
@@ -623,6 +627,7 @@ export type CourseUncheckedCreateInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUpdateInput = {
@@ -671,6 +676,7 @@ export type CourseUpdateInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateInput = {
@@ -719,6 +725,7 @@ export type CourseUncheckedUpdateInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseCreateManyInput = {
@@ -911,6 +918,11 @@ export type CourseSumOrderByAggregateInput = {
 export type CourseScalarRelationFilter = {
   is?: Prisma.CourseWhereInput;
   isNot?: Prisma.CourseWhereInput;
+};
+
+export type CourseNullableScalarRelationFilter = {
+  is?: Prisma.CourseWhereInput | null;
+  isNot?: Prisma.CourseWhereInput | null;
 };
 
 export type CourseCreateNestedManyWithoutAuthorInput = {
@@ -1519,6 +1531,25 @@ export type CourseUpdateOneRequiredWithoutLessonProgressNestedInput = {
   >;
 };
 
+export type CourseUpdateOneWithoutDocumentChunksNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.CourseCreateWithoutDocumentChunksInput,
+    Prisma.CourseUncheckedCreateWithoutDocumentChunksInput
+  >;
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutDocumentChunksInput;
+  upsert?: Prisma.CourseUpsertWithoutDocumentChunksInput;
+  disconnect?: Prisma.CourseWhereInput | boolean;
+  delete?: Prisma.CourseWhereInput | boolean;
+  connect?: Prisma.CourseWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.CourseUpdateToOneWithWhereWithoutDocumentChunksInput,
+      Prisma.CourseUpdateWithoutDocumentChunksInput
+    >,
+    Prisma.CourseUncheckedUpdateWithoutDocumentChunksInput
+  >;
+};
+
 export type CourseCreateWithoutAuthorInput = {
   id?: string;
   title?: string | null;
@@ -1546,6 +1577,7 @@ export type CourseCreateWithoutAuthorInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutAuthorInput = {
@@ -1575,6 +1607,7 @@ export type CourseUncheckedCreateWithoutAuthorInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutAuthorInput = {
@@ -1690,6 +1723,7 @@ export type CourseCreateWithoutCategoryInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutCategoryInput = {
@@ -1719,6 +1753,7 @@ export type CourseUncheckedCreateWithoutCategoryInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutCategoryInput = {
@@ -1791,6 +1826,7 @@ export type CourseCreateWithoutChaptersInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutChaptersInput = {
@@ -1820,6 +1856,7 @@ export type CourseUncheckedCreateWithoutChaptersInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutChaptersInput = {
@@ -1895,6 +1932,7 @@ export type CourseUpdateWithoutChaptersInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutChaptersInput = {
@@ -1942,6 +1980,7 @@ export type CourseUncheckedUpdateWithoutChaptersInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseCreateWithoutLessonsInput = {
@@ -1971,6 +2010,7 @@ export type CourseCreateWithoutLessonsInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutLessonsInput = {
@@ -2000,6 +2040,7 @@ export type CourseUncheckedCreateWithoutLessonsInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutLessonsInput = {
@@ -2075,6 +2116,7 @@ export type CourseUpdateWithoutLessonsInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutLessonsInput = {
@@ -2122,6 +2164,7 @@ export type CourseUncheckedUpdateWithoutLessonsInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseCreateWithoutImageInput = {
@@ -2151,6 +2194,7 @@ export type CourseCreateWithoutImageInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutImageInput = {
@@ -2180,6 +2224,7 @@ export type CourseUncheckedCreateWithoutImageInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutImageInput = {
@@ -2222,6 +2267,7 @@ export type CourseCreateWithoutPreviewImagesInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutPreviewImagesInput = {
@@ -2251,6 +2297,7 @@ export type CourseUncheckedCreateWithoutPreviewImagesInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutPreviewImagesInput = {
@@ -2344,6 +2391,7 @@ export type CourseCreateWithoutCouponsInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutCouponsInput = {
@@ -2373,6 +2421,7 @@ export type CourseUncheckedCreateWithoutCouponsInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutCouponsInput = {
@@ -2438,6 +2487,7 @@ export type CourseCreateWithoutCartItemsInput = {
   coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutCartItemsInput = {
@@ -2467,6 +2517,7 @@ export type CourseUncheckedCreateWithoutCartItemsInput = {
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutCartItemsInput = {
@@ -2542,6 +2593,7 @@ export type CourseUpdateWithoutCartItemsInput = {
   coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutCartItemsInput = {
@@ -2589,6 +2641,7 @@ export type CourseUncheckedUpdateWithoutCartItemsInput = {
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseCreateWithoutOrderItemsInput = {
@@ -2618,6 +2671,7 @@ export type CourseCreateWithoutOrderItemsInput = {
   coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput;
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutOrderItemsInput = {
@@ -2647,6 +2701,7 @@ export type CourseUncheckedCreateWithoutOrderItemsInput = {
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput;
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutOrderItemsInput = {
@@ -2722,6 +2777,7 @@ export type CourseUpdateWithoutOrderItemsInput = {
   coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput;
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutOrderItemsInput = {
@@ -2769,6 +2825,7 @@ export type CourseUncheckedUpdateWithoutOrderItemsInput = {
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput;
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseCreateWithoutReviewsInput = {
@@ -2798,6 +2855,7 @@ export type CourseCreateWithoutReviewsInput = {
   coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput;
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutReviewsInput = {
@@ -2827,6 +2885,7 @@ export type CourseUncheckedCreateWithoutReviewsInput = {
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput;
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutReviewsInput = {
@@ -2902,6 +2961,7 @@ export type CourseUpdateWithoutReviewsInput = {
   coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput;
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutReviewsInput = {
@@ -2949,6 +3009,7 @@ export type CourseUncheckedUpdateWithoutReviewsInput = {
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput;
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseCreateWithoutLessonProgressInput = {
@@ -2978,6 +3039,7 @@ export type CourseCreateWithoutLessonProgressInput = {
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseUncheckedCreateWithoutLessonProgressInput = {
@@ -3007,6 +3069,7 @@ export type CourseUncheckedCreateWithoutLessonProgressInput = {
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput;
 };
 
 export type CourseCreateOrConnectWithoutLessonProgressInput = {
@@ -3082,6 +3145,7 @@ export type CourseUpdateWithoutLessonProgressInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutLessonProgressInput = {
@@ -3125,6 +3189,191 @@ export type CourseUncheckedUpdateWithoutLessonProgressInput = {
   previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput;
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput;
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput;
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput;
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
+  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
+};
+
+export type CourseCreateWithoutDocumentChunksInput = {
+  id?: string;
+  title?: string | null;
+  slug?: string | null;
+  description?: string | null;
+  excerpt?: string | null;
+  introUrl?: string | null;
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+  oldPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+  isFree?: boolean | null;
+  status?: $Enums.CourseStatus | null;
+  view?: number | null;
+  sold?: number | null;
+  level?: $Enums.CourseLevel | null;
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput;
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput;
+  author?: Prisma.UserCreateNestedOneWithoutCoursesInput;
+  category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput;
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput;
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput;
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput;
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput;
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput;
+  orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput;
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput;
+};
+
+export type CourseUncheckedCreateWithoutDocumentChunksInput = {
+  id?: string;
+  title?: string | null;
+  slug?: string | null;
+  description?: string | null;
+  excerpt?: string | null;
+  introUrl?: string | null;
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+  oldPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
+  isFree?: boolean | null;
+  status?: $Enums.CourseStatus | null;
+  view?: number | null;
+  sold?: number | null;
+  level?: $Enums.CourseLevel | null;
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  imageId?: string | null;
+  authorId?: string | null;
+  categoryId?: string | null;
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput;
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput;
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput;
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput;
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput;
+  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput;
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput;
+};
+
+export type CourseCreateOrConnectWithoutDocumentChunksInput = {
+  where: Prisma.CourseWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.CourseCreateWithoutDocumentChunksInput,
+    Prisma.CourseUncheckedCreateWithoutDocumentChunksInput
+  >;
+};
+
+export type CourseUpsertWithoutDocumentChunksInput = {
+  update: Prisma.XOR<
+    Prisma.CourseUpdateWithoutDocumentChunksInput,
+    Prisma.CourseUncheckedUpdateWithoutDocumentChunksInput
+  >;
+  create: Prisma.XOR<
+    Prisma.CourseCreateWithoutDocumentChunksInput,
+    Prisma.CourseUncheckedCreateWithoutDocumentChunksInput
+  >;
+  where?: Prisma.CourseWhereInput;
+};
+
+export type CourseUpdateToOneWithWhereWithoutDocumentChunksInput = {
+  where?: Prisma.CourseWhereInput;
+  data: Prisma.XOR<
+    Prisma.CourseUpdateWithoutDocumentChunksInput,
+    Prisma.CourseUncheckedUpdateWithoutDocumentChunksInput
+  >;
+};
+
+export type CourseUpdateWithoutDocumentChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  introUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  price?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  oldPrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  isFree?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null;
+  status?:
+    | Prisma.NullableEnumCourseStatusFieldUpdateOperationsInput
+    | $Enums.CourseStatus
+    | null;
+  view?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  sold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  level?:
+    | Prisma.NullableEnumCourseLevelFieldUpdateOperationsInput
+    | $Enums.CourseLevel
+    | null;
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput;
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput;
+  author?: Prisma.UserUpdateOneWithoutCoursesNestedInput;
+  category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput;
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput;
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput;
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput;
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
+  orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+};
+
+export type CourseUncheckedUpdateWithoutDocumentChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  introUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  price?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  oldPrice?:
+    | Prisma.NullableDecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string
+    | null;
+  isFree?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null;
+  status?:
+    | Prisma.NullableEnumCourseStatusFieldUpdateOperationsInput
+    | $Enums.CourseStatus
+    | null;
+  view?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  sold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  level?:
+    | Prisma.NullableEnumCourseLevelFieldUpdateOperationsInput
+    | $Enums.CourseLevel
+    | null;
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput;
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput;
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput;
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput;
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
@@ -3197,6 +3446,7 @@ export type CourseUpdateWithoutAuthorInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutAuthorInput = {
@@ -3244,6 +3494,7 @@ export type CourseUncheckedUpdateWithoutAuthorInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateManyWithoutAuthorInput = {
@@ -3351,6 +3602,7 @@ export type CourseUpdateWithoutCategoryInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutCategoryInput = {
@@ -3398,6 +3650,7 @@ export type CourseUncheckedUpdateWithoutCategoryInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateManyWithoutCategoryInput = {
@@ -3505,6 +3758,7 @@ export type CourseUpdateWithoutImageInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutImageInput = {
@@ -3552,6 +3806,7 @@ export type CourseUncheckedUpdateWithoutImageInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateManyWithoutImageInput = {
@@ -3638,6 +3893,7 @@ export type CourseUpdateWithoutPreviewImagesInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutPreviewImagesInput = {
@@ -3685,6 +3941,7 @@ export type CourseUncheckedUpdateWithoutPreviewImagesInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateManyWithoutPreviewImagesInput = {
@@ -3772,6 +4029,7 @@ export type CourseUpdateWithoutCouponsInput = {
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateWithoutCouponsInput = {
@@ -3819,6 +4077,7 @@ export type CourseUncheckedUpdateWithoutCouponsInput = {
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput;
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput;
 };
 
 export type CourseUncheckedUpdateManyWithoutCouponsInput = {
@@ -3874,6 +4133,7 @@ export type CourseCountOutputType = {
   cartItems: number;
   orderItems: number;
   reviews: number;
+  documentChunks: number;
 };
 
 export type CourseCountOutputTypeSelect<
@@ -3888,6 +4148,7 @@ export type CourseCountOutputTypeSelect<
   cartItems?: boolean | CourseCountOutputTypeCountCartItemsArgs;
   orderItems?: boolean | CourseCountOutputTypeCountOrderItemsArgs;
   reviews?: boolean | CourseCountOutputTypeCountReviewsArgs;
+  documentChunks?: boolean | CourseCountOutputTypeCountDocumentChunksArgs;
 };
 
 /**
@@ -3983,6 +4244,16 @@ export type CourseCountOutputTypeCountReviewsArgs<
   where?: Prisma.ReviewWhereInput;
 };
 
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountDocumentChunksArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.DocumentChunkWhereInput;
+};
+
 export type CourseSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -4018,6 +4289,7 @@ export type CourseSelect<
     cartItems?: boolean | Prisma.Course$cartItemsArgs<ExtArgs>;
     orderItems?: boolean | Prisma.Course$orderItemsArgs<ExtArgs>;
     reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>;
+    documentChunks?: boolean | Prisma.Course$documentChunksArgs<ExtArgs>;
     _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['course']
@@ -4147,6 +4419,7 @@ export type CourseInclude<
   cartItems?: boolean | Prisma.Course$cartItemsArgs<ExtArgs>;
   orderItems?: boolean | Prisma.Course$orderItemsArgs<ExtArgs>;
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>;
+  documentChunks?: boolean | Prisma.Course$documentChunksArgs<ExtArgs>;
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type CourseIncludeCreateManyAndReturn<
@@ -4183,6 +4456,7 @@ export type $CoursePayload<
     cartItems: Prisma.$CartItemPayload<ExtArgs>[];
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[];
     reviews: Prisma.$ReviewPayload<ExtArgs>[];
+    documentChunks: Prisma.$DocumentChunkPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -4876,6 +5150,17 @@ export interface Prisma__CourseClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$ReviewPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  documentChunks<T extends Prisma.Course$documentChunksArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Course$documentChunksArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$DocumentChunkPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -5697,6 +5982,37 @@ export type Course$reviewsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[];
+};
+
+/**
+ * Course.documentChunks
+ */
+export type Course$documentChunksArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the DocumentChunk
+   */
+  select?: Prisma.DocumentChunkSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the DocumentChunk
+   */
+  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChunkInclude<ExtArgs> | null;
+  where?: Prisma.DocumentChunkWhereInput;
+  orderBy?:
+    | Prisma.DocumentChunkOrderByWithRelationInput
+    | Prisma.DocumentChunkOrderByWithRelationInput[];
+  cursor?: Prisma.DocumentChunkWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.DocumentChunkScalarFieldEnum
+    | Prisma.DocumentChunkScalarFieldEnum[];
 };
 
 /**

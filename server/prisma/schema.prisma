@@ -144,6 +144,7 @@ model User {
   media         Media[]
   lessonProgress UserLessonProgress[]
   instructorProfile InstructorProfile?
+  memory        UserMemory?
   @@index([email], name: "idx_user_email")
   @@index([resetPasswordToken], name: "idx_user_reset_token")
 }
@@ -197,6 +198,7 @@ model Blog {
   authorId   String?
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String
+  documentChunks DocumentChunk[]
 
   @@index([title], name: "idx_blog_title")
   @@index([slug], name: "idx_blog_slug")
@@ -257,6 +259,7 @@ model Course {
   cartItems  CartItem[]
   orderItems OrderItem[]
   reviews    Review[]
+  documentChunks DocumentChunk[]
 
   @@index([title], name: "idx_course_title")
   @@index([slug], name: "idx_course_slug")
@@ -308,6 +311,7 @@ model Lesson {
   chapterId String
   comments  Comment[]
   userProgress UserLessonProgress[]
+  documentChunks DocumentChunk[]
 
   @@index([type])
   @@index([courseId], name: "idx_lesson_course")
@@ -699,4 +703,93 @@ model UserLessonProgress {
   @@index([userId], name: "idx_user_lesson_progress_user")
   @@index([lessonId], name: "idx_user_lesson_progress_lesson")
   @@index([courseId], name: "idx_user_lesson_progress_course")
+}
+
+// ==================== AI LMS EMBEDDING (RAG) ====================
+
+enum DocumentSourceType {
+  COURSE
+  LESSON_ARTICLE
+  LESSON_VIDEO
+  LESSON_QUIZ
+  BLOG
+}
+
+model DocumentChunk {
+  id          String             @id @default(uuid())
+  content     String             @db.Text
+  
+  // Requires "pgvector" extension to be enabled in PostgreSQL
+  embedding   Unsupported("vector(1536)")
+  
+  sourceType  DocumentSourceType
+  metadata    Json?
+
+  courseId    String?
+  lessonId    String?
+  blogId      String?
+
+  chunkIndex  Int     @default(0)
+  
+  createdAt   DateTime @default(now())
+
+  // Relations
+  course      Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lesson      Lesson?  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  blog        Blog?    @relation(fields: [blogId],   references: [id], onDelete: Cascade)
+
+  @@index([sourceType])
+  @@index([courseId])
+  @@index([lessonId])
+
+  concepts DocumentChunkConcept[]
+}
+
+// ==================== AI LONG-TERM MEMORY ====================
+
+model UserMemory {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  summary   String   @db.Text
+  traits    Json?
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ==================== AI KNOWLEDGE GRAPH ====================
+
+model ConceptNode {
+  id       String  @id @default(uuid())
+  name     String  @unique
+  category String?
+
+  outEdges ConceptRelation[]     @relation("fromConcept")
+  inEdges  ConceptRelation[]     @relation("toConcept")
+  chunks   DocumentChunkConcept[]
+}
+
+model ConceptRelation {
+  id       String @id @default(uuid())
+  fromId   String
+  toId     String
+  relation String
+
+  from ConceptNode @relation("fromConcept", fields: [fromId], references: [id], onDelete: Cascade)
+  to   ConceptNode @relation("toConcept", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId, relation])
+  @@index([fromId])
+  @@index([toId])
+}
+
+model DocumentChunkConcept {
+  chunkId   String
+  conceptId String
+
+  chunk   DocumentChunk @relation(fields: [chunkId], references: [id], onDelete: Cascade)
+  concept ConceptNode   @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+
+  @@id([chunkId, conceptId])
+  @@index([conceptId])
 }

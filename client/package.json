@@ -12,6 +12,7 @@
     "format:fix": "prettier --write ."
   },
   "dependencies": {
+    "@ai-sdk/react": "^3.0.148",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
@@ -68,6 +69,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "@vidstack/react": "^1.12.13",
+    "ai": "^6.0.146",
     "axios": "^1.11.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -90,6 +92,7 @@
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.61.1",
     "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
     "react-number-format": "^5.4.4",
     "recharts": "^3.2.1",
     "sakura-js": "^1.1.1",

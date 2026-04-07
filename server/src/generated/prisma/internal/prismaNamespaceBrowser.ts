@@ -82,6 +82,11 @@ export const ModelName = {
   Comment: 'Comment',
   CommentReaction: 'CommentReaction',
   UserLessonProgress: 'UserLessonProgress',
+  DocumentChunk: 'DocumentChunk',
+  UserMemory: 'UserMemory',
+  ConceptNode: 'ConceptNode',
+  ConceptRelation: 'ConceptRelation',
+  DocumentChunkConcept: 'DocumentChunkConcept',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -505,6 +510,59 @@ export const UserLessonProgressScalarFieldEnum = {
 
 export type UserLessonProgressScalarFieldEnum =
   (typeof UserLessonProgressScalarFieldEnum)[keyof typeof UserLessonProgressScalarFieldEnum];
+
+export const DocumentChunkScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  sourceType: 'sourceType',
+  metadata: 'metadata',
+  courseId: 'courseId',
+  lessonId: 'lessonId',
+  blogId: 'blogId',
+  chunkIndex: 'chunkIndex',
+  createdAt: 'createdAt',
+} as const;
+
+export type DocumentChunkScalarFieldEnum =
+  (typeof DocumentChunkScalarFieldEnum)[keyof typeof DocumentChunkScalarFieldEnum];
+
+export const UserMemoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  summary: 'summary',
+  traits: 'traits',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type UserMemoryScalarFieldEnum =
+  (typeof UserMemoryScalarFieldEnum)[keyof typeof UserMemoryScalarFieldEnum];
+
+export const ConceptNodeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+} as const;
+
+export type ConceptNodeScalarFieldEnum =
+  (typeof ConceptNodeScalarFieldEnum)[keyof typeof ConceptNodeScalarFieldEnum];
+
+export const ConceptRelationScalarFieldEnum = {
+  id: 'id',
+  fromId: 'fromId',
+  toId: 'toId',
+  relation: 'relation',
+} as const;
+
+export type ConceptRelationScalarFieldEnum =
+  (typeof ConceptRelationScalarFieldEnum)[keyof typeof ConceptRelationScalarFieldEnum];
+
+export const DocumentChunkConceptScalarFieldEnum = {
+  chunkId: 'chunkId',
+  conceptId: 'conceptId',
+} as const;
+
+export type DocumentChunkConceptScalarFieldEnum =
+  (typeof DocumentChunkConceptScalarFieldEnum)[keyof typeof DocumentChunkConceptScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

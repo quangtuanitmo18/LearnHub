@@ -249,6 +249,7 @@ export type BlogWhereInput = {
     Prisma.CategoryNullableScalarRelationFilter,
     Prisma.CategoryWhereInput
   > | null;
+  documentChunks?: Prisma.DocumentChunkListRelationFilter;
 };
 
 export type BlogOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type BlogOrderByWithRelationInput = {
   categoryId?: Prisma.SortOrder;
   author?: Prisma.UserOrderByWithRelationInput;
   category?: Prisma.CategoryOrderByWithRelationInput;
+  documentChunks?: Prisma.DocumentChunkOrderByRelationAggregateInput;
 };
 
 export type BlogWhereUniqueInput = Prisma.AtLeast<
@@ -293,6 +295,7 @@ export type BlogWhereUniqueInput = Prisma.AtLeast<
       Prisma.CategoryNullableScalarRelationFilter,
       Prisma.CategoryWhereInput
     > | null;
+    documentChunks?: Prisma.DocumentChunkListRelationFilter;
   },
   'id' | 'slug'
 >;
@@ -356,6 +359,7 @@ export type BlogCreateInput = {
   updatedAt?: Date | string;
   author?: Prisma.UserCreateNestedOneWithoutBlogsInput;
   category?: Prisma.CategoryCreateNestedOneWithoutBlogsInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutBlogInput;
 };
 
 export type BlogUncheckedCreateInput = {
@@ -371,6 +375,7 @@ export type BlogUncheckedCreateInput = {
   updatedAt?: Date | string;
   authorId?: string | null;
   categoryId: string;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutBlogInput;
 };
 
 export type BlogUpdateInput = {
@@ -390,6 +395,7 @@ export type BlogUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   author?: Prisma.UserUpdateOneWithoutBlogsNestedInput;
   category?: Prisma.CategoryUpdateOneWithoutBlogsNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutBlogNestedInput;
 };
 
 export type BlogUncheckedUpdateInput = {
@@ -409,6 +415,7 @@ export type BlogUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutBlogNestedInput;
 };
 
 export type BlogCreateManyInput = {
@@ -515,6 +522,11 @@ export type BlogMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder;
   authorId?: Prisma.SortOrder;
   categoryId?: Prisma.SortOrder;
+};
+
+export type BlogNullableScalarRelationFilter = {
+  is?: Prisma.BlogWhereInput | null;
+  isNot?: Prisma.BlogWhereInput | null;
 };
 
 export type BlogCreateNestedManyWithoutAuthorInput = {
@@ -693,6 +705,25 @@ export type BlogUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.BlogScalarWhereInput | Prisma.BlogScalarWhereInput[];
 };
 
+export type BlogUpdateOneWithoutDocumentChunksNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.BlogCreateWithoutDocumentChunksInput,
+    Prisma.BlogUncheckedCreateWithoutDocumentChunksInput
+  >;
+  connectOrCreate?: Prisma.BlogCreateOrConnectWithoutDocumentChunksInput;
+  upsert?: Prisma.BlogUpsertWithoutDocumentChunksInput;
+  disconnect?: Prisma.BlogWhereInput | boolean;
+  delete?: Prisma.BlogWhereInput | boolean;
+  connect?: Prisma.BlogWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.BlogUpdateToOneWithWhereWithoutDocumentChunksInput,
+      Prisma.BlogUpdateWithoutDocumentChunksInput
+    >,
+    Prisma.BlogUncheckedUpdateWithoutDocumentChunksInput
+  >;
+};
+
 export type BlogCreateWithoutAuthorInput = {
   id?: string;
   title?: string | null;
@@ -705,6 +736,7 @@ export type BlogCreateWithoutAuthorInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   category?: Prisma.CategoryCreateNestedOneWithoutBlogsInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutBlogInput;
 };
 
 export type BlogUncheckedCreateWithoutAuthorInput = {
@@ -719,6 +751,7 @@ export type BlogUncheckedCreateWithoutAuthorInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   categoryId: string;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutBlogInput;
 };
 
 export type BlogCreateOrConnectWithoutAuthorInput = {
@@ -792,6 +825,7 @@ export type BlogCreateWithoutCategoryInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   author?: Prisma.UserCreateNestedOneWithoutBlogsInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutBlogInput;
 };
 
 export type BlogUncheckedCreateWithoutCategoryInput = {
@@ -806,6 +840,7 @@ export type BlogUncheckedCreateWithoutCategoryInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   authorId?: string | null;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutBlogInput;
 };
 
 export type BlogCreateOrConnectWithoutCategoryInput = {
@@ -851,6 +886,102 @@ export type BlogUpdateManyWithWhereWithoutCategoryInput = {
   >;
 };
 
+export type BlogCreateWithoutDocumentChunksInput = {
+  id?: string;
+  title?: string | null;
+  slug?: string | null;
+  content?: string | null;
+  excerpt?: string | null;
+  thumbnail: string;
+  status?: $Enums.BlogStatus;
+  publishedAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  author?: Prisma.UserCreateNestedOneWithoutBlogsInput;
+  category?: Prisma.CategoryCreateNestedOneWithoutBlogsInput;
+};
+
+export type BlogUncheckedCreateWithoutDocumentChunksInput = {
+  id?: string;
+  title?: string | null;
+  slug?: string | null;
+  content?: string | null;
+  excerpt?: string | null;
+  thumbnail: string;
+  status?: $Enums.BlogStatus;
+  publishedAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  authorId?: string | null;
+  categoryId: string;
+};
+
+export type BlogCreateOrConnectWithoutDocumentChunksInput = {
+  where: Prisma.BlogWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.BlogCreateWithoutDocumentChunksInput,
+    Prisma.BlogUncheckedCreateWithoutDocumentChunksInput
+  >;
+};
+
+export type BlogUpsertWithoutDocumentChunksInput = {
+  update: Prisma.XOR<
+    Prisma.BlogUpdateWithoutDocumentChunksInput,
+    Prisma.BlogUncheckedUpdateWithoutDocumentChunksInput
+  >;
+  create: Prisma.XOR<
+    Prisma.BlogCreateWithoutDocumentChunksInput,
+    Prisma.BlogUncheckedCreateWithoutDocumentChunksInput
+  >;
+  where?: Prisma.BlogWhereInput;
+};
+
+export type BlogUpdateToOneWithWhereWithoutDocumentChunksInput = {
+  where?: Prisma.BlogWhereInput;
+  data: Prisma.XOR<
+    Prisma.BlogUpdateWithoutDocumentChunksInput,
+    Prisma.BlogUncheckedUpdateWithoutDocumentChunksInput
+  >;
+};
+
+export type BlogUpdateWithoutDocumentChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  thumbnail?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumBlogStatusFieldUpdateOperationsInput | $Enums.BlogStatus;
+  publishedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  author?: Prisma.UserUpdateOneWithoutBlogsNestedInput;
+  category?: Prisma.CategoryUpdateOneWithoutBlogsNestedInput;
+};
+
+export type BlogUncheckedUpdateWithoutDocumentChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  thumbnail?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumBlogStatusFieldUpdateOperationsInput | $Enums.BlogStatus;
+  publishedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string;
+};
+
 export type BlogCreateManyAuthorInput = {
   id?: string;
   title?: string | null;
@@ -881,6 +1012,7 @@ export type BlogUpdateWithoutAuthorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   category?: Prisma.CategoryUpdateOneWithoutBlogsNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutBlogNestedInput;
 };
 
 export type BlogUncheckedUpdateWithoutAuthorInput = {
@@ -899,6 +1031,7 @@ export type BlogUncheckedUpdateWithoutAuthorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutBlogNestedInput;
 };
 
 export type BlogUncheckedUpdateManyWithoutAuthorInput = {
@@ -949,6 +1082,7 @@ export type BlogUpdateWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   author?: Prisma.UserUpdateOneWithoutBlogsNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutBlogNestedInput;
 };
 
 export type BlogUncheckedUpdateWithoutCategoryInput = {
@@ -967,6 +1101,7 @@ export type BlogUncheckedUpdateWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutBlogNestedInput;
 };
 
 export type BlogUncheckedUpdateManyWithoutCategoryInput = {
@@ -985,6 +1120,44 @@ export type BlogUncheckedUpdateManyWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+};
+
+/**
+ * Count Type BlogCountOutputType
+ */
+
+export type BlogCountOutputType = {
+  documentChunks: number;
+};
+
+export type BlogCountOutputTypeSelect<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  documentChunks?: boolean | BlogCountOutputTypeCountDocumentChunksArgs;
+};
+
+/**
+ * BlogCountOutputType without action
+ */
+export type BlogCountOutputTypeDefaultArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the BlogCountOutputType
+   */
+  select?: Prisma.BlogCountOutputTypeSelect<ExtArgs> | null;
+};
+
+/**
+ * BlogCountOutputType without action
+ */
+export type BlogCountOutputTypeCountDocumentChunksArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.DocumentChunkWhereInput;
 };
 
 export type BlogSelect<
@@ -1006,6 +1179,8 @@ export type BlogSelect<
     categoryId?: boolean;
     author?: boolean | Prisma.Blog$authorArgs<ExtArgs>;
     category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>;
+    documentChunks?: boolean | Prisma.Blog$documentChunksArgs<ExtArgs>;
+    _count?: boolean | Prisma.BlogCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['blog']
 >;
@@ -1095,6 +1270,8 @@ export type BlogInclude<
 > = {
   author?: boolean | Prisma.Blog$authorArgs<ExtArgs>;
   category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>;
+  documentChunks?: boolean | Prisma.Blog$documentChunksArgs<ExtArgs>;
+  _count?: boolean | Prisma.BlogCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type BlogIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
@@ -1119,6 +1296,7 @@ export type $BlogPayload<
   objects: {
     author: Prisma.$UserPayload<ExtArgs> | null;
     category: Prisma.$CategoryPayload<ExtArgs> | null;
+    documentChunks: Prisma.$DocumentChunkPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1710,6 +1888,17 @@ export interface Prisma__BlogClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  documentChunks<T extends Prisma.Blog$documentChunksArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Blog$documentChunksArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$DocumentChunkPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2254,6 +2443,37 @@ export type Blog$categoryArgs<
    */
   include?: Prisma.CategoryInclude<ExtArgs> | null;
   where?: Prisma.CategoryWhereInput;
+};
+
+/**
+ * Blog.documentChunks
+ */
+export type Blog$documentChunksArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the DocumentChunk
+   */
+  select?: Prisma.DocumentChunkSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the DocumentChunk
+   */
+  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChunkInclude<ExtArgs> | null;
+  where?: Prisma.DocumentChunkWhereInput;
+  orderBy?:
+    | Prisma.DocumentChunkOrderByWithRelationInput
+    | Prisma.DocumentChunkOrderByWithRelationInput[];
+  cursor?: Prisma.DocumentChunkWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.DocumentChunkScalarFieldEnum
+    | Prisma.DocumentChunkScalarFieldEnum[];
 };
 
 /**

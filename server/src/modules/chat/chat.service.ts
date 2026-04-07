@@ -1,11 +1,54 @@
+import {
+  AIMessage,
+  HumanMessage,
+  SystemMessage,
+  ToolMessage,
+} from '@langchain/core/messages';
+import { Annotation, END, START, StateGraph } from '@langchain/langgraph';
+import { ChatOpenAI } from '@langchain/openai';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import OpenAI from 'openai';
+import { z } from 'zod';
 import { CourseRepository } from '../course/course.repository';
 import { OrderRepository } from '../order/order.repository';
 import { ChatMessage, ChatStore } from './chat.store';
 import { ChatCourseDto, ChatReplyDto } from './dto/chat-response.dto';
 import { Intent, IntentService } from './intent.service';
+import { KnowledgeGraphService } from './knowledge-graph.service';
+import { MemoryService } from './memory.service';
+import { RetrievalService } from './retrieval.service';
+import { ToolsService } from './tools.service';
+
+const GraphState = Annotation.Root({
+  messages: Annotation<any[]>({
+    reducer: (x, y) => x.concat(y),
+    default: () => [],
+  }),
+  intent: Annotation<Intent>({
+    reducer: (x, y) => y ?? x,
+    default: () => 'SMALL_TALK',
+  }),
+  courseContext: Annotation<string>({
+    reducer: (x, y) => y ?? x,
+    default: () => '',
+  }),
+  orderContext: Annotation<string>({
+    reducer: (x, y) => y ?? x,
+    default: () => '',
+  }),
+  rawText: Annotation<string>({
+    reducer: (x, y) => y ?? x,
+    default: () => '',
+  }),
+  expandedQuery: Annotation<string>({
+    reducer: (x, y) => y ?? x,
+    default: () => '',
+  }),
+  courses: Annotation<any[]>({
+    reducer: (x, y) => y ?? x,
+    default: () => [],
+  }),
+});
 
 interface CourseWithTags extends ChatCourseDto {
   tags?: string[];
@@ -19,7 +62,7 @@ interface GeminiParsedResponse {
 
 @Injectable()
 export class ChatService {
-  private openai: OpenAI | null = null;
+  private llm: ChatOpenAI | null = null;
   private modelName: string;
 
   constructor(
@@ -28,6 +71,10 @@ export class ChatService {
     private readonly intentService: IntentService,
     private readonly courseRepository: CourseRepository,
     private readonly orderRepository: OrderRepository,
+    private readonly retrievalService: RetrievalService,
+    private readonly toolsService: ToolsService,
+    private readonly memoryService: MemoryService,
+    private readonly knowledgeGraphService: KnowledgeGraphService,
   ) {
     const apiKey = this.configService.get<string>('openrouter.apiKey');
     this.modelName =
@@ -38,9 +85,11 @@ export class ChatService {
       return;
     }
 
-    this.openai = new OpenAI({
-      baseURL: 'https://openrouter.ai/api/v1',
-      apiKey: apiKey,
+    this.llm = new ChatOpenAI({
+      modelName: this.modelName,
+      openAIApiKey: apiKey,
+      configuration: { baseURL: 'https://openrouter.ai/api/v1' },
+      maxTokens: 1500,
     });
   }
 
@@ -51,56 +100,181 @@ export class ChatService {
     userId: string,
     userMessage: string,
   ): Promise<ChatReplyDto> {
-    // 1. Classify intent
-    const intent: Intent = await this.intentService.classify(userMessage);
+    // Orchestrate Using LangGraph StateGraph
+    const workflow = new StateGraph(GraphState)
+      .addNode('classify', async () => {
+        const intent = await this.intentService.classify(userMessage);
+        return { intent };
+      })
+      .addNode('expand', async (state) => {
+        // Tier 2: Query Expansion (HyDE) — only for course queries
+        if (state.intent === 'COURSE_ADVICE') {
+          const expandedQuery =
+            await this.retrievalService.expandQuery(userMessage);
+          return { expandedQuery };
+        }
+        return { expandedQuery: userMessage };
+      })
+      .addNode('retrieve', async (state) => {
+        let courseContext = '';
+        let orderContext = '';
+        let courses: CourseWithTags[] = [];
 
-    // 2. Get chat history
-    const history = this.store.getMessages(userId);
+        if (state.intent === 'COURSE_ADVICE') {
+          courses = await this.searchCoursesByMessage(userMessage);
+          courseContext = this.buildCourseContext(courses);
 
-    // 3. Get domain data based on intent
-    let courses: CourseWithTags[] = [];
-    let orderContext = '';
+          try {
+            // Tier 2: Hybrid Search (using expandedQuery from 'expand' node) + LLM Reranking
+            const candidates = await this.retrievalService.hybridSearch(
+              userMessage,
+              state.expandedQuery || userMessage,
+              20,
+            );
+            const chunks = await this.retrievalService.rerank(
+              userMessage,
+              candidates,
+              4,
+            );
+            if (chunks.length > 0) {
+              courseContext +=
+                '\n\n[LESSON KNOWLEDGE FROM RAG — Hybrid Search + Reranked]\n' +
+                chunks.map((c) => c.content).join('\n---\n');
 
-    if (intent === 'COURSE_ADVICE') {
-      courses = await this.searchCoursesByMessage(userMessage);
-    } else if (intent === 'ORDER_STATUS') {
-      const order = await this.getLatestOrderForUser(userId);
-      orderContext = this.buildOrderContext(order);
-    }
+              // Tier 3: Knowledge Graph enrichment
+              const graphContext =
+                await this.knowledgeGraphService.enrichContext(
+                  userMessage,
+                  chunks.map((c) => c.id),
+                );
+              if (graphContext) courseContext += graphContext;
+            }
+          } catch (e) {
+            console.error('Tier 2/3 RAG error:', e);
+          }
+        } else if (state.intent === 'ORDER_STATUS') {
+          const order = await this.getLatestOrderForUser(userId);
+          orderContext = this.buildOrderContext(order);
+        }
+        return { courseContext, orderContext, courses };
+      })
+      .addNode('generate', async (state) => {
+        if (!this.llm) {
+          return { rawText: this.getFallbackResponse(state.intent) };
+        }
 
-    const courseContext = this.buildCourseContext(courses);
+        // Tier 3: Load long-term memory for personalized system prompt
+        const memoryContext = await this.memoryService.loadMemory(userId);
 
-    // 4. Build prompt based on intent
-    const prompt = this.buildMainPrompt({
-      intent,
-      message: userMessage,
-      courseContext,
-      orderContext,
-    });
+        const prompt = this.buildMainPrompt({
+          intent: state.intent,
+          message: userMessage,
+          courseContext: state.courseContext,
+          orderContext: state.orderContext,
+        });
 
-    // 5. Generate response with OpenAI via OpenRouter
-    let rawText: string;
-    try {
-      if (!this.openai) {
-        rawText = this.getFallbackResponse(intent);
-      } else {
-        const messages: any[] = [
-          { role: 'system', content: prompt },
-          ...history.map((m) => ({ role: m.role, content: m.content })),
-          { role: 'user', content: userMessage },
+        const fullPrompt = memoryContext
+          ? `${prompt}\n\n${memoryContext}`
+          : prompt;
+
+        const history = this.store.getMessages(userId);
+        const messages = [
+          new SystemMessage(fullPrompt),
+          ...history.map((m) =>
+            m.role === 'user'
+              ? new HumanMessage(m.content)
+              : new AIMessage(m.content),
+          ),
+          new HumanMessage(userMessage),
         ];
 
-        const completion = await this.openai.chat.completions.create({
-          model: this.modelName,
-          messages: messages,
-          max_tokens: 1500,
-        });
-        rawText = completion.choices[0]?.message?.content || '';
-      }
-    } catch (error) {
-      console.error('Error generating OpenRouter response:', error);
-      rawText = this.getFallbackResponse(intent);
-    }
+        try {
+          // Only bind tools for intents that benefit from system lookups
+          const shouldUseTools =
+            state.intent === 'COURSE_ADVICE' || state.intent === 'ORDER_STATUS';
+          const tools = shouldUseTools
+            ? this.toolsService.getTools(userId)
+            : [];
+
+          const llmToUse =
+            tools.length > 0 ? this.llm.bindTools(tools) : this.llm;
+          const response = await llmToUse.invoke(messages);
+
+          // Check if LLM wants to call a tool
+          if (response.tool_calls && response.tool_calls.length > 0) {
+            // Execute all tool calls
+            const toolMessages: ToolMessage[] = [];
+            for (const toolCall of response.tool_calls) {
+              const tool = tools.find((t) => t.name === toolCall.name);
+              if (tool) {
+                const toolResult = await tool.invoke(toolCall.args);
+                toolMessages.push(
+                  new ToolMessage({
+                    content: String(toolResult),
+                    tool_call_id: toolCall.id || '',
+                  }),
+                );
+              }
+            }
+
+            // Second LLM call with tool results + structured output
+            const structuredLlm = this.llm.withStructuredOutput(
+              z.object({
+                answer: z
+                  .string()
+                  .describe('Friendly, easy-to-understand answer'),
+                suggestions: z
+                  .array(z.string())
+                  .describe('3-4 suggestion questions'),
+                courseIds: z
+                  .array(z.string())
+                  .describe('Array of course IDs if recommended'),
+              }),
+              { name: 'chat_reply' },
+            );
+
+            const finalResponse = await structuredLlm.invoke([
+              ...messages,
+              response,
+              ...toolMessages,
+            ]);
+            return { rawText: JSON.stringify(finalResponse) };
+          }
+
+          // No tool calls — use structured output directly
+          const structuredLlm = this.llm.withStructuredOutput(
+            z.object({
+              answer: z
+                .string()
+                .describe('Friendly, easy-to-understand answer'),
+              suggestions: z
+                .array(z.string())
+                .describe('3-4 suggestion questions'),
+              courseIds: z
+                .array(z.string())
+                .describe('Array of course IDs if recommended'),
+            }),
+            { name: 'chat_reply' },
+          );
+          const structuredResponse = await structuredLlm.invoke(messages);
+          return { rawText: JSON.stringify(structuredResponse) };
+        } catch (e) {
+          console.error('LangGraph LLM error:', e);
+          return { rawText: this.getFallbackResponse(state.intent) };
+        }
+      })
+      .addEdge(START, 'classify')
+      .addEdge('classify', 'expand')
+      .addEdge('expand', 'retrieve')
+      .addEdge('retrieve', 'generate')
+      .addEdge('generate', END);
+
+    const app = workflow.compile();
+    const result = await app.invoke({});
+
+    const intent = result.intent;
+    const rawText = result.rawText;
+    const courses = result.courses as CourseWithTags[];
 
     // 6. Parse Gemini JSON response
     const { answer, suggestions, courseIds } =
@@ -117,6 +291,14 @@ export class ChatService {
       content: answer,
       createdAt: Date.now(),
     });
+
+    // Tier 3: Fire-and-forget memory save (non-blocking)
+    const allMessages = this.store
+      .getMessages(userId)
+      .map((m) => ({ role: m.role, content: m.content }));
+    this.memoryService
+      .saveMemory(userId, allMessages)
+      .catch((err) => console.error('Memory save failed:', err));
 
     // 8. Select courses to return
     const matchedCourses =

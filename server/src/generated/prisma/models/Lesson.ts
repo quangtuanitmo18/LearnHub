@@ -302,6 +302,7 @@ export type LessonWhereInput = {
   >;
   comments?: Prisma.CommentListRelationFilter;
   userProgress?: Prisma.UserLessonProgressListRelationFilter;
+  documentChunks?: Prisma.DocumentChunkListRelationFilter;
 };
 
 export type LessonOrderByWithRelationInput = {
@@ -324,6 +325,7 @@ export type LessonOrderByWithRelationInput = {
   chapter?: Prisma.ChapterOrderByWithRelationInput;
   comments?: Prisma.CommentOrderByRelationAggregateInput;
   userProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput;
+  documentChunks?: Prisma.DocumentChunkOrderByRelationAggregateInput;
 };
 
 export type LessonWhereUniqueInput = Prisma.AtLeast<
@@ -365,6 +367,7 @@ export type LessonWhereUniqueInput = Prisma.AtLeast<
     >;
     comments?: Prisma.CommentListRelationFilter;
     userProgress?: Prisma.UserLessonProgressListRelationFilter;
+    documentChunks?: Prisma.DocumentChunkListRelationFilter;
   },
   'id' | 'slug'
 >;
@@ -437,6 +440,7 @@ export type LessonCreateInput = {
   chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateInput = {
@@ -457,6 +461,7 @@ export type LessonUncheckedCreateInput = {
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUpdateInput = {
@@ -477,6 +482,7 @@ export type LessonUpdateInput = {
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateInput = {
@@ -497,6 +503,7 @@ export type LessonUncheckedUpdateInput = {
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonCreateManyInput = {
@@ -610,6 +617,11 @@ export type LessonSumOrderByAggregateInput = {
 export type LessonScalarRelationFilter = {
   is?: Prisma.LessonWhereInput;
   isNot?: Prisma.LessonWhereInput;
+};
+
+export type LessonNullableScalarRelationFilter = {
+  is?: Prisma.LessonWhereInput | null;
+  isNot?: Prisma.LessonWhereInput | null;
 };
 
 export type LessonCreateNestedManyWithoutCourseInput = {
@@ -918,6 +930,25 @@ export type LessonUpdateOneRequiredWithoutUserProgressNestedInput = {
   >;
 };
 
+export type LessonUpdateOneWithoutDocumentChunksNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.LessonCreateWithoutDocumentChunksInput,
+    Prisma.LessonUncheckedCreateWithoutDocumentChunksInput
+  >;
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutDocumentChunksInput;
+  upsert?: Prisma.LessonUpsertWithoutDocumentChunksInput;
+  disconnect?: Prisma.LessonWhereInput | boolean;
+  delete?: Prisma.LessonWhereInput | boolean;
+  connect?: Prisma.LessonWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.LessonUpdateToOneWithWhereWithoutDocumentChunksInput,
+      Prisma.LessonUpdateWithoutDocumentChunksInput
+    >,
+    Prisma.LessonUncheckedUpdateWithoutDocumentChunksInput
+  >;
+};
+
 export type LessonCreateWithoutCourseInput = {
   id?: string;
   type: $Enums.LessonType;
@@ -935,6 +966,7 @@ export type LessonCreateWithoutCourseInput = {
   chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateWithoutCourseInput = {
@@ -954,6 +986,7 @@ export type LessonUncheckedCreateWithoutCourseInput = {
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonCreateOrConnectWithoutCourseInput = {
@@ -1034,6 +1067,7 @@ export type LessonCreateWithoutChapterInput = {
   course: Prisma.CourseCreateNestedOneWithoutLessonsInput;
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateWithoutChapterInput = {
@@ -1053,6 +1087,7 @@ export type LessonUncheckedCreateWithoutChapterInput = {
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonCreateOrConnectWithoutChapterInput = {
@@ -1115,6 +1150,7 @@ export type LessonCreateWithoutArticleInput = {
   chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateWithoutArticleInput = {
@@ -1134,6 +1170,7 @@ export type LessonUncheckedCreateWithoutArticleInput = {
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonCreateOrConnectWithoutArticleInput = {
@@ -1181,6 +1218,7 @@ export type LessonUpdateWithoutArticleInput = {
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateWithoutArticleInput = {
@@ -1200,6 +1238,7 @@ export type LessonUncheckedUpdateWithoutArticleInput = {
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonCreateWithoutVideoInput = {
@@ -1219,6 +1258,7 @@ export type LessonCreateWithoutVideoInput = {
   chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateWithoutVideoInput = {
@@ -1238,6 +1278,7 @@ export type LessonUncheckedCreateWithoutVideoInput = {
   article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput;
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonCreateOrConnectWithoutVideoInput = {
@@ -1285,6 +1326,7 @@ export type LessonUpdateWithoutVideoInput = {
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateWithoutVideoInput = {
@@ -1304,6 +1346,7 @@ export type LessonUncheckedUpdateWithoutVideoInput = {
   article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput;
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonCreateWithoutQuizInput = {
@@ -1323,6 +1366,7 @@ export type LessonCreateWithoutQuizInput = {
   chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateWithoutQuizInput = {
@@ -1342,6 +1386,7 @@ export type LessonUncheckedCreateWithoutQuizInput = {
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonCreateOrConnectWithoutQuizInput = {
@@ -1389,6 +1434,7 @@ export type LessonUpdateWithoutQuizInput = {
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateWithoutQuizInput = {
@@ -1408,6 +1454,7 @@ export type LessonUncheckedUpdateWithoutQuizInput = {
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonCreateWithoutCommentsInput = {
@@ -1427,6 +1474,7 @@ export type LessonCreateWithoutCommentsInput = {
   course: Prisma.CourseCreateNestedOneWithoutLessonsInput;
   chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateWithoutCommentsInput = {
@@ -1446,6 +1494,7 @@ export type LessonUncheckedCreateWithoutCommentsInput = {
   article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput;
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonCreateOrConnectWithoutCommentsInput = {
@@ -1493,6 +1542,7 @@ export type LessonUpdateWithoutCommentsInput = {
   course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput;
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateWithoutCommentsInput = {
@@ -1512,6 +1562,7 @@ export type LessonUncheckedUpdateWithoutCommentsInput = {
   article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput;
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonCreateWithoutUserProgressInput = {
@@ -1531,6 +1582,7 @@ export type LessonCreateWithoutUserProgressInput = {
   course: Prisma.CourseCreateNestedOneWithoutLessonsInput;
   chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonUncheckedCreateWithoutUserProgressInput = {
@@ -1550,6 +1602,7 @@ export type LessonUncheckedCreateWithoutUserProgressInput = {
   article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput;
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput;
 };
 
 export type LessonCreateOrConnectWithoutUserProgressInput = {
@@ -1597,6 +1650,7 @@ export type LessonUpdateWithoutUserProgressInput = {
   course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput;
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateWithoutUserProgressInput = {
@@ -1616,6 +1670,115 @@ export type LessonUncheckedUpdateWithoutUserProgressInput = {
   article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput;
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
+};
+
+export type LessonCreateWithoutDocumentChunksInput = {
+  id?: string;
+  type: $Enums.LessonType;
+  title: string;
+  description?: string | null;
+  slug?: string | null;
+  order?: number;
+  published?: boolean;
+  durationSec?: number | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput;
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput;
+  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput;
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput;
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput;
+  comments?: Prisma.CommentCreateNestedManyWithoutLessonInput;
+  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput;
+};
+
+export type LessonUncheckedCreateWithoutDocumentChunksInput = {
+  id?: string;
+  type: $Enums.LessonType;
+  title: string;
+  description?: string | null;
+  slug?: string | null;
+  order?: number;
+  published?: boolean;
+  durationSec?: number | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  courseId: string;
+  chapterId: string;
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput;
+  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput;
+  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput;
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput;
+  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput;
+};
+
+export type LessonCreateOrConnectWithoutDocumentChunksInput = {
+  where: Prisma.LessonWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.LessonCreateWithoutDocumentChunksInput,
+    Prisma.LessonUncheckedCreateWithoutDocumentChunksInput
+  >;
+};
+
+export type LessonUpsertWithoutDocumentChunksInput = {
+  update: Prisma.XOR<
+    Prisma.LessonUpdateWithoutDocumentChunksInput,
+    Prisma.LessonUncheckedUpdateWithoutDocumentChunksInput
+  >;
+  create: Prisma.XOR<
+    Prisma.LessonCreateWithoutDocumentChunksInput,
+    Prisma.LessonUncheckedCreateWithoutDocumentChunksInput
+  >;
+  where?: Prisma.LessonWhereInput;
+};
+
+export type LessonUpdateToOneWithWhereWithoutDocumentChunksInput = {
+  where?: Prisma.LessonWhereInput;
+  data: Prisma.XOR<
+    Prisma.LessonUpdateWithoutDocumentChunksInput,
+    Prisma.LessonUncheckedUpdateWithoutDocumentChunksInput
+  >;
+};
+
+export type LessonUpdateWithoutDocumentChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType;
+  title?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  order?: Prisma.IntFieldUpdateOperationsInput | number;
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput;
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput;
+  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput;
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput;
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
+  comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
+  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+};
+
+export type LessonUncheckedUpdateWithoutDocumentChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType;
+  title?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  order?: Prisma.IntFieldUpdateOperationsInput | number;
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  courseId?: Prisma.StringFieldUpdateOperationsInput | string;
+  chapterId?: Prisma.StringFieldUpdateOperationsInput | string;
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput;
+  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput;
+  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
+  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonCreateManyCourseInput = {
@@ -1649,6 +1812,7 @@ export type LessonUpdateWithoutCourseInput = {
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput;
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateWithoutCourseInput = {
@@ -1668,6 +1832,7 @@ export type LessonUncheckedUpdateWithoutCourseInput = {
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateManyWithoutCourseInput = {
@@ -1715,6 +1880,7 @@ export type LessonUpdateWithoutChapterInput = {
   course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput;
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateWithoutChapterInput = {
@@ -1734,6 +1900,7 @@ export type LessonUncheckedUpdateWithoutChapterInput = {
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput;
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput;
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput;
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput;
 };
 
 export type LessonUncheckedUpdateManyWithoutChapterInput = {
@@ -1757,6 +1924,7 @@ export type LessonUncheckedUpdateManyWithoutChapterInput = {
 export type LessonCountOutputType = {
   comments: number;
   userProgress: number;
+  documentChunks: number;
 };
 
 export type LessonCountOutputTypeSelect<
@@ -1765,6 +1933,7 @@ export type LessonCountOutputTypeSelect<
 > = {
   comments?: boolean | LessonCountOutputTypeCountCommentsArgs;
   userProgress?: boolean | LessonCountOutputTypeCountUserProgressArgs;
+  documentChunks?: boolean | LessonCountOutputTypeCountDocumentChunksArgs;
 };
 
 /**
@@ -1800,6 +1969,16 @@ export type LessonCountOutputTypeCountUserProgressArgs<
   where?: Prisma.UserLessonProgressWhereInput;
 };
 
+/**
+ * LessonCountOutputType without action
+ */
+export type LessonCountOutputTypeCountDocumentChunksArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.DocumentChunkWhereInput;
+};
+
 export type LessonSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -1824,6 +2003,7 @@ export type LessonSelect<
     chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>;
     comments?: boolean | Prisma.Lesson$commentsArgs<ExtArgs>;
     userProgress?: boolean | Prisma.Lesson$userProgressArgs<ExtArgs>;
+    documentChunks?: boolean | Prisma.Lesson$documentChunksArgs<ExtArgs>;
     _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['lesson']
@@ -1919,6 +2099,7 @@ export type LessonInclude<
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>;
   comments?: boolean | Prisma.Lesson$commentsArgs<ExtArgs>;
   userProgress?: boolean | Prisma.Lesson$userProgressArgs<ExtArgs>;
+  documentChunks?: boolean | Prisma.Lesson$documentChunksArgs<ExtArgs>;
   _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type LessonIncludeCreateManyAndReturn<
@@ -1949,6 +2130,7 @@ export type $LessonPayload<
     chapter: Prisma.$ChapterPayload<ExtArgs>;
     comments: Prisma.$CommentPayload<ExtArgs>[];
     userProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[];
+    documentChunks: Prisma.$DocumentChunkPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -2603,6 +2785,17 @@ export interface Prisma__LessonClient<
       >
     | Null
   >;
+  documentChunks<T extends Prisma.Lesson$documentChunksArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Lesson$documentChunksArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$DocumentChunkPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3235,6 +3428,37 @@ export type Lesson$userProgressArgs<
   distinct?:
     | Prisma.UserLessonProgressScalarFieldEnum
     | Prisma.UserLessonProgressScalarFieldEnum[];
+};
+
+/**
+ * Lesson.documentChunks
+ */
+export type Lesson$documentChunksArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the DocumentChunk
+   */
+  select?: Prisma.DocumentChunkSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the DocumentChunk
+   */
+  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChunkInclude<ExtArgs> | null;
+  where?: Prisma.DocumentChunkWhereInput;
+  orderBy?:
+    | Prisma.DocumentChunkOrderByWithRelationInput
+    | Prisma.DocumentChunkOrderByWithRelationInput[];
+  cursor?: Prisma.DocumentChunkWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.DocumentChunkScalarFieldEnum
+    | Prisma.DocumentChunkScalarFieldEnum[];
 };
 
 /**

@@ -182,3 +182,28 @@ export type CommentReaction = Prisma.CommentReactionModel;
  *
  */
 export type UserLessonProgress = Prisma.UserLessonProgressModel;
+/**
+ * Model DocumentChunk
+ *
+ */
+export type DocumentChunk = Prisma.DocumentChunkModel;
+/**
+ * Model UserMemory
+ *
+ */
+export type UserMemory = Prisma.UserMemoryModel;
+/**
+ * Model ConceptNode
+ *
+ */
+export type ConceptNode = Prisma.ConceptNodeModel;
+/**
+ * Model ConceptRelation
+ *
+ */
+export type ConceptRelation = Prisma.ConceptRelationModel;
+/**
+ * Model DocumentChunkConcept
+ *
+ */
+export type DocumentChunkConcept = Prisma.DocumentChunkConceptModel;

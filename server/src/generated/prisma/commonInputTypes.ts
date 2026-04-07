@@ -1282,6 +1282,39 @@ export type EnumReactionTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumReactionTypeFilter<$PrismaModel>;
 };
 
+export type EnumDocumentSourceTypeFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.DocumentSourceType
+    | Prisma.EnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>
+    | $Enums.DocumentSourceType;
+};
+
+export type EnumDocumentSourceTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.DocumentSourceType
+    | Prisma.EnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumDocumentSourceTypeWithAggregatesFilter<$PrismaModel>
+    | $Enums.DocumentSourceType;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>;
+};
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>;
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
@@ -2516,4 +2549,39 @@ export type NestedEnumReactionTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>;
   _min?: Prisma.NestedEnumReactionTypeFilter<$PrismaModel>;
   _max?: Prisma.NestedEnumReactionTypeFilter<$PrismaModel>;
+};
+
+export type NestedEnumDocumentSourceTypeFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.DocumentSourceType
+    | Prisma.EnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>
+    | $Enums.DocumentSourceType;
+};
+
+export type NestedEnumDocumentSourceTypeWithAggregatesFilter<
+  $PrismaModel = never,
+> = {
+  equals?:
+    | $Enums.DocumentSourceType
+    | Prisma.EnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.DocumentSourceType[]
+    | Prisma.ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumDocumentSourceTypeWithAggregatesFilter<$PrismaModel>
+    | $Enums.DocumentSourceType;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>;
 };

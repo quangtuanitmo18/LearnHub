@@ -6,6 +6,7 @@ import {
 import { LessonType, QuestionType } from 'src/shared/constants/lesson.constant';
 import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { PrismaService } from 'src/shared/services/prisma.service';
+import { EmbedService } from '../ai-worker/embed.service';
 import { ChapterRepository } from '../chapter/chapter.repository';
 import { CourseRepository } from '../course/course.repository';
 import {
@@ -26,6 +27,7 @@ export class LessonService {
     private readonly courseRepository: CourseRepository,
     private readonly chapterRepository: ChapterRepository,
     private readonly prismaService: PrismaService,
+    private readonly embedService: EmbedService,
   ) {}
 
   // ============ READ OPERATIONS ============
@@ -133,7 +135,18 @@ export class LessonService {
     // Route to specific handler based on lesson type
     switch (dto.lesson.type) {
       case LessonType.ARTICLE:
-        return this.createArticleLesson(dto, orderToUse);
+        return this.createArticleLesson(dto, orderToUse).then((lesson) => {
+          const articleContent = (dto.content as ArticleContentDto).content;
+          if (articleContent) {
+            this.dispatchEmbedding(
+              articleContent,
+              'LESSON_ARTICLE',
+              dto.courseId,
+              lesson.id,
+            );
+          }
+          return lesson;
+        });
       case LessonType.VIDEO:
         return this.createVideoLesson(dto, orderToUse);
       case LessonType.QUIZ:
@@ -186,6 +199,20 @@ export class LessonService {
 
       return lesson;
     });
+  }
+
+  /**
+   * Dispatch embedding job for article content (fire-and-forget, non-blocking)
+   */
+  private dispatchEmbedding(
+    content: string,
+    sourceType: 'LESSON_ARTICLE' | 'LESSON_VIDEO' | 'LESSON_QUIZ',
+    courseId: string,
+    lessonId: string,
+  ): void {
+    this.embedService
+      .enqueueContent({ content, sourceType, courseId, lessonId })
+      .catch((err) => console.error('Embed dispatch failed:', err));
   }
 
   private async createVideoLesson(dto: CreateLessonDto, order: number) {
@@ -463,6 +490,16 @@ export class LessonService {
               where: { lessonId: id },
               data: dto.content as any,
             });
+            // Dispatch re-embedding for updated article content
+            if ((dto.content as any).content) {
+              const courseId = dto.courseId || existingLesson.courseId;
+              this.dispatchEmbedding(
+                String((dto.content as any).content),
+                'LESSON_ARTICLE',
+                courseId,
+                id,
+              );
+            }
             break;
           case LessonType.VIDEO:
             await tx.lessonVideo.update({

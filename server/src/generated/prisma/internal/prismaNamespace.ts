@@ -440,6 +440,11 @@ export const ModelName = {
   Comment: 'Comment',
   CommentReaction: 'CommentReaction',
   UserLessonProgress: 'UserLessonProgress',
+  DocumentChunk: 'DocumentChunk',
+  UserMemory: 'UserMemory',
+  ConceptNode: 'ConceptNode',
+  ConceptRelation: 'ConceptRelation',
+  DocumentChunkConcept: 'DocumentChunkConcept',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -489,7 +494,12 @@ export type TypeMap<
       | 'notificationRecipient'
       | 'comment'
       | 'commentReaction'
-      | 'userLessonProgress';
+      | 'userLessonProgress'
+      | 'documentChunk'
+      | 'userMemory'
+      | 'conceptNode'
+      | 'conceptRelation'
+      | 'documentChunkConcept';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -2621,6 +2631,370 @@ export type TypeMap<
         };
       };
     };
+    DocumentChunk: {
+      payload: Prisma.$DocumentChunkPayload<ExtArgs>;
+      fields: Prisma.DocumentChunkFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.DocumentChunkFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.DocumentChunkFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>;
+        };
+        findFirst: {
+          args: Prisma.DocumentChunkFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.DocumentChunkFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>;
+        };
+        findMany: {
+          args: Prisma.DocumentChunkFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>[];
+        };
+        delete: {
+          args: Prisma.DocumentChunkDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>;
+        };
+        update: {
+          args: Prisma.DocumentChunkUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>;
+        };
+        deleteMany: {
+          args: Prisma.DocumentChunkDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.DocumentChunkUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.DocumentChunkUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>[];
+        };
+        aggregate: {
+          args: Prisma.DocumentChunkAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentChunk>;
+        };
+        groupBy: {
+          args: Prisma.DocumentChunkGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.DocumentChunkGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.DocumentChunkCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.DocumentChunkCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    UserMemory: {
+      payload: Prisma.$UserMemoryPayload<ExtArgs>;
+      fields: Prisma.UserMemoryFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.UserMemoryFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.UserMemoryFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>;
+        };
+        findFirst: {
+          args: Prisma.UserMemoryFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.UserMemoryFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>;
+        };
+        findMany: {
+          args: Prisma.UserMemoryFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>[];
+        };
+        create: {
+          args: Prisma.UserMemoryCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>;
+        };
+        createMany: {
+          args: Prisma.UserMemoryCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.UserMemoryCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>[];
+        };
+        delete: {
+          args: Prisma.UserMemoryDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>;
+        };
+        update: {
+          args: Prisma.UserMemoryUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>;
+        };
+        deleteMany: {
+          args: Prisma.UserMemoryDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.UserMemoryUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.UserMemoryUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>[];
+        };
+        upsert: {
+          args: Prisma.UserMemoryUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMemoryPayload>;
+        };
+        aggregate: {
+          args: Prisma.UserMemoryAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserMemory>;
+        };
+        groupBy: {
+          args: Prisma.UserMemoryGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.UserMemoryGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.UserMemoryCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.UserMemoryCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    ConceptNode: {
+      payload: Prisma.$ConceptNodePayload<ExtArgs>;
+      fields: Prisma.ConceptNodeFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.ConceptNodeFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.ConceptNodeFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>;
+        };
+        findFirst: {
+          args: Prisma.ConceptNodeFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.ConceptNodeFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>;
+        };
+        findMany: {
+          args: Prisma.ConceptNodeFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>[];
+        };
+        create: {
+          args: Prisma.ConceptNodeCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>;
+        };
+        createMany: {
+          args: Prisma.ConceptNodeCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.ConceptNodeCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>[];
+        };
+        delete: {
+          args: Prisma.ConceptNodeDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>;
+        };
+        update: {
+          args: Prisma.ConceptNodeUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>;
+        };
+        deleteMany: {
+          args: Prisma.ConceptNodeDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.ConceptNodeUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.ConceptNodeUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>[];
+        };
+        upsert: {
+          args: Prisma.ConceptNodeUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptNodePayload>;
+        };
+        aggregate: {
+          args: Prisma.ConceptNodeAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConceptNode>;
+        };
+        groupBy: {
+          args: Prisma.ConceptNodeGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ConceptNodeGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.ConceptNodeCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.ConceptNodeCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    ConceptRelation: {
+      payload: Prisma.$ConceptRelationPayload<ExtArgs>;
+      fields: Prisma.ConceptRelationFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.ConceptRelationFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.ConceptRelationFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>;
+        };
+        findFirst: {
+          args: Prisma.ConceptRelationFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.ConceptRelationFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>;
+        };
+        findMany: {
+          args: Prisma.ConceptRelationFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>[];
+        };
+        create: {
+          args: Prisma.ConceptRelationCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>;
+        };
+        createMany: {
+          args: Prisma.ConceptRelationCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.ConceptRelationCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>[];
+        };
+        delete: {
+          args: Prisma.ConceptRelationDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>;
+        };
+        update: {
+          args: Prisma.ConceptRelationUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>;
+        };
+        deleteMany: {
+          args: Prisma.ConceptRelationDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.ConceptRelationUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.ConceptRelationUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>[];
+        };
+        upsert: {
+          args: Prisma.ConceptRelationUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConceptRelationPayload>;
+        };
+        aggregate: {
+          args: Prisma.ConceptRelationAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConceptRelation>;
+        };
+        groupBy: {
+          args: Prisma.ConceptRelationGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ConceptRelationGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.ConceptRelationCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.ConceptRelationCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    DocumentChunkConcept: {
+      payload: Prisma.$DocumentChunkConceptPayload<ExtArgs>;
+      fields: Prisma.DocumentChunkConceptFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.DocumentChunkConceptFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.DocumentChunkConceptFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>;
+        };
+        findFirst: {
+          args: Prisma.DocumentChunkConceptFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.DocumentChunkConceptFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>;
+        };
+        findMany: {
+          args: Prisma.DocumentChunkConceptFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>[];
+        };
+        create: {
+          args: Prisma.DocumentChunkConceptCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>;
+        };
+        createMany: {
+          args: Prisma.DocumentChunkConceptCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.DocumentChunkConceptCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>[];
+        };
+        delete: {
+          args: Prisma.DocumentChunkConceptDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>;
+        };
+        update: {
+          args: Prisma.DocumentChunkConceptUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>;
+        };
+        deleteMany: {
+          args: Prisma.DocumentChunkConceptDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.DocumentChunkConceptUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.DocumentChunkConceptUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>[];
+        };
+        upsert: {
+          args: Prisma.DocumentChunkConceptUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkConceptPayload>;
+        };
+        aggregate: {
+          args: Prisma.DocumentChunkConceptAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentChunkConcept>;
+        };
+        groupBy: {
+          args: Prisma.DocumentChunkConceptGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.DocumentChunkConceptGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.DocumentChunkConceptCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.DocumentChunkConceptCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -3065,6 +3439,59 @@ export const UserLessonProgressScalarFieldEnum = {
 
 export type UserLessonProgressScalarFieldEnum =
   (typeof UserLessonProgressScalarFieldEnum)[keyof typeof UserLessonProgressScalarFieldEnum];
+
+export const DocumentChunkScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  sourceType: 'sourceType',
+  metadata: 'metadata',
+  courseId: 'courseId',
+  lessonId: 'lessonId',
+  blogId: 'blogId',
+  chunkIndex: 'chunkIndex',
+  createdAt: 'createdAt',
+} as const;
+
+export type DocumentChunkScalarFieldEnum =
+  (typeof DocumentChunkScalarFieldEnum)[keyof typeof DocumentChunkScalarFieldEnum];
+
+export const UserMemoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  summary: 'summary',
+  traits: 'traits',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type UserMemoryScalarFieldEnum =
+  (typeof UserMemoryScalarFieldEnum)[keyof typeof UserMemoryScalarFieldEnum];
+
+export const ConceptNodeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+} as const;
+
+export type ConceptNodeScalarFieldEnum =
+  (typeof ConceptNodeScalarFieldEnum)[keyof typeof ConceptNodeScalarFieldEnum];
+
+export const ConceptRelationScalarFieldEnum = {
+  id: 'id',
+  fromId: 'fromId',
+  toId: 'toId',
+  relation: 'relation',
+} as const;
+
+export type ConceptRelationScalarFieldEnum =
+  (typeof ConceptRelationScalarFieldEnum)[keyof typeof ConceptRelationScalarFieldEnum];
+
+export const DocumentChunkConceptScalarFieldEnum = {
+  chunkId: 'chunkId',
+  conceptId: 'conceptId',
+} as const;
+
+export type DocumentChunkConceptScalarFieldEnum =
+  (typeof DocumentChunkConceptScalarFieldEnum)[keyof typeof DocumentChunkConceptScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',
@@ -3533,6 +3960,18 @@ export type ListEnumReactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
+ * Reference to a field of type 'DocumentSourceType'
+ */
+export type EnumDocumentSourceTypeFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'DocumentSourceType'>;
+
+/**
+ * Reference to a field of type 'DocumentSourceType[]'
+ */
+export type ListEnumDocumentSourceTypeFieldRefInput<$PrismaModel> =
+  FieldRefInputType<$PrismaModel, 'DocumentSourceType[]'>;
+
+/**
  * Batch Payload for updateMany & deleteMany & createMany
  */
 export type BatchPayload = {
@@ -3647,6 +4086,11 @@ export type GlobalOmitConfig = {
   comment?: Prisma.CommentOmit;
   commentReaction?: Prisma.CommentReactionOmit;
   userLessonProgress?: Prisma.UserLessonProgressOmit;
+  documentChunk?: Prisma.DocumentChunkOmit;
+  userMemory?: Prisma.UserMemoryOmit;
+  conceptNode?: Prisma.ConceptNodeOmit;
+  conceptRelation?: Prisma.ConceptRelationOmit;
+  documentChunkConcept?: Prisma.DocumentChunkConceptOmit;
 };
 
 /* Types for Logging */

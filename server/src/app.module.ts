@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AiWorkerModule } from './modules/ai-worker/ai-worker.module';
 import { ArticleModule } from './modules/article/article.module';
 import { AuthGuard } from './modules/auth/auth.guard';
 import { AuthModule } from './modules/auth/auth.module';
@@ -16,6 +17,7 @@ import { CommentModule } from './modules/comment/comment.module';
 import { CouponModule } from './modules/coupon/coupon.module';
 import { CourseModule } from './modules/course/course.module';
 import { EmailModule } from './modules/email/email.module';
+import { InstructorModule } from './modules/instructor/instructor.module';
 import { LessonModule } from './modules/lesson/lesson.module';
 import { MediaModule } from './modules/media/media.module';
 import { NotificationModule } from './modules/notification/notification.module';
@@ -35,9 +37,8 @@ import { GlobalExceptionFilter } from './shared/filters/global-exception.filter'
 import { PermissionGuard } from './shared/guards/permission.guard';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 import { SharedModule } from './shared/shared.module';
-import { InstructorModule } from './modules/instructor/instructor.module';
 
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -91,6 +92,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
       },
     ]),
     InstructorModule,
+    AiWorkerModule,
   ],
   controllers: [AppController],
   providers: [

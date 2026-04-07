@@ -171,3 +171,14 @@ export const NotificationType = {
 
 export type NotificationType =
   (typeof NotificationType)[keyof typeof NotificationType];
+
+export const DocumentSourceType = {
+  COURSE: 'COURSE',
+  LESSON_ARTICLE: 'LESSON_ARTICLE',
+  LESSON_VIDEO: 'LESSON_VIDEO',
+  LESSON_QUIZ: 'LESSON_QUIZ',
+  BLOG: 'BLOG',
+} as const;
+
+export type DocumentSourceType =
+  (typeof DocumentSourceType)[keyof typeof DocumentSourceType];

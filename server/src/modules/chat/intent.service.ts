@@ -48,7 +48,7 @@ export class IntentService {
       const completion = await this.openai.chat.completions.create({
         model: this.modelName,
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 1500,
+        max_tokens: 50,
       });
       const text = completion.choices[0]?.message?.content || '';
 
