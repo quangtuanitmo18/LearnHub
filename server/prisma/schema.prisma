@@ -128,6 +128,11 @@ model User {
   otpCode              String?
   otpExpires           DateTime?
   isEmailVerified      Boolean         @default(false)
+  emailNotifications   Boolean         @default(true)
+  pushNotifications    Boolean         @default(false)
+  marketingEmails      Boolean         @default(false)
+  darkMode             Boolean         @default(false)
+  language             String          @default("vi")
   createdAt            DateTime        @default(now())
   updatedAt            DateTime        @default(now())
 

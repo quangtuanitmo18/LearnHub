@@ -53,5 +53,11 @@ export const validate = (config: Record<string, unknown>) => {
     );
   }
 
+  if (result.data.NODE_ENV === 'production' && !result.data.STRIPE_WEBHOOK_SECRET) {
+    throw new Error(
+      'Config validation error: STRIPE_WEBHOOK_SECRET is required in production',
+    );
+  }
+
   return result.data;
 };

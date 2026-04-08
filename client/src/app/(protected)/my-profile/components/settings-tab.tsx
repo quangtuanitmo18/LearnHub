@@ -2,30 +2,60 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useUpdateUserSettings, useUserSettings } from '@/hooks/use-user-settings';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useAuthStore } from '@/stores/auth-store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdNotifications, MdSecurity } from 'react-icons/md';
+import { toast } from 'sonner';
 import PasswordChangeDialog from './password-change-dialog';
 
 // Settings tab component - Arrow function
 const SettingsTab = () => {
   const user = useAuthStore((state) => state.user);
+  const { data: serverSettings, isLoading: isSettingsLoading } = useUserSettings();
+  const updateSettingsMutation = useUpdateUserSettings();
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
 
-  // Mock settings state - replace with real state management
+  const normalizedUserType = (user?.userType || '').toUpperCase();
+  const isLocalAccount = normalizedUserType === 'DEFAULT';
+  const providerLabel =
+    normalizedUserType === 'GOOGLE'
+      ? 'Google'
+      : normalizedUserType === 'FACEBOOK'
+        ? 'Facebook'
+        : 'social provider';
+
   const [settings, setSettings] = useState({
     emailNotifications: true,
     pushNotifications: false,
     marketingEmails: false,
     darkMode: false,
-    language: 'vi',
+    language: 'vi' as 'vi' | 'en',
   });
 
+  useEffect(() => {
+    if (serverSettings) {
+      setSettings(serverSettings);
+    }
+  }, [serverSettings]);
+
   const handleSettingChange = (key: string, value: boolean) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
-    // Here you would also call an API to save the setting
+    const previous = settings;
+    const next = { ...settings, [key]: value };
+
+    setSettings(next);
+
+    updateSettingsMutation.mutate(
+      { [key]: value },
+      {
+        onError: (error) => {
+          setSettings(previous);
+          toast.error(error.message || 'Failed to update settings');
+        },
+      },
+    );
   };
 
   if (!user) return null;
@@ -64,19 +94,18 @@ const SettingsTab = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setPasswordDialogOpen(true)}
-                disabled={user.userType !== 'default'}
+                disabled={!isLocalAccount}
                 className="h-8 w-full text-xs sm:h-9 sm:w-auto sm:text-sm"
               >
-                {user.userType !== 'default' ? 'Not Available' : 'Change Password'}
+                {!isLocalAccount ? 'Not Available' : 'Change Password'}
               </Button>
             </div>
 
-            {user.userType !== 'default' && (
+            {!isLocalAccount && (
               <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 sm:p-4 dark:border-blue-800 dark:bg-blue-950/20">
                 <p className="text-xs text-blue-600 sm:text-sm dark:text-blue-400">
-                  <strong>Note:</strong> Your account is linked with{' '}
-                  {user.userType === 'google' ? 'Google' : 'Facebook'}. Please change your password
-                  through your {user.userType === 'google' ? 'Google' : 'Facebook'} account.
+                  <strong>Note:</strong> Your account is linked with {providerLabel}. Please change
+                  your password through your {providerLabel} account.
                 </p>
               </div>
             )}
@@ -95,6 +124,10 @@ const SettingsTab = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 px-4 pb-4 sm:space-y-6 sm:px-6 sm:pb-6">
+            {isSettingsLoading && (
+              <p className="text-muted-foreground text-xs sm:text-sm">Loading your settings...</p>
+            )}
+
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <div className="flex-1 space-y-0.5">
                 <Label htmlFor="email-notifications" className="text-sm sm:text-base">
@@ -108,6 +141,43 @@ const SettingsTab = () => {
                 id="email-notifications"
                 checked={settings.emailNotifications}
                 onCheckedChange={(checked) => handleSettingChange('emailNotifications', checked)}
+                disabled={isSettingsLoading || updateSettingsMutation.isPending}
+                className="self-start sm:self-center"
+              />
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <div className="flex-1 space-y-0.5">
+                <Label htmlFor="push-notifications" className="text-sm sm:text-base">
+                  Push Notifications
+                </Label>
+                <p className="text-muted-foreground text-xs sm:text-sm">
+                  Receive push notifications for important updates
+                </p>
+              </div>
+              <Switch
+                id="push-notifications"
+                checked={settings.pushNotifications}
+                onCheckedChange={(checked) => handleSettingChange('pushNotifications', checked)}
+                disabled={isSettingsLoading || updateSettingsMutation.isPending}
+                className="self-start sm:self-center"
+              />
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <div className="flex-1 space-y-0.5">
+                <Label htmlFor="marketing-emails" className="text-sm sm:text-base">
+                  Marketing Emails
+                </Label>
+                <p className="text-muted-foreground text-xs sm:text-sm">
+                  Receive product news, tips, and promotional emails
+                </p>
+              </div>
+              <Switch
+                id="marketing-emails"
+                checked={settings.marketingEmails}
+                onCheckedChange={(checked) => handleSettingChange('marketingEmails', checked)}
+                disabled={isSettingsLoading || updateSettingsMutation.isPending}
                 className="self-start sm:self-center"
               />
             </div>

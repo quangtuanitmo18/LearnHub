@@ -23,7 +23,7 @@ export const ROUTE_CONFIG = {
     MY_ORDERS: '/my-orders',
     MY_POSTS: '/my-posts',
     SAVED_POSTS: '/saved-posts',
-    SETTINGS: '/settings',
+    SETTINGS: '/my-profile?tab=settings',
   },
   FORBIDDEN: '/forbidden',
   UNAUTHORIZED: '/unauthorized',

@@ -67,9 +67,11 @@ export class PaymentController {
   /**
    * Verify Stripe checkout session status
    */
-  @Public()
   @Get('stripe/verify')
-  async verifyStripeCheckout(@Query('session_id') sessionId: string) {
-    return this.paymentService.verifyStripeCheckout(sessionId);
+  async verifyStripeCheckout(
+    @Query('session_id') sessionId: string,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return this.paymentService.verifyStripeCheckout(sessionId, userId);
   }
 }

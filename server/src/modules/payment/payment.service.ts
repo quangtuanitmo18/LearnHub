@@ -30,7 +30,7 @@ export class PaymentService {
   /**
    * Verify Stripe checkout session status
    */
-  verifyStripeCheckout(sessionId: string) {
-    return this.paymentRepository.verifyStripeCheckout(sessionId);
+  verifyStripeCheckout(sessionId: string, userId: string) {
+    return this.paymentRepository.verifyStripeCheckout(sessionId, userId);
   }
 }

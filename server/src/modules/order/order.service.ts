@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { CartRepository } from '../cart/cart.repository';
-import { CouponRepository } from '../coupon/coupon.repository';
 import { CouponService } from '../coupon/coupon.service';
 import { CourseRepository } from '../course/course.repository';
 import { EmailQueueService } from '../email/services';
@@ -24,10 +23,8 @@ import { CourseStatus } from 'src/generated/prisma/enums';
 import {
   OrderStatus,
   OrderStatusType,
-  OrderType,
 } from 'src/shared/constants/order.constant';
 import {
-  MembershipDuration,
   MembershipPlan,
   MembershipPrice,
 } from 'src/shared/constants/user.constant';
@@ -37,7 +34,6 @@ export class OrderService {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly cartRepository: CartRepository,
-    private readonly couponRepository: CouponRepository,
     private readonly couponService: CouponService,
     private readonly courseRepository: CourseRepository,
     private readonly userRepository: UserRepository,
@@ -152,14 +148,6 @@ export class OrderService {
     // Schedule auto-cancellation after 24 hours if unpaid
     await this.orderQueueService.scheduleCancelOrder(order.id, order.code);
 
-    // Increment coupon usage if used
-    if (couponCode) {
-      const coupon = await this.couponRepository.findByCode(couponCode);
-      if (coupon) {
-        await this.couponRepository.incrementUsage(coupon.id);
-      }
-    }
-
     // Remove checked out items from cart
     if (cartItemIdsToRemove.length > 0) {
       for (const itemId of cartItemIdsToRemove) {
@@ -265,56 +253,29 @@ export class OrderService {
       throw new NotFoundException('Order not found');
     }
 
-    // Business logic for status transitions
-    // if (order.status === OrderStatus.COMPLETED) {
-    //   throw new BadRequestException('Cannot modify a completed order');
-    // }
-
-    // if (order.status === OrderStatus.CANCELLED) {
-    //   throw new BadRequestException('Cannot modify a cancelled order');
-    // }
-
-    // If completing order
+    // If completing a PENDING order, delegate to the centralised
+    // completeOrder() which runs everything inside a transaction
+    // (membership activation, sold increment, coupon usage, etc.)
     if (
       updateStatusDto.status === OrderStatus.COMPLETED &&
       order.status === OrderStatus.PENDING
     ) {
-      const orderWithItems =
-        await this.orderRepository.getOrderWithDetails(orderId);
+      const completedOrder = await this.orderRepository.completeOrder(orderId);
 
-      if (orderWithItems) {
-        // Check if this is a membership order
-        if ((orderWithItems as any).orderType === OrderType.MEMBERSHIP) {
-          // Activate membership
-          const membershipPlan = (orderWithItems as any).membershipPlan as
-            | keyof typeof MembershipDuration
-            | undefined;
-          if (membershipPlan && membershipPlan !== MembershipPlan.NONE) {
-            const planDuration = MembershipDuration[membershipPlan];
-            const planStartDate = new Date();
-            const planEndDate = new Date();
-            planEndDate.setMonth(planEndDate.getMonth() + planDuration);
-
-            await this.userRepository.updateMembership(orderWithItems.userId, {
-              plan: membershipPlan,
-              planStartDate,
-              planEndDate,
-              isMembership: true,
-            });
-          }
-        } else {
-          // For course orders, increment sold count
-          for (const item of orderWithItems.items) {
-            await this.courseRepository.incrementSold(item.courseId);
-          }
-        }
+      if (!completedOrder) {
+        throw new BadRequestException(
+          'Order was already completed by another process',
+        );
       }
+
+      // Cancel scheduled auto-cancellation
+      await this.orderQueueService.cancelScheduledCancellation(orderId);
+
+      return completedOrder;
     }
 
-    if (
-      updateStatusDto.status === OrderStatus.COMPLETED ||
-      updateStatusDto.status === OrderStatus.CANCELLED
-    ) {
+    // For other transitions (e.g. PENDING -> CANCELLED)
+    if (updateStatusDto.status === OrderStatus.CANCELLED) {
       await this.orderQueueService.cancelScheduledCancellation(orderId);
     }
 

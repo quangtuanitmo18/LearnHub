@@ -139,3 +139,35 @@ export class AvatarUploadCompleteDto {
   @IsString()
   key: string;
 }
+
+// ==================== USER SETTINGS DTOs ====================
+
+export class UpdateUserSettingsDto {
+  @IsOptional()
+  @IsBoolean()
+  emailNotifications?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  pushNotifications?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  marketingEmails?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  darkMode?: boolean;
+
+  @IsOptional()
+  @IsString()
+  language?: string;
+}
+
+export class UserSettingsResponseDto {
+  emailNotifications: boolean;
+  pushNotifications: boolean;
+  marketingEmails: boolean;
+  darkMode: boolean;
+  language: string;
+}

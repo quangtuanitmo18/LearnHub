@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 
 // Static import for always-visible sidebar (critical)
 import ProfileSidebar from './components/profile-sidebar';
@@ -26,7 +27,24 @@ const SettingsTab = dynamic(() => import('./components/settings-tab'), {
 
 // Main profile page - Arrow function
 const MyProfilePage = () => {
-  const [activeTab, setActiveTab] = useState<ProfileTab>('account');
+  const searchParams = useSearchParams();
+
+  const getInitialTab = (): ProfileTab => {
+    const tab = searchParams.get('tab');
+    if (tab === 'account' || tab === 'courses' || tab === 'posts' || tab === 'settings') {
+      return tab;
+    }
+    return 'account';
+  };
+
+  const [activeTab, setActiveTab] = useState<ProfileTab>(getInitialTab);
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'account' || tab === 'courses' || tab === 'posts' || tab === 'settings') {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   // Render tab content - Arrow function
   const renderTabContent = () => {

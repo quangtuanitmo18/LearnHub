@@ -13,7 +13,6 @@ export class SepayWebhookGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers['authorization'];
-    console.log('SepayWebhookGuard - Authorization Header:', authHeader);
 
     if (!authHeader) {
       throw new UnauthorizedException('Missing Authorization header');

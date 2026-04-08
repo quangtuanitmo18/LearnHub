@@ -41,6 +41,11 @@ export type UserMinAggregateOutputType = {
   otpCode: string | null
   otpExpires: Date | null
   isEmailVerified: boolean | null
+  emailNotifications: boolean | null
+  pushNotifications: boolean | null
+  marketingEmails: boolean | null
+  darkMode: boolean | null
+  language: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +67,11 @@ export type UserMaxAggregateOutputType = {
   otpCode: string | null
   otpExpires: Date | null
   isEmailVerified: boolean | null
+  emailNotifications: boolean | null
+  pushNotifications: boolean | null
+  marketingEmails: boolean | null
+  darkMode: boolean | null
+  language: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -83,6 +93,11 @@ export type UserCountAggregateOutputType = {
   otpCode: number
   otpExpires: number
   isEmailVerified: number
+  emailNotifications: number
+  pushNotifications: number
+  marketingEmails: number
+  darkMode: number
+  language: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -106,6 +121,11 @@ export type UserMinAggregateInputType = {
   otpCode?: true
   otpExpires?: true
   isEmailVerified?: true
+  emailNotifications?: true
+  pushNotifications?: true
+  marketingEmails?: true
+  darkMode?: true
+  language?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -127,6 +147,11 @@ export type UserMaxAggregateInputType = {
   otpCode?: true
   otpExpires?: true
   isEmailVerified?: true
+  emailNotifications?: true
+  pushNotifications?: true
+  marketingEmails?: true
+  darkMode?: true
+  language?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -148,6 +173,11 @@ export type UserCountAggregateInputType = {
   otpCode?: true
   otpExpires?: true
   isEmailVerified?: true
+  emailNotifications?: true
+  pushNotifications?: true
+  marketingEmails?: true
+  darkMode?: true
+  language?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -242,6 +272,11 @@ export type UserGroupByOutputType = {
   otpCode: string | null
   otpExpires: Date | null
   isEmailVerified: boolean
+  emailNotifications: boolean
+  pushNotifications: boolean
+  marketingEmails: boolean
+  darkMode: boolean
+  language: string
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -284,6 +319,11 @@ export type UserWhereInput = {
   otpCode?: Prisma.StringNullableFilter<"User"> | string | null
   otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  darkMode?: Prisma.BoolFilter<"User"> | boolean
+  language?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   roles?: Prisma.RoleListRelationFilter
@@ -318,6 +358,11 @@ export type UserOrderByWithRelationInput = {
   otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
   otpExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   roles?: Prisma.RoleOrderByRelationAggregateInput
@@ -355,6 +400,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   otpCode?: Prisma.StringNullableFilter<"User"> | string | null
   otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  darkMode?: Prisma.BoolFilter<"User"> | boolean
+  language?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   roles?: Prisma.RoleListRelationFilter
@@ -389,6 +439,11 @@ export type UserOrderByWithAggregationInput = {
   otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
   otpExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -416,6 +471,11 @@ export type UserScalarWhereWithAggregatesInput = {
   otpCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   otpExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  marketingEmails?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  darkMode?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  language?: Prisma.StringWithAggregatesFilter<"User"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -437,6 +497,11 @@ export type UserCreateInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -471,6 +536,11 @@ export type UserUncheckedCreateInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -505,6 +575,11 @@ export type UserUpdateInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -539,6 +614,11 @@ export type UserUncheckedUpdateInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -573,6 +653,11 @@ export type UserCreateManyInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -594,6 +679,11 @@ export type UserUpdateManyMutationInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -615,6 +705,11 @@ export type UserUncheckedUpdateManyInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -636,6 +731,11 @@ export type UserCountOrderByAggregateInput = {
   otpCode?: Prisma.SortOrder
   otpExpires?: Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -657,6 +757,11 @@ export type UserMaxOrderByAggregateInput = {
   otpCode?: Prisma.SortOrder
   otpExpires?: Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -678,6 +783,11 @@ export type UserMinOrderByAggregateInput = {
   otpCode?: Prisma.SortOrder
   otpExpires?: Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -961,6 +1071,11 @@ export type UserCreateWithoutInstructorProfileInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -994,6 +1109,11 @@ export type UserUncheckedCreateWithoutInstructorProfileInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -1043,6 +1163,11 @@ export type UserUpdateWithoutInstructorProfileInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -1076,6 +1201,11 @@ export type UserUncheckedUpdateWithoutInstructorProfileInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -1109,6 +1239,11 @@ export type UserCreateWithoutRolesInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
@@ -1142,6 +1277,11 @@ export type UserUncheckedCreateWithoutRolesInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
@@ -1199,6 +1339,11 @@ export type UserScalarWhereInput = {
   otpCode?: Prisma.StringNullableFilter<"User"> | string | null
   otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  darkMode?: Prisma.BoolFilter<"User"> | boolean
+  language?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
@@ -1220,6 +1365,11 @@ export type UserCreateWithoutBlogsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -1253,6 +1403,11 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -1302,6 +1457,11 @@ export type UserUpdateWithoutBlogsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -1335,6 +1495,11 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -1368,6 +1533,11 @@ export type UserCreateWithoutCoursesInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -1401,6 +1571,11 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -1450,6 +1625,11 @@ export type UserUpdateWithoutCoursesInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -1483,6 +1663,11 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -1516,6 +1701,11 @@ export type UserCreateWithoutMediaInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -1549,6 +1739,11 @@ export type UserUncheckedCreateWithoutMediaInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -1598,6 +1793,11 @@ export type UserUpdateWithoutMediaInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -1631,6 +1831,11 @@ export type UserUncheckedUpdateWithoutMediaInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -1664,6 +1869,11 @@ export type UserCreateWithoutCartsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -1697,6 +1907,11 @@ export type UserUncheckedCreateWithoutCartsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -1746,6 +1961,11 @@ export type UserUpdateWithoutCartsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -1779,6 +1999,11 @@ export type UserUncheckedUpdateWithoutCartsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -1812,6 +2037,11 @@ export type UserCreateWithoutOrdersInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -1845,6 +2075,11 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -1894,6 +2129,11 @@ export type UserUpdateWithoutOrdersInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -1927,6 +2167,11 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -1960,6 +2205,11 @@ export type UserCreateWithoutReviewsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -1993,6 +2243,11 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -2042,6 +2297,11 @@ export type UserUpdateWithoutReviewsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -2075,6 +2335,11 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -2108,6 +2373,11 @@ export type UserCreateWithoutNotificationsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -2141,6 +2411,11 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -2190,6 +2465,11 @@ export type UserUpdateWithoutNotificationsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -2223,6 +2503,11 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -2256,6 +2541,11 @@ export type UserCreateWithoutCommentsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -2289,6 +2579,11 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -2338,6 +2633,11 @@ export type UserUpdateWithoutCommentsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -2371,6 +2671,11 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -2404,6 +2709,11 @@ export type UserCreateWithoutCommentReactionsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -2437,6 +2747,11 @@ export type UserUncheckedCreateWithoutCommentReactionsInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -2486,6 +2801,11 @@ export type UserUpdateWithoutCommentReactionsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -2519,6 +2839,11 @@ export type UserUncheckedUpdateWithoutCommentReactionsInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -2552,6 +2877,11 @@ export type UserCreateWithoutLessonProgressInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -2585,6 +2915,11 @@ export type UserUncheckedCreateWithoutLessonProgressInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -2634,6 +2969,11 @@ export type UserUpdateWithoutLessonProgressInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -2667,6 +3007,11 @@ export type UserUncheckedUpdateWithoutLessonProgressInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -2700,6 +3045,11 @@ export type UserCreateWithoutMemoryInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
@@ -2733,6 +3083,11 @@ export type UserUncheckedCreateWithoutMemoryInput = {
   otpCode?: string | null
   otpExpires?: Date | string | null
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
@@ -2782,6 +3137,11 @@ export type UserUpdateWithoutMemoryInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
@@ -2815,6 +3175,11 @@ export type UserUncheckedUpdateWithoutMemoryInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
@@ -2848,6 +3213,11 @@ export type UserUpdateWithoutRolesInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
@@ -2881,6 +3251,11 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2914,6 +3289,11 @@ export type UserUncheckedUpdateManyWithoutRolesInput = {
   otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -3056,6 +3436,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   otpCode?: boolean
   otpExpires?: boolean
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
@@ -3091,6 +3476,11 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   otpCode?: boolean
   otpExpires?: boolean
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -3112,6 +3502,11 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   otpCode?: boolean
   otpExpires?: boolean
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -3133,11 +3528,16 @@ export type UserSelectScalar = {
   otpCode?: boolean
   otpExpires?: boolean
   isEmailVerified?: boolean
+  emailNotifications?: boolean
+  pushNotifications?: boolean
+  marketingEmails?: boolean
+  darkMode?: boolean
+  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "status" | "avatar" | "userType" | "plan" | "planStartDate" | "planEndDate" | "isMembership" | "resetPasswordToken" | "resetPasswordExpires" | "otpCode" | "otpExpires" | "isEmailVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "status" | "avatar" | "userType" | "plan" | "planStartDate" | "planEndDate" | "isMembership" | "resetPasswordToken" | "resetPasswordExpires" | "otpCode" | "otpExpires" | "isEmailVerified" | "emailNotifications" | "pushNotifications" | "marketingEmails" | "darkMode" | "language" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
@@ -3191,6 +3591,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     otpCode: string | null
     otpExpires: Date | null
     isEmailVerified: boolean
+    emailNotifications: boolean
+    pushNotifications: boolean
+    marketingEmails: boolean
+    darkMode: boolean
+    language: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -3645,6 +4050,11 @@ export interface UserFieldRefs {
   readonly otpCode: Prisma.FieldRef<"User", 'String'>
   readonly otpExpires: Prisma.FieldRef<"User", 'DateTime'>
   readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly emailNotifications: Prisma.FieldRef<"User", 'Boolean'>
+  readonly pushNotifications: Prisma.FieldRef<"User", 'Boolean'>
+  readonly marketingEmails: Prisma.FieldRef<"User", 'Boolean'>
+  readonly darkMode: Prisma.FieldRef<"User", 'Boolean'>
+  readonly language: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

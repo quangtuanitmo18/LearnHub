@@ -22,6 +22,7 @@ import {
   UserQueryDto,
   AvatarPresignedRequestDto,
   AvatarUploadCompleteDto,
+  UpdateUserSettingsDto,
 } from './dto/user.dto';
 import { AdminUpdateMembershipDto } from './dto/membership.dto';
 import { UserService } from './user.service';
@@ -64,6 +65,21 @@ export class UserController {
   @ResponseMessage('Avatar deleted successfully')
   async deleteAvatar(@CurrentUser('sub') userId: string) {
     return this.userService.deleteAvatar(userId);
+  }
+
+  @Get('settings/me')
+  @ResponseMessage('User settings retrieved successfully')
+  async getMySettings(@CurrentUser('sub') userId: string) {
+    return this.userService.getMySettings(userId);
+  }
+
+  @Put('settings/me')
+  @ResponseMessage('User settings updated successfully')
+  async updateMySettings(
+    @CurrentUser('sub') userId: string,
+    @Body() updateUserSettingsDto: UpdateUserSettingsDto,
+  ) {
+    return this.userService.updateMySettings(userId, updateUserSettingsDto);
   }
 
   @Get('stats')

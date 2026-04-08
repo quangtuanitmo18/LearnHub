@@ -119,6 +119,11 @@ export const UserScalarFieldEnum = {
   otpCode: 'otpCode',
   otpExpires: 'otpExpires',
   isEmailVerified: 'isEmailVerified',
+  emailNotifications: 'emailNotifications',
+  pushNotifications: 'pushNotifications',
+  marketingEmails: 'marketingEmails',
+  darkMode: 'darkMode',
+  language: 'language',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -8,6 +8,8 @@ import {
   UserQueryDto,
   AvatarPresignedRequestDto,
   AvatarPresignedResponseDto,
+  UpdateUserSettingsDto,
+  UserSettingsResponseDto,
 } from './dto/user.dto';
 import {
   AdminUpdateMembershipDto,
@@ -47,6 +49,54 @@ export class UserService {
     private readonly prismaService: PrismaService,
   ) {
     this.cdnBaseUrl = this.configService.get<string>('cdn.baseUrl') || '';
+  }
+
+  async getMySettings(userId: string): Promise<UserSettingsResponseDto> {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: {
+        emailNotifications: true,
+        pushNotifications: true,
+        marketingEmails: true,
+        darkMode: true,
+        language: true,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    return user;
+  }
+
+  async updateMySettings(
+    userId: string,
+    updateUserSettingsDto: UpdateUserSettingsDto,
+  ): Promise<UserSettingsResponseDto> {
+    const language = updateUserSettingsDto.language?.trim().toLowerCase();
+    if (language !== undefined && language !== 'vi' && language !== 'en') {
+      throw new BadRequestException('Language must be either vi or en');
+    }
+
+    const updateData = {
+      ...updateUserSettingsDto,
+      ...(language !== undefined ? { language } : {}),
+    };
+
+    const updated = await this.prismaService.user.update({
+      where: { id: userId },
+      data: updateData,
+      select: {
+        emailNotifications: true,
+        pushNotifications: true,
+        marketingEmails: true,
+        darkMode: true,
+        language: true,
+      },
+    });
+
+    return updated;
   }
 
   async getUserStats() {

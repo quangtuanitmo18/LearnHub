@@ -54,6 +54,14 @@ interface PasswordChangeDialogProps {
 const PasswordChangeDialog = ({ open, onOpenChange }: PasswordChangeDialogProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const normalizedUserType = (user?.userType || '').toUpperCase();
+  const isLocalAccount = normalizedUserType === 'DEFAULT';
+  const providerLabel =
+    normalizedUserType === 'GOOGLE'
+      ? 'Google'
+      : normalizedUserType === 'FACEBOOK'
+        ? 'Facebook'
+        : 'social provider';
 
   const form = useForm<PasswordChangeFormData>({
     resolver: yupResolver(passwordChangeSchema),
@@ -96,7 +104,7 @@ const PasswordChangeDialog = ({ open, onOpenChange }: PasswordChangeDialogProps)
   };
 
   // Only show password change for default users (not social logins)
-  if (user?.userType !== 'default') {
+  if (!isLocalAccount) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-md">
@@ -109,9 +117,8 @@ const PasswordChangeDialog = ({ open, onOpenChange }: PasswordChangeDialogProps)
 
           <div className="px-4 py-4 text-center sm:py-6">
             <p className="text-muted-foreground text-sm sm:text-base">
-              Your account is linked to {user?.userType === 'google' ? 'Google' : 'Facebook'}.
-              Please change your password through your{' '}
-              {user?.userType === 'google' ? 'Google' : 'Facebook'} account settings.
+              Your account is linked to {providerLabel}. Please change your password through your{' '}
+              {providerLabel} account settings.
             </p>
           </div>
 

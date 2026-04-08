@@ -9,7 +9,10 @@ import {
   type OrderStatusType,
   type OrderTypeValue,
 } from 'src/shared/constants/order.constant';
-import { type MembershipPlanType } from 'src/shared/constants/user.constant';
+import {
+  MembershipDuration,
+  type MembershipPlanType,
+} from 'src/shared/constants/user.constant';
 
 @Injectable()
 export class OrderRepository extends BaseService<
@@ -282,6 +285,109 @@ export class OrderRepository extends BaseService<
     }
 
     return { hasAccess: false, accessType: 'none' };
+  }
+
+  /**
+   * Complete an order atomically (PENDING -> COMPLETED).
+   *
+   * Single source of truth for order completion — used by both webhook
+   * handlers (Stripe / SePay) and admin manual status updates.
+   *
+   * Inside a single Prisma transaction it:
+   *  1. Idempotent state transition (PENDING -> COMPLETED, returns null if already done)
+   *  2. Activates membership if orderType === MEMBERSHIP
+   *  3. Increments `sold` on every course if orderType === COURSE
+   *  4. Increments `usedCount` on the coupon if one was applied
+   *
+   * @returns The completed order (with items + user), or `null` if the order
+   *          was already completed by another process (idempotent).
+   */
+  async completeOrder(orderId: string) {
+    return this.prismaService.$transaction(async (tx) => {
+      // 1. Idempotent state transition: only transition PENDING -> COMPLETED once.
+      const transition = await tx.order.updateMany({
+        where: {
+          id: orderId,
+          status: OrderStatus.PENDING,
+        },
+        data: {
+          status: OrderStatus.COMPLETED,
+          updatedAt: new Date(),
+        },
+      });
+
+      if (transition.count === 0) {
+        return null;
+      }
+
+      const updatedOrder = await tx.order.findUnique({
+        where: { id: orderId },
+        include: {
+          items: true,
+          user: true,
+        },
+      });
+
+      if (!updatedOrder) {
+        throw new Error('Order not found during completion');
+      }
+
+      // 2. If this is a membership order, activate the membership
+      if ((updatedOrder as any).orderType === OrderType.MEMBERSHIP) {
+        const membershipPlan = (updatedOrder as any).membershipPlan;
+
+        if (membershipPlan && membershipPlan !== 'NONE') {
+          const planDuration =
+            MembershipDuration[
+              membershipPlan as keyof typeof MembershipDuration
+            ];
+          const planStartDate = new Date();
+          const planEndDate = new Date();
+          planEndDate.setMonth(planEndDate.getMonth() + planDuration);
+
+          await tx.user.update({
+            where: { id: updatedOrder.userId },
+            data: {
+              plan: membershipPlan,
+              planStartDate,
+              planEndDate,
+              isMembership: true,
+            },
+          });
+        }
+      }
+
+      // 3. If this is a course order, increment sold count for each course
+      if (
+        (updatedOrder as any).orderType === OrderType.COURSE ||
+        !(updatedOrder as any).orderType
+      ) {
+        for (const item of updatedOrder.items) {
+          await tx.course.update({
+            where: { id: item.courseId },
+            data: {
+              sold: {
+                increment: 1,
+              },
+            },
+          });
+        }
+
+        // 4. Increment coupon usage if one was applied
+        if (updatedOrder.couponCode) {
+          await tx.coupon.updateMany({
+            where: { code: updatedOrder.couponCode },
+            data: {
+              usedCount: {
+                increment: 1,
+              },
+            },
+          });
+        }
+      }
+
+      return updatedOrder;
+    });
   }
 
   /**

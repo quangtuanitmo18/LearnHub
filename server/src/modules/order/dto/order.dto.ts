@@ -1,4 +1,11 @@
-import { IsEnum, IsOptional, IsString, IsArray, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsArray,
+  IsUUID,
+  ArrayMinSize,
+} from 'class-validator';
 import {
   PaymentMethod,
   type PaymentMethodType,
@@ -52,6 +59,7 @@ export class CheckoutDto {
   couponCode?: string;
 
   @IsArray()
+  @ArrayMinSize(1)
   @IsUUID('4', { each: true })
   courseIds: string[];
 }

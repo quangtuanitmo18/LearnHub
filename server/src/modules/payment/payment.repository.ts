@@ -1,17 +1,19 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { OrderStatus, OrderType } from 'src/shared/constants/order.constant';
-import { MembershipDuration } from 'src/shared/constants/user.constant';
+import { PaymentMethod } from 'src/shared/constants/payment.constant';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import Stripe from 'stripe';
 import { EmailQueueService } from '../email/services';
 import { NotificationService } from '../notification/notification.service';
 import { OrderQueueService } from '../order/services/order-queue.service';
+import { OrderRepository } from '../order/order.repository';
 import { TransferType, WebhookPaymentBodyDto } from './dto/payment.dto';
 import { StripeService } from './services/stripe.service';
 
@@ -25,13 +27,13 @@ export class PaymentRepository {
     private readonly emailQueueService: EmailQueueService,
     private readonly stripeService: StripeService,
     private readonly notificationService: NotificationService,
+    private readonly orderRepository: OrderRepository,
   ) {}
 
   /**
    * Process incoming webhook payment data (e.g., Sepay)
    */
   async handleSepayWebhook(webhookData: WebhookPaymentBodyDto) {
-    console.log('Received Sepay webhook:', webhookData);
     // Only process order completion for incoming payments
     if (webhookData.transferType !== TransferType.IN || !webhookData.content) {
       return { success: true, message: 'Non-incoming payment, skipped' };
@@ -75,7 +77,21 @@ export class PaymentRepository {
       }
 
       // Complete the order
-      const completedOrder = await this.completeOrder(order.id);
+      const completedOrder = await this.orderRepository.completeOrder(order.id);
+
+      if (!completedOrder) {
+        this.logger.warn(
+          `Order ${order.code} was already completed by another process`,
+        );
+        return {
+          order: {
+            id: order.id,
+            code: order.code,
+            status: OrderStatus.COMPLETED,
+          },
+          message: 'Order already completed',
+        };
+      }
 
       // Cancel the scheduled auto-cancellation job
       await this.orderQueueService.cancelScheduledCancellation(order.id);
@@ -134,72 +150,6 @@ export class PaymentRepository {
           },
         },
       },
-    });
-  }
-
-  /**
-   * Process payment and complete order
-   * This will be called after verifying the payment amount matches the order
-   */
-  async completeOrder(orderId: string) {
-    return this.prismaService.$transaction(async (tx) => {
-      // Update order status to COMPLETED
-      const updatedOrder = await tx.order.update({
-        where: { id: orderId },
-        data: {
-          status: OrderStatus.COMPLETED,
-          updatedAt: new Date(),
-        },
-        include: {
-          items: true,
-          user: true,
-        },
-      });
-
-      // If this is a membership order, activate the membership
-      if ((updatedOrder as any).orderType === OrderType.MEMBERSHIP) {
-        const membershipPlan = (updatedOrder as any).membershipPlan;
-
-        if (membershipPlan && membershipPlan !== 'NONE') {
-          const planDuration =
-            MembershipDuration[
-              membershipPlan as keyof typeof MembershipDuration
-            ];
-          const planStartDate = new Date();
-          const planEndDate = new Date();
-          planEndDate.setMonth(planEndDate.getMonth() + planDuration);
-
-          // Activate membership
-          await tx.user.update({
-            where: { id: updatedOrder.userId },
-            data: {
-              plan: membershipPlan,
-              planStartDate,
-              planEndDate,
-              isMembership: true,
-            },
-          });
-        }
-      }
-
-      // If this is a course order, increment sold count
-      if (
-        (updatedOrder as any).orderType === OrderType.COURSE ||
-        !(updatedOrder as any).orderType
-      ) {
-        for (const item of updatedOrder.items) {
-          await tx.course.update({
-            where: { id: item.courseId },
-            data: {
-              sold: {
-                increment: 1,
-              },
-            },
-          });
-        }
-      }
-
-      return updatedOrder;
     });
   }
 
@@ -317,6 +267,10 @@ export class PaymentRepository {
 
     if (order.status !== OrderStatus.PENDING) {
       throw new BadRequestException('Order is not in pending status');
+    }
+
+    if (order.paymentMethod !== PaymentMethod.STRIPE) {
+      throw new BadRequestException('This order is not configured for Stripe payment');
     }
 
     // Build line items for Stripe
@@ -464,7 +418,12 @@ export class PaymentRepository {
       }
 
       // Complete the order
-      const completedOrder = await this.completeOrder(order.id);
+      const completedOrder = await this.orderRepository.completeOrder(order.id);
+
+      if (!completedOrder) {
+        this.logger.warn(`Order ${orderCode} was already completed by another process`);
+        return;
+      }
 
       // Cancel scheduled auto-cancellation
       await this.orderQueueService.cancelScheduledCancellation(order.id);
@@ -512,15 +471,26 @@ export class PaymentRepository {
   /**
    * Verify Stripe checkout session status
    */
-  async verifyStripeCheckout(sessionId: string) {
+  async verifyStripeCheckout(sessionId: string, userId: string) {
     const session = await this.stripeService.retrieveCheckoutSession(sessionId);
+
+    if (!session.metadata?.userId || session.metadata.userId !== userId) {
+      throw new ForbiddenException('You do not have access to this checkout session');
+    }
+
+    const zeroDecimalCurrencies = new Set(['vnd']);
+    const normalizedCurrency = (session.currency || 'usd').toLowerCase();
+    const rawAmount = session.amount_total || 0;
+    const amountTotal = zeroDecimalCurrencies.has(normalizedCurrency)
+      ? rawAmount
+      : rawAmount / 100;
 
     return {
       sessionId: session.id,
       status: session.status,
       paymentStatus: session.payment_status,
       orderCode: session.metadata?.orderCode,
-      amountTotal: session.amount_total ? session.amount_total / 100 : 0,
+      amountTotal,
       currency: session.currency,
     };
   }
