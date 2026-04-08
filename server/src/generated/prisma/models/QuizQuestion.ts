@@ -236,9 +236,9 @@ export type QuizQuestionWhereInput = {
   explanation?: Prisma.StringNullableFilter<"QuizQuestion"> | string | null
   order?: Prisma.IntFilter<"QuizQuestion"> | number
   points?: Prisma.IntFilter<"QuizQuestion"> | number
-  quiz?: Prisma.XOR<Prisma.LessonQuizScalarRelationFilter, Prisma.LessonQuizWhereInput>
-  options?: Prisma.QuizOptionListRelationFilter
   attemptAnswers?: Prisma.QuizAttemptAnswerListRelationFilter
+  options?: Prisma.QuizOptionListRelationFilter
+  quiz?: Prisma.XOR<Prisma.LessonQuizScalarRelationFilter, Prisma.LessonQuizWhereInput>
 }
 
 export type QuizQuestionOrderByWithRelationInput = {
@@ -249,9 +249,9 @@ export type QuizQuestionOrderByWithRelationInput = {
   explanation?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   points?: Prisma.SortOrder
-  quiz?: Prisma.LessonQuizOrderByWithRelationInput
-  options?: Prisma.QuizOptionOrderByRelationAggregateInput
   attemptAnswers?: Prisma.QuizAttemptAnswerOrderByRelationAggregateInput
+  options?: Prisma.QuizOptionOrderByRelationAggregateInput
+  quiz?: Prisma.LessonQuizOrderByWithRelationInput
 }
 
 export type QuizQuestionWhereUniqueInput = Prisma.AtLeast<{
@@ -265,9 +265,9 @@ export type QuizQuestionWhereUniqueInput = Prisma.AtLeast<{
   explanation?: Prisma.StringNullableFilter<"QuizQuestion"> | string | null
   order?: Prisma.IntFilter<"QuizQuestion"> | number
   points?: Prisma.IntFilter<"QuizQuestion"> | number
-  quiz?: Prisma.XOR<Prisma.LessonQuizScalarRelationFilter, Prisma.LessonQuizWhereInput>
-  options?: Prisma.QuizOptionListRelationFilter
   attemptAnswers?: Prisma.QuizAttemptAnswerListRelationFilter
+  options?: Prisma.QuizOptionListRelationFilter
+  quiz?: Prisma.XOR<Prisma.LessonQuizScalarRelationFilter, Prisma.LessonQuizWhereInput>
 }, "id">
 
 export type QuizQuestionOrderByWithAggregationInput = {
@@ -305,9 +305,9 @@ export type QuizQuestionCreateInput = {
   explanation?: string | null
   order?: number
   points?: number
-  quiz: Prisma.LessonQuizCreateNestedOneWithoutQuestionsInput
-  options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
   attemptAnswers?: Prisma.QuizAttemptAnswerCreateNestedManyWithoutQuestionInput
+  options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
+  quiz: Prisma.LessonQuizCreateNestedOneWithoutQuestionsInput
 }
 
 export type QuizQuestionUncheckedCreateInput = {
@@ -318,8 +318,8 @@ export type QuizQuestionUncheckedCreateInput = {
   explanation?: string | null
   order?: number
   points?: number
-  options?: Prisma.QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
   attemptAnswers?: Prisma.QuizAttemptAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  options?: Prisma.QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type QuizQuestionUpdateInput = {
@@ -329,9 +329,9 @@ export type QuizQuestionUpdateInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   points?: Prisma.IntFieldUpdateOperationsInput | number
-  quiz?: Prisma.LessonQuizUpdateOneRequiredWithoutQuestionsNestedInput
-  options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
   attemptAnswers?: Prisma.QuizAttemptAnswerUpdateManyWithoutQuestionNestedInput
+  options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneRequiredWithoutQuestionsNestedInput
 }
 
 export type QuizQuestionUncheckedUpdateInput = {
@@ -342,8 +342,8 @@ export type QuizQuestionUncheckedUpdateInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   points?: Prisma.IntFieldUpdateOperationsInput | number
-  options?: Prisma.QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
   attemptAnswers?: Prisma.QuizAttemptAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  options?: Prisma.QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuizQuestionCreateManyInput = {
@@ -511,8 +511,8 @@ export type QuizQuestionCreateWithoutQuizInput = {
   explanation?: string | null
   order?: number
   points?: number
-  options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
   attemptAnswers?: Prisma.QuizAttemptAnswerCreateNestedManyWithoutQuestionInput
+  options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
 }
 
 export type QuizQuestionUncheckedCreateWithoutQuizInput = {
@@ -522,8 +522,8 @@ export type QuizQuestionUncheckedCreateWithoutQuizInput = {
   explanation?: string | null
   order?: number
   points?: number
-  options?: Prisma.QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
   attemptAnswers?: Prisma.QuizAttemptAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  options?: Prisma.QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type QuizQuestionCreateOrConnectWithoutQuizInput = {
@@ -572,8 +572,8 @@ export type QuizQuestionCreateWithoutOptionsInput = {
   explanation?: string | null
   order?: number
   points?: number
-  quiz: Prisma.LessonQuizCreateNestedOneWithoutQuestionsInput
   attemptAnswers?: Prisma.QuizAttemptAnswerCreateNestedManyWithoutQuestionInput
+  quiz: Prisma.LessonQuizCreateNestedOneWithoutQuestionsInput
 }
 
 export type QuizQuestionUncheckedCreateWithoutOptionsInput = {
@@ -610,8 +610,8 @@ export type QuizQuestionUpdateWithoutOptionsInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   points?: Prisma.IntFieldUpdateOperationsInput | number
-  quiz?: Prisma.LessonQuizUpdateOneRequiredWithoutQuestionsNestedInput
   attemptAnswers?: Prisma.QuizAttemptAnswerUpdateManyWithoutQuestionNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneRequiredWithoutQuestionsNestedInput
 }
 
 export type QuizQuestionUncheckedUpdateWithoutOptionsInput = {
@@ -632,8 +632,8 @@ export type QuizQuestionCreateWithoutAttemptAnswersInput = {
   explanation?: string | null
   order?: number
   points?: number
-  quiz: Prisma.LessonQuizCreateNestedOneWithoutQuestionsInput
   options?: Prisma.QuizOptionCreateNestedManyWithoutQuestionInput
+  quiz: Prisma.LessonQuizCreateNestedOneWithoutQuestionsInput
 }
 
 export type QuizQuestionUncheckedCreateWithoutAttemptAnswersInput = {
@@ -670,8 +670,8 @@ export type QuizQuestionUpdateWithoutAttemptAnswersInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   points?: Prisma.IntFieldUpdateOperationsInput | number
-  quiz?: Prisma.LessonQuizUpdateOneRequiredWithoutQuestionsNestedInput
   options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneRequiredWithoutQuestionsNestedInput
 }
 
 export type QuizQuestionUncheckedUpdateWithoutAttemptAnswersInput = {
@@ -701,8 +701,8 @@ export type QuizQuestionUpdateWithoutQuizInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   points?: Prisma.IntFieldUpdateOperationsInput | number
-  options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
   attemptAnswers?: Prisma.QuizAttemptAnswerUpdateManyWithoutQuestionNestedInput
+  options?: Prisma.QuizOptionUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuizQuestionUncheckedUpdateWithoutQuizInput = {
@@ -712,8 +712,8 @@ export type QuizQuestionUncheckedUpdateWithoutQuizInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   points?: Prisma.IntFieldUpdateOperationsInput | number
-  options?: Prisma.QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
   attemptAnswers?: Prisma.QuizAttemptAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  options?: Prisma.QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuizQuestionUncheckedUpdateManyWithoutQuizInput = {
@@ -731,13 +731,13 @@ export type QuizQuestionUncheckedUpdateManyWithoutQuizInput = {
  */
 
 export type QuizQuestionCountOutputType = {
-  options: number
   attemptAnswers: number
+  options: number
 }
 
 export type QuizQuestionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  options?: boolean | QuizQuestionCountOutputTypeCountOptionsArgs
   attemptAnswers?: boolean | QuizQuestionCountOutputTypeCountAttemptAnswersArgs
+  options?: boolean | QuizQuestionCountOutputTypeCountOptionsArgs
 }
 
 /**
@@ -753,15 +753,15 @@ export type QuizQuestionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types
 /**
  * QuizQuestionCountOutputType without action
  */
-export type QuizQuestionCountOutputTypeCountOptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.QuizOptionWhereInput
+export type QuizQuestionCountOutputTypeCountAttemptAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuizAttemptAnswerWhereInput
 }
 
 /**
  * QuizQuestionCountOutputType without action
  */
-export type QuizQuestionCountOutputTypeCountAttemptAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.QuizAttemptAnswerWhereInput
+export type QuizQuestionCountOutputTypeCountOptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuizOptionWhereInput
 }
 
 
@@ -773,9 +773,9 @@ export type QuizQuestionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   explanation?: boolean
   order?: boolean
   points?: boolean
-  quiz?: boolean | Prisma.LessonQuizDefaultArgs<ExtArgs>
-  options?: boolean | Prisma.QuizQuestion$optionsArgs<ExtArgs>
   attemptAnswers?: boolean | Prisma.QuizQuestion$attemptAnswersArgs<ExtArgs>
+  options?: boolean | Prisma.QuizQuestion$optionsArgs<ExtArgs>
+  quiz?: boolean | Prisma.LessonQuizDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.QuizQuestionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quizQuestion"]>
 
@@ -813,9 +813,9 @@ export type QuizQuestionSelectScalar = {
 
 export type QuizQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quizId" | "type" | "text" | "explanation" | "order" | "points", ExtArgs["result"]["quizQuestion"]>
 export type QuizQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  quiz?: boolean | Prisma.LessonQuizDefaultArgs<ExtArgs>
-  options?: boolean | Prisma.QuizQuestion$optionsArgs<ExtArgs>
   attemptAnswers?: boolean | Prisma.QuizQuestion$attemptAnswersArgs<ExtArgs>
+  options?: boolean | Prisma.QuizQuestion$optionsArgs<ExtArgs>
+  quiz?: boolean | Prisma.LessonQuizDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.QuizQuestionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type QuizQuestionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -828,9 +828,9 @@ export type QuizQuestionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type $QuizQuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "QuizQuestion"
   objects: {
-    quiz: Prisma.$LessonQuizPayload<ExtArgs>
-    options: Prisma.$QuizOptionPayload<ExtArgs>[]
     attemptAnswers: Prisma.$QuizAttemptAnswerPayload<ExtArgs>[]
+    options: Prisma.$QuizOptionPayload<ExtArgs>[]
+    quiz: Prisma.$LessonQuizPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1234,9 +1234,9 @@ readonly fields: QuizQuestionFieldRefs;
  */
 export interface Prisma__QuizQuestionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  quiz<T extends Prisma.LessonQuizDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LessonQuizDefaultArgs<ExtArgs>>): Prisma.Prisma__LessonQuizClient<runtime.Types.Result.GetResult<Prisma.$LessonQuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  options<T extends Prisma.QuizQuestion$optionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuizQuestion$optionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attemptAnswers<T extends Prisma.QuizQuestion$attemptAnswersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuizQuestion$attemptAnswersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizAttemptAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  options<T extends Prisma.QuizQuestion$optionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuizQuestion$optionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  quiz<T extends Prisma.LessonQuizDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LessonQuizDefaultArgs<ExtArgs>>): Prisma.Prisma__LessonQuizClient<runtime.Types.Result.GetResult<Prisma.$LessonQuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1669,30 +1669,6 @@ export type QuizQuestionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * QuizQuestion.options
- */
-export type QuizQuestion$optionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the QuizOption
-   */
-  select?: Prisma.QuizOptionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the QuizOption
-   */
-  omit?: Prisma.QuizOptionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.QuizOptionInclude<ExtArgs> | null
-  where?: Prisma.QuizOptionWhereInput
-  orderBy?: Prisma.QuizOptionOrderByWithRelationInput | Prisma.QuizOptionOrderByWithRelationInput[]
-  cursor?: Prisma.QuizOptionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.QuizOptionScalarFieldEnum | Prisma.QuizOptionScalarFieldEnum[]
-}
-
-/**
  * QuizQuestion.attemptAnswers
  */
 export type QuizQuestion$attemptAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1714,6 +1690,30 @@ export type QuizQuestion$attemptAnswersArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.QuizAttemptAnswerScalarFieldEnum | Prisma.QuizAttemptAnswerScalarFieldEnum[]
+}
+
+/**
+ * QuizQuestion.options
+ */
+export type QuizQuestion$optionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the QuizOption
+   */
+  select?: Prisma.QuizOptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the QuizOption
+   */
+  omit?: Prisma.QuizOptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuizOptionInclude<ExtArgs> | null
+  where?: Prisma.QuizOptionWhereInput
+  orderBy?: Prisma.QuizOptionOrderByWithRelationInput | Prisma.QuizOptionOrderByWithRelationInput[]
+  cursor?: Prisma.QuizOptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuizOptionScalarFieldEnum | Prisma.QuizOptionScalarFieldEnum[]
 }
 
 /**

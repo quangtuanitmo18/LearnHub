@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider     = "prisma-client"
   output       = "../src/generated/prisma"
@@ -12,6 +6,586 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id                   String                  @id @default(uuid())
+  username             String
+  email                String                  @unique
+  password             String?
+  status               UserStatus              @default(INACTIVE)
+  avatar               String?
+  userType             UserType                @default(DEFAULT)
+  plan                 MembershipPlan          @default(NONE)
+  planStartDate        DateTime?
+  planEndDate          DateTime?
+  isMembership         Boolean                 @default(false)
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @default(now())
+  resetPasswordExpires DateTime?
+  resetPasswordToken   String?
+  isEmailVerified      Boolean                 @default(false)
+  otpCode              String?
+  otpExpires           DateTime?
+  darkMode             Boolean                 @default(false)
+  emailNotifications   Boolean                 @default(true)
+  language             String                  @default("vi")
+  marketingEmails      Boolean                 @default(false)
+  pushNotifications    Boolean                 @default(false)
+  blogs                Blog[]
+  carts                Cart[]
+  comments             Comment[]
+  commentReactions     CommentReaction[]
+  courses              Course[]
+  instructorProfile    InstructorProfile?
+  media                Media[]
+  notifications        NotificationRecipient[]
+  orders               Order[]
+  reviews              Review[]
+  lessonProgress       UserLessonProgress[]
+  wishlists            Wishlist[]
+  memory               UserMemory?
+  roles                Role[]                  @relation("RoleToUser")
+
+  @@index([email], map: "idx_user_email")
+  @@index([resetPasswordToken], map: "idx_user_reset_token")
+}
+
+model InstructorProfile {
+  id        String   @id @default(uuid())
+  headline  String?
+  bio       String?
+  website   String?
+  youtube   String?
+  linkedin  String?
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_instructor_profile_user")
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  permissions String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  users       User[]   @relation("RoleToUser")
+
+  @@index([name], map: "idx_role_name")
+}
+
+model Blog {
+  id             String          @id @default(uuid())
+  title          String?
+  slug           String?         @unique
+  content        String?
+  excerpt        String?
+  thumbnail      String
+  status         BlogStatus      @default(DRAFT)
+  publishedAt    DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  authorId       String?
+  categoryId     String
+  author         User?           @relation(fields: [authorId], references: [id])
+  category       Category        @relation(fields: [categoryId], references: [id])
+  documentChunks DocumentChunk[]
+
+  @@index([title], map: "idx_blog_title")
+  @@index([slug], map: "idx_blog_slug")
+  @@index([status], map: "idx_blog_status")
+  @@index([authorId], map: "idx_blog_author")
+  @@index([categoryId], map: "idx_blog_category")
+}
+
+model Category {
+  id        String         @id @default(uuid())
+  name      String         @unique
+  slug      String         @unique
+  status    CategoryStatus @default(ACTIVE)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  blogs     Blog[]
+  courses   Course[]
+
+  @@index([name], map: "idx_category_name")
+  @@index([slug], map: "idx_category_slug")
+}
+
+model Course {
+  id             String               @id @default(uuid())
+  title          String?
+  slug           String?              @unique
+  description    String?
+  excerpt        String?
+  introUrl       String?
+  price          Decimal?             @default(0)
+  oldPrice       Decimal?             @default(0)
+  isFree         Boolean?             @default(false)
+  status         CourseStatus?        @default(DRAFT)
+  view           Int?                 @default(0)
+  sold           Int?                 @default(0)
+  level          CourseLevel?
+  info           Json?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  authorId       String?
+  categoryId     String?
+  imageId        String?
+  cartItems      CartItem[]
+  chapters       Chapter[]
+  author         User?                @relation(fields: [authorId], references: [id])
+  category       Category?            @relation(fields: [categoryId], references: [id])
+  image          Media?               @relation("CourseImage", fields: [imageId], references: [id])
+  documentChunks DocumentChunk[]
+  lessons        Lesson[]
+  orderItems     OrderItem[]
+  reviews        Review[]
+  lessonProgress UserLessonProgress[]
+  coupons        Coupon[]             @relation("CouponToCourse")
+  previewImages  Media[]              @relation("CoursePreviewImages")
+  wishlists      Wishlist[]
+
+  @@index([title], map: "idx_course_title")
+  @@index([slug], map: "idx_course_slug")
+  @@index([authorId], map: "idx_course_author")
+  @@index([categoryId], map: "idx_course_category")
+  @@index([imageId], map: "idx_course_image")
+}
+
+model Chapter {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  order       Int
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
+
+  @@index([courseId], map: "idx_chapter_course")
+  @@index([order], map: "idx_chapter_order")
+}
+
+model Lesson {
+  id             String               @id @default(uuid())
+  title          String
+  order          Int                  @default(0)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  courseId       String
+  chapterId      String
+  published      Boolean              @default(false)
+  slug           String?              @unique
+  type           LessonType
+  description    String?
+  durationSec    Int?
+  comments       Comment[]
+  documentChunks DocumentChunk[]
+  chapter        Chapter              @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  course         Course               @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  article        LessonArticle?
+  quiz           LessonQuiz?
+  video          LessonVideo?
+  userProgress   UserLessonProgress[]
+
+  @@index([type])
+  @@index([courseId], map: "idx_lesson_course")
+  @@index([chapterId], map: "idx_lesson_chapter")
+  @@index([order], map: "idx_lesson_order")
+}
+
+model LessonArticle {
+  lessonId    String @id
+  content     String
+  durationSec Int?
+  lesson      Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
+
+model LessonVideo {
+  lessonId    String @id
+  url         String
+  durationSec Int?
+  lesson      Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
+
+model LessonQuiz {
+  lessonId    String         @id
+  passScore   Int?
+  maxAttempts Int?
+  durationSec Int?
+  lesson      Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  attempts    QuizAttempt[]
+  questions   QuizQuestion[]
+}
+
+model QuizQuestion {
+  id             String              @id @default(uuid())
+  quizId         String
+  type           QuestionType
+  text           String
+  explanation    String?
+  order          Int                 @default(0)
+  points         Int                 @default(1)
+  attemptAnswers QuizAttemptAnswer[]
+  options        QuizOption[]
+  quiz           LessonQuiz          @relation(fields: [quizId], references: [lessonId], onDelete: Cascade)
+
+  @@index([quizId, order])
+}
+
+model QuizOption {
+  id         String       @id @default(uuid())
+  questionId String
+  text       String
+  order      Int          @default(0)
+  isCorrect  Boolean      @default(false)
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId, order])
+}
+
+model QuizAttempt {
+  id           String              @id @default(uuid())
+  lessonId     String
+  userId       String
+  attemptNo    Int
+  status       AttemptStatus       @default(IN_PROGRESS)
+  startedAt    DateTime            @default(now())
+  expiresAt    DateTime?
+  submittedAt  DateTime?
+  score        Float?
+  maxScore     Float?
+  passed       Boolean?
+  correctCount Int?
+  totalCount   Int?
+  quiz         LessonQuiz          @relation(fields: [lessonId], references: [lessonId], onDelete: Cascade)
+  answers      QuizAttemptAnswer[]
+
+  @@unique([lessonId, userId, attemptNo])
+  @@index([lessonId, userId])
+  @@index([status, expiresAt])
+}
+
+model QuizAttemptAnswer {
+  id                String       @id @default(uuid())
+  attemptId         String
+  questionId        String
+  selectedOptionIds String[]     @default([])
+  isCorrect         Boolean?
+  earnedScore       Float?
+  attempt           QuizAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question          QuizQuestion @relation(fields: [questionId], references: [id])
+
+  @@unique([attemptId, questionId])
+  @@index([questionId])
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Media {
+  id                  String      @id @default(uuid())
+  userId              String
+  filename            String
+  size                BigInt
+  mimetype            String
+  type                MediaType
+  storageKey          String      @unique
+  thumbnailKey        String?
+  cdnBaseUrl          String
+  hlsPlaylistKey      String?
+  duration            Float?
+  status              MediaStatus @default(UPLOADING)
+  errorMessage        String?
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  courseImages        Course[]    @relation("CourseImage")
+  user                User        @relation(fields: [userId], references: [id])
+  coursePreviewImages Course[]    @relation("CoursePreviewImages")
+
+  @@index([userId], map: "idx_media_user")
+  @@index([status], map: "idx_media_status")
+  @@index([type], map: "idx_media_type")
+  @@index([createdAt], map: "idx_media_created")
+}
+
+model Coupon {
+  id                String             @id @default(uuid())
+  title             String
+  code              String             @unique
+  discountType      CouponDiscountType
+  discountValue     Decimal
+  minPurchaseAmount Decimal?
+  maxUses           Int?
+  usedCount         Int                @default(0)
+  startDate         DateTime?
+  endDate           DateTime?
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  courses           Course[]           @relation("CouponToCourse")
+
+  @@index([code], map: "idx_coupon_code")
+  @@index([isActive], map: "idx_coupon_active")
+  @@index([startDate, endDate], map: "idx_coupon_dates")
+}
+
+model Cart {
+  id         String     @id @default(uuid())
+  totalPrice Decimal    @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items      CartItem[]
+
+  @@index([userId], map: "idx_cart_user")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  title     String
+  price     Decimal
+  oldPrice  Decimal?
+  thumbnail String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cartId    String
+  courseId  String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, courseId], name: "unique_cart_course")
+  @@index([cartId], map: "idx_cart_item_cart")
+  @@index([courseId], map: "idx_cart_item_course")
+}
+
+model Order {
+  id             String          @id @default(uuid())
+  code           String          @unique
+  orderType      OrderType       @default(COURSE)
+  couponCode     String?
+  subTotal       Decimal         @default(0)
+  totalDiscount  Decimal         @default(0)
+  totalAmount    Decimal         @default(0)
+  paymentMethod  PaymentMethod
+  status         OrderStatus     @default(PENDING)
+  membershipPlan MembershipPlan?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  userId         String
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items          OrderItem[]
+
+  @@index([userId], map: "idx_order_user")
+  @@index([code], map: "idx_order_code")
+  @@index([status], map: "idx_order_status")
+  @@index([orderType], map: "idx_order_type")
+  @@index([createdAt], map: "idx_order_created")
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  title     String
+  price     Decimal
+  oldPrice  Decimal?
+  thumbnail String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orderId   String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId], map: "idx_order_item_order")
+  @@index([courseId], map: "idx_order_item_course")
+}
+
+model Review {
+  id        String       @id @default(uuid())
+  star      Int
+  content   String
+  status    ReviewStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  userId    String
+  courseId  String
+  course    Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_review_user")
+  @@index([courseId], map: "idx_review_course")
+  @@index([status], map: "idx_review_status")
+}
+
+model Notification {
+  id         String                  @id @default(uuid())
+  type       NotificationType
+  title      String
+  message    String
+  data       Json?
+  createdAt  DateTime                @default(now())
+  recipients NotificationRecipient[]
+
+  @@index([type], map: "idx_notification_type")
+  @@index([createdAt], map: "idx_notification_created")
+}
+
+model NotificationRecipient {
+  id             String       @id @default(uuid())
+  notificationId String
+  userId         String
+  isRead         Boolean      @default(false)
+  readAt         DateTime?
+  createdAt      DateTime     @default(now())
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([notificationId, userId])
+  @@index([userId, isRead], map: "idx_recipient_user_read")
+  @@index([userId, createdAt], map: "idx_recipient_user_created")
+}
+
+model Comment {
+  id        String            @id @default(uuid())
+  lessonId  String
+  userId    String
+  parentId  String?
+  content   String
+  level     Int               @default(0)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  status    CommentStatus     @default(APPROVED)
+  lesson    Lesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  parent    Comment?          @relation("Children", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Comment[]         @relation("Children")
+  user      User              @relation(fields: [userId], references: [id])
+  reactions CommentReaction[]
+
+  @@index([lessonId], map: "idx_comment_lesson")
+  @@index([parentId], map: "idx_comment_parent")
+  @@index([userId], map: "idx_comment_user")
+  @@index([status], map: "idx_comment_status")
+}
+
+model CommentReaction {
+  id        String       @id @default(uuid())
+  commentId String
+  userId    String
+  type      ReactionType
+  comment   Comment      @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id])
+
+  @@unique([commentId, userId], name: "unique_comment_user_reaction")
+  @@index([commentId], map: "idx_comment_reaction_comment")
+  @@index([userId], map: "idx_comment_reaction_user")
+}
+
+model UserLessonProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  lessonId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId], name: "unique_user_lesson_progress")
+  @@index([userId], map: "idx_user_lesson_progress_user")
+  @@index([lessonId], map: "idx_user_lesson_progress_lesson")
+  @@index([courseId], map: "idx_user_lesson_progress_course")
+}
+
+model DocumentChunk {
+  id           String                   @id @default(uuid())
+  content      String
+  embedding    Unsupported("vector")
+  sourceType   DocumentSourceType
+  metadata     Json?
+  courseId     String?
+  lessonId     String?
+  blogId       String?
+  chunkIndex   Int                      @default(0)
+  createdAt    DateTime                 @default(now())
+  searchVector Unsupported("tsvector")?
+  blog         Blog?                    @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  course       Course?                  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lesson       Lesson?                  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  concepts     DocumentChunkConcept[]
+
+  @@index([sourceType])
+  @@index([courseId])
+  @@index([lessonId])
+  @@index([embedding], map: "idx_document_chunk_embedding_hnsw")
+  @@index([searchVector], map: "idx_document_chunk_search_vector", type: Gin)
+}
+
+model UserMemory {
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  userId    String   @unique
+  summary   String
+  traits    Json?
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ConceptNode {
+  id       String                 @id @default(dbgenerated("gen_random_uuid()"))
+  name     String                 @unique
+  category String?
+  outEdges ConceptRelation[]      @relation("fromConcept")
+  inEdges  ConceptRelation[]      @relation("toConcept")
+  chunks   DocumentChunkConcept[]
+}
+
+model ConceptRelation {
+  id       String      @id @default(dbgenerated("gen_random_uuid()"))
+  fromId   String
+  toId     String
+  relation String
+  from     ConceptNode @relation("fromConcept", fields: [fromId], references: [id], onDelete: Cascade)
+  to       ConceptNode @relation("toConcept", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId, relation])
+  @@index([fromId])
+  @@index([toId])
+}
+
+model DocumentChunkConcept {
+  id        String        @default(dbgenerated("gen_random_uuid()"))
+  chunkId   String
+  conceptId String
+  chunk     DocumentChunk @relation(fields: [chunkId], references: [id], onDelete: Cascade)
+  concept   ConceptNode   @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+
+  @@id([chunkId, conceptId])
+  @@index([conceptId], map: "DocumentChunkConcept_conceptId_idx")
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId], name: "idx_wishlist_user_course")
+  @@index([userId], name: "idx_wishlist_user")
+  @@index([courseId], name: "idx_wishlist_course")
 }
 
 enum UserStatus {
@@ -86,7 +660,6 @@ enum BlogStatus {
   PUBLISHED
 }
 
-
 enum MembershipPlan {
   NONE
   COPPER
@@ -111,343 +684,16 @@ enum CommentStatus {
   REJECTED
 }
 
-model User {
-  id                   String          @id @default(uuid())
-  username             String
-  email                String          @unique
-  password             String?
-  status               UserStatus      @default(INACTIVE)
-  avatar               String?
-  userType             UserType        @default(DEFAULT)
-  plan                 MembershipPlan  @default(NONE)
-  planStartDate        DateTime?
-  planEndDate          DateTime?
-  isMembership         Boolean         @default(false)
-  resetPasswordToken   String?
-  resetPasswordExpires DateTime?
-  otpCode              String?
-  otpExpires           DateTime?
-  isEmailVerified      Boolean         @default(false)
-  emailNotifications   Boolean         @default(true)
-  pushNotifications    Boolean         @default(false)
-  marketingEmails      Boolean         @default(false)
-  darkMode             Boolean         @default(false)
-  language             String          @default("vi")
-  createdAt            DateTime        @default(now())
-  updatedAt            DateTime        @default(now())
-
-  // relations
-  roles         Role[]
-  courses       Course[]
-  carts         Cart[]
-  orders        Order[]
-  reviews       Review[]
-  blogs         Blog[]
-  comments      Comment[]
-  commentReactions CommentReaction[]
-  notifications NotificationRecipient[]
-  media         Media[]
-  lessonProgress UserLessonProgress[]
-  instructorProfile InstructorProfile?
-  memory        UserMemory?
-  @@index([email], name: "idx_user_email")
-  @@index([resetPasswordToken], name: "idx_user_reset_token")
-}
-
-model InstructorProfile {
-  id          String   @id @default(uuid())
-  headline    String?
-  bio         String?  @db.Text
-  website     String?
-  youtube     String?
-  linkedin    String?
-  
-  // relations
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String   @unique
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([userId], name: "idx_instructor_profile_user")
-}
-
-model Role {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String
-  permissions String[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
-
-  // relations
-  users User[]
-
-  @@index([name], name: "idx_role_name")
-}
-
-model Blog {
-  id          String     @id @default(uuid())
-  title       String?
-  slug        String?    @unique
-  content     String?
-  excerpt     String?
-  thumbnail   String
-  status      BlogStatus @default(DRAFT)
-  publishedAt DateTime?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-
-  // relations
-  author     User?     @relation(fields: [authorId], references: [id])
-  authorId   String?
-  category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId String
-  documentChunks DocumentChunk[]
-
-  @@index([title], name: "idx_blog_title")
-  @@index([slug], name: "idx_blog_slug")
-  @@index([status], name: "idx_blog_status")
-  @@index([authorId], name: "idx_blog_author")
-  @@index([categoryId], name: "idx_blog_category")
-}
-
-
-model Category {
-  id        String         @id @default(uuid())
-  name      String         @unique
-  slug      String         @unique
-  status    CategoryStatus @default(ACTIVE)
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-
-  // relations
-  courses Course[]
-  blogs   Blog[]
-
-  @@index([name], name: "idx_category_name")
-  @@index([slug], name: "idx_category_slug")
-}
-
-model Course {
-  id          String        @id @default(uuid())
-  title       String?
-  slug        String?       @unique
-  description String?
-  excerpt     String?
-  introUrl    String?
-  price       Decimal?      @default(0)
-  oldPrice    Decimal?      @default(0)
-  isFree      Boolean?      @default(false)
-  status      CourseStatus? @default(DRAFT)
-  view        Int?          @default(0)
-  sold        Int?          @default(0)
-  level       CourseLevel?
-  info        Json?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-
-  // Media relations
-  image         Media?  @relation("CourseImage", fields: [imageId], references: [id])
-  imageId       String?
-  previewImages Media[] @relation("CoursePreviewImages")
-
-  // relations
-  author     User?       @relation(fields: [authorId], references: [id])
-  authorId   String?
-  category   Category?   @relation(fields: [categoryId], references: [id])
-  categoryId String?
-  chapters   Chapter[]
-  lessons    Lesson[]
-  lessonProgress UserLessonProgress[]
-  coupons    Coupon[]
-  cartItems  CartItem[]
-  orderItems OrderItem[]
-  reviews    Review[]
-  documentChunks DocumentChunk[]
-
-  @@index([title], name: "idx_course_title")
-  @@index([slug], name: "idx_course_slug")
-  @@index([authorId], name: "idx_course_author")
-  @@index([categoryId], name: "idx_course_category")
-  @@index([imageId], name: "idx_course_image")
-}
-
-model Chapter {
-  id          String   @id @default(uuid())
-  title       String
-  description String?
-  order       Int
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // relations
-  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
-  lessons  Lesson[]
-
-  @@index([courseId], name: "idx_chapter_course")
-  @@index([order], name: "idx_chapter_order")
-}
-
-model Lesson {
-  id          String     @id @default(uuid())
-  type        LessonType
-  title       String
-  description String?
-  slug        String?    @unique
-  order       Int        @default(0)
-  published   Boolean    @default(false)
-  durationSec Int?       // Denormalized duration for quick access
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // relations - content based on type
-  quiz    LessonQuiz?
-  article LessonArticle?
-  video   LessonVideo?
-
-  // course relations
-  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId  String
-  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-  chapterId String
-  comments  Comment[]
-  userProgress UserLessonProgress[]
-  documentChunks DocumentChunk[]
-
-  @@index([type])
-  @@index([courseId], name: "idx_lesson_course")
-  @@index([chapterId], name: "idx_lesson_chapter")
-  @@index([order], name: "idx_lesson_order")
-}
-
-model LessonArticle {
-  lessonId String @id
-  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-
-  content     String
-  durationSec Int?   // Reading time in seconds
-}
-
-model LessonVideo {
-  lessonId String @id
-  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-
-  url         String
-  durationSec Int?
-}
-
-model LessonQuiz {
-  lessonId String @id
-  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-
-  durationSec Int? // Time limit for quiz in seconds
-  passScore   Int?
-  maxAttempts Int?
-
-  questions QuizQuestion[]
-  attempts  QuizAttempt[]
-}
-
-model QuizQuestion {
-  id     String     @id @default(uuid())
-  quizId String
-  quiz   LessonQuiz @relation(fields: [quizId], references: [lessonId], onDelete: Cascade)
-
-  type        QuestionType
-  text        String
-  explanation String?
-  order       Int          @default(0)
-  points      Int          @default(1) // Points for this question
-
-  options        QuizOption[]
-  attemptAnswers QuizAttemptAnswer[]
-
-  @@index([quizId, order])
-}
-
-model QuizOption {
-  id         String       @id @default(uuid())
-  questionId String
-  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-
-  text      String
-  order     Int     @default(0)
-  isCorrect Boolean @default(false)
-
-  @@index([questionId, order])
-}
-
-// ==================== QUIZ ATTEMPTS ====================
-
 enum AttemptStatus {
   IN_PROGRESS
   SUBMITTED
   EXPIRED
 }
 
-model QuizAttempt {
-  id String @id @default(uuid())
-
-  lessonId String
-  quiz     LessonQuiz @relation(fields: [lessonId], references: [lessonId], onDelete: Cascade)
-
-  userId    String
-  attemptNo Int
-  status    AttemptStatus @default(IN_PROGRESS)
-
-  startedAt   DateTime  @default(now())
-  expiresAt   DateTime?
-  submittedAt DateTime?
-
-  score        Float?
-  maxScore     Float?
-  passed       Boolean?
-  correctCount Int?
-  totalCount   Int?
-
-  answers QuizAttemptAnswer[]
-
-  @@unique([lessonId, userId, attemptNo])
-  @@index([lessonId, userId])
-  @@index([status, expiresAt])
-}
-
-model QuizAttemptAnswer {
-  id String @id @default(uuid())
-
-  attemptId String
-  attempt   QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-
-  questionId String
-  question   QuizQuestion @relation(fields: [questionId], references: [id])
-
-  selectedOptionIds String[] @default([])
-
-  isCorrect        Boolean?
-  earnedScore      Float?
-
-  @@unique([attemptId, questionId])
-  @@index([questionId])
-}
-
-// ==================== ARTICLE (STANDALONE - for Blog/non-Lesson articles) ====================
-
-model Article {
-  id          String   @id @default(uuid())
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-// ==================== MEDIA ====================
-
 enum MediaType {
   IMAGE
   VIDEO
+  DOCUMENT
 }
 
 enum MediaStatus {
@@ -457,260 +703,11 @@ enum MediaStatus {
   FAILED
 }
 
-model Media {
-  id        String      @id @default(uuid())
-  userId    String
-
-  // Upload info
-  filename  String
-  size      BigInt
-  mimetype  String      // image/jpeg, video/mp4, ...
-
-  // Type classification
-  type      MediaType   // IMAGE | VIDEO
-
-  // Storage / CDN
-  storageKey     String      @unique  // Main key for UI (image or thumbnail)
-  thumbnailKey   String?              // For video (or image if needed)
-  cdnBaseUrl     String               // e.g., https://cdn.example.com
-
-  // Video HLS
-  hlsPlaylistKey String?              // videos/abc123/playlist.m3u8
-  duration       Float?               // seconds
-
-  status         MediaStatus @default(UPLOADING)
-  errorMessage   String?
-
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-
-  user           User        @relation(fields: [userId], references: [id])
-
-  // Course relations
-  courseImages        Course[] @relation("CourseImage")
-  coursePreviewImages Course[] @relation("CoursePreviewImages")
-
-  @@index([userId], name: "idx_media_user")
-  @@index([status], name: "idx_media_status")
-  @@index([type], name: "idx_media_type")
-  @@index([createdAt], name: "idx_media_created")
-
-}
-
-model Coupon {
-  id                String             @id @default(uuid())
-  title             String
-  code              String             @unique
-  discountType      CouponDiscountType
-  discountValue     Decimal
-  minPurchaseAmount Decimal?
-  maxUses           Int?
-  usedCount         Int                @default(0)
-  startDate         DateTime?
-  endDate           DateTime?
-  isActive          Boolean            @default(true)
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-
-  // relations - implicit many-to-many (Prisma auto-creates join table)
-  courses Course[]
-
-  @@index([code], name: "idx_coupon_code")
-  @@index([isActive], name: "idx_coupon_active")
-  @@index([startDate, endDate], name: "idx_coupon_dates")
-}
-
-model Cart {
-  id         String   @id @default(uuid())
-  totalPrice Decimal  @default(0)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  // relations
-  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  items  CartItem[]
-
-  @@index([userId], name: "idx_cart_user")
-}
-
-model CartItem {
-  id        String   @id @default(uuid())
-  title     String
-  price     Decimal
-  oldPrice  Decimal?
-  thumbnail String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // relations
-  cart     Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  cartId   String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
-
-  @@unique([cartId, courseId], name: "unique_cart_course")
-  @@index([cartId], name: "idx_cart_item_cart")
-  @@index([courseId], name: "idx_cart_item_course")
-}
-
-model Order {
-  id             String          @id @default(uuid())
-  code           String          @unique
-  orderType      OrderType       @default(COURSE)
-  couponCode     String?
-  subTotal       Decimal         @default(0)
-  totalDiscount  Decimal         @default(0)
-  totalAmount    Decimal         @default(0)
-  paymentMethod  PaymentMethod
-  status         OrderStatus     @default(PENDING)
-  // Membership specific fields (only used when orderType is MEMBERSHIP)
-  membershipPlan MembershipPlan?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-
-  // relations
-  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  items  OrderItem[]
-
-  @@index([userId], name: "idx_order_user")
-  @@index([code], name: "idx_order_code")
-  @@index([status], name: "idx_order_status")
-  @@index([orderType], name: "idx_order_type")
-  @@index([createdAt], name: "idx_order_created")
-}
-
-model OrderItem {
-  id        String   @id @default(uuid())
-  title     String
-  price     Decimal
-  oldPrice  Decimal?
-  thumbnail String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // relations
-  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId  String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
-
-  @@index([orderId], name: "idx_order_item_order")
-  @@index([courseId], name: "idx_order_item_course")
-}
-
-model Review {
-  id        String       @id @default(uuid())
-  star      Int
-  content   String
-  status    ReviewStatus @default(PENDING)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-
-  // relations
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
-
-  @@index([userId], name: "idx_review_user")
-  @@index([courseId], name: "idx_review_course")
-  @@index([status], name: "idx_review_status")
-}
-
-// ==================== NOTIFICATION ====================
-
 enum NotificationType {
   COURSE
   PAYMENT
   SYSTEM
 }
-
-model Notification {
-  id        String       @id @default(uuid())
-  type      NotificationType
-  title     String
-  message   String
-  data      Json?
-  createdAt DateTime         @default(now())
-
-  recipients NotificationRecipient[]
-
-  @@index([type], name: "idx_notification_type")
-  @@index([createdAt], name: "idx_notification_created")
-}
-
-model NotificationRecipient {
-  id        String       @id @default(uuid())
-  notificationId String
-  userId         String
-  isRead         Boolean   @default(false)
-  readAt         DateTime?
-  createdAt      DateTime  @default(now())
-
-  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([notificationId, userId])
-  @@index([userId, isRead], name: "idx_recipient_user_read")
-  @@index([userId, createdAt], name: "idx_recipient_user_created")
-}
-
-model Comment {
-  id          String   @id @default(uuid())
-  lessonId   String
-  lesson     Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  parentId   String?
-  parent     Comment? @relation("Children", fields: [parentId], references: [id], onDelete: Cascade)
-  children   Comment[] @relation("Children")
-  content    String
-  level      Int            @default(0)
-  status     CommentStatus  @default(APPROVED)
-  reactions  CommentReaction[]
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-
-  @@index([lessonId], name: "idx_comment_lesson")
-  @@index([parentId], name: "idx_comment_parent")
-  @@index([userId], name: "idx_comment_user")
-  @@index([status], name: "idx_comment_status")
-}
-
-model CommentReaction {
-  id        String       @id @default(uuid())
-  commentId String
-  comment   Comment      @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User         @relation(fields: [userId], references: [id])
-  type      ReactionType
-
-  @@unique([commentId, userId], name: "unique_comment_user_reaction")
-  @@index([commentId], name: "idx_comment_reaction_comment")
-  @@index([userId], name: "idx_comment_reaction_user")
-}
-
-model UserLessonProgress {
-  id          String    @id @default(uuid())
-  userId      String
-  lessonId    String
-  courseId    String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  course Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, lessonId], name: "unique_user_lesson_progress")
-  @@index([userId], name: "idx_user_lesson_progress_user")
-  @@index([lessonId], name: "idx_user_lesson_progress_lesson")
-  @@index([courseId], name: "idx_user_lesson_progress_course")
-}
-
-// ==================== AI LMS EMBEDDING (RAG) ====================
 
 enum DocumentSourceType {
   COURSE
@@ -718,83 +715,4 @@ enum DocumentSourceType {
   LESSON_VIDEO
   LESSON_QUIZ
   BLOG
-}
-
-model DocumentChunk {
-  id          String             @id @default(uuid())
-  content     String             @db.Text
-  
-  // Requires "pgvector" extension to be enabled in PostgreSQL
-  embedding   Unsupported("vector(1536)")
-  
-  sourceType  DocumentSourceType
-  metadata    Json?
-
-  courseId    String?
-  lessonId    String?
-  blogId      String?
-
-  chunkIndex  Int     @default(0)
-  
-  createdAt   DateTime @default(now())
-
-  // Relations
-  course      Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  lesson      Lesson?  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  blog        Blog?    @relation(fields: [blogId],   references: [id], onDelete: Cascade)
-
-  @@index([sourceType])
-  @@index([courseId])
-  @@index([lessonId])
-
-  concepts DocumentChunkConcept[]
-}
-
-// ==================== AI LONG-TERM MEMORY ====================
-
-model UserMemory {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  summary   String   @db.Text
-  traits    Json?
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-// ==================== AI KNOWLEDGE GRAPH ====================
-
-model ConceptNode {
-  id       String  @id @default(uuid())
-  name     String  @unique
-  category String?
-
-  outEdges ConceptRelation[]     @relation("fromConcept")
-  inEdges  ConceptRelation[]     @relation("toConcept")
-  chunks   DocumentChunkConcept[]
-}
-
-model ConceptRelation {
-  id       String @id @default(uuid())
-  fromId   String
-  toId     String
-  relation String
-
-  from ConceptNode @relation("fromConcept", fields: [fromId], references: [id], onDelete: Cascade)
-  to   ConceptNode @relation("toConcept", fields: [toId], references: [id], onDelete: Cascade)
-
-  @@unique([fromId, toId, relation])
-  @@index([fromId])
-  @@index([toId])
-}
-
-model DocumentChunkConcept {
-  chunkId   String
-  conceptId String
-
-  chunk   DocumentChunk @relation(fields: [chunkId], references: [id], onDelete: Cascade)
-  concept ConceptNode   @relation(fields: [conceptId], references: [id], onDelete: Cascade)
-
-  @@id([chunkId, conceptId])
-  @@index([conceptId])
 }

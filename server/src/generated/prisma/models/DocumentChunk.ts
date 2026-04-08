@@ -244,9 +244,9 @@ export type DocumentChunkWhereInput = {
   blogId?: Prisma.StringNullableFilter<"DocumentChunk"> | string | null
   chunkIndex?: Prisma.IntFilter<"DocumentChunk"> | number
   createdAt?: Prisma.DateTimeFilter<"DocumentChunk"> | Date | string
+  blog?: Prisma.XOR<Prisma.BlogNullableScalarRelationFilter, Prisma.BlogWhereInput> | null
   course?: Prisma.XOR<Prisma.CourseNullableScalarRelationFilter, Prisma.CourseWhereInput> | null
   lesson?: Prisma.XOR<Prisma.LessonNullableScalarRelationFilter, Prisma.LessonWhereInput> | null
-  blog?: Prisma.XOR<Prisma.BlogNullableScalarRelationFilter, Prisma.BlogWhereInput> | null
   concepts?: Prisma.DocumentChunkConceptListRelationFilter
 }
 
@@ -260,9 +260,9 @@ export type DocumentChunkOrderByWithRelationInput = {
   blogId?: Prisma.SortOrderInput | Prisma.SortOrder
   chunkIndex?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  blog?: Prisma.BlogOrderByWithRelationInput
   course?: Prisma.CourseOrderByWithRelationInput
   lesson?: Prisma.LessonOrderByWithRelationInput
-  blog?: Prisma.BlogOrderByWithRelationInput
   concepts?: Prisma.DocumentChunkConceptOrderByRelationAggregateInput
 }
 
@@ -279,9 +279,9 @@ export type DocumentChunkWhereUniqueInput = Prisma.AtLeast<{
   blogId?: Prisma.StringNullableFilter<"DocumentChunk"> | string | null
   chunkIndex?: Prisma.IntFilter<"DocumentChunk"> | number
   createdAt?: Prisma.DateTimeFilter<"DocumentChunk"> | Date | string
+  blog?: Prisma.XOR<Prisma.BlogNullableScalarRelationFilter, Prisma.BlogWhereInput> | null
   course?: Prisma.XOR<Prisma.CourseNullableScalarRelationFilter, Prisma.CourseWhereInput> | null
   lesson?: Prisma.XOR<Prisma.LessonNullableScalarRelationFilter, Prisma.LessonWhereInput> | null
-  blog?: Prisma.XOR<Prisma.BlogNullableScalarRelationFilter, Prisma.BlogWhereInput> | null
   concepts?: Prisma.DocumentChunkConceptListRelationFilter
 }, "id">
 
@@ -324,9 +324,9 @@ export type DocumentChunkUpdateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   chunkIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blog?: Prisma.BlogUpdateOneWithoutDocumentChunksNestedInput
   course?: Prisma.CourseUpdateOneWithoutDocumentChunksNestedInput
   lesson?: Prisma.LessonUpdateOneWithoutDocumentChunksNestedInput
-  blog?: Prisma.BlogUpdateOneWithoutDocumentChunksNestedInput
   concepts?: Prisma.DocumentChunkConceptUpdateManyWithoutChunkNestedInput
 }
 
@@ -575,9 +575,9 @@ export type DocumentChunkUpdateWithoutConceptsInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   chunkIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blog?: Prisma.BlogUpdateOneWithoutDocumentChunksNestedInput
   course?: Prisma.CourseUpdateOneWithoutDocumentChunksNestedInput
   lesson?: Prisma.LessonUpdateOneWithoutDocumentChunksNestedInput
-  blog?: Prisma.BlogUpdateOneWithoutDocumentChunksNestedInput
 }
 
 export type DocumentChunkUncheckedUpdateWithoutConceptsInput = {
@@ -634,8 +634,8 @@ export type DocumentChunkUpdateWithoutCourseInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   chunkIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lesson?: Prisma.LessonUpdateOneWithoutDocumentChunksNestedInput
   blog?: Prisma.BlogUpdateOneWithoutDocumentChunksNestedInput
+  lesson?: Prisma.LessonUpdateOneWithoutDocumentChunksNestedInput
   concepts?: Prisma.DocumentChunkConceptUpdateManyWithoutChunkNestedInput
 }
 
@@ -669,8 +669,8 @@ export type DocumentChunkUpdateWithoutLessonInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   chunkIndex?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  course?: Prisma.CourseUpdateOneWithoutDocumentChunksNestedInput
   blog?: Prisma.BlogUpdateOneWithoutDocumentChunksNestedInput
+  course?: Prisma.CourseUpdateOneWithoutDocumentChunksNestedInput
   concepts?: Prisma.DocumentChunkConceptUpdateManyWithoutChunkNestedInput
 }
 
@@ -738,9 +738,9 @@ export type DocumentChunkSelect<ExtArgs extends runtime.Types.Extensions.Interna
   blogId?: boolean
   chunkIndex?: boolean
   createdAt?: boolean
+  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
   course?: boolean | Prisma.DocumentChunk$courseArgs<ExtArgs>
   lesson?: boolean | Prisma.DocumentChunk$lessonArgs<ExtArgs>
-  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
   concepts?: boolean | Prisma.DocumentChunk$conceptsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentChunkCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentChunk"]>
@@ -756,9 +756,9 @@ export type DocumentChunkSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   blogId?: boolean
   chunkIndex?: boolean
   createdAt?: boolean
+  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
   course?: boolean | Prisma.DocumentChunk$courseArgs<ExtArgs>
   lesson?: boolean | Prisma.DocumentChunk$lessonArgs<ExtArgs>
-  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
 }, ExtArgs["result"]["documentChunk"]>
 
 export type DocumentChunkSelectScalar = {
@@ -775,24 +775,24 @@ export type DocumentChunkSelectScalar = {
 
 export type DocumentChunkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "content" | "sourceType" | "metadata" | "courseId" | "lessonId" | "blogId" | "chunkIndex" | "createdAt", ExtArgs["result"]["documentChunk"]>
 export type DocumentChunkInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
   course?: boolean | Prisma.DocumentChunk$courseArgs<ExtArgs>
   lesson?: boolean | Prisma.DocumentChunk$lessonArgs<ExtArgs>
-  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
   concepts?: boolean | Prisma.DocumentChunk$conceptsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentChunkCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentChunkIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
   course?: boolean | Prisma.DocumentChunk$courseArgs<ExtArgs>
   lesson?: boolean | Prisma.DocumentChunk$lessonArgs<ExtArgs>
-  blog?: boolean | Prisma.DocumentChunk$blogArgs<ExtArgs>
 }
 
 export type $DocumentChunkPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DocumentChunk"
   objects: {
+    blog: Prisma.$BlogPayload<ExtArgs> | null
     course: Prisma.$CoursePayload<ExtArgs> | null
     lesson: Prisma.$LessonPayload<ExtArgs> | null
-    blog: Prisma.$BlogPayload<ExtArgs> | null
     concepts: Prisma.$DocumentChunkConceptPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1128,9 +1128,9 @@ readonly fields: DocumentChunkFieldRefs;
  */
 export interface Prisma__DocumentChunkClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  blog<T extends Prisma.DocumentChunk$blogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentChunk$blogArgs<ExtArgs>>): Prisma.Prisma__BlogClient<runtime.Types.Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   course<T extends Prisma.DocumentChunk$courseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentChunk$courseArgs<ExtArgs>>): Prisma.Prisma__CourseClient<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   lesson<T extends Prisma.DocumentChunk$lessonArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentChunk$lessonArgs<ExtArgs>>): Prisma.Prisma__LessonClient<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  blog<T extends Prisma.DocumentChunk$blogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentChunk$blogArgs<ExtArgs>>): Prisma.Prisma__BlogClient<runtime.Types.Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   concepts<T extends Prisma.DocumentChunk$conceptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentChunk$conceptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkConceptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1480,6 +1480,25 @@ export type DocumentChunkDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * DocumentChunk.blog
+ */
+export type DocumentChunk$blogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Blog
+   */
+  select?: Prisma.BlogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Blog
+   */
+  omit?: Prisma.BlogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BlogInclude<ExtArgs> | null
+  where?: Prisma.BlogWhereInput
+}
+
+/**
  * DocumentChunk.course
  */
 export type DocumentChunk$courseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1515,25 +1534,6 @@ export type DocumentChunk$lessonArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.LessonInclude<ExtArgs> | null
   where?: Prisma.LessonWhereInput
-}
-
-/**
- * DocumentChunk.blog
- */
-export type DocumentChunk$blogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Blog
-   */
-  select?: Prisma.BlogSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Blog
-   */
-  omit?: Prisma.BlogOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BlogInclude<ExtArgs> | null
-  where?: Prisma.BlogWhereInput
 }
 
 /**

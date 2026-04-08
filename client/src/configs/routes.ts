@@ -7,6 +7,7 @@ export const ROUTE_CONFIG = {
   CONTACT: '/contact',
   DEMO: '/demo',
   CART: '/cart',
+  WISHLIST: '/wishlist',
   SEARCH: '/search',
   QR_PAYMENT: '/qr-payment',
   STRIPE_PAYMENT: '/stripe-payment',

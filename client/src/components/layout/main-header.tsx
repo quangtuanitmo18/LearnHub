@@ -28,6 +28,11 @@ const CartTooltip = dynamic(() => import('../header/cart-tooltip'), {
   loading: () => <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200 sm:h-10 sm:w-10" />,
 });
 
+const WishlistTooltip = dynamic(() => import('../header/wishlist-tooltip'), {
+  ssr: false,
+  loading: () => <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200 sm:h-10 sm:w-10" />,
+});
+
 const AuthSection = dynamic(() => import('../header/auth-section'), {
   ssr: false,
   loading: () => (
@@ -70,6 +75,7 @@ function MainHeader() {
             <div className="flex min-w-fit items-center gap-1 sm:gap-2 lg:gap-3">
               <SearchDialog />
               <NotificationPopover />
+              <WishlistTooltip />
               <CartTooltip />
               <AuthSection />
             </div>

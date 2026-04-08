@@ -67,6 +67,27 @@ export class UserController {
     return this.userService.deleteAvatar(userId);
   }
 
+  // ==================== WISHLIST ENDPOINTS ====================
+
+  @Post('wishlist/:courseId')
+  @ResponseMessage('Wishlist toggled successfully')
+  async toggleWishlist(
+    @CurrentUser('sub') userId: string,
+    @Param('courseId') courseId: string,
+  ) {
+    return this.userService.toggleWishlist(userId, courseId);
+  }
+
+  @Get('wishlist')
+  @ResponseMessage('Wishlist retrieved successfully')
+  async getMyWishlist(
+    @CurrentUser('sub') userId: string,
+    @Query() query: any,
+  ) {
+    return this.userService.getMyWishlist(userId, query);
+  }
+
+
   @Get('settings/me')
   @ResponseMessage('User settings retrieved successfully')
   async getMySettings(@CurrentUser('sub') userId: string) {

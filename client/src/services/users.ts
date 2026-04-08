@@ -17,6 +17,8 @@ const ENDPOINTS = {
   AVATAR_PRESIGNED: '/users/avatar/presigned',
   AVATAR_UPLOAD_COMPLETE: '/users/avatar/upload-complete',
   AVATAR_DELETE: '/users/avatar',
+  WISHLIST_TOGGLE: (courseId: string) => `/users/wishlist/${courseId}`,
+  MY_WISHLIST: '/users/wishlist',
 } as const;
 
 // Users service
@@ -105,6 +107,23 @@ export class UsersService {
   // Delete avatar
   static async deleteAvatar(): Promise<{ message: string }> {
     return ApiService.delete<{ message: string }>(ENDPOINTS.AVATAR_DELETE);
+  }
+
+  // Toggle wishlist for a course
+  static async toggleWishlist(
+    courseId: string,
+  ): Promise<{ message: string; isWishlisted: boolean }> {
+    return ApiService.post<{ message: string; isWishlisted: boolean }, void>(
+      ENDPOINTS.WISHLIST_TOGGLE(courseId),
+    );
+  }
+
+  // Get user's wishlisted courses
+  static async getMyWishlist(params: any): Promise<{ items: any[]; meta: any }> {
+    return ApiService.get<{ items: any[]; meta: any }>(
+      ENDPOINTS.MY_WISHLIST,
+      params as Record<string, unknown>,
+    );
   }
 }
 

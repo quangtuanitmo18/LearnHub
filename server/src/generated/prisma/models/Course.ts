@@ -56,9 +56,9 @@ export type CourseMinAggregateOutputType = {
   level: $Enums.CourseLevel | null
   createdAt: Date | null
   updatedAt: Date | null
-  imageId: string | null
   authorId: string | null
   categoryId: string | null
+  imageId: string | null
 }
 
 export type CourseMaxAggregateOutputType = {
@@ -77,9 +77,9 @@ export type CourseMaxAggregateOutputType = {
   level: $Enums.CourseLevel | null
   createdAt: Date | null
   updatedAt: Date | null
-  imageId: string | null
   authorId: string | null
   categoryId: string | null
+  imageId: string | null
 }
 
 export type CourseCountAggregateOutputType = {
@@ -99,9 +99,9 @@ export type CourseCountAggregateOutputType = {
   info: number
   createdAt: number
   updatedAt: number
-  imageId: number
   authorId: number
   categoryId: number
+  imageId: number
   _all: number
 }
 
@@ -136,9 +136,9 @@ export type CourseMinAggregateInputType = {
   level?: true
   createdAt?: true
   updatedAt?: true
-  imageId?: true
   authorId?: true
   categoryId?: true
+  imageId?: true
 }
 
 export type CourseMaxAggregateInputType = {
@@ -157,9 +157,9 @@ export type CourseMaxAggregateInputType = {
   level?: true
   createdAt?: true
   updatedAt?: true
-  imageId?: true
   authorId?: true
   categoryId?: true
+  imageId?: true
 }
 
 export type CourseCountAggregateInputType = {
@@ -179,9 +179,9 @@ export type CourseCountAggregateInputType = {
   info?: true
   createdAt?: true
   updatedAt?: true
-  imageId?: true
   authorId?: true
   categoryId?: true
+  imageId?: true
   _all?: true
 }
 
@@ -288,9 +288,9 @@ export type CourseGroupByOutputType = {
   info: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
-  imageId: string | null
   authorId: string | null
   categoryId: string | null
+  imageId: string | null
   _count: CourseCountAggregateOutputType | null
   _avg: CourseAvgAggregateOutputType | null
   _sum: CourseSumAggregateOutputType | null
@@ -333,21 +333,22 @@ export type CourseWhereInput = {
   info?: Prisma.JsonNullableFilter<"Course">
   createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
-  imageId?: Prisma.StringNullableFilter<"Course"> | string | null
   authorId?: Prisma.StringNullableFilter<"Course"> | string | null
   categoryId?: Prisma.StringNullableFilter<"Course"> | string | null
-  image?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.MediaWhereInput> | null
-  previewImages?: Prisma.MediaListRelationFilter
+  imageId?: Prisma.StringNullableFilter<"Course"> | string | null
+  cartItems?: Prisma.CartItemListRelationFilter
+  chapters?: Prisma.ChapterListRelationFilter
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
-  chapters?: Prisma.ChapterListRelationFilter
+  image?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.MediaWhereInput> | null
+  documentChunks?: Prisma.DocumentChunkListRelationFilter
   lessons?: Prisma.LessonListRelationFilter
-  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
-  coupons?: Prisma.CouponListRelationFilter
-  cartItems?: Prisma.CartItemListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
-  documentChunks?: Prisma.DocumentChunkListRelationFilter
+  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
+  coupons?: Prisma.CouponListRelationFilter
+  previewImages?: Prisma.MediaListRelationFilter
+  wishlists?: Prisma.WishlistListRelationFilter
 }
 
 export type CourseOrderByWithRelationInput = {
@@ -367,21 +368,22 @@ export type CourseOrderByWithRelationInput = {
   info?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
-  image?: Prisma.MediaOrderByWithRelationInput
-  previewImages?: Prisma.MediaOrderByRelationAggregateInput
+  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cartItems?: Prisma.CartItemOrderByRelationAggregateInput
+  chapters?: Prisma.ChapterOrderByRelationAggregateInput
   author?: Prisma.UserOrderByWithRelationInput
   category?: Prisma.CategoryOrderByWithRelationInput
-  chapters?: Prisma.ChapterOrderByRelationAggregateInput
+  image?: Prisma.MediaOrderByWithRelationInput
+  documentChunks?: Prisma.DocumentChunkOrderByRelationAggregateInput
   lessons?: Prisma.LessonOrderByRelationAggregateInput
-  lessonProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput
-  coupons?: Prisma.CouponOrderByRelationAggregateInput
-  cartItems?: Prisma.CartItemOrderByRelationAggregateInput
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
-  documentChunks?: Prisma.DocumentChunkOrderByRelationAggregateInput
+  lessonProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput
+  coupons?: Prisma.CouponOrderByRelationAggregateInput
+  previewImages?: Prisma.MediaOrderByRelationAggregateInput
+  wishlists?: Prisma.WishlistOrderByRelationAggregateInput
 }
 
 export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -404,21 +406,22 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   info?: Prisma.JsonNullableFilter<"Course">
   createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
-  imageId?: Prisma.StringNullableFilter<"Course"> | string | null
   authorId?: Prisma.StringNullableFilter<"Course"> | string | null
   categoryId?: Prisma.StringNullableFilter<"Course"> | string | null
-  image?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.MediaWhereInput> | null
-  previewImages?: Prisma.MediaListRelationFilter
+  imageId?: Prisma.StringNullableFilter<"Course"> | string | null
+  cartItems?: Prisma.CartItemListRelationFilter
+  chapters?: Prisma.ChapterListRelationFilter
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
-  chapters?: Prisma.ChapterListRelationFilter
+  image?: Prisma.XOR<Prisma.MediaNullableScalarRelationFilter, Prisma.MediaWhereInput> | null
+  documentChunks?: Prisma.DocumentChunkListRelationFilter
   lessons?: Prisma.LessonListRelationFilter
-  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
-  coupons?: Prisma.CouponListRelationFilter
-  cartItems?: Prisma.CartItemListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
-  documentChunks?: Prisma.DocumentChunkListRelationFilter
+  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
+  coupons?: Prisma.CouponListRelationFilter
+  previewImages?: Prisma.MediaListRelationFilter
+  wishlists?: Prisma.WishlistListRelationFilter
 }, "id" | "slug">
 
 export type CourseOrderByWithAggregationInput = {
@@ -438,9 +441,9 @@ export type CourseOrderByWithAggregationInput = {
   info?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   authorId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CourseCountOrderByAggregateInput
   _avg?: Prisma.CourseAvgOrderByAggregateInput
   _max?: Prisma.CourseMaxOrderByAggregateInput
@@ -468,9 +471,9 @@ export type CourseScalarWhereWithAggregatesInput = {
   info?: Prisma.JsonNullableWithAggregatesFilter<"Course">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Course"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Course"> | Date | string
-  imageId?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
   authorId?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
   categoryId?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
+  imageId?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
 }
 
 export type CourseCreateInput = {
@@ -490,18 +493,19 @@ export type CourseCreateInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateInput = {
@@ -521,18 +525,19 @@ export type CourseUncheckedCreateInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUpdateInput = {
@@ -552,18 +557,19 @@ export type CourseUpdateInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateInput = {
@@ -583,18 +589,19 @@ export type CourseUncheckedUpdateInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateManyInput = {
@@ -614,9 +621,9 @@ export type CourseCreateManyInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
+  imageId?: string | null
 }
 
 export type CourseUpdateManyMutationInput = {
@@ -655,9 +662,9 @@ export type CourseUncheckedUpdateManyInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CourseListRelationFilter = {
@@ -687,9 +694,9 @@ export type CourseCountOrderByAggregateInput = {
   info?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  imageId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  imageId?: Prisma.SortOrder
 }
 
 export type CourseAvgOrderByAggregateInput = {
@@ -715,9 +722,9 @@ export type CourseMaxOrderByAggregateInput = {
   level?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  imageId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  imageId?: Prisma.SortOrder
 }
 
 export type CourseMinOrderByAggregateInput = {
@@ -736,9 +743,9 @@ export type CourseMinOrderByAggregateInput = {
   level?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  imageId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  imageId?: Prisma.SortOrder
 }
 
 export type CourseSumOrderByAggregateInput = {
@@ -1082,6 +1089,20 @@ export type CourseUpdateOneWithoutDocumentChunksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutDocumentChunksInput, Prisma.CourseUpdateWithoutDocumentChunksInput>, Prisma.CourseUncheckedUpdateWithoutDocumentChunksInput>
 }
 
+export type CourseCreateNestedOneWithoutWishlistsInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutWishlistsInput, Prisma.CourseUncheckedCreateWithoutWishlistsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutWishlistsInput
+  connect?: Prisma.CourseWhereUniqueInput
+}
+
+export type CourseUpdateOneRequiredWithoutWishlistsNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutWishlistsInput, Prisma.CourseUncheckedCreateWithoutWishlistsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutWishlistsInput
+  upsert?: Prisma.CourseUpsertWithoutWishlistsInput
+  connect?: Prisma.CourseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutWishlistsInput, Prisma.CourseUpdateWithoutWishlistsInput>, Prisma.CourseUncheckedUpdateWithoutWishlistsInput>
+}
+
 export type CourseCreateWithoutAuthorInput = {
   id?: string
   title?: string | null
@@ -1099,17 +1120,18 @@ export type CourseCreateWithoutAuthorInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
-  category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutAuthorInput = {
@@ -1129,17 +1151,18 @@ export type CourseUncheckedCreateWithoutAuthorInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutAuthorInput = {
@@ -1188,9 +1211,9 @@ export type CourseScalarWhereInput = {
   info?: Prisma.JsonNullableFilter<"Course">
   createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
-  imageId?: Prisma.StringNullableFilter<"Course"> | string | null
   authorId?: Prisma.StringNullableFilter<"Course"> | string | null
   categoryId?: Prisma.StringNullableFilter<"Course"> | string | null
+  imageId?: Prisma.StringNullableFilter<"Course"> | string | null
 }
 
 export type CourseCreateWithoutCategoryInput = {
@@ -1210,17 +1233,18 @@ export type CourseCreateWithoutCategoryInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
-  author?: Prisma.UserCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
   cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  author?: Prisma.UserCreateNestedOneWithoutCoursesInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutCategoryInput = {
@@ -1240,17 +1264,18 @@ export type CourseUncheckedCreateWithoutCategoryInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutCategoryInput = {
@@ -1296,17 +1321,18 @@ export type CourseCreateWithoutChaptersInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutChaptersInput = {
@@ -1326,17 +1352,18 @@ export type CourseUncheckedCreateWithoutChaptersInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutChaptersInput = {
@@ -1372,17 +1399,18 @@ export type CourseUpdateWithoutChaptersInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutChaptersInput = {
@@ -1402,17 +1430,18 @@ export type CourseUncheckedUpdateWithoutChaptersInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutLessonsInput = {
@@ -1432,17 +1461,18 @@ export type CourseCreateWithoutLessonsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutLessonsInput = {
@@ -1462,17 +1492,18 @@ export type CourseUncheckedCreateWithoutLessonsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutLessonsInput = {
@@ -1508,17 +1539,18 @@ export type CourseUpdateWithoutLessonsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutLessonsInput = {
@@ -1538,17 +1570,18 @@ export type CourseUncheckedUpdateWithoutLessonsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutImageInput = {
@@ -1568,17 +1601,18 @@ export type CourseCreateWithoutImageInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutImageInput = {
@@ -1600,15 +1634,16 @@ export type CourseUncheckedCreateWithoutImageInput = {
   updatedAt?: Date | string
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutImageInput = {
@@ -1638,17 +1673,18 @@ export type CourseCreateWithoutPreviewImagesInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutPreviewImagesInput = {
@@ -1668,17 +1704,18 @@ export type CourseUncheckedCreateWithoutPreviewImagesInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutPreviewImagesInput = {
@@ -1735,17 +1772,18 @@ export type CourseCreateWithoutCouponsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutCouponsInput = {
@@ -1765,17 +1803,18 @@ export type CourseUncheckedCreateWithoutCouponsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutCouponsInput = {
@@ -1816,17 +1855,18 @@ export type CourseCreateWithoutCartItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutCartItemsInput = {
@@ -1846,17 +1886,18 @@ export type CourseUncheckedCreateWithoutCartItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  imageId?: string | null
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutCartItemsInput = {
@@ -1892,17 +1933,18 @@ export type CourseUpdateWithoutCartItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutCartItemsInput = {
@@ -1922,17 +1964,18 @@ export type CourseUncheckedUpdateWithoutCartItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutOrderItemsInput = {
@@ -1952,17 +1995,18 @@ export type CourseCreateWithoutOrderItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
   coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutOrderItemsInput = {
@@ -1982,17 +2026,18 @@ export type CourseUncheckedCreateWithoutOrderItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  imageId?: string | null
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutOrderItemsInput = {
@@ -2028,17 +2073,18 @@ export type CourseUpdateWithoutOrderItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
   coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutOrderItemsInput = {
@@ -2058,17 +2104,18 @@ export type CourseUncheckedUpdateWithoutOrderItemsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutReviewsInput = {
@@ -2088,17 +2135,18 @@ export type CourseCreateWithoutReviewsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
   coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutReviewsInput = {
@@ -2118,17 +2166,18 @@ export type CourseUncheckedCreateWithoutReviewsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  imageId?: string | null
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
-  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutReviewsInput = {
@@ -2164,17 +2213,18 @@ export type CourseUpdateWithoutReviewsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
   coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutReviewsInput = {
@@ -2194,17 +2244,18 @@ export type CourseUncheckedUpdateWithoutReviewsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
-  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutLessonProgressInput = {
@@ -2224,17 +2275,18 @@ export type CourseCreateWithoutLessonProgressInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutLessonProgressInput = {
@@ -2254,17 +2306,18 @@ export type CourseUncheckedCreateWithoutLessonProgressInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
-  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  imageId?: string | null
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutLessonProgressInput = {
@@ -2300,17 +2353,18 @@ export type CourseUpdateWithoutLessonProgressInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutLessonProgressInput = {
@@ -2330,17 +2384,18 @@ export type CourseUncheckedUpdateWithoutLessonProgressInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutDocumentChunksInput = {
@@ -2360,17 +2415,18 @@ export type CourseCreateWithoutDocumentChunksInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
-  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
   author?: Prisma.UserCreateNestedOneWithoutCoursesInput
   category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
-  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutDocumentChunksInput = {
@@ -2390,17 +2446,18 @@ export type CourseUncheckedCreateWithoutDocumentChunksInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
   categoryId?: string | null
-  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  imageId?: string | null
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
-  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutDocumentChunksInput = {
@@ -2436,17 +2493,18 @@ export type CourseUpdateWithoutDocumentChunksInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutDocumentChunksInput = {
@@ -2466,17 +2524,158 @@ export type CourseUncheckedUpdateWithoutDocumentChunksInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseCreateWithoutWishlistsInput = {
+  id?: string
+  title?: string | null
+  slug?: string | null
+  description?: string | null
+  excerpt?: string | null
+  introUrl?: string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  oldPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  isFree?: boolean | null
+  status?: $Enums.CourseStatus | null
+  view?: number | null
+  sold?: number | null
+  level?: $Enums.CourseLevel | null
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  author?: Prisma.UserCreateNestedOneWithoutCoursesInput
+  category?: Prisma.CategoryCreateNestedOneWithoutCoursesInput
+  image?: Prisma.MediaCreateNestedOneWithoutCourseImagesInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  orderItems?: Prisma.OrderItemCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaCreateNestedManyWithoutCoursePreviewImagesInput
+}
+
+export type CourseUncheckedCreateWithoutWishlistsInput = {
+  id?: string
+  title?: string | null
+  slug?: string | null
+  description?: string | null
+  excerpt?: string | null
+  introUrl?: string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  oldPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  isFree?: boolean | null
+  status?: $Enums.CourseStatus | null
+  view?: number | null
+  sold?: number | null
+  level?: $Enums.CourseLevel | null
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId?: string | null
+  categoryId?: string | null
+  imageId?: string | null
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutCourseInput
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutCourseInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutCourseInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutCourseInput
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutCoursesInput
+  previewImages?: Prisma.MediaUncheckedCreateNestedManyWithoutCoursePreviewImagesInput
+}
+
+export type CourseCreateOrConnectWithoutWishlistsInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutWishlistsInput, Prisma.CourseUncheckedCreateWithoutWishlistsInput>
+}
+
+export type CourseUpsertWithoutWishlistsInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutWishlistsInput, Prisma.CourseUncheckedUpdateWithoutWishlistsInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutWishlistsInput, Prisma.CourseUncheckedCreateWithoutWishlistsInput>
+  where?: Prisma.CourseWhereInput
+}
+
+export type CourseUpdateToOneWithWhereWithoutWishlistsInput = {
+  where?: Prisma.CourseWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutWishlistsInput, Prisma.CourseUncheckedUpdateWithoutWishlistsInput>
+}
+
+export type CourseUpdateWithoutWishlistsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  introUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  oldPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  isFree?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  status?: Prisma.NullableEnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus | null
+  view?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  level?: Prisma.NullableEnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel | null
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutWishlistsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  excerpt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  introUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  oldPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  isFree?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  status?: Prisma.NullableEnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus | null
+  view?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sold?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  level?: Prisma.NullableEnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel | null
+  info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
 }
 
 export type CourseCreateManyAuthorInput = {
@@ -2496,8 +2695,8 @@ export type CourseCreateManyAuthorInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   categoryId?: string | null
+  imageId?: string | null
 }
 
 export type CourseUpdateWithoutAuthorInput = {
@@ -2517,17 +2716,18 @@ export type CourseUpdateWithoutAuthorInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutAuthorInput = {
@@ -2547,17 +2747,18 @@ export type CourseUncheckedUpdateWithoutAuthorInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutAuthorInput = {
@@ -2577,8 +2778,8 @@ export type CourseUncheckedUpdateManyWithoutAuthorInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CourseCreateManyCategoryInput = {
@@ -2598,8 +2799,8 @@ export type CourseCreateManyCategoryInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  imageId?: string | null
   authorId?: string | null
+  imageId?: string | null
 }
 
 export type CourseUpdateWithoutCategoryInput = {
@@ -2619,17 +2820,18 @@ export type CourseUpdateWithoutCategoryInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
-  author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
   cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutCategoryInput = {
@@ -2649,17 +2851,18 @@ export type CourseUncheckedUpdateWithoutCategoryInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutCategoryInput = {
@@ -2679,8 +2882,8 @@ export type CourseUncheckedUpdateManyWithoutCategoryInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CourseCreateManyImageInput = {
@@ -2721,17 +2924,18 @@ export type CourseUpdateWithoutImageInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutImageInput = {
@@ -2753,15 +2957,16 @@ export type CourseUncheckedUpdateWithoutImageInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutImageInput = {
@@ -2802,17 +3007,18 @@ export type CourseUpdateWithoutPreviewImagesInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUpdateManyWithoutCoursesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutPreviewImagesInput = {
@@ -2832,17 +3038,18 @@ export type CourseUncheckedUpdateWithoutPreviewImagesInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutCoursesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutPreviewImagesInput = {
@@ -2862,9 +3069,9 @@ export type CourseUncheckedUpdateManyWithoutPreviewImagesInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CourseUpdateWithoutCouponsInput = {
@@ -2884,17 +3091,18 @@ export type CourseUpdateWithoutCouponsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
-  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
   author?: Prisma.UserUpdateOneWithoutCoursesNestedInput
   category?: Prisma.CategoryUpdateOneWithoutCoursesNestedInput
-  chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  image?: Prisma.MediaUpdateOneWithoutCourseImagesNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
-  cartItems?: Prisma.CartItemUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutCourseNestedInput
+  previewImages?: Prisma.MediaUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutCouponsInput = {
@@ -2914,17 +3122,18 @@ export type CourseUncheckedUpdateWithoutCouponsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
-  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutCourseNestedInput
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutCourseNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutCourseNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutCourseNestedInput
+  previewImages?: Prisma.MediaUncheckedUpdateManyWithoutCoursePreviewImagesNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutCouponsInput = {
@@ -2944,9 +3153,9 @@ export type CourseUncheckedUpdateManyWithoutCouponsInput = {
   info?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -2955,27 +3164,29 @@ export type CourseUncheckedUpdateManyWithoutCouponsInput = {
  */
 
 export type CourseCountOutputType = {
-  previewImages: number
-  chapters: number
-  lessons: number
-  lessonProgress: number
-  coupons: number
   cartItems: number
+  chapters: number
+  documentChunks: number
+  lessons: number
   orderItems: number
   reviews: number
-  documentChunks: number
+  lessonProgress: number
+  coupons: number
+  previewImages: number
+  wishlists: number
 }
 
 export type CourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  previewImages?: boolean | CourseCountOutputTypeCountPreviewImagesArgs
-  chapters?: boolean | CourseCountOutputTypeCountChaptersArgs
-  lessons?: boolean | CourseCountOutputTypeCountLessonsArgs
-  lessonProgress?: boolean | CourseCountOutputTypeCountLessonProgressArgs
-  coupons?: boolean | CourseCountOutputTypeCountCouponsArgs
   cartItems?: boolean | CourseCountOutputTypeCountCartItemsArgs
+  chapters?: boolean | CourseCountOutputTypeCountChaptersArgs
+  documentChunks?: boolean | CourseCountOutputTypeCountDocumentChunksArgs
+  lessons?: boolean | CourseCountOutputTypeCountLessonsArgs
   orderItems?: boolean | CourseCountOutputTypeCountOrderItemsArgs
   reviews?: boolean | CourseCountOutputTypeCountReviewsArgs
-  documentChunks?: boolean | CourseCountOutputTypeCountDocumentChunksArgs
+  lessonProgress?: boolean | CourseCountOutputTypeCountLessonProgressArgs
+  coupons?: boolean | CourseCountOutputTypeCountCouponsArgs
+  previewImages?: boolean | CourseCountOutputTypeCountPreviewImagesArgs
+  wishlists?: boolean | CourseCountOutputTypeCountWishlistsArgs
 }
 
 /**
@@ -2991,8 +3202,8 @@ export type CourseCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
 /**
  * CourseCountOutputType without action
  */
-export type CourseCountOutputTypeCountPreviewImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MediaWhereInput
+export type CourseCountOutputTypeCountCartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CartItemWhereInput
 }
 
 /**
@@ -3005,29 +3216,15 @@ export type CourseCountOutputTypeCountChaptersArgs<ExtArgs extends runtime.Types
 /**
  * CourseCountOutputType without action
  */
+export type CourseCountOutputTypeCountDocumentChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentChunkWhereInput
+}
+
+/**
+ * CourseCountOutputType without action
+ */
 export type CourseCountOutputTypeCountLessonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.LessonWhereInput
-}
-
-/**
- * CourseCountOutputType without action
- */
-export type CourseCountOutputTypeCountLessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserLessonProgressWhereInput
-}
-
-/**
- * CourseCountOutputType without action
- */
-export type CourseCountOutputTypeCountCouponsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CouponWhereInput
-}
-
-/**
- * CourseCountOutputType without action
- */
-export type CourseCountOutputTypeCountCartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CartItemWhereInput
 }
 
 /**
@@ -3047,8 +3244,29 @@ export type CourseCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.
 /**
  * CourseCountOutputType without action
  */
-export type CourseCountOutputTypeCountDocumentChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DocumentChunkWhereInput
+export type CourseCountOutputTypeCountLessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserLessonProgressWhereInput
+}
+
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountCouponsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CouponWhereInput
+}
+
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountPreviewImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MediaWhereInput
+}
+
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountWishlistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WishlistWhereInput
 }
 
 
@@ -3069,21 +3287,22 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   info?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  imageId?: boolean
   authorId?: boolean
   categoryId?: boolean
-  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
-  previewImages?: boolean | Prisma.Course$previewImagesArgs<ExtArgs>
+  imageId?: boolean
+  cartItems?: boolean | Prisma.Course$cartItemsArgs<ExtArgs>
+  chapters?: boolean | Prisma.Course$chaptersArgs<ExtArgs>
   author?: boolean | Prisma.Course$authorArgs<ExtArgs>
   category?: boolean | Prisma.Course$categoryArgs<ExtArgs>
-  chapters?: boolean | Prisma.Course$chaptersArgs<ExtArgs>
+  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
+  documentChunks?: boolean | Prisma.Course$documentChunksArgs<ExtArgs>
   lessons?: boolean | Prisma.Course$lessonsArgs<ExtArgs>
-  lessonProgress?: boolean | Prisma.Course$lessonProgressArgs<ExtArgs>
-  coupons?: boolean | Prisma.Course$couponsArgs<ExtArgs>
-  cartItems?: boolean | Prisma.Course$cartItemsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Course$orderItemsArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
-  documentChunks?: boolean | Prisma.Course$documentChunksArgs<ExtArgs>
+  lessonProgress?: boolean | Prisma.Course$lessonProgressArgs<ExtArgs>
+  coupons?: boolean | Prisma.Course$couponsArgs<ExtArgs>
+  previewImages?: boolean | Prisma.Course$previewImagesArgs<ExtArgs>
+  wishlists?: boolean | Prisma.Course$wishlistsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
@@ -3104,12 +3323,12 @@ export type CourseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   info?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  imageId?: boolean
   authorId?: boolean
   categoryId?: boolean
-  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
+  imageId?: boolean
   author?: boolean | Prisma.Course$authorArgs<ExtArgs>
   category?: boolean | Prisma.Course$categoryArgs<ExtArgs>
+  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
 export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3129,12 +3348,12 @@ export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   info?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  imageId?: boolean
   authorId?: boolean
   categoryId?: boolean
-  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
+  imageId?: boolean
   author?: boolean | Prisma.Course$authorArgs<ExtArgs>
   category?: boolean | Prisma.Course$categoryArgs<ExtArgs>
+  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
 export type CourseSelectScalar = {
@@ -3154,53 +3373,55 @@ export type CourseSelectScalar = {
   info?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  imageId?: boolean
   authorId?: boolean
   categoryId?: boolean
+  imageId?: boolean
 }
 
-export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "excerpt" | "introUrl" | "price" | "oldPrice" | "isFree" | "status" | "view" | "sold" | "level" | "info" | "createdAt" | "updatedAt" | "imageId" | "authorId" | "categoryId", ExtArgs["result"]["course"]>
+export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "excerpt" | "introUrl" | "price" | "oldPrice" | "isFree" | "status" | "view" | "sold" | "level" | "info" | "createdAt" | "updatedAt" | "authorId" | "categoryId" | "imageId", ExtArgs["result"]["course"]>
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
-  previewImages?: boolean | Prisma.Course$previewImagesArgs<ExtArgs>
+  cartItems?: boolean | Prisma.Course$cartItemsArgs<ExtArgs>
+  chapters?: boolean | Prisma.Course$chaptersArgs<ExtArgs>
   author?: boolean | Prisma.Course$authorArgs<ExtArgs>
   category?: boolean | Prisma.Course$categoryArgs<ExtArgs>
-  chapters?: boolean | Prisma.Course$chaptersArgs<ExtArgs>
+  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
+  documentChunks?: boolean | Prisma.Course$documentChunksArgs<ExtArgs>
   lessons?: boolean | Prisma.Course$lessonsArgs<ExtArgs>
-  lessonProgress?: boolean | Prisma.Course$lessonProgressArgs<ExtArgs>
-  coupons?: boolean | Prisma.Course$couponsArgs<ExtArgs>
-  cartItems?: boolean | Prisma.Course$cartItemsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Course$orderItemsArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
-  documentChunks?: boolean | Prisma.Course$documentChunksArgs<ExtArgs>
+  lessonProgress?: boolean | Prisma.Course$lessonProgressArgs<ExtArgs>
+  coupons?: boolean | Prisma.Course$couponsArgs<ExtArgs>
+  previewImages?: boolean | Prisma.Course$previewImagesArgs<ExtArgs>
+  wishlists?: boolean | Prisma.Course$wishlistsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CourseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
   author?: boolean | Prisma.Course$authorArgs<ExtArgs>
   category?: boolean | Prisma.Course$categoryArgs<ExtArgs>
+  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
 }
 export type CourseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
   author?: boolean | Prisma.Course$authorArgs<ExtArgs>
   category?: boolean | Prisma.Course$categoryArgs<ExtArgs>
+  image?: boolean | Prisma.Course$imageArgs<ExtArgs>
 }
 
 export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Course"
   objects: {
-    image: Prisma.$MediaPayload<ExtArgs> | null
-    previewImages: Prisma.$MediaPayload<ExtArgs>[]
+    cartItems: Prisma.$CartItemPayload<ExtArgs>[]
+    chapters: Prisma.$ChapterPayload<ExtArgs>[]
     author: Prisma.$UserPayload<ExtArgs> | null
     category: Prisma.$CategoryPayload<ExtArgs> | null
-    chapters: Prisma.$ChapterPayload<ExtArgs>[]
+    image: Prisma.$MediaPayload<ExtArgs> | null
+    documentChunks: Prisma.$DocumentChunkPayload<ExtArgs>[]
     lessons: Prisma.$LessonPayload<ExtArgs>[]
-    lessonProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[]
-    coupons: Prisma.$CouponPayload<ExtArgs>[]
-    cartItems: Prisma.$CartItemPayload<ExtArgs>[]
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
-    documentChunks: Prisma.$DocumentChunkPayload<ExtArgs>[]
+    lessonProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[]
+    coupons: Prisma.$CouponPayload<ExtArgs>[]
+    previewImages: Prisma.$MediaPayload<ExtArgs>[]
+    wishlists: Prisma.$WishlistPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3219,9 +3440,9 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     info: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
-    imageId: string | null
     authorId: string | null
     categoryId: string | null
+    imageId: string | null
   }, ExtArgs["result"]["course"]>
   composites: {}
 }
@@ -3616,18 +3837,19 @@ readonly fields: CourseFieldRefs;
  */
 export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  image<T extends Prisma.Course$imageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$imageArgs<ExtArgs>>): Prisma.Prisma__MediaClient<runtime.Types.Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  previewImages<T extends Prisma.Course$previewImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$previewImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cartItems<T extends Prisma.Course$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chapters<T extends Prisma.Course$chaptersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   author<T extends Prisma.Course$authorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$authorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.Course$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  chapters<T extends Prisma.Course$chaptersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  image<T extends Prisma.Course$imageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$imageArgs<ExtArgs>>): Prisma.Prisma__MediaClient<runtime.Types.Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  documentChunks<T extends Prisma.Course$documentChunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$documentChunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lessons<T extends Prisma.Course$lessonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  lessonProgress<T extends Prisma.Course$lessonProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  coupons<T extends Prisma.Course$couponsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$couponsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  cartItems<T extends Prisma.Course$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orderItems<T extends Prisma.Course$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Course$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  documentChunks<T extends Prisma.Course$documentChunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$documentChunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lessonProgress<T extends Prisma.Course$lessonProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  coupons<T extends Prisma.Course$couponsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$couponsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  previewImages<T extends Prisma.Course$previewImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$previewImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  wishlists<T extends Prisma.Course$wishlistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$wishlistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3673,9 +3895,9 @@ export interface CourseFieldRefs {
   readonly info: Prisma.FieldRef<"Course", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Course", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Course", 'DateTime'>
-  readonly imageId: Prisma.FieldRef<"Course", 'String'>
   readonly authorId: Prisma.FieldRef<"Course", 'String'>
   readonly categoryId: Prisma.FieldRef<"Course", 'String'>
+  readonly imageId: Prisma.FieldRef<"Course", 'String'>
 }
     
 
@@ -4072,46 +4294,51 @@ export type CourseDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Course.image
+ * Course.cartItems
  */
-export type Course$imageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Course$cartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Media
+   * Select specific fields to fetch from the CartItem
    */
-  select?: Prisma.MediaSelect<ExtArgs> | null
+  select?: Prisma.CartItemSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Media
+   * Omit specific fields from the CartItem
    */
-  omit?: Prisma.MediaOmit<ExtArgs> | null
+  omit?: Prisma.CartItemOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.MediaInclude<ExtArgs> | null
-  where?: Prisma.MediaWhereInput
+  include?: Prisma.CartItemInclude<ExtArgs> | null
+  where?: Prisma.CartItemWhereInput
+  orderBy?: Prisma.CartItemOrderByWithRelationInput | Prisma.CartItemOrderByWithRelationInput[]
+  cursor?: Prisma.CartItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CartItemScalarFieldEnum | Prisma.CartItemScalarFieldEnum[]
 }
 
 /**
- * Course.previewImages
+ * Course.chapters
  */
-export type Course$previewImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Course$chaptersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Media
+   * Select specific fields to fetch from the Chapter
    */
-  select?: Prisma.MediaSelect<ExtArgs> | null
+  select?: Prisma.ChapterSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Media
+   * Omit specific fields from the Chapter
    */
-  omit?: Prisma.MediaOmit<ExtArgs> | null
+  omit?: Prisma.ChapterOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.MediaInclude<ExtArgs> | null
-  where?: Prisma.MediaWhereInput
-  orderBy?: Prisma.MediaOrderByWithRelationInput | Prisma.MediaOrderByWithRelationInput[]
-  cursor?: Prisma.MediaWhereUniqueInput
+  include?: Prisma.ChapterInclude<ExtArgs> | null
+  where?: Prisma.ChapterWhereInput
+  orderBy?: Prisma.ChapterOrderByWithRelationInput | Prisma.ChapterOrderByWithRelationInput[]
+  cursor?: Prisma.ChapterWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.MediaScalarFieldEnum | Prisma.MediaScalarFieldEnum[]
+  distinct?: Prisma.ChapterScalarFieldEnum | Prisma.ChapterScalarFieldEnum[]
 }
 
 /**
@@ -4153,27 +4380,46 @@ export type Course$categoryArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Course.chapters
+ * Course.image
  */
-export type Course$chaptersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Course$imageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Chapter
+   * Select specific fields to fetch from the Media
    */
-  select?: Prisma.ChapterSelect<ExtArgs> | null
+  select?: Prisma.MediaSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Chapter
+   * Omit specific fields from the Media
    */
-  omit?: Prisma.ChapterOmit<ExtArgs> | null
+  omit?: Prisma.MediaOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ChapterInclude<ExtArgs> | null
-  where?: Prisma.ChapterWhereInput
-  orderBy?: Prisma.ChapterOrderByWithRelationInput | Prisma.ChapterOrderByWithRelationInput[]
-  cursor?: Prisma.ChapterWhereUniqueInput
+  include?: Prisma.MediaInclude<ExtArgs> | null
+  where?: Prisma.MediaWhereInput
+}
+
+/**
+ * Course.documentChunks
+ */
+export type Course$documentChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentChunk
+   */
+  select?: Prisma.DocumentChunkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentChunk
+   */
+  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChunkInclude<ExtArgs> | null
+  where?: Prisma.DocumentChunkWhereInput
+  orderBy?: Prisma.DocumentChunkOrderByWithRelationInput | Prisma.DocumentChunkOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentChunkWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ChapterScalarFieldEnum | Prisma.ChapterScalarFieldEnum[]
+  distinct?: Prisma.DocumentChunkScalarFieldEnum | Prisma.DocumentChunkScalarFieldEnum[]
 }
 
 /**
@@ -4198,78 +4444,6 @@ export type Course$lessonsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.LessonScalarFieldEnum | Prisma.LessonScalarFieldEnum[]
-}
-
-/**
- * Course.lessonProgress
- */
-export type Course$lessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserLessonProgress
-   */
-  select?: Prisma.UserLessonProgressSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the UserLessonProgress
-   */
-  omit?: Prisma.UserLessonProgressOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserLessonProgressInclude<ExtArgs> | null
-  where?: Prisma.UserLessonProgressWhereInput
-  orderBy?: Prisma.UserLessonProgressOrderByWithRelationInput | Prisma.UserLessonProgressOrderByWithRelationInput[]
-  cursor?: Prisma.UserLessonProgressWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.UserLessonProgressScalarFieldEnum | Prisma.UserLessonProgressScalarFieldEnum[]
-}
-
-/**
- * Course.coupons
- */
-export type Course$couponsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Coupon
-   */
-  select?: Prisma.CouponSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Coupon
-   */
-  omit?: Prisma.CouponOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CouponInclude<ExtArgs> | null
-  where?: Prisma.CouponWhereInput
-  orderBy?: Prisma.CouponOrderByWithRelationInput | Prisma.CouponOrderByWithRelationInput[]
-  cursor?: Prisma.CouponWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CouponScalarFieldEnum | Prisma.CouponScalarFieldEnum[]
-}
-
-/**
- * Course.cartItems
- */
-export type Course$cartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CartItem
-   */
-  select?: Prisma.CartItemSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the CartItem
-   */
-  omit?: Prisma.CartItemOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CartItemInclude<ExtArgs> | null
-  where?: Prisma.CartItemWhereInput
-  orderBy?: Prisma.CartItemOrderByWithRelationInput | Prisma.CartItemOrderByWithRelationInput[]
-  cursor?: Prisma.CartItemWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CartItemScalarFieldEnum | Prisma.CartItemScalarFieldEnum[]
 }
 
 /**
@@ -4321,27 +4495,99 @@ export type Course$reviewsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * Course.documentChunks
+ * Course.lessonProgress
  */
-export type Course$documentChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Course$lessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the DocumentChunk
+   * Select specific fields to fetch from the UserLessonProgress
    */
-  select?: Prisma.DocumentChunkSelect<ExtArgs> | null
+  select?: Prisma.UserLessonProgressSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the DocumentChunk
+   * Omit specific fields from the UserLessonProgress
    */
-  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null
+  omit?: Prisma.UserLessonProgressOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DocumentChunkInclude<ExtArgs> | null
-  where?: Prisma.DocumentChunkWhereInput
-  orderBy?: Prisma.DocumentChunkOrderByWithRelationInput | Prisma.DocumentChunkOrderByWithRelationInput[]
-  cursor?: Prisma.DocumentChunkWhereUniqueInput
+  include?: Prisma.UserLessonProgressInclude<ExtArgs> | null
+  where?: Prisma.UserLessonProgressWhereInput
+  orderBy?: Prisma.UserLessonProgressOrderByWithRelationInput | Prisma.UserLessonProgressOrderByWithRelationInput[]
+  cursor?: Prisma.UserLessonProgressWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.DocumentChunkScalarFieldEnum | Prisma.DocumentChunkScalarFieldEnum[]
+  distinct?: Prisma.UserLessonProgressScalarFieldEnum | Prisma.UserLessonProgressScalarFieldEnum[]
+}
+
+/**
+ * Course.coupons
+ */
+export type Course$couponsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Coupon
+   */
+  select?: Prisma.CouponSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Coupon
+   */
+  omit?: Prisma.CouponOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CouponInclude<ExtArgs> | null
+  where?: Prisma.CouponWhereInput
+  orderBy?: Prisma.CouponOrderByWithRelationInput | Prisma.CouponOrderByWithRelationInput[]
+  cursor?: Prisma.CouponWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CouponScalarFieldEnum | Prisma.CouponScalarFieldEnum[]
+}
+
+/**
+ * Course.previewImages
+ */
+export type Course$previewImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Media
+   */
+  select?: Prisma.MediaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Media
+   */
+  omit?: Prisma.MediaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaInclude<ExtArgs> | null
+  where?: Prisma.MediaWhereInput
+  orderBy?: Prisma.MediaOrderByWithRelationInput | Prisma.MediaOrderByWithRelationInput[]
+  cursor?: Prisma.MediaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MediaScalarFieldEnum | Prisma.MediaScalarFieldEnum[]
+}
+
+/**
+ * Course.wishlists
+ */
+export type Course$wishlistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Wishlist
+   */
+  select?: Prisma.WishlistSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Wishlist
+   */
+  omit?: Prisma.WishlistOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WishlistInclude<ExtArgs> | null
+  where?: Prisma.WishlistWhereInput
+  orderBy?: Prisma.WishlistOrderByWithRelationInput | Prisma.WishlistOrderByWithRelationInput[]
+  cursor?: Prisma.WishlistWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WishlistScalarFieldEnum | Prisma.WishlistScalarFieldEnum[]
 }
 
 /**

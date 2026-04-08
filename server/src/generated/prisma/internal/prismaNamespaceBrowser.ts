@@ -83,7 +83,8 @@ export const ModelName = {
   UserMemory: 'UserMemory',
   ConceptNode: 'ConceptNode',
   ConceptRelation: 'ConceptRelation',
-  DocumentChunkConcept: 'DocumentChunkConcept'
+  DocumentChunkConcept: 'DocumentChunkConcept',
+  Wishlist: 'Wishlist'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -114,18 +115,18 @@ export const UserScalarFieldEnum = {
   planStartDate: 'planStartDate',
   planEndDate: 'planEndDate',
   isMembership: 'isMembership',
-  resetPasswordToken: 'resetPasswordToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   resetPasswordExpires: 'resetPasswordExpires',
+  resetPasswordToken: 'resetPasswordToken',
+  isEmailVerified: 'isEmailVerified',
   otpCode: 'otpCode',
   otpExpires: 'otpExpires',
-  isEmailVerified: 'isEmailVerified',
-  emailNotifications: 'emailNotifications',
-  pushNotifications: 'pushNotifications',
-  marketingEmails: 'marketingEmails',
   darkMode: 'darkMode',
+  emailNotifications: 'emailNotifications',
   language: 'language',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  marketingEmails: 'marketingEmails',
+  pushNotifications: 'pushNotifications'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -205,9 +206,9 @@ export const CourseScalarFieldEnum = {
   info: 'info',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  imageId: 'imageId',
   authorId: 'authorId',
-  categoryId: 'categoryId'
+  categoryId: 'categoryId',
+  imageId: 'imageId'
 } as const
 
 export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
@@ -229,17 +230,17 @@ export type ChapterScalarFieldEnum = (typeof ChapterScalarFieldEnum)[keyof typeo
 
 export const LessonScalarFieldEnum = {
   id: 'id',
-  type: 'type',
   title: 'title',
-  description: 'description',
-  slug: 'slug',
   order: 'order',
-  published: 'published',
-  durationSec: 'durationSec',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   courseId: 'courseId',
-  chapterId: 'chapterId'
+  chapterId: 'chapterId',
+  published: 'published',
+  slug: 'slug',
+  type: 'type',
+  description: 'description',
+  durationSec: 'durationSec'
 } as const
 
 export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
@@ -265,9 +266,9 @@ export type LessonVideoScalarFieldEnum = (typeof LessonVideoScalarFieldEnum)[key
 
 export const LessonQuizScalarFieldEnum = {
   lessonId: 'lessonId',
-  durationSec: 'durationSec',
   passScore: 'passScore',
-  maxAttempts: 'maxAttempts'
+  maxAttempts: 'maxAttempts',
+  durationSec: 'durationSec'
 } as const
 
 export type LessonQuizScalarFieldEnum = (typeof LessonQuizScalarFieldEnum)[keyof typeof LessonQuizScalarFieldEnum]
@@ -483,9 +484,9 @@ export const CommentScalarFieldEnum = {
   parentId: 'parentId',
   content: 'content',
   level: 'level',
-  status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status'
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
@@ -505,9 +506,9 @@ export const UserLessonProgressScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   lessonId: 'lessonId',
-  courseId: 'courseId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  courseId: 'courseId'
 } as const
 
 export type UserLessonProgressScalarFieldEnum = (typeof UserLessonProgressScalarFieldEnum)[keyof typeof UserLessonProgressScalarFieldEnum]
@@ -559,11 +560,22 @@ export type ConceptRelationScalarFieldEnum = (typeof ConceptRelationScalarFieldE
 
 
 export const DocumentChunkConceptScalarFieldEnum = {
+  id: 'id',
   chunkId: 'chunkId',
   conceptId: 'conceptId'
 } as const
 
 export type DocumentChunkConceptScalarFieldEnum = (typeof DocumentChunkConceptScalarFieldEnum)[keyof typeof DocumentChunkConceptScalarFieldEnum]
+
+
+export const WishlistScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseId: 'courseId',
+  createdAt: 'createdAt'
+} as const
+
+export type WishlistScalarFieldEnum = (typeof WishlistScalarFieldEnum)[keyof typeof WishlistScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -182,3 +182,8 @@ export type ConceptRelation = Prisma.ConceptRelationModel
  * 
  */
 export type DocumentChunkConcept = Prisma.DocumentChunkConceptModel
+/**
+ * Model Wishlist
+ * 
+ */
+export type Wishlist = Prisma.WishlistModel

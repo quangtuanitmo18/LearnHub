@@ -36,18 +36,18 @@ export type UserMinAggregateOutputType = {
   planStartDate: Date | null
   planEndDate: Date | null
   isMembership: boolean | null
-  resetPasswordToken: string | null
-  resetPasswordExpires: Date | null
-  otpCode: string | null
-  otpExpires: Date | null
-  isEmailVerified: boolean | null
-  emailNotifications: boolean | null
-  pushNotifications: boolean | null
-  marketingEmails: boolean | null
-  darkMode: boolean | null
-  language: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  resetPasswordExpires: Date | null
+  resetPasswordToken: string | null
+  isEmailVerified: boolean | null
+  otpCode: string | null
+  otpExpires: Date | null
+  darkMode: boolean | null
+  emailNotifications: boolean | null
+  language: string | null
+  marketingEmails: boolean | null
+  pushNotifications: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -62,18 +62,18 @@ export type UserMaxAggregateOutputType = {
   planStartDate: Date | null
   planEndDate: Date | null
   isMembership: boolean | null
-  resetPasswordToken: string | null
-  resetPasswordExpires: Date | null
-  otpCode: string | null
-  otpExpires: Date | null
-  isEmailVerified: boolean | null
-  emailNotifications: boolean | null
-  pushNotifications: boolean | null
-  marketingEmails: boolean | null
-  darkMode: boolean | null
-  language: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  resetPasswordExpires: Date | null
+  resetPasswordToken: string | null
+  isEmailVerified: boolean | null
+  otpCode: string | null
+  otpExpires: Date | null
+  darkMode: boolean | null
+  emailNotifications: boolean | null
+  language: string | null
+  marketingEmails: boolean | null
+  pushNotifications: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -88,18 +88,18 @@ export type UserCountAggregateOutputType = {
   planStartDate: number
   planEndDate: number
   isMembership: number
-  resetPasswordToken: number
-  resetPasswordExpires: number
-  otpCode: number
-  otpExpires: number
-  isEmailVerified: number
-  emailNotifications: number
-  pushNotifications: number
-  marketingEmails: number
-  darkMode: number
-  language: number
   createdAt: number
   updatedAt: number
+  resetPasswordExpires: number
+  resetPasswordToken: number
+  isEmailVerified: number
+  otpCode: number
+  otpExpires: number
+  darkMode: number
+  emailNotifications: number
+  language: number
+  marketingEmails: number
+  pushNotifications: number
   _all: number
 }
 
@@ -116,18 +116,18 @@ export type UserMinAggregateInputType = {
   planStartDate?: true
   planEndDate?: true
   isMembership?: true
-  resetPasswordToken?: true
-  resetPasswordExpires?: true
-  otpCode?: true
-  otpExpires?: true
-  isEmailVerified?: true
-  emailNotifications?: true
-  pushNotifications?: true
-  marketingEmails?: true
-  darkMode?: true
-  language?: true
   createdAt?: true
   updatedAt?: true
+  resetPasswordExpires?: true
+  resetPasswordToken?: true
+  isEmailVerified?: true
+  otpCode?: true
+  otpExpires?: true
+  darkMode?: true
+  emailNotifications?: true
+  language?: true
+  marketingEmails?: true
+  pushNotifications?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -142,18 +142,18 @@ export type UserMaxAggregateInputType = {
   planStartDate?: true
   planEndDate?: true
   isMembership?: true
-  resetPasswordToken?: true
-  resetPasswordExpires?: true
-  otpCode?: true
-  otpExpires?: true
-  isEmailVerified?: true
-  emailNotifications?: true
-  pushNotifications?: true
-  marketingEmails?: true
-  darkMode?: true
-  language?: true
   createdAt?: true
   updatedAt?: true
+  resetPasswordExpires?: true
+  resetPasswordToken?: true
+  isEmailVerified?: true
+  otpCode?: true
+  otpExpires?: true
+  darkMode?: true
+  emailNotifications?: true
+  language?: true
+  marketingEmails?: true
+  pushNotifications?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -168,18 +168,18 @@ export type UserCountAggregateInputType = {
   planStartDate?: true
   planEndDate?: true
   isMembership?: true
-  resetPasswordToken?: true
-  resetPasswordExpires?: true
-  otpCode?: true
-  otpExpires?: true
-  isEmailVerified?: true
-  emailNotifications?: true
-  pushNotifications?: true
-  marketingEmails?: true
-  darkMode?: true
-  language?: true
   createdAt?: true
   updatedAt?: true
+  resetPasswordExpires?: true
+  resetPasswordToken?: true
+  isEmailVerified?: true
+  otpCode?: true
+  otpExpires?: true
+  darkMode?: true
+  emailNotifications?: true
+  language?: true
+  marketingEmails?: true
+  pushNotifications?: true
   _all?: true
 }
 
@@ -267,18 +267,18 @@ export type UserGroupByOutputType = {
   planStartDate: Date | null
   planEndDate: Date | null
   isMembership: boolean
-  resetPasswordToken: string | null
-  resetPasswordExpires: Date | null
-  otpCode: string | null
-  otpExpires: Date | null
-  isEmailVerified: boolean
-  emailNotifications: boolean
-  pushNotifications: boolean
-  marketingEmails: boolean
-  darkMode: boolean
-  language: string
   createdAt: Date
   updatedAt: Date
+  resetPasswordExpires: Date | null
+  resetPasswordToken: string | null
+  isEmailVerified: boolean
+  otpCode: string | null
+  otpExpires: Date | null
+  darkMode: boolean
+  emailNotifications: boolean
+  language: string
+  marketingEmails: boolean
+  pushNotifications: boolean
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -314,31 +314,32 @@ export type UserWhereInput = {
   planStartDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   planEndDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isMembership?: Prisma.BoolFilter<"User"> | boolean
-  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
-  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  otpCode?: Prisma.StringNullableFilter<"User"> | string | null
-  otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
-  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
-  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
-  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
-  darkMode?: Prisma.BoolFilter<"User"> | boolean
-  language?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  roles?: Prisma.RoleListRelationFilter
-  courses?: Prisma.CourseListRelationFilter
-  carts?: Prisma.CartListRelationFilter
-  orders?: Prisma.OrderListRelationFilter
-  reviews?: Prisma.ReviewListRelationFilter
+  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  otpCode?: Prisma.StringNullableFilter<"User"> | string | null
+  otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  darkMode?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  language?: Prisma.StringFilter<"User"> | string
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
   blogs?: Prisma.BlogListRelationFilter
+  carts?: Prisma.CartListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   commentReactions?: Prisma.CommentReactionListRelationFilter
-  notifications?: Prisma.NotificationRecipientListRelationFilter
-  media?: Prisma.MediaListRelationFilter
-  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
+  courses?: Prisma.CourseListRelationFilter
   instructorProfile?: Prisma.XOR<Prisma.InstructorProfileNullableScalarRelationFilter, Prisma.InstructorProfileWhereInput> | null
+  media?: Prisma.MediaListRelationFilter
+  notifications?: Prisma.NotificationRecipientListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
+  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
+  wishlists?: Prisma.WishlistListRelationFilter
   memory?: Prisma.XOR<Prisma.UserMemoryNullableScalarRelationFilter, Prisma.UserMemoryWhereInput> | null
+  roles?: Prisma.RoleListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -353,31 +354,32 @@ export type UserOrderByWithRelationInput = {
   planStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
   planEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
   isMembership?: Prisma.SortOrder
-  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder
-  otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
-  otpExpires?: Prisma.SortOrderInput | Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailNotifications?: Prisma.SortOrder
-  pushNotifications?: Prisma.SortOrder
-  marketingEmails?: Prisma.SortOrder
-  darkMode?: Prisma.SortOrder
-  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  roles?: Prisma.RoleOrderByRelationAggregateInput
-  courses?: Prisma.CourseOrderByRelationAggregateInput
-  carts?: Prisma.CartOrderByRelationAggregateInput
-  orders?: Prisma.OrderOrderByRelationAggregateInput
-  reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  otpExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
   blogs?: Prisma.BlogOrderByRelationAggregateInput
+  carts?: Prisma.CartOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   commentReactions?: Prisma.CommentReactionOrderByRelationAggregateInput
-  notifications?: Prisma.NotificationRecipientOrderByRelationAggregateInput
-  media?: Prisma.MediaOrderByRelationAggregateInput
-  lessonProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput
+  courses?: Prisma.CourseOrderByRelationAggregateInput
   instructorProfile?: Prisma.InstructorProfileOrderByWithRelationInput
+  media?: Prisma.MediaOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationRecipientOrderByRelationAggregateInput
+  orders?: Prisma.OrderOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  lessonProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput
+  wishlists?: Prisma.WishlistOrderByRelationAggregateInput
   memory?: Prisma.UserMemoryOrderByWithRelationInput
+  roles?: Prisma.RoleOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -395,31 +397,32 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   planStartDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   planEndDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isMembership?: Prisma.BoolFilter<"User"> | boolean
-  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
-  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  otpCode?: Prisma.StringNullableFilter<"User"> | string | null
-  otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
-  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
-  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
-  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
-  darkMode?: Prisma.BoolFilter<"User"> | boolean
-  language?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  roles?: Prisma.RoleListRelationFilter
-  courses?: Prisma.CourseListRelationFilter
-  carts?: Prisma.CartListRelationFilter
-  orders?: Prisma.OrderListRelationFilter
-  reviews?: Prisma.ReviewListRelationFilter
+  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  otpCode?: Prisma.StringNullableFilter<"User"> | string | null
+  otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  darkMode?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  language?: Prisma.StringFilter<"User"> | string
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
   blogs?: Prisma.BlogListRelationFilter
+  carts?: Prisma.CartListRelationFilter
   comments?: Prisma.CommentListRelationFilter
   commentReactions?: Prisma.CommentReactionListRelationFilter
-  notifications?: Prisma.NotificationRecipientListRelationFilter
-  media?: Prisma.MediaListRelationFilter
-  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
+  courses?: Prisma.CourseListRelationFilter
   instructorProfile?: Prisma.XOR<Prisma.InstructorProfileNullableScalarRelationFilter, Prisma.InstructorProfileWhereInput> | null
+  media?: Prisma.MediaListRelationFilter
+  notifications?: Prisma.NotificationRecipientListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
+  lessonProgress?: Prisma.UserLessonProgressListRelationFilter
+  wishlists?: Prisma.WishlistListRelationFilter
   memory?: Prisma.XOR<Prisma.UserMemoryNullableScalarRelationFilter, Prisma.UserMemoryWhereInput> | null
+  roles?: Prisma.RoleListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -434,18 +437,18 @@ export type UserOrderByWithAggregationInput = {
   planStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
   planEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
   isMembership?: Prisma.SortOrder
-  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder
-  otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
-  otpExpires?: Prisma.SortOrderInput | Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailNotifications?: Prisma.SortOrder
-  pushNotifications?: Prisma.SortOrder
-  marketingEmails?: Prisma.SortOrder
-  darkMode?: Prisma.SortOrder
-  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  otpCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  otpExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -466,18 +469,18 @@ export type UserScalarWhereWithAggregatesInput = {
   planStartDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   planEndDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   isMembership?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  resetPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  resetPasswordExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  otpCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  otpExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  emailNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  pushNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  marketingEmails?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  darkMode?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  language?: Prisma.StringWithAggregatesFilter<"User"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  resetPasswordExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  otpCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  otpExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  darkMode?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  language?: Prisma.StringWithAggregatesFilter<"User"> | string
+  marketingEmails?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
 export type UserCreateInput = {
@@ -492,31 +495,32 @@ export type UserCreateInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -531,31 +535,32 @@ export type UserUncheckedCreateInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserUpdateInput = {
@@ -570,31 +575,32 @@ export type UserUpdateInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -609,31 +615,32 @@ export type UserUncheckedUpdateInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -648,18 +655,18 @@ export type UserCreateManyInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
 }
 
 export type UserUpdateManyMutationInput = {
@@ -674,18 +681,18 @@ export type UserUpdateManyMutationInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -700,18 +707,18 @@ export type UserUncheckedUpdateManyInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -726,18 +733,18 @@ export type UserCountOrderByAggregateInput = {
   planStartDate?: Prisma.SortOrder
   planEndDate?: Prisma.SortOrder
   isMembership?: Prisma.SortOrder
-  resetPasswordToken?: Prisma.SortOrder
-  resetPasswordExpires?: Prisma.SortOrder
-  otpCode?: Prisma.SortOrder
-  otpExpires?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailNotifications?: Prisma.SortOrder
-  pushNotifications?: Prisma.SortOrder
-  marketingEmails?: Prisma.SortOrder
-  darkMode?: Prisma.SortOrder
-  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  otpCode?: Prisma.SortOrder
+  otpExpires?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -752,18 +759,18 @@ export type UserMaxOrderByAggregateInput = {
   planStartDate?: Prisma.SortOrder
   planEndDate?: Prisma.SortOrder
   isMembership?: Prisma.SortOrder
-  resetPasswordToken?: Prisma.SortOrder
-  resetPasswordExpires?: Prisma.SortOrder
-  otpCode?: Prisma.SortOrder
-  otpExpires?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailNotifications?: Prisma.SortOrder
-  pushNotifications?: Prisma.SortOrder
-  marketingEmails?: Prisma.SortOrder
-  darkMode?: Prisma.SortOrder
-  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  otpCode?: Prisma.SortOrder
+  otpExpires?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -778,18 +785,18 @@ export type UserMinOrderByAggregateInput = {
   planStartDate?: Prisma.SortOrder
   planEndDate?: Prisma.SortOrder
   isMembership?: Prisma.SortOrder
-  resetPasswordToken?: Prisma.SortOrder
-  resetPasswordExpires?: Prisma.SortOrder
-  otpCode?: Prisma.SortOrder
-  otpExpires?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
-  emailNotifications?: Prisma.SortOrder
-  pushNotifications?: Prisma.SortOrder
-  marketingEmails?: Prisma.SortOrder
-  darkMode?: Prisma.SortOrder
-  language?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  otpCode?: Prisma.SortOrder
+  otpExpires?: Prisma.SortOrder
+  darkMode?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  pushNotifications?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -1054,6 +1061,20 @@ export type UserUpdateOneRequiredWithoutMemoryNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMemoryInput, Prisma.UserUpdateWithoutMemoryInput>, Prisma.UserUncheckedUpdateWithoutMemoryInput>
 }
 
+export type UserCreateNestedOneWithoutWishlistsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistsInput, Prisma.UserUncheckedCreateWithoutWishlistsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWishlistsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWishlistsInput, Prisma.UserUncheckedCreateWithoutWishlistsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWishlistsInput
+  upsert?: Prisma.UserUpsertWithoutWishlistsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWishlistsInput, Prisma.UserUpdateWithoutWishlistsInput>, Prisma.UserUncheckedUpdateWithoutWishlistsInput>
+}
+
 export type UserCreateWithoutInstructorProfileInput = {
   id?: string
   username: string
@@ -1066,30 +1087,31 @@ export type UserCreateWithoutInstructorProfileInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutInstructorProfileInput = {
@@ -1104,30 +1126,31 @@ export type UserUncheckedCreateWithoutInstructorProfileInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutInstructorProfileInput = {
@@ -1158,30 +1181,31 @@ export type UserUpdateWithoutInstructorProfileInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInstructorProfileInput = {
@@ -1196,30 +1220,31 @@ export type UserUncheckedUpdateWithoutInstructorProfileInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutRolesInput = {
@@ -1234,29 +1259,30 @@ export type UserCreateWithoutRolesInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
 }
 
@@ -1272,29 +1298,30 @@ export type UserUncheckedCreateWithoutRolesInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1334,18 +1361,18 @@ export type UserScalarWhereInput = {
   planStartDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   planEndDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isMembership?: Prisma.BoolFilter<"User"> | boolean
-  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
-  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  otpCode?: Prisma.StringNullableFilter<"User"> | string | null
-  otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
-  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
-  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
-  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
-  darkMode?: Prisma.BoolFilter<"User"> | boolean
-  language?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  otpCode?: Prisma.StringNullableFilter<"User"> | string | null
+  otpExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  darkMode?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  language?: Prisma.StringFilter<"User"> | string
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  pushNotifications?: Prisma.BoolFilter<"User"> | boolean
 }
 
 export type UserCreateWithoutBlogsInput = {
@@ -1360,30 +1387,31 @@ export type UserCreateWithoutBlogsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutBlogsInput = {
@@ -1398,30 +1426,31 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutBlogsInput = {
@@ -1452,30 +1481,31 @@ export type UserUpdateWithoutBlogsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlogsInput = {
@@ -1490,30 +1520,31 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutCoursesInput = {
@@ -1528,30 +1559,31 @@ export type UserCreateWithoutCoursesInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutCoursesInput = {
@@ -1566,30 +1598,31 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutCoursesInput = {
@@ -1620,30 +1653,31 @@ export type UserUpdateWithoutCoursesInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -1658,30 +1692,31 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutMediaInput = {
@@ -1696,30 +1731,31 @@ export type UserCreateWithoutMediaInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutMediaInput = {
@@ -1734,30 +1770,31 @@ export type UserUncheckedCreateWithoutMediaInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutMediaInput = {
@@ -1788,30 +1825,31 @@ export type UserUpdateWithoutMediaInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMediaInput = {
@@ -1826,30 +1864,31 @@ export type UserUncheckedUpdateWithoutMediaInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutCartsInput = {
@@ -1864,30 +1903,31 @@ export type UserCreateWithoutCartsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutCartsInput = {
@@ -1902,30 +1942,31 @@ export type UserUncheckedCreateWithoutCartsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutCartsInput = {
@@ -1956,30 +1997,31 @@ export type UserUpdateWithoutCartsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartsInput = {
@@ -1994,30 +2036,31 @@ export type UserUncheckedUpdateWithoutCartsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutOrdersInput = {
@@ -2032,30 +2075,31 @@ export type UserCreateWithoutOrdersInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -2070,30 +2114,31 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -2124,30 +2169,31 @@ export type UserUpdateWithoutOrdersInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -2162,30 +2208,31 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -2200,30 +2247,31 @@ export type UserCreateWithoutReviewsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -2238,30 +2286,31 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -2292,30 +2341,31 @@ export type UserUpdateWithoutReviewsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -2330,30 +2380,31 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -2368,30 +2419,31 @@ export type UserCreateWithoutNotificationsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2406,30 +2458,31 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2460,30 +2513,31 @@ export type UserUpdateWithoutNotificationsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -2498,30 +2552,31 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -2536,30 +2591,31 @@ export type UserCreateWithoutCommentsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
+  commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
-  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
-  commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
-  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -2574,30 +2630,31 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
+  commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
-  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
-  commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
-  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -2628,30 +2685,31 @@ export type UserUpdateWithoutCommentsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
+  commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
-  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
-  commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
-  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -2666,30 +2724,31 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
+  commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
-  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
-  commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
-  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutCommentReactionsInput = {
@@ -2704,30 +2763,31 @@ export type UserCreateWithoutCommentReactionsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
-  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
-  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
   lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
-  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutCommentReactionsInput = {
@@ -2742,30 +2802,31 @@ export type UserUncheckedCreateWithoutCommentReactionsInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
-  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
-  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutCommentReactionsInput = {
@@ -2796,30 +2857,31 @@ export type UserUpdateWithoutCommentReactionsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
-  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
   lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
-  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentReactionsInput = {
@@ -2834,30 +2896,31 @@ export type UserUncheckedUpdateWithoutCommentReactionsInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
-  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
   lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
-  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutLessonProgressInput = {
@@ -2872,30 +2935,31 @@ export type UserCreateWithoutLessonProgressInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutLessonProgressInput = {
@@ -2910,30 +2974,31 @@ export type UserUncheckedCreateWithoutLessonProgressInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutLessonProgressInput = {
@@ -2964,30 +3029,31 @@ export type UserUpdateWithoutLessonProgressInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLessonProgressInput = {
@@ -3002,30 +3068,31 @@ export type UserUncheckedUpdateWithoutLessonProgressInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserCreateWithoutMemoryInput = {
@@ -3040,30 +3107,31 @@ export type UserCreateWithoutMemoryInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutMemoryInput = {
@@ -3078,30 +3146,31 @@ export type UserUncheckedCreateWithoutMemoryInput = {
   planStartDate?: Date | string | null
   planEndDate?: Date | string | null
   isMembership?: boolean
-  resetPasswordToken?: string | null
-  resetPasswordExpires?: Date | string | null
-  otpCode?: string | null
-  otpExpires?: Date | string | null
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
   instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type UserCreateOrConnectWithoutMemoryInput = {
@@ -3132,30 +3201,31 @@ export type UserUpdateWithoutMemoryInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMemoryInput = {
@@ -3170,30 +3240,203 @@ export type UserUncheckedUpdateWithoutMemoryInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
+}
+
+export type UserCreateWithoutWishlistsInput = {
+  id?: string
+  username: string
+  email: string
+  password?: string | null
+  status?: $Enums.UserStatus
+  avatar?: string | null
+  userType?: $Enums.UserType
+  plan?: $Enums.MembershipPlan
+  planStartDate?: Date | string | null
+  planEndDate?: Date | string | null
+  isMembership?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput
+  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
+}
+
+export type UserUncheckedCreateWithoutWishlistsInput = {
+  id?: string
+  username: string
+  email: string
+  password?: string | null
+  status?: $Enums.UserStatus
+  avatar?: string | null
+  userType?: $Enums.UserType
+  plan?: $Enums.MembershipPlan
+  planStartDate?: Date | string | null
+  planEndDate?: Date | string | null
+  isMembership?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resetPasswordExpires?: Date | string | null
+  resetPasswordToken?: string | null
+  isEmailVerified?: boolean
+  otpCode?: string | null
+  otpExpires?: Date | string | null
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: string
+  marketingEmails?: boolean
+  pushNotifications?: boolean
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput
+  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
+}
+
+export type UserCreateOrConnectWithoutWishlistsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWishlistsInput, Prisma.UserUncheckedCreateWithoutWishlistsInput>
+}
+
+export type UserUpsertWithoutWishlistsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWishlistsInput, Prisma.UserUncheckedUpdateWithoutWishlistsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWishlistsInput, Prisma.UserUncheckedCreateWithoutWishlistsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWishlistsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWishlistsInput, Prisma.UserUncheckedUpdateWithoutWishlistsInput>
+}
+
+export type UserUpdateWithoutWishlistsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  plan?: Prisma.EnumMembershipPlanFieldUpdateOperationsInput | $Enums.MembershipPlan
+  planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
+  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWishlistsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+  plan?: Prisma.EnumMembershipPlanFieldUpdateOperationsInput | $Enums.MembershipPlan
+  planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
+  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type UserUpdateWithoutRolesInput = {
@@ -3208,29 +3451,30 @@ export type UserUpdateWithoutRolesInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput
 }
 
@@ -3246,29 +3490,30 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
-  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput
   instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -3284,18 +3529,18 @@ export type UserUncheckedUpdateManyWithoutRolesInput = {
   planStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   planEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  language?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otpExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -3304,31 +3549,33 @@ export type UserUncheckedUpdateManyWithoutRolesInput = {
  */
 
 export type UserCountOutputType = {
-  roles: number
-  courses: number
-  carts: number
-  orders: number
-  reviews: number
   blogs: number
+  carts: number
   comments: number
   commentReactions: number
-  notifications: number
+  courses: number
   media: number
+  notifications: number
+  orders: number
+  reviews: number
   lessonProgress: number
+  wishlists: number
+  roles: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | UserCountOutputTypeCountRolesArgs
-  courses?: boolean | UserCountOutputTypeCountCoursesArgs
-  carts?: boolean | UserCountOutputTypeCountCartsArgs
-  orders?: boolean | UserCountOutputTypeCountOrdersArgs
-  reviews?: boolean | UserCountOutputTypeCountReviewsArgs
   blogs?: boolean | UserCountOutputTypeCountBlogsArgs
+  carts?: boolean | UserCountOutputTypeCountCartsArgs
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
   commentReactions?: boolean | UserCountOutputTypeCountCommentReactionsArgs
-  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  courses?: boolean | UserCountOutputTypeCountCoursesArgs
   media?: boolean | UserCountOutputTypeCountMediaArgs
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  orders?: boolean | UserCountOutputTypeCountOrdersArgs
+  reviews?: boolean | UserCountOutputTypeCountReviewsArgs
   lessonProgress?: boolean | UserCountOutputTypeCountLessonProgressArgs
+  wishlists?: boolean | UserCountOutputTypeCountWishlistsArgs
+  roles?: boolean | UserCountOutputTypeCountRolesArgs
 }
 
 /**
@@ -3344,15 +3591,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RoleWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CourseWhereInput
+export type UserCountOutputTypeCountBlogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BlogWhereInput
 }
 
 /**
@@ -3360,27 +3600,6 @@ export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends runtime.Types.Ex
  */
 export type UserCountOutputTypeCountCartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CartWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrderWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReviewWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountBlogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BlogWhereInput
 }
 
 /**
@@ -3400,8 +3619,8 @@ export type UserCountOutputTypeCountCommentReactionsArgs<ExtArgs extends runtime
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NotificationRecipientWhereInput
+export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CourseWhereInput
 }
 
 /**
@@ -3414,8 +3633,43 @@ export type UserCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationRecipientWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountLessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserLessonProgressWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWishlistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WishlistWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoleWhereInput
 }
 
 
@@ -3431,31 +3685,32 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   planStartDate?: boolean
   planEndDate?: boolean
   isMembership?: boolean
-  resetPasswordToken?: boolean
-  resetPasswordExpires?: boolean
-  otpCode?: boolean
-  otpExpires?: boolean
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
-  courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
-  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
-  orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
-  reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
+  resetPasswordExpires?: boolean
+  resetPasswordToken?: boolean
+  isEmailVerified?: boolean
+  otpCode?: boolean
+  otpExpires?: boolean
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: boolean
+  marketingEmails?: boolean
+  pushNotifications?: boolean
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
+  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   commentReactions?: boolean | Prisma.User$commentReactionsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  media?: boolean | Prisma.User$mediaArgs<ExtArgs>
-  lessonProgress?: boolean | Prisma.User$lessonProgressArgs<ExtArgs>
+  courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   instructorProfile?: boolean | Prisma.User$instructorProfileArgs<ExtArgs>
+  media?: boolean | Prisma.User$mediaArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
+  reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
+  lessonProgress?: boolean | Prisma.User$lessonProgressArgs<ExtArgs>
+  wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   memory?: boolean | Prisma.User$memoryArgs<ExtArgs>
+  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3471,18 +3726,18 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   planStartDate?: boolean
   planEndDate?: boolean
   isMembership?: boolean
-  resetPasswordToken?: boolean
-  resetPasswordExpires?: boolean
-  otpCode?: boolean
-  otpExpires?: boolean
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  resetPasswordExpires?: boolean
+  resetPasswordToken?: boolean
+  isEmailVerified?: boolean
+  otpCode?: boolean
+  otpExpires?: boolean
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: boolean
+  marketingEmails?: boolean
+  pushNotifications?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3497,18 +3752,18 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   planStartDate?: boolean
   planEndDate?: boolean
   isMembership?: boolean
-  resetPasswordToken?: boolean
-  resetPasswordExpires?: boolean
-  otpCode?: boolean
-  otpExpires?: boolean
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  resetPasswordExpires?: boolean
+  resetPasswordToken?: boolean
+  isEmailVerified?: boolean
+  otpCode?: boolean
+  otpExpires?: boolean
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: boolean
+  marketingEmails?: boolean
+  pushNotifications?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -3523,35 +3778,36 @@ export type UserSelectScalar = {
   planStartDate?: boolean
   planEndDate?: boolean
   isMembership?: boolean
-  resetPasswordToken?: boolean
-  resetPasswordExpires?: boolean
-  otpCode?: boolean
-  otpExpires?: boolean
-  isEmailVerified?: boolean
-  emailNotifications?: boolean
-  pushNotifications?: boolean
-  marketingEmails?: boolean
-  darkMode?: boolean
-  language?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  resetPasswordExpires?: boolean
+  resetPasswordToken?: boolean
+  isEmailVerified?: boolean
+  otpCode?: boolean
+  otpExpires?: boolean
+  darkMode?: boolean
+  emailNotifications?: boolean
+  language?: boolean
+  marketingEmails?: boolean
+  pushNotifications?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "status" | "avatar" | "userType" | "plan" | "planStartDate" | "planEndDate" | "isMembership" | "resetPasswordToken" | "resetPasswordExpires" | "otpCode" | "otpExpires" | "isEmailVerified" | "emailNotifications" | "pushNotifications" | "marketingEmails" | "darkMode" | "language" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "status" | "avatar" | "userType" | "plan" | "planStartDate" | "planEndDate" | "isMembership" | "createdAt" | "updatedAt" | "resetPasswordExpires" | "resetPasswordToken" | "isEmailVerified" | "otpCode" | "otpExpires" | "darkMode" | "emailNotifications" | "language" | "marketingEmails" | "pushNotifications", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
-  courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
-  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
-  orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
-  reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
+  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   commentReactions?: boolean | Prisma.User$commentReactionsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
-  media?: boolean | Prisma.User$mediaArgs<ExtArgs>
-  lessonProgress?: boolean | Prisma.User$lessonProgressArgs<ExtArgs>
+  courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   instructorProfile?: boolean | Prisma.User$instructorProfileArgs<ExtArgs>
+  media?: boolean | Prisma.User$mediaArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
+  reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
+  lessonProgress?: boolean | Prisma.User$lessonProgressArgs<ExtArgs>
+  wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   memory?: boolean | Prisma.User$memoryArgs<ExtArgs>
+  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -3560,19 +3816,20 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    roles: Prisma.$RolePayload<ExtArgs>[]
-    courses: Prisma.$CoursePayload<ExtArgs>[]
-    carts: Prisma.$CartPayload<ExtArgs>[]
-    orders: Prisma.$OrderPayload<ExtArgs>[]
-    reviews: Prisma.$ReviewPayload<ExtArgs>[]
     blogs: Prisma.$BlogPayload<ExtArgs>[]
+    carts: Prisma.$CartPayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
     commentReactions: Prisma.$CommentReactionPayload<ExtArgs>[]
-    notifications: Prisma.$NotificationRecipientPayload<ExtArgs>[]
-    media: Prisma.$MediaPayload<ExtArgs>[]
-    lessonProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[]
+    courses: Prisma.$CoursePayload<ExtArgs>[]
     instructorProfile: Prisma.$InstructorProfilePayload<ExtArgs> | null
+    media: Prisma.$MediaPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationRecipientPayload<ExtArgs>[]
+    orders: Prisma.$OrderPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    lessonProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[]
+    wishlists: Prisma.$WishlistPayload<ExtArgs>[]
     memory: Prisma.$UserMemoryPayload<ExtArgs> | null
+    roles: Prisma.$RolePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3586,18 +3843,18 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     planStartDate: Date | null
     planEndDate: Date | null
     isMembership: boolean
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
-    otpCode: string | null
-    otpExpires: Date | null
-    isEmailVerified: boolean
-    emailNotifications: boolean
-    pushNotifications: boolean
-    marketingEmails: boolean
-    darkMode: boolean
-    language: string
     createdAt: Date
     updatedAt: Date
+    resetPasswordExpires: Date | null
+    resetPasswordToken: string | null
+    isEmailVerified: boolean
+    otpCode: string | null
+    otpExpires: Date | null
+    darkMode: boolean
+    emailNotifications: boolean
+    language: string
+    marketingEmails: boolean
+    pushNotifications: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -3992,19 +4249,20 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  roles<T extends Prisma.User$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  courses<T extends Prisma.User$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  carts<T extends Prisma.User$cartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   blogs<T extends Prisma.User$blogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$blogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  carts<T extends Prisma.User$cartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commentReactions<T extends Prisma.User$commentReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationRecipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  media<T extends Prisma.User$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  lessonProgress<T extends Prisma.User$lessonProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  courses<T extends Prisma.User$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   instructorProfile<T extends Prisma.User$instructorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$instructorProfileArgs<ExtArgs>>): Prisma.Prisma__InstructorProfileClient<runtime.Types.Result.GetResult<Prisma.$InstructorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  media<T extends Prisma.User$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationRecipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lessonProgress<T extends Prisma.User$lessonProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  wishlists<T extends Prisma.User$wishlistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memory<T extends Prisma.User$memoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memoryArgs<ExtArgs>>): Prisma.Prisma__UserMemoryClient<runtime.Types.Result.GetResult<Prisma.$UserMemoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  roles<T extends Prisma.User$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4045,18 +4303,18 @@ export interface UserFieldRefs {
   readonly planStartDate: Prisma.FieldRef<"User", 'DateTime'>
   readonly planEndDate: Prisma.FieldRef<"User", 'DateTime'>
   readonly isMembership: Prisma.FieldRef<"User", 'Boolean'>
-  readonly resetPasswordToken: Prisma.FieldRef<"User", 'String'>
-  readonly resetPasswordExpires: Prisma.FieldRef<"User", 'DateTime'>
-  readonly otpCode: Prisma.FieldRef<"User", 'String'>
-  readonly otpExpires: Prisma.FieldRef<"User", 'DateTime'>
-  readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
-  readonly emailNotifications: Prisma.FieldRef<"User", 'Boolean'>
-  readonly pushNotifications: Prisma.FieldRef<"User", 'Boolean'>
-  readonly marketingEmails: Prisma.FieldRef<"User", 'Boolean'>
-  readonly darkMode: Prisma.FieldRef<"User", 'Boolean'>
-  readonly language: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly resetPasswordExpires: Prisma.FieldRef<"User", 'DateTime'>
+  readonly resetPasswordToken: Prisma.FieldRef<"User", 'String'>
+  readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly otpCode: Prisma.FieldRef<"User", 'String'>
+  readonly otpExpires: Prisma.FieldRef<"User", 'DateTime'>
+  readonly darkMode: Prisma.FieldRef<"User", 'Boolean'>
+  readonly emailNotifications: Prisma.FieldRef<"User", 'Boolean'>
+  readonly language: Prisma.FieldRef<"User", 'String'>
+  readonly marketingEmails: Prisma.FieldRef<"User", 'Boolean'>
+  readonly pushNotifications: Prisma.FieldRef<"User", 'Boolean'>
 }
     
 
@@ -4445,51 +4703,27 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.roles
+ * User.blogs
  */
-export type User$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$blogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Role
+   * Select specific fields to fetch from the Blog
    */
-  select?: Prisma.RoleSelect<ExtArgs> | null
+  select?: Prisma.BlogSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Role
+   * Omit specific fields from the Blog
    */
-  omit?: Prisma.RoleOmit<ExtArgs> | null
+  omit?: Prisma.BlogOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.RoleInclude<ExtArgs> | null
-  where?: Prisma.RoleWhereInput
-  orderBy?: Prisma.RoleOrderByWithRelationInput | Prisma.RoleOrderByWithRelationInput[]
-  cursor?: Prisma.RoleWhereUniqueInput
+  include?: Prisma.BlogInclude<ExtArgs> | null
+  where?: Prisma.BlogWhereInput
+  orderBy?: Prisma.BlogOrderByWithRelationInput | Prisma.BlogOrderByWithRelationInput[]
+  cursor?: Prisma.BlogWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.RoleScalarFieldEnum | Prisma.RoleScalarFieldEnum[]
-}
-
-/**
- * User.courses
- */
-export type User$coursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Course
-   */
-  select?: Prisma.CourseSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Course
-   */
-  omit?: Prisma.CourseOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CourseInclude<ExtArgs> | null
-  where?: Prisma.CourseWhereInput
-  orderBy?: Prisma.CourseOrderByWithRelationInput | Prisma.CourseOrderByWithRelationInput[]
-  cursor?: Prisma.CourseWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[]
+  distinct?: Prisma.BlogScalarFieldEnum | Prisma.BlogScalarFieldEnum[]
 }
 
 /**
@@ -4514,78 +4748,6 @@ export type User$cartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.CartScalarFieldEnum | Prisma.CartScalarFieldEnum[]
-}
-
-/**
- * User.orders
- */
-export type User$ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Order
-   */
-  select?: Prisma.OrderSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Order
-   */
-  omit?: Prisma.OrderOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrderInclude<ExtArgs> | null
-  where?: Prisma.OrderWhereInput
-  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
-  cursor?: Prisma.OrderWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
-}
-
-/**
- * User.reviews
- */
-export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Review
-   */
-  select?: Prisma.ReviewSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Review
-   */
-  omit?: Prisma.ReviewOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ReviewInclude<ExtArgs> | null
-  where?: Prisma.ReviewWhereInput
-  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
-  cursor?: Prisma.ReviewWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
-}
-
-/**
- * User.blogs
- */
-export type User$blogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Blog
-   */
-  select?: Prisma.BlogSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Blog
-   */
-  omit?: Prisma.BlogOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BlogInclude<ExtArgs> | null
-  where?: Prisma.BlogWhereInput
-  orderBy?: Prisma.BlogOrderByWithRelationInput | Prisma.BlogOrderByWithRelationInput[]
-  cursor?: Prisma.BlogWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BlogScalarFieldEnum | Prisma.BlogScalarFieldEnum[]
 }
 
 /**
@@ -4637,27 +4799,46 @@ export type User$commentReactionsArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * User.notifications
+ * User.courses
  */
-export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$coursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the NotificationRecipient
+   * Select specific fields to fetch from the Course
    */
-  select?: Prisma.NotificationRecipientSelect<ExtArgs> | null
+  select?: Prisma.CourseSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the NotificationRecipient
+   * Omit specific fields from the Course
    */
-  omit?: Prisma.NotificationRecipientOmit<ExtArgs> | null
+  omit?: Prisma.CourseOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.NotificationRecipientInclude<ExtArgs> | null
-  where?: Prisma.NotificationRecipientWhereInput
-  orderBy?: Prisma.NotificationRecipientOrderByWithRelationInput | Prisma.NotificationRecipientOrderByWithRelationInput[]
-  cursor?: Prisma.NotificationRecipientWhereUniqueInput
+  include?: Prisma.CourseInclude<ExtArgs> | null
+  where?: Prisma.CourseWhereInput
+  orderBy?: Prisma.CourseOrderByWithRelationInput | Prisma.CourseOrderByWithRelationInput[]
+  cursor?: Prisma.CourseWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.NotificationRecipientScalarFieldEnum | Prisma.NotificationRecipientScalarFieldEnum[]
+  distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[]
+}
+
+/**
+ * User.instructorProfile
+ */
+export type User$instructorProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InstructorProfile
+   */
+  select?: Prisma.InstructorProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InstructorProfile
+   */
+  omit?: Prisma.InstructorProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstructorProfileInclude<ExtArgs> | null
+  where?: Prisma.InstructorProfileWhereInput
 }
 
 /**
@@ -4685,6 +4866,78 @@ export type User$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }
 
 /**
+ * User.notifications
+ */
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NotificationRecipient
+   */
+  select?: Prisma.NotificationRecipientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NotificationRecipient
+   */
+  omit?: Prisma.NotificationRecipientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationRecipientInclude<ExtArgs> | null
+  where?: Prisma.NotificationRecipientWhereInput
+  orderBy?: Prisma.NotificationRecipientOrderByWithRelationInput | Prisma.NotificationRecipientOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationRecipientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationRecipientScalarFieldEnum | Prisma.NotificationRecipientScalarFieldEnum[]
+}
+
+/**
+ * User.orders
+ */
+export type User$ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
+}
+
+/**
+ * User.reviews
+ */
+export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
  * User.lessonProgress
  */
 export type User$lessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4709,22 +4962,27 @@ export type User$lessonProgressArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * User.instructorProfile
+ * User.wishlists
  */
-export type User$instructorProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$wishlistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InstructorProfile
+   * Select specific fields to fetch from the Wishlist
    */
-  select?: Prisma.InstructorProfileSelect<ExtArgs> | null
+  select?: Prisma.WishlistSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InstructorProfile
+   * Omit specific fields from the Wishlist
    */
-  omit?: Prisma.InstructorProfileOmit<ExtArgs> | null
+  omit?: Prisma.WishlistOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InstructorProfileInclude<ExtArgs> | null
-  where?: Prisma.InstructorProfileWhereInput
+  include?: Prisma.WishlistInclude<ExtArgs> | null
+  where?: Prisma.WishlistWhereInput
+  orderBy?: Prisma.WishlistOrderByWithRelationInput | Prisma.WishlistOrderByWithRelationInput[]
+  cursor?: Prisma.WishlistWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WishlistScalarFieldEnum | Prisma.WishlistScalarFieldEnum[]
 }
 
 /**
@@ -4744,6 +5002,30 @@ export type User$memoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   include?: Prisma.UserMemoryInclude<ExtArgs> | null
   where?: Prisma.UserMemoryWhereInput
+}
+
+/**
+ * User.roles
+ */
+export type User$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Role
+   */
+  select?: Prisma.RoleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Role
+   */
+  omit?: Prisma.RoleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleInclude<ExtArgs> | null
+  where?: Prisma.RoleWhereInput
+  orderBy?: Prisma.RoleOrderByWithRelationInput | Prisma.RoleOrderByWithRelationInput[]
+  cursor?: Prisma.RoleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoleScalarFieldEnum | Prisma.RoleScalarFieldEnum[]
 }
 
 /**

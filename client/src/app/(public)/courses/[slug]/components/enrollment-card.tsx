@@ -11,6 +11,7 @@ import { IChapter } from '@/types/chapter';
 import { formatDuration, formatPrice } from '@/utils/format';
 import { getLastLessonForCourse } from '@/utils/last-course-lesson';
 import { usePublishedLessonsByChapter } from '@/hooks/use-lessons';
+import { useToggleWishlist, useMyWishlist } from '@/hooks/use-wishlist';
 import {
   Award,
   Clock,
@@ -38,10 +39,14 @@ interface EnrollmentCardProps {
 }
 
 const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const router = useRouter();
   const user = useUser();
+
+  const toggleWishlistMutation = useToggleWishlist();
+  const { data: wishlistData } = useMyWishlist({ limit: 500 });
+  const isWishlisted =
+    wishlistData?.items?.some((wishlistCourse) => wishlistCourse.id === course.id) || false;
 
   const hasIntroVideo = course.introUrl && course.introUrl.trim() !== '';
 
@@ -326,11 +331,18 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
         </div>
 
         {/* Secondary Actions */}
-        <div className="mb-4 grid grid-cols-3 gap-1 sm:mb-6 sm:gap-2">
+        <div className="mb-4 grid grid-cols-2 gap-1 sm:mb-6 sm:gap-2">
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setIsWishlisted(!isWishlisted)}
+            onClick={() => {
+              if (!user) {
+                toast.warning('Please login to use wishlist');
+                return;
+              }
+              toggleWishlistMutation.mutate(course.id);
+            }}
+            disabled={toggleWishlistMutation.isPending}
             className={`flex h-auto flex-col items-center justify-center py-2 text-xs sm:flex-row sm:text-sm ${
               isWishlisted ? 'text-red-600' : 'text-gray-600'
             }`}
@@ -344,20 +356,15 @@ const EnrollmentCard = ({ course, chapters = [] }: EnrollmentCardProps) => {
           <Button
             variant="ghost"
             size="sm"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              toast.success('Course link copied to clipboard!');
+            }}
             className="flex h-auto flex-col items-center justify-center py-2 text-xs text-gray-600 sm:flex-row sm:text-sm"
           >
             <Share2 className="h-3 w-3 sm:mr-1 sm:h-4 sm:w-4" />
             <span className="hidden sm:inline">Share</span>
             <span className="mt-1 sm:hidden">Share</span>
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex h-auto flex-col items-center justify-center py-2 text-xs text-gray-600 sm:flex-row sm:text-sm"
-          >
-            <Gift className="h-3 w-3 sm:mr-1 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Gift</span>
-            <span className="mt-1 sm:hidden">Gift</span>
           </Button>
         </div>
 

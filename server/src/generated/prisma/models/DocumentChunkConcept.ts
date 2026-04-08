@@ -25,16 +25,19 @@ export type AggregateDocumentChunkConcept = {
 }
 
 export type DocumentChunkConceptMinAggregateOutputType = {
+  id: string | null
   chunkId: string | null
   conceptId: string | null
 }
 
 export type DocumentChunkConceptMaxAggregateOutputType = {
+  id: string | null
   chunkId: string | null
   conceptId: string | null
 }
 
 export type DocumentChunkConceptCountAggregateOutputType = {
+  id: number
   chunkId: number
   conceptId: number
   _all: number
@@ -42,16 +45,19 @@ export type DocumentChunkConceptCountAggregateOutputType = {
 
 
 export type DocumentChunkConceptMinAggregateInputType = {
+  id?: true
   chunkId?: true
   conceptId?: true
 }
 
 export type DocumentChunkConceptMaxAggregateInputType = {
+  id?: true
   chunkId?: true
   conceptId?: true
 }
 
 export type DocumentChunkConceptCountAggregateInputType = {
+  id?: true
   chunkId?: true
   conceptId?: true
   _all?: true
@@ -130,6 +136,7 @@ export type DocumentChunkConceptGroupByArgs<ExtArgs extends runtime.Types.Extens
 }
 
 export type DocumentChunkConceptGroupByOutputType = {
+  id: string
   chunkId: string
   conceptId: string
   _count: DocumentChunkConceptCountAggregateOutputType | null
@@ -156,6 +163,7 @@ export type DocumentChunkConceptWhereInput = {
   AND?: Prisma.DocumentChunkConceptWhereInput | Prisma.DocumentChunkConceptWhereInput[]
   OR?: Prisma.DocumentChunkConceptWhereInput[]
   NOT?: Prisma.DocumentChunkConceptWhereInput | Prisma.DocumentChunkConceptWhereInput[]
+  id?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   chunkId?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   conceptId?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   chunk?: Prisma.XOR<Prisma.DocumentChunkScalarRelationFilter, Prisma.DocumentChunkWhereInput>
@@ -163,6 +171,7 @@ export type DocumentChunkConceptWhereInput = {
 }
 
 export type DocumentChunkConceptOrderByWithRelationInput = {
+  id?: Prisma.SortOrder
   chunkId?: Prisma.SortOrder
   conceptId?: Prisma.SortOrder
   chunk?: Prisma.DocumentChunkOrderByWithRelationInput
@@ -174,6 +183,7 @@ export type DocumentChunkConceptWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DocumentChunkConceptWhereInput | Prisma.DocumentChunkConceptWhereInput[]
   OR?: Prisma.DocumentChunkConceptWhereInput[]
   NOT?: Prisma.DocumentChunkConceptWhereInput | Prisma.DocumentChunkConceptWhereInput[]
+  id?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   chunkId?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   conceptId?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   chunk?: Prisma.XOR<Prisma.DocumentChunkScalarRelationFilter, Prisma.DocumentChunkWhereInput>
@@ -181,6 +191,7 @@ export type DocumentChunkConceptWhereUniqueInput = Prisma.AtLeast<{
 }, "chunkId_conceptId">
 
 export type DocumentChunkConceptOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder
   chunkId?: Prisma.SortOrder
   conceptId?: Prisma.SortOrder
   _count?: Prisma.DocumentChunkConceptCountOrderByAggregateInput
@@ -192,40 +203,47 @@ export type DocumentChunkConceptScalarWhereWithAggregatesInput = {
   AND?: Prisma.DocumentChunkConceptScalarWhereWithAggregatesInput | Prisma.DocumentChunkConceptScalarWhereWithAggregatesInput[]
   OR?: Prisma.DocumentChunkConceptScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DocumentChunkConceptScalarWhereWithAggregatesInput | Prisma.DocumentChunkConceptScalarWhereWithAggregatesInput[]
+  id?: Prisma.StringWithAggregatesFilter<"DocumentChunkConcept"> | string
   chunkId?: Prisma.StringWithAggregatesFilter<"DocumentChunkConcept"> | string
   conceptId?: Prisma.StringWithAggregatesFilter<"DocumentChunkConcept"> | string
 }
 
 export type DocumentChunkConceptCreateInput = {
+  id?: string
   chunk: Prisma.DocumentChunkCreateNestedOneWithoutConceptsInput
   concept: Prisma.ConceptNodeCreateNestedOneWithoutChunksInput
 }
 
 export type DocumentChunkConceptUncheckedCreateInput = {
+  id?: string
   chunkId: string
   conceptId: string
 }
 
 export type DocumentChunkConceptUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   chunk?: Prisma.DocumentChunkUpdateOneRequiredWithoutConceptsNestedInput
   concept?: Prisma.ConceptNodeUpdateOneRequiredWithoutChunksNestedInput
 }
 
 export type DocumentChunkConceptUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   chunkId?: Prisma.StringFieldUpdateOperationsInput | string
   conceptId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DocumentChunkConceptCreateManyInput = {
+  id?: string
   chunkId: string
   conceptId: string
 }
 
 export type DocumentChunkConceptUpdateManyMutationInput = {
-
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DocumentChunkConceptUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   chunkId?: Prisma.StringFieldUpdateOperationsInput | string
   conceptId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -246,16 +264,19 @@ export type DocumentChunkConceptChunkIdConceptIdCompoundUniqueInput = {
 }
 
 export type DocumentChunkConceptCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   chunkId?: Prisma.SortOrder
   conceptId?: Prisma.SortOrder
 }
 
 export type DocumentChunkConceptMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   chunkId?: Prisma.SortOrder
   conceptId?: Prisma.SortOrder
 }
 
 export type DocumentChunkConceptMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   chunkId?: Prisma.SortOrder
   conceptId?: Prisma.SortOrder
 }
@@ -331,10 +352,12 @@ export type DocumentChunkConceptUncheckedUpdateManyWithoutConceptNestedInput = {
 }
 
 export type DocumentChunkConceptCreateWithoutChunkInput = {
+  id?: string
   concept: Prisma.ConceptNodeCreateNestedOneWithoutChunksInput
 }
 
 export type DocumentChunkConceptUncheckedCreateWithoutChunkInput = {
+  id?: string
   conceptId: string
 }
 
@@ -368,15 +391,18 @@ export type DocumentChunkConceptScalarWhereInput = {
   AND?: Prisma.DocumentChunkConceptScalarWhereInput | Prisma.DocumentChunkConceptScalarWhereInput[]
   OR?: Prisma.DocumentChunkConceptScalarWhereInput[]
   NOT?: Prisma.DocumentChunkConceptScalarWhereInput | Prisma.DocumentChunkConceptScalarWhereInput[]
+  id?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   chunkId?: Prisma.StringFilter<"DocumentChunkConcept"> | string
   conceptId?: Prisma.StringFilter<"DocumentChunkConcept"> | string
 }
 
 export type DocumentChunkConceptCreateWithoutConceptInput = {
+  id?: string
   chunk: Prisma.DocumentChunkCreateNestedOneWithoutConceptsInput
 }
 
 export type DocumentChunkConceptUncheckedCreateWithoutConceptInput = {
+  id?: string
   chunkId: string
 }
 
@@ -407,40 +433,49 @@ export type DocumentChunkConceptUpdateManyWithWhereWithoutConceptInput = {
 }
 
 export type DocumentChunkConceptUpdateWithoutChunkInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   concept?: Prisma.ConceptNodeUpdateOneRequiredWithoutChunksNestedInput
 }
 
 export type DocumentChunkConceptUncheckedUpdateWithoutChunkInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   conceptId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DocumentChunkConceptCreateManyChunkInput = {
+  id?: string
   conceptId: string
 }
 
 export type DocumentChunkConceptUncheckedUpdateManyWithoutChunkInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   conceptId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DocumentChunkConceptCreateManyConceptInput = {
+  id?: string
   chunkId: string
 }
 
 export type DocumentChunkConceptUpdateWithoutConceptInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   chunk?: Prisma.DocumentChunkUpdateOneRequiredWithoutConceptsNestedInput
 }
 
 export type DocumentChunkConceptUncheckedUpdateWithoutConceptInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   chunkId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type DocumentChunkConceptUncheckedUpdateManyWithoutConceptInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   chunkId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
 
 export type DocumentChunkConceptSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   chunkId?: boolean
   conceptId?: boolean
   chunk?: boolean | Prisma.DocumentChunkDefaultArgs<ExtArgs>
@@ -448,6 +483,7 @@ export type DocumentChunkConceptSelect<ExtArgs extends runtime.Types.Extensions.
 }, ExtArgs["result"]["documentChunkConcept"]>
 
 export type DocumentChunkConceptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   chunkId?: boolean
   conceptId?: boolean
   chunk?: boolean | Prisma.DocumentChunkDefaultArgs<ExtArgs>
@@ -455,6 +491,7 @@ export type DocumentChunkConceptSelectCreateManyAndReturn<ExtArgs extends runtim
 }, ExtArgs["result"]["documentChunkConcept"]>
 
 export type DocumentChunkConceptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   chunkId?: boolean
   conceptId?: boolean
   chunk?: boolean | Prisma.DocumentChunkDefaultArgs<ExtArgs>
@@ -462,11 +499,12 @@ export type DocumentChunkConceptSelectUpdateManyAndReturn<ExtArgs extends runtim
 }, ExtArgs["result"]["documentChunkConcept"]>
 
 export type DocumentChunkConceptSelectScalar = {
+  id?: boolean
   chunkId?: boolean
   conceptId?: boolean
 }
 
-export type DocumentChunkConceptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"chunkId" | "conceptId", ExtArgs["result"]["documentChunkConcept"]>
+export type DocumentChunkConceptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "chunkId" | "conceptId", ExtArgs["result"]["documentChunkConcept"]>
 export type DocumentChunkConceptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   chunk?: boolean | Prisma.DocumentChunkDefaultArgs<ExtArgs>
   concept?: boolean | Prisma.ConceptNodeDefaultArgs<ExtArgs>
@@ -487,6 +525,7 @@ export type $DocumentChunkConceptPayload<ExtArgs extends runtime.Types.Extension
     concept: Prisma.$ConceptNodePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    id: string
     chunkId: string
     conceptId: string
   }, ExtArgs["result"]["documentChunkConcept"]>
@@ -572,8 +611,8 @@ export interface DocumentChunkConceptDelegate<ExtArgs extends runtime.Types.Exte
    * // Get first 10 DocumentChunkConcepts
    * const documentChunkConcepts = await prisma.documentChunkConcept.findMany({ take: 10 })
    * 
-   * // Only select the `chunkId`
-   * const documentChunkConceptWithChunkIdOnly = await prisma.documentChunkConcept.findMany({ select: { chunkId: true } })
+   * // Only select the `id`
+   * const documentChunkConceptWithIdOnly = await prisma.documentChunkConcept.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends DocumentChunkConceptFindManyArgs>(args?: Prisma.SelectSubset<T, DocumentChunkConceptFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkConceptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -617,9 +656,9 @@ export interface DocumentChunkConceptDelegate<ExtArgs extends runtime.Types.Exte
    *   ]
    * })
    * 
-   * // Create many DocumentChunkConcepts and only return the `chunkId`
-   * const documentChunkConceptWithChunkIdOnly = await prisma.documentChunkConcept.createManyAndReturn({
-   *   select: { chunkId: true },
+   * // Create many DocumentChunkConcepts and only return the `id`
+   * const documentChunkConceptWithIdOnly = await prisma.documentChunkConcept.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -708,9 +747,9 @@ export interface DocumentChunkConceptDelegate<ExtArgs extends runtime.Types.Exte
    *   ]
    * })
    * 
-   * // Update zero or more DocumentChunkConcepts and only return the `chunkId`
-   * const documentChunkConceptWithChunkIdOnly = await prisma.documentChunkConcept.updateManyAndReturn({
-   *   select: { chunkId: true },
+   * // Update zero or more DocumentChunkConcepts and only return the `id`
+   * const documentChunkConceptWithIdOnly = await prisma.documentChunkConcept.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -914,6 +953,7 @@ export interface Prisma__DocumentChunkConceptClient<T, Null = never, ExtArgs ext
  * Fields of the DocumentChunkConcept model
  */
 export interface DocumentChunkConceptFieldRefs {
+  readonly id: Prisma.FieldRef<"DocumentChunkConcept", 'String'>
   readonly chunkId: Prisma.FieldRef<"DocumentChunkConcept", 'String'>
   readonly conceptId: Prisma.FieldRef<"DocumentChunkConcept", 'String'>
 }

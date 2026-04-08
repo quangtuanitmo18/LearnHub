@@ -38,47 +38,47 @@ export type LessonSumAggregateOutputType = {
 
 export type LessonMinAggregateOutputType = {
   id: string | null
-  type: $Enums.LessonType | null
   title: string | null
-  description: string | null
-  slug: string | null
   order: number | null
-  published: boolean | null
-  durationSec: number | null
   createdAt: Date | null
   updatedAt: Date | null
   courseId: string | null
   chapterId: string | null
+  published: boolean | null
+  slug: string | null
+  type: $Enums.LessonType | null
+  description: string | null
+  durationSec: number | null
 }
 
 export type LessonMaxAggregateOutputType = {
   id: string | null
-  type: $Enums.LessonType | null
   title: string | null
-  description: string | null
-  slug: string | null
   order: number | null
-  published: boolean | null
-  durationSec: number | null
   createdAt: Date | null
   updatedAt: Date | null
   courseId: string | null
   chapterId: string | null
+  published: boolean | null
+  slug: string | null
+  type: $Enums.LessonType | null
+  description: string | null
+  durationSec: number | null
 }
 
 export type LessonCountAggregateOutputType = {
   id: number
-  type: number
   title: number
-  description: number
-  slug: number
   order: number
-  published: number
-  durationSec: number
   createdAt: number
   updatedAt: number
   courseId: number
   chapterId: number
+  published: number
+  slug: number
+  type: number
+  description: number
+  durationSec: number
   _all: number
 }
 
@@ -95,47 +95,47 @@ export type LessonSumAggregateInputType = {
 
 export type LessonMinAggregateInputType = {
   id?: true
-  type?: true
   title?: true
-  description?: true
-  slug?: true
   order?: true
-  published?: true
-  durationSec?: true
   createdAt?: true
   updatedAt?: true
   courseId?: true
   chapterId?: true
+  published?: true
+  slug?: true
+  type?: true
+  description?: true
+  durationSec?: true
 }
 
 export type LessonMaxAggregateInputType = {
   id?: true
-  type?: true
   title?: true
-  description?: true
-  slug?: true
   order?: true
-  published?: true
-  durationSec?: true
   createdAt?: true
   updatedAt?: true
   courseId?: true
   chapterId?: true
+  published?: true
+  slug?: true
+  type?: true
+  description?: true
+  durationSec?: true
 }
 
 export type LessonCountAggregateInputType = {
   id?: true
-  type?: true
   title?: true
-  description?: true
-  slug?: true
   order?: true
-  published?: true
-  durationSec?: true
   createdAt?: true
   updatedAt?: true
   courseId?: true
   chapterId?: true
+  published?: true
+  slug?: true
+  type?: true
+  description?: true
+  durationSec?: true
   _all?: true
 }
 
@@ -227,17 +227,17 @@ export type LessonGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type LessonGroupByOutputType = {
   id: string
-  type: $Enums.LessonType
   title: string
-  description: string | null
-  slug: string | null
   order: number
-  published: boolean
-  durationSec: number | null
   createdAt: Date
   updatedAt: Date
   courseId: string
   chapterId: string
+  published: boolean
+  slug: string | null
+  type: $Enums.LessonType
+  description: string | null
+  durationSec: number | null
   _count: LessonCountAggregateOutputType | null
   _avg: LessonAvgAggregateOutputType | null
   _sum: LessonSumAggregateOutputType | null
@@ -265,48 +265,48 @@ export type LessonWhereInput = {
   OR?: Prisma.LessonWhereInput[]
   NOT?: Prisma.LessonWhereInput | Prisma.LessonWhereInput[]
   id?: Prisma.StringFilter<"Lesson"> | string
-  type?: Prisma.EnumLessonTypeFilter<"Lesson"> | $Enums.LessonType
   title?: Prisma.StringFilter<"Lesson"> | string
-  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
-  slug?: Prisma.StringNullableFilter<"Lesson"> | string | null
   order?: Prisma.IntFilter<"Lesson"> | number
-  published?: Prisma.BoolFilter<"Lesson"> | boolean
-  durationSec?: Prisma.IntNullableFilter<"Lesson"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   courseId?: Prisma.StringFilter<"Lesson"> | string
   chapterId?: Prisma.StringFilter<"Lesson"> | string
-  quiz?: Prisma.XOR<Prisma.LessonQuizNullableScalarRelationFilter, Prisma.LessonQuizWhereInput> | null
-  article?: Prisma.XOR<Prisma.LessonArticleNullableScalarRelationFilter, Prisma.LessonArticleWhereInput> | null
-  video?: Prisma.XOR<Prisma.LessonVideoNullableScalarRelationFilter, Prisma.LessonVideoWhereInput> | null
-  course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
-  chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
+  published?: Prisma.BoolFilter<"Lesson"> | boolean
+  slug?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  type?: Prisma.EnumLessonTypeFilter<"Lesson"> | $Enums.LessonType
+  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  durationSec?: Prisma.IntNullableFilter<"Lesson"> | number | null
   comments?: Prisma.CommentListRelationFilter
-  userProgress?: Prisma.UserLessonProgressListRelationFilter
   documentChunks?: Prisma.DocumentChunkListRelationFilter
+  chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
+  course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
+  article?: Prisma.XOR<Prisma.LessonArticleNullableScalarRelationFilter, Prisma.LessonArticleWhereInput> | null
+  quiz?: Prisma.XOR<Prisma.LessonQuizNullableScalarRelationFilter, Prisma.LessonQuizWhereInput> | null
+  video?: Prisma.XOR<Prisma.LessonVideoNullableScalarRelationFilter, Prisma.LessonVideoWhereInput> | null
+  userProgress?: Prisma.UserLessonProgressListRelationFilter
 }
 
 export type LessonOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
-  slug?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
-  published?: Prisma.SortOrder
-  durationSec?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
-  quiz?: Prisma.LessonQuizOrderByWithRelationInput
-  article?: Prisma.LessonArticleOrderByWithRelationInput
-  video?: Prisma.LessonVideoOrderByWithRelationInput
-  course?: Prisma.CourseOrderByWithRelationInput
-  chapter?: Prisma.ChapterOrderByWithRelationInput
+  published?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  durationSec?: Prisma.SortOrderInput | Prisma.SortOrder
   comments?: Prisma.CommentOrderByRelationAggregateInput
-  userProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput
   documentChunks?: Prisma.DocumentChunkOrderByRelationAggregateInput
+  chapter?: Prisma.ChapterOrderByWithRelationInput
+  course?: Prisma.CourseOrderByWithRelationInput
+  article?: Prisma.LessonArticleOrderByWithRelationInput
+  quiz?: Prisma.LessonQuizOrderByWithRelationInput
+  video?: Prisma.LessonVideoOrderByWithRelationInput
+  userProgress?: Prisma.UserLessonProgressOrderByRelationAggregateInput
 }
 
 export type LessonWhereUniqueInput = Prisma.AtLeast<{
@@ -315,39 +315,39 @@ export type LessonWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.LessonWhereInput | Prisma.LessonWhereInput[]
   OR?: Prisma.LessonWhereInput[]
   NOT?: Prisma.LessonWhereInput | Prisma.LessonWhereInput[]
-  type?: Prisma.EnumLessonTypeFilter<"Lesson"> | $Enums.LessonType
   title?: Prisma.StringFilter<"Lesson"> | string
-  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
   order?: Prisma.IntFilter<"Lesson"> | number
-  published?: Prisma.BoolFilter<"Lesson"> | boolean
-  durationSec?: Prisma.IntNullableFilter<"Lesson"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   courseId?: Prisma.StringFilter<"Lesson"> | string
   chapterId?: Prisma.StringFilter<"Lesson"> | string
-  quiz?: Prisma.XOR<Prisma.LessonQuizNullableScalarRelationFilter, Prisma.LessonQuizWhereInput> | null
-  article?: Prisma.XOR<Prisma.LessonArticleNullableScalarRelationFilter, Prisma.LessonArticleWhereInput> | null
-  video?: Prisma.XOR<Prisma.LessonVideoNullableScalarRelationFilter, Prisma.LessonVideoWhereInput> | null
-  course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
-  chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
+  published?: Prisma.BoolFilter<"Lesson"> | boolean
+  type?: Prisma.EnumLessonTypeFilter<"Lesson"> | $Enums.LessonType
+  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  durationSec?: Prisma.IntNullableFilter<"Lesson"> | number | null
   comments?: Prisma.CommentListRelationFilter
-  userProgress?: Prisma.UserLessonProgressListRelationFilter
   documentChunks?: Prisma.DocumentChunkListRelationFilter
+  chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
+  course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
+  article?: Prisma.XOR<Prisma.LessonArticleNullableScalarRelationFilter, Prisma.LessonArticleWhereInput> | null
+  quiz?: Prisma.XOR<Prisma.LessonQuizNullableScalarRelationFilter, Prisma.LessonQuizWhereInput> | null
+  video?: Prisma.XOR<Prisma.LessonVideoNullableScalarRelationFilter, Prisma.LessonVideoWhereInput> | null
+  userProgress?: Prisma.UserLessonProgressListRelationFilter
 }, "id" | "slug">
 
 export type LessonOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
-  slug?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
-  published?: Prisma.SortOrder
-  durationSec?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  durationSec?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.LessonCountOrderByAggregateInput
   _avg?: Prisma.LessonAvgOrderByAggregateInput
   _max?: Prisma.LessonMaxOrderByAggregateInput
@@ -360,144 +360,144 @@ export type LessonScalarWhereWithAggregatesInput = {
   OR?: Prisma.LessonScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LessonScalarWhereWithAggregatesInput | Prisma.LessonScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
-  type?: Prisma.EnumLessonTypeWithAggregatesFilter<"Lesson"> | $Enums.LessonType
   title?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
-  description?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
-  slug?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
   order?: Prisma.IntWithAggregatesFilter<"Lesson"> | number
-  published?: Prisma.BoolWithAggregatesFilter<"Lesson"> | boolean
-  durationSec?: Prisma.IntNullableWithAggregatesFilter<"Lesson"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   courseId?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
   chapterId?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
+  published?: Prisma.BoolWithAggregatesFilter<"Lesson"> | boolean
+  slug?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
+  type?: Prisma.EnumLessonTypeWithAggregatesFilter<"Lesson"> | $Enums.LessonType
+  description?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
+  durationSec?: Prisma.IntNullableWithAggregatesFilter<"Lesson"> | number | null
 }
 
 export type LessonCreateInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
-  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
+  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
-  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
+  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateManyInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
 }
 
 export type LessonUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LessonUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LessonListRelationFilter = {
@@ -512,17 +512,17 @@ export type LessonOrderByRelationAggregateInput = {
 
 export type LessonCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   order?: Prisma.SortOrder
-  published?: Prisma.SortOrder
-  durationSec?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  durationSec?: Prisma.SortOrder
 }
 
 export type LessonAvgOrderByAggregateInput = {
@@ -532,32 +532,32 @@ export type LessonAvgOrderByAggregateInput = {
 
 export type LessonMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   order?: Prisma.SortOrder
-  published?: Prisma.SortOrder
-  durationSec?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  durationSec?: Prisma.SortOrder
 }
 
 export type LessonMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
-  slug?: Prisma.SortOrder
   order?: Prisma.SortOrder
-  published?: Prisma.SortOrder
-  durationSec?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   courseId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  durationSec?: Prisma.SortOrder
 }
 
 export type LessonSumOrderByAggregateInput = {
@@ -745,42 +745,42 @@ export type LessonUpdateOneWithoutDocumentChunksNestedInput = {
 
 export type LessonCreateWithoutCourseInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutCourseInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   chapterId: string
-  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
+  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutCourseInput = {
@@ -814,57 +814,57 @@ export type LessonScalarWhereInput = {
   OR?: Prisma.LessonScalarWhereInput[]
   NOT?: Prisma.LessonScalarWhereInput | Prisma.LessonScalarWhereInput[]
   id?: Prisma.StringFilter<"Lesson"> | string
-  type?: Prisma.EnumLessonTypeFilter<"Lesson"> | $Enums.LessonType
   title?: Prisma.StringFilter<"Lesson"> | string
-  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
-  slug?: Prisma.StringNullableFilter<"Lesson"> | string | null
   order?: Prisma.IntFilter<"Lesson"> | number
-  published?: Prisma.BoolFilter<"Lesson"> | boolean
-  durationSec?: Prisma.IntNullableFilter<"Lesson"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   courseId?: Prisma.StringFilter<"Lesson"> | string
   chapterId?: Prisma.StringFilter<"Lesson"> | string
+  published?: Prisma.BoolFilter<"Lesson"> | boolean
+  slug?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  type?: Prisma.EnumLessonTypeFilter<"Lesson"> | $Enums.LessonType
+  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  durationSec?: Prisma.IntNullableFilter<"Lesson"> | number | null
 }
 
 export type LessonCreateWithoutChapterInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutChapterInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
-  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
+  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutChapterInput = {
@@ -895,42 +895,42 @@ export type LessonUpdateManyWithWhereWithoutChapterInput = {
 
 export type LessonCreateWithoutArticleInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
+  comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
   quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
   video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
-  comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutArticleInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
   quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutArticleInput = {
@@ -951,82 +951,82 @@ export type LessonUpdateToOneWithWhereWithoutArticleInput = {
 
 export type LessonUpdateWithoutArticleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
   quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
   video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutArticleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
   quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateWithoutVideoInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutVideoInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
-  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
-  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
+  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutVideoInput = {
@@ -1047,82 +1047,82 @@ export type LessonUpdateToOneWithWhereWithoutVideoInput = {
 
 export type LessonUpdateWithoutVideoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutVideoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
-  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
+  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateWithoutQuizInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
+  comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
+  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
   article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
   video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
-  comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
-  documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutQuizInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
   article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutQuizInput = {
@@ -1143,82 +1143,82 @@ export type LessonUpdateToOneWithWhereWithoutQuizInput = {
 
 export type LessonUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
+  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
   article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
   video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
-  documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
   article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateWithoutCommentsInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
-  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
+  userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutCommentsInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
-  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
+  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
   article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
   video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
-  documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutCommentsInput = {
@@ -1239,82 +1239,82 @@ export type LessonUpdateToOneWithWhereWithoutCommentsInput = {
 
 export type LessonUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
-  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
-  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
   article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
   video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
-  documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateWithoutUserProgressInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutUserProgressInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
-  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
   documentChunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutLessonInput
+  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutUserProgressInput = {
@@ -1335,81 +1335,81 @@ export type LessonUpdateToOneWithWhereWithoutUserProgressInput = {
 
 export type LessonUpdateWithoutUserProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutUserProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
-  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
+  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
 }
 
 export type LessonCreateWithoutDocumentChunksInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
-  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
-  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentCreateNestedManyWithoutLessonInput
+  chapter: Prisma.ChapterCreateNestedOneWithoutLessonsInput
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  article?: Prisma.LessonArticleCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoCreateNestedOneWithoutLessonInput
   userProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutDocumentChunksInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
   chapterId: string
-  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
-  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
-  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutLessonInput
+  article?: Prisma.LessonArticleUncheckedCreateNestedOneWithoutLessonInput
+  quiz?: Prisma.LessonQuizUncheckedCreateNestedOneWithoutLessonInput
+  video?: Prisma.LessonVideoUncheckedCreateNestedOneWithoutLessonInput
   userProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutLessonInput
 }
 
@@ -1431,178 +1431,178 @@ export type LessonUpdateToOneWithWhereWithoutDocumentChunksInput = {
 
 export type LessonUpdateWithoutDocumentChunksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
   userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutDocumentChunksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
-  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
+  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
   userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateManyCourseInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   chapterId: string
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
 }
 
 export type LessonUpdateWithoutCourseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  chapter?: Prisma.ChapterUpdateOneRequiredWithoutLessonsNestedInput
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutCourseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
-  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
+  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateManyWithoutCourseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LessonCreateManyChapterInput = {
   id?: string
-  type: $Enums.LessonType
   title: string
-  description?: string | null
-  slug?: string | null
   order?: number
-  published?: boolean
-  durationSec?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseId: string
+  published?: boolean
+  slug?: string | null
+  type: $Enums.LessonType
+  description?: string | null
+  durationSec?: number | null
 }
 
 export type LessonUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
-  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutLessonNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  article?: Prisma.LessonArticleUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
-  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
-  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
-  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutLessonNestedInput
-  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
   documentChunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutLessonNestedInput
+  article?: Prisma.LessonArticleUncheckedUpdateOneWithoutLessonNestedInput
+  quiz?: Prisma.LessonQuizUncheckedUpdateOneWithoutLessonNestedInput
+  video?: Prisma.LessonVideoUncheckedUpdateOneWithoutLessonNestedInput
+  userProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateManyWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
-  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationSec?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -1612,14 +1612,14 @@ export type LessonUncheckedUpdateManyWithoutChapterInput = {
 
 export type LessonCountOutputType = {
   comments: number
-  userProgress: number
   documentChunks: number
+  userProgress: number
 }
 
 export type LessonCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   comments?: boolean | LessonCountOutputTypeCountCommentsArgs
-  userProgress?: boolean | LessonCountOutputTypeCountUserProgressArgs
   documentChunks?: boolean | LessonCountOutputTypeCountDocumentChunksArgs
+  userProgress?: boolean | LessonCountOutputTypeCountUserProgressArgs
 }
 
 /**
@@ -1642,137 +1642,137 @@ export type LessonCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types
 /**
  * LessonCountOutputType without action
  */
-export type LessonCountOutputTypeCountUserProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserLessonProgressWhereInput
+export type LessonCountOutputTypeCountDocumentChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentChunkWhereInput
 }
 
 /**
  * LessonCountOutputType without action
  */
-export type LessonCountOutputTypeCountDocumentChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DocumentChunkWhereInput
+export type LessonCountOutputTypeCountUserProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserLessonProgressWhereInput
 }
 
 
 export type LessonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
   title?: boolean
-  description?: boolean
-  slug?: boolean
   order?: boolean
-  published?: boolean
-  durationSec?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   courseId?: boolean
   chapterId?: boolean
-  quiz?: boolean | Prisma.Lesson$quizArgs<ExtArgs>
-  article?: boolean | Prisma.Lesson$articleArgs<ExtArgs>
-  video?: boolean | Prisma.Lesson$videoArgs<ExtArgs>
-  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
-  chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
+  published?: boolean
+  slug?: boolean
+  type?: boolean
+  description?: boolean
+  durationSec?: boolean
   comments?: boolean | Prisma.Lesson$commentsArgs<ExtArgs>
-  userProgress?: boolean | Prisma.Lesson$userProgressArgs<ExtArgs>
   documentChunks?: boolean | Prisma.Lesson$documentChunksArgs<ExtArgs>
+  chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
+  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
+  article?: boolean | Prisma.Lesson$articleArgs<ExtArgs>
+  quiz?: boolean | Prisma.Lesson$quizArgs<ExtArgs>
+  video?: boolean | Prisma.Lesson$videoArgs<ExtArgs>
+  userProgress?: boolean | Prisma.Lesson$userProgressArgs<ExtArgs>
   _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lesson"]>
 
 export type LessonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
   title?: boolean
-  description?: boolean
-  slug?: boolean
   order?: boolean
-  published?: boolean
-  durationSec?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   courseId?: boolean
   chapterId?: boolean
-  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
+  published?: boolean
+  slug?: boolean
+  type?: boolean
+  description?: boolean
+  durationSec?: boolean
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
+  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lesson"]>
 
 export type LessonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
   title?: boolean
-  description?: boolean
-  slug?: boolean
   order?: boolean
-  published?: boolean
-  durationSec?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   courseId?: boolean
   chapterId?: boolean
-  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
+  published?: boolean
+  slug?: boolean
+  type?: boolean
+  description?: boolean
+  durationSec?: boolean
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
+  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lesson"]>
 
 export type LessonSelectScalar = {
   id?: boolean
-  type?: boolean
   title?: boolean
-  description?: boolean
-  slug?: boolean
   order?: boolean
-  published?: boolean
-  durationSec?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   courseId?: boolean
   chapterId?: boolean
+  published?: boolean
+  slug?: boolean
+  type?: boolean
+  description?: boolean
+  durationSec?: boolean
 }
 
-export type LessonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "title" | "description" | "slug" | "order" | "published" | "durationSec" | "createdAt" | "updatedAt" | "courseId" | "chapterId", ExtArgs["result"]["lesson"]>
+export type LessonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "order" | "createdAt" | "updatedAt" | "courseId" | "chapterId" | "published" | "slug" | "type" | "description" | "durationSec", ExtArgs["result"]["lesson"]>
 export type LessonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  quiz?: boolean | Prisma.Lesson$quizArgs<ExtArgs>
-  article?: boolean | Prisma.Lesson$articleArgs<ExtArgs>
-  video?: boolean | Prisma.Lesson$videoArgs<ExtArgs>
-  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
-  chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Lesson$commentsArgs<ExtArgs>
-  userProgress?: boolean | Prisma.Lesson$userProgressArgs<ExtArgs>
   documentChunks?: boolean | Prisma.Lesson$documentChunksArgs<ExtArgs>
+  chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
+  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
+  article?: boolean | Prisma.Lesson$articleArgs<ExtArgs>
+  quiz?: boolean | Prisma.Lesson$quizArgs<ExtArgs>
+  video?: boolean | Prisma.Lesson$videoArgs<ExtArgs>
+  userProgress?: boolean | Prisma.Lesson$userProgressArgs<ExtArgs>
   _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LessonIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
+  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
 }
 export type LessonIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
+  course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
 }
 
 export type $LessonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Lesson"
   objects: {
-    quiz: Prisma.$LessonQuizPayload<ExtArgs> | null
-    article: Prisma.$LessonArticlePayload<ExtArgs> | null
-    video: Prisma.$LessonVideoPayload<ExtArgs> | null
-    course: Prisma.$CoursePayload<ExtArgs>
-    chapter: Prisma.$ChapterPayload<ExtArgs>
     comments: Prisma.$CommentPayload<ExtArgs>[]
-    userProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[]
     documentChunks: Prisma.$DocumentChunkPayload<ExtArgs>[]
+    chapter: Prisma.$ChapterPayload<ExtArgs>
+    course: Prisma.$CoursePayload<ExtArgs>
+    article: Prisma.$LessonArticlePayload<ExtArgs> | null
+    quiz: Prisma.$LessonQuizPayload<ExtArgs> | null
+    video: Prisma.$LessonVideoPayload<ExtArgs> | null
+    userProgress: Prisma.$UserLessonProgressPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    type: $Enums.LessonType
     title: string
-    description: string | null
-    slug: string | null
     order: number
-    published: boolean
-    durationSec: number | null
     createdAt: Date
     updatedAt: Date
     courseId: string
     chapterId: string
+    published: boolean
+    slug: string | null
+    type: $Enums.LessonType
+    description: string | null
+    durationSec: number | null
   }, ExtArgs["result"]["lesson"]>
   composites: {}
 }
@@ -2167,14 +2167,14 @@ readonly fields: LessonFieldRefs;
  */
 export interface Prisma__LessonClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  quiz<T extends Prisma.Lesson$quizArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$quizArgs<ExtArgs>>): Prisma.Prisma__LessonQuizClient<runtime.Types.Result.GetResult<Prisma.$LessonQuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  article<T extends Prisma.Lesson$articleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$articleArgs<ExtArgs>>): Prisma.Prisma__LessonArticleClient<runtime.Types.Result.GetResult<Prisma.$LessonArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  video<T extends Prisma.Lesson$videoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$videoArgs<ExtArgs>>): Prisma.Prisma__LessonVideoClient<runtime.Types.Result.GetResult<Prisma.$LessonVideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  course<T extends Prisma.CourseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseClient<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  chapter<T extends Prisma.ChapterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChapterDefaultArgs<ExtArgs>>): Prisma.Prisma__ChapterClient<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   comments<T extends Prisma.Lesson$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  userProgress<T extends Prisma.Lesson$userProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documentChunks<T extends Prisma.Lesson$documentChunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$documentChunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chapter<T extends Prisma.ChapterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChapterDefaultArgs<ExtArgs>>): Prisma.Prisma__ChapterClient<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  course<T extends Prisma.CourseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseClient<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  article<T extends Prisma.Lesson$articleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$articleArgs<ExtArgs>>): Prisma.Prisma__LessonArticleClient<runtime.Types.Result.GetResult<Prisma.$LessonArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  quiz<T extends Prisma.Lesson$quizArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$quizArgs<ExtArgs>>): Prisma.Prisma__LessonQuizClient<runtime.Types.Result.GetResult<Prisma.$LessonQuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  video<T extends Prisma.Lesson$videoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$videoArgs<ExtArgs>>): Prisma.Prisma__LessonVideoClient<runtime.Types.Result.GetResult<Prisma.$LessonVideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  userProgress<T extends Prisma.Lesson$userProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2205,17 +2205,17 @@ export interface Prisma__LessonClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface LessonFieldRefs {
   readonly id: Prisma.FieldRef<"Lesson", 'String'>
-  readonly type: Prisma.FieldRef<"Lesson", 'LessonType'>
   readonly title: Prisma.FieldRef<"Lesson", 'String'>
-  readonly description: Prisma.FieldRef<"Lesson", 'String'>
-  readonly slug: Prisma.FieldRef<"Lesson", 'String'>
   readonly order: Prisma.FieldRef<"Lesson", 'Int'>
-  readonly published: Prisma.FieldRef<"Lesson", 'Boolean'>
-  readonly durationSec: Prisma.FieldRef<"Lesson", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Lesson", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Lesson", 'DateTime'>
   readonly courseId: Prisma.FieldRef<"Lesson", 'String'>
   readonly chapterId: Prisma.FieldRef<"Lesson", 'String'>
+  readonly published: Prisma.FieldRef<"Lesson", 'Boolean'>
+  readonly slug: Prisma.FieldRef<"Lesson", 'String'>
+  readonly type: Prisma.FieldRef<"Lesson", 'LessonType'>
+  readonly description: Prisma.FieldRef<"Lesson", 'String'>
+  readonly durationSec: Prisma.FieldRef<"Lesson", 'Int'>
 }
     
 
@@ -2612,63 +2612,6 @@ export type LessonDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Lesson.quiz
- */
-export type Lesson$quizArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the LessonQuiz
-   */
-  select?: Prisma.LessonQuizSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the LessonQuiz
-   */
-  omit?: Prisma.LessonQuizOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.LessonQuizInclude<ExtArgs> | null
-  where?: Prisma.LessonQuizWhereInput
-}
-
-/**
- * Lesson.article
- */
-export type Lesson$articleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the LessonArticle
-   */
-  select?: Prisma.LessonArticleSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the LessonArticle
-   */
-  omit?: Prisma.LessonArticleOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.LessonArticleInclude<ExtArgs> | null
-  where?: Prisma.LessonArticleWhereInput
-}
-
-/**
- * Lesson.video
- */
-export type Lesson$videoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the LessonVideo
-   */
-  select?: Prisma.LessonVideoSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the LessonVideo
-   */
-  omit?: Prisma.LessonVideoOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.LessonVideoInclude<ExtArgs> | null
-  where?: Prisma.LessonVideoWhereInput
-}
-
-/**
  * Lesson.comments
  */
 export type Lesson$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2693,30 +2636,6 @@ export type Lesson$commentsArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Lesson.userProgress
- */
-export type Lesson$userProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserLessonProgress
-   */
-  select?: Prisma.UserLessonProgressSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the UserLessonProgress
-   */
-  omit?: Prisma.UserLessonProgressOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserLessonProgressInclude<ExtArgs> | null
-  where?: Prisma.UserLessonProgressWhereInput
-  orderBy?: Prisma.UserLessonProgressOrderByWithRelationInput | Prisma.UserLessonProgressOrderByWithRelationInput[]
-  cursor?: Prisma.UserLessonProgressWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.UserLessonProgressScalarFieldEnum | Prisma.UserLessonProgressScalarFieldEnum[]
-}
-
-/**
  * Lesson.documentChunks
  */
 export type Lesson$documentChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2738,6 +2657,87 @@ export type Lesson$documentChunksArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.DocumentChunkScalarFieldEnum | Prisma.DocumentChunkScalarFieldEnum[]
+}
+
+/**
+ * Lesson.article
+ */
+export type Lesson$articleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonArticle
+   */
+  select?: Prisma.LessonArticleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonArticle
+   */
+  omit?: Prisma.LessonArticleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonArticleInclude<ExtArgs> | null
+  where?: Prisma.LessonArticleWhereInput
+}
+
+/**
+ * Lesson.quiz
+ */
+export type Lesson$quizArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonQuiz
+   */
+  select?: Prisma.LessonQuizSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonQuiz
+   */
+  omit?: Prisma.LessonQuizOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonQuizInclude<ExtArgs> | null
+  where?: Prisma.LessonQuizWhereInput
+}
+
+/**
+ * Lesson.video
+ */
+export type Lesson$videoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonVideo
+   */
+  select?: Prisma.LessonVideoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonVideo
+   */
+  omit?: Prisma.LessonVideoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonVideoInclude<ExtArgs> | null
+  where?: Prisma.LessonVideoWhereInput
+}
+
+/**
+ * Lesson.userProgress
+ */
+export type Lesson$userProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserLessonProgress
+   */
+  select?: Prisma.UserLessonProgressSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserLessonProgress
+   */
+  omit?: Prisma.UserLessonProgressOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserLessonProgressInclude<ExtArgs> | null
+  where?: Prisma.UserLessonProgressWhereInput
+  orderBy?: Prisma.UserLessonProgressOrderByWithRelationInput | Prisma.UserLessonProgressOrderByWithRelationInput[]
+  cursor?: Prisma.UserLessonProgressWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserLessonProgressScalarFieldEnum | Prisma.UserLessonProgressScalarFieldEnum[]
 }
 
 /**

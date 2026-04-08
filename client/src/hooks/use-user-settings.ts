@@ -1,4 +1,8 @@
-import { UserSettingsService, type UpdateUserSettingsRequest, type UserSettings } from '@/services/user-settings';
+import {
+  UserSettingsService,
+  type UpdateUserSettingsRequest,
+  type UserSettings,
+} from '@/services/user-settings';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const SETTINGS_QUERY_KEY = ['user-settings'];

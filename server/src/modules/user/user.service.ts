@@ -464,4 +464,126 @@ export class UserService {
 
     return { message: 'Avatar deleted successfully' };
   }
+
+  // ==================== WISHLIST ENDPOINTS ====================
+
+  /**
+   * Toggle wishlist status for a course
+   */
+  async toggleWishlist(userId: string, courseId: string) {
+    const existing = await this.prismaService.wishlist.findUnique({
+      where: {
+        idx_wishlist_user_course: {
+          userId,
+          courseId,
+        },
+      },
+    });
+
+    if (existing) {
+      await this.prismaService.wishlist.delete({
+        where: { id: existing.id },
+      });
+      return { message: 'Removed from wishlist', isWishlisted: false };
+    } else {
+      await this.prismaService.wishlist.create({
+        data: {
+          userId,
+          courseId,
+        },
+      });
+      return { message: 'Added to wishlist', isWishlisted: true };
+    }
+  }
+
+  /**
+   * Get user's wishlisted courses
+   */
+  async getMyWishlist(userId: string, paginationDto?: any) {
+    const page = Number(paginationDto?.page) || 1;
+    const limit = Number(paginationDto?.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await Promise.all([
+      this.prismaService.wishlist.findMany({
+        where: { userId },
+        include: {
+          course: {
+            include: {
+              category: true,
+              image: true,
+              author: {
+                select: {
+                  id: true,
+                  username: true,
+                  avatar: true,
+                },
+              },
+              _count: {
+                select: {
+                  lessons: true,
+                  reviews: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prismaService.wishlist.count({
+        where: { userId },
+      }),
+    ]);
+
+    // Gather course IDs to compute aggregations
+    const courseIds = items.map((w) => w.courseId).filter(Boolean) as string[];
+
+    let durationMap = new Map<string, number>();
+    let reviewMap = new Map<string, number>();
+
+    if (courseIds.length > 0) {
+      // Get total duration per course
+      const durations = await this.prismaService.lesson.groupBy({
+        by: ['courseId'],
+        where: { courseId: { in: courseIds } },
+        _sum: { durationSec: true },
+      });
+      durationMap = new Map(durations.map((d) => [d.courseId, d._sum.durationSec || 0]));
+
+      // Get average rating per course
+      const reviews = await this.prismaService.review.groupBy({
+        by: ['courseId'],
+        where: { courseId: { in: courseIds }, status: 'APPROVED' },
+        _count: { id: true },
+        _avg: { star: true },
+      });
+      reviewMap = new Map(reviews.map((r) => [r.courseId, r._avg.star || 0]));
+    }
+
+    const mappedItems = items.map((w) => {
+      // Exclude _count from the final object, map to our canonical fields
+      const { _count, ...courseData } = w.course as any;
+      return {
+        ...courseData,
+        totalLessons: _count?.lessons || 0,
+        enrolledStudents: courseData.sold || 0,
+        totalReviews: _count?.reviews || 0,
+        averageRating: reviewMap.get(courseData.id) || 0,
+        totalDuration: durationMap.get(courseData.id) || 0,
+      };
+    });
+
+    return {
+      items: mappedItems,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
 }
+

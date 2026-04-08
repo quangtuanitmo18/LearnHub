@@ -239,7 +239,7 @@ export type BlogWhereInput = {
   authorId?: Prisma.StringNullableFilter<"Blog"> | string | null
   categoryId?: Prisma.StringFilter<"Blog"> | string
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   documentChunks?: Prisma.DocumentChunkListRelationFilter
 }
 
@@ -278,7 +278,7 @@ export type BlogWhereUniqueInput = Prisma.AtLeast<{
   authorId?: Prisma.StringNullableFilter<"Blog"> | string | null
   categoryId?: Prisma.StringFilter<"Blog"> | string
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   documentChunks?: Prisma.DocumentChunkListRelationFilter
 }, "id" | "slug">
 
@@ -330,7 +330,7 @@ export type BlogCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   author?: Prisma.UserCreateNestedOneWithoutBlogsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutBlogsInput
+  category: Prisma.CategoryCreateNestedOneWithoutBlogsInput
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutBlogInput
 }
 
@@ -362,7 +362,7 @@ export type BlogUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneWithoutBlogsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutBlogsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutBlogsNestedInput
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutBlogNestedInput
 }
 
@@ -594,7 +594,7 @@ export type BlogCreateWithoutAuthorInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  category?: Prisma.CategoryCreateNestedOneWithoutBlogsInput
+  category: Prisma.CategoryCreateNestedOneWithoutBlogsInput
   documentChunks?: Prisma.DocumentChunkCreateNestedManyWithoutBlogInput
 }
 
@@ -725,7 +725,7 @@ export type BlogCreateWithoutDocumentChunksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   author?: Prisma.UserCreateNestedOneWithoutBlogsInput
-  category?: Prisma.CategoryCreateNestedOneWithoutBlogsInput
+  category: Prisma.CategoryCreateNestedOneWithoutBlogsInput
 }
 
 export type BlogUncheckedCreateWithoutDocumentChunksInput = {
@@ -771,7 +771,7 @@ export type BlogUpdateWithoutDocumentChunksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneWithoutBlogsNestedInput
-  category?: Prisma.CategoryUpdateOneWithoutBlogsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutBlogsNestedInput
 }
 
 export type BlogUncheckedUpdateWithoutDocumentChunksInput = {
@@ -814,7 +814,7 @@ export type BlogUpdateWithoutAuthorInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneWithoutBlogsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutBlogsNestedInput
   documentChunks?: Prisma.DocumentChunkUpdateManyWithoutBlogNestedInput
 }
 
@@ -950,7 +950,7 @@ export type BlogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   authorId?: boolean
   categoryId?: boolean
   author?: boolean | Prisma.Blog$authorArgs<ExtArgs>
-  category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   documentChunks?: boolean | Prisma.Blog$documentChunksArgs<ExtArgs>
   _count?: boolean | Prisma.BlogCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blog"]>
@@ -969,7 +969,7 @@ export type BlogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   authorId?: boolean
   categoryId?: boolean
   author?: boolean | Prisma.Blog$authorArgs<ExtArgs>
-  category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blog"]>
 
 export type BlogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -986,7 +986,7 @@ export type BlogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   authorId?: boolean
   categoryId?: boolean
   author?: boolean | Prisma.Blog$authorArgs<ExtArgs>
-  category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blog"]>
 
 export type BlogSelectScalar = {
@@ -1007,24 +1007,24 @@ export type BlogSelectScalar = {
 export type BlogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "thumbnail" | "status" | "publishedAt" | "createdAt" | "updatedAt" | "authorId" | "categoryId", ExtArgs["result"]["blog"]>
 export type BlogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.Blog$authorArgs<ExtArgs>
-  category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   documentChunks?: boolean | Prisma.Blog$documentChunksArgs<ExtArgs>
   _count?: boolean | Prisma.BlogCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BlogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.Blog$authorArgs<ExtArgs>
-  category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }
 export type BlogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.Blog$authorArgs<ExtArgs>
-  category?: boolean | Prisma.Blog$categoryArgs<ExtArgs>
+  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }
 
 export type $BlogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Blog"
   objects: {
     author: Prisma.$UserPayload<ExtArgs> | null
-    category: Prisma.$CategoryPayload<ExtArgs> | null
+    category: Prisma.$CategoryPayload<ExtArgs>
     documentChunks: Prisma.$DocumentChunkPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1435,7 +1435,7 @@ readonly fields: BlogFieldRefs;
 export interface Prisma__BlogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   author<T extends Prisma.Blog$authorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Blog$authorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  category<T extends Prisma.Blog$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Blog$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   documentChunks<T extends Prisma.Blog$documentChunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Blog$documentChunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1890,25 +1890,6 @@ export type Blog$authorArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
-}
-
-/**
- * Blog.category
- */
-export type Blog$categoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Category
-   */
-  select?: Prisma.CategorySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Category
-   */
-  omit?: Prisma.CategoryOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CategoryInclude<ExtArgs> | null
-  where?: Prisma.CategoryWhereInput
 }
 
 /**

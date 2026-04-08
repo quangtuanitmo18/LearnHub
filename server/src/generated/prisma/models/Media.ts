@@ -300,8 +300,8 @@ export type MediaWhereInput = {
   errorMessage?: Prisma.StringNullableFilter<"Media"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Media"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Media"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   courseImages?: Prisma.CourseListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   coursePreviewImages?: Prisma.CourseListRelationFilter
 }
 
@@ -321,8 +321,8 @@ export type MediaOrderByWithRelationInput = {
   errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   courseImages?: Prisma.CourseOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
   coursePreviewImages?: Prisma.CourseOrderByRelationAggregateInput
 }
 
@@ -345,8 +345,8 @@ export type MediaWhereUniqueInput = Prisma.AtLeast<{
   errorMessage?: Prisma.StringNullableFilter<"Media"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Media"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Media"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   courseImages?: Prisma.CourseListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   coursePreviewImages?: Prisma.CourseListRelationFilter
 }, "id" | "storageKey">
 
@@ -409,8 +409,8 @@ export type MediaCreateInput = {
   errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutMediaInput
   courseImages?: Prisma.CourseCreateNestedManyWithoutImageInput
+  user: Prisma.UserCreateNestedOneWithoutMediaInput
   coursePreviewImages?: Prisma.CourseCreateNestedManyWithoutPreviewImagesInput
 }
 
@@ -449,8 +449,8 @@ export type MediaUpdateInput = {
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutMediaNestedInput
   courseImages?: Prisma.CourseUpdateManyWithoutImageNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMediaNestedInput
   coursePreviewImages?: Prisma.CourseUpdateManyWithoutPreviewImagesNestedInput
 }
 
@@ -861,8 +861,8 @@ export type MediaCreateWithoutCoursePreviewImagesInput = {
   errorMessage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutMediaInput
   courseImages?: Prisma.CourseCreateNestedManyWithoutImageInput
+  user: Prisma.UserCreateNestedOneWithoutMediaInput
 }
 
 export type MediaUncheckedCreateWithoutCoursePreviewImagesInput = {
@@ -1041,8 +1041,8 @@ export type MediaUpdateWithoutCoursePreviewImagesInput = {
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutMediaNestedInput
   courseImages?: Prisma.CourseUpdateManyWithoutImageNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMediaNestedInput
 }
 
 export type MediaUncheckedUpdateWithoutCoursePreviewImagesInput = {
@@ -1138,8 +1138,8 @@ export type MediaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   errorMessage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   courseImages?: boolean | Prisma.Media$courseImagesArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   coursePreviewImages?: boolean | Prisma.Media$coursePreviewImagesArgs<ExtArgs>
   _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
@@ -1202,8 +1202,8 @@ export type MediaSelectScalar = {
 
 export type MediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "filename" | "size" | "mimetype" | "type" | "storageKey" | "thumbnailKey" | "cdnBaseUrl" | "hlsPlaylistKey" | "duration" | "status" | "errorMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["media"]>
 export type MediaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   courseImages?: boolean | Prisma.Media$courseImagesArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   coursePreviewImages?: boolean | Prisma.Media$coursePreviewImagesArgs<ExtArgs>
   _count?: boolean | Prisma.MediaCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1217,8 +1217,8 @@ export type MediaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $MediaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Media"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     courseImages: Prisma.$CoursePayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs>
     coursePreviewImages: Prisma.$CoursePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1631,8 +1631,8 @@ readonly fields: MediaFieldRefs;
  */
 export interface Prisma__MediaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   courseImages<T extends Prisma.Media$courseImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Media$courseImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   coursePreviewImages<T extends Prisma.Media$coursePreviewImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Media$coursePreviewImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
