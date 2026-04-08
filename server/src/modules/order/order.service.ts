@@ -286,8 +286,10 @@ export class OrderService {
         // Check if this is a membership order
         if ((orderWithItems as any).orderType === OrderType.MEMBERSHIP) {
           // Activate membership
-          const membershipPlan = (orderWithItems as any).membershipPlan;
-          if (membershipPlan && membershipPlan !== 'NONE') {
+          const membershipPlan = (orderWithItems as any).membershipPlan as
+            | keyof typeof MembershipDuration
+            | undefined;
+          if (membershipPlan && membershipPlan !== MembershipPlan.NONE) {
             const planDuration = MembershipDuration[membershipPlan];
             const planStartDate = new Date();
             const planEndDate = new Date();
@@ -387,13 +389,13 @@ export class OrderService {
       );
     }
 
-    // Check if an order exists for the same plan and is still pending
+    // Check if an order exists for membership and is still pending
     const existingPendingOrder =
-      await this.orderRepository.findPendingMembershipOrder(userId, plan);
+      await this.orderRepository.findPendingMembershipOrder(userId);
 
     if (existingPendingOrder) {
       throw new BadRequestException(
-        `You already have a pending order (${existingPendingOrder.code}) for the ${plan} plan. Please complete the payment or cancel the existing order first.`,
+        `You already have a pending membership order (${existingPendingOrder.code}) for the ${(existingPendingOrder as any).membershipPlan} plan. Please complete the payment or cancel the existing order first.`,
       );
     }
 

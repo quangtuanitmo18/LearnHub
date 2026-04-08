@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import { ROUTE_CONFIG } from '@/configs/routes';
 import { useLogin, useSocialAuth } from '@/hooks/use-auth';
 import { cn } from '@/lib/utils';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { FaFacebook } from 'react-icons/fa6';
 import { GrGoogle } from 'react-icons/gr';
@@ -37,7 +37,7 @@ const formSchema = yup.object({
 type FormData = yup.InferType<typeof formSchema>;
 
 const SignInForm = ({ className, ...props }: SignInFormProps) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const loginMutation = useLogin();
   const socialAuth = useSocialAuth('login');
   const hasProcessedSession = useRef(false);
@@ -59,18 +59,31 @@ const SignInForm = ({ className, ...props }: SignInFormProps) => {
 
   // Handle social login when NextAuth session is established
   useEffect(() => {
-    if (session && !hasProcessedSession.current) {
-      const provider = session.provider as 'google' | 'facebook';
-      const token = provider === 'google' ? session.idToken : session.accessToken;
-
-      if (token) {
-        hasProcessedSession.current = true;
-        socialAuth.handleBackendAuth({ provider, token });
-      }
+    if (status !== 'authenticated' || hasProcessedSession.current) {
+      return;
     }
-  }, [session, socialAuth]);
 
-  if (session) {
+    const provider = session?.provider as 'google' | 'facebook' | undefined;
+    const token =
+      provider === 'google'
+        ? session?.idToken
+        : provider === 'facebook'
+          ? session?.accessToken
+          : undefined;
+
+    if (!provider || !token) {
+      hasProcessedSession.current = true;
+      void signOut({ redirect: false });
+      return;
+    }
+
+    hasProcessedSession.current = true;
+    socialAuth.handleBackendAuth({ provider, token });
+  }, [session, socialAuth, status]);
+
+  const isWaitingForOAuthExchange = status === 'authenticated' && !hasProcessedSession.current;
+
+  if (isWaitingForOAuthExchange || socialAuth.isPending) {
     return <Loader />;
   }
 

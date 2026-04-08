@@ -15,6 +15,7 @@ export enum PaymentMethod {
 
 export enum OrderType {
   COURSE = 'COURSE',
+  MEMBERSHIP = 'MEMBERSHIP',
 }
 
 export interface OrderUser {

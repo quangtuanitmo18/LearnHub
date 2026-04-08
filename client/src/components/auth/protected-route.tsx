@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth-store';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useCallback, Suspense } from 'react';
 import { SYSTEM_ROLE_NAMES } from '@/configs/permission';
+import { resolveAuthRedirectPath } from '@/lib/auth-redirect';
 import Loader from '../loader';
 
 interface ProtectedRouteProps {
@@ -66,18 +67,15 @@ function ProtectedRouteInner({
 
     // Handle authenticated users on auth-only routes (like sign-in)
     if (!requireAuth && isAuthenticated) {
-      const callbackUrl = searchParams.get('callbackUrl');
       const primaryRole = getPrimaryRole();
+      const defaultRedirect =
+        primaryRole === SYSTEM_ROLE_NAMES.SUPER_ADMIN || primaryRole === SYSTEM_ROLE_NAMES.ADMIN
+          ? '/admin/dashboard'
+          : '/';
+      const callbackUrl = resolveAuthRedirectPath(searchParams.get('callbackUrl'), defaultRedirect);
 
       // Redirect based on user role
-      if (
-        primaryRole === SYSTEM_ROLE_NAMES.SUPER_ADMIN ||
-        primaryRole === SYSTEM_ROLE_NAMES.ADMIN
-      ) {
-        router.push(callbackUrl || '/admin/dashboard');
-      } else {
-        router.push(callbackUrl || '/');
-      }
+      router.replace(callbackUrl);
       return;
     }
 

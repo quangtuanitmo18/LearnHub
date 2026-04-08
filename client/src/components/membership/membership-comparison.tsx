@@ -3,6 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { formatPrice } from '@/utils/format';
 import { Check, Crown, Diamond, Medal, Minus, Star, Sparkles } from 'lucide-react';
 import { MembershipPlan } from './membership-plans';
 
@@ -165,21 +166,24 @@ const planHeaders = [
     name: 'Copper',
     icon: Medal,
     gradient: 'from-amber-600 to-orange-500',
-    price: '$9.99',
+    price: 9.99,
+    period: '1 month',
   },
   {
     id: MembershipPlan.SILVER,
     name: 'Silver',
     icon: Star,
     gradient: 'from-slate-400 to-gray-500',
-    price: '$19.99',
+    price: 24.99,
+    period: '3 months',
   },
   {
     id: MembershipPlan.GOLD,
     name: 'Gold',
     icon: Crown,
     gradient: 'from-yellow-400 to-amber-500',
-    price: '$39.99',
+    price: 44.99,
+    period: '6 months',
     popular: true,
   },
   {
@@ -187,7 +191,8 @@ const planHeaders = [
     name: 'Diamond',
     icon: Diamond,
     gradient: 'from-cyan-400 via-blue-500 to-purple-600',
-    price: '$79.99',
+    price: 79.99,
+    period: '12 months',
   },
 ];
 
@@ -270,9 +275,9 @@ export function MembershipComparison({ onSelectPlan, currentPlan }: MembershipCo
                     </div>
                     <h3 className="font-bold text-gray-900">{plan.name}</h3>
                     <p className="mb-2 text-xl font-bold text-gray-900">
-                      {plan.price}
-                      <span className="text-sm font-normal text-gray-500">/mo</span>
+                      {formatPrice(plan.price)}
                     </p>
+                    <p className="mb-2 text-xs text-gray-500">{plan.period}</p>
                     <Button
                       size="sm"
                       onClick={() => onSelectPlan?.(plan.id)}

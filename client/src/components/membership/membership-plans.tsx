@@ -27,6 +27,7 @@ interface MembershipPlanData {
   description: string;
   price: number;
   duration: number; // duration in months
+  periodLabel: string;
   icon: React.ElementType;
   features: PlanFeature[];
   popular?: boolean;
@@ -46,6 +47,7 @@ const membershipPlans: MembershipPlanData[] = [
     description: 'Perfect for beginners starting their learning journey',
     price: 9.99,
     duration: 1,
+    periodLabel: '1 month',
     icon: Medal,
     gradient: 'from-amber-600 via-orange-500 to-amber-700',
     iconGradient: 'from-amber-500 to-orange-600',
@@ -70,6 +72,7 @@ const membershipPlans: MembershipPlanData[] = [
     description: 'Ideal for dedicated learners seeking more content',
     price: 24.99,
     duration: 3,
+    periodLabel: '3 months',
     savingsPercent: 16,
     icon: Star,
     gradient: 'from-slate-400 via-gray-300 to-slate-500',
@@ -95,6 +98,7 @@ const membershipPlans: MembershipPlanData[] = [
     description: 'Best value for serious professionals and teams',
     price: 44.99,
     duration: 6,
+    periodLabel: '6 months',
     savingsPercent: 25,
     icon: Crown,
     popular: true,
@@ -121,6 +125,7 @@ const membershipPlans: MembershipPlanData[] = [
     description: 'Ultimate experience with exclusive perks and support',
     price: 79.99,
     duration: 12,
+    periodLabel: '12 months',
     savingsPercent: 33,
     icon: Diamond,
     gradient: 'from-cyan-400 via-blue-500 to-purple-600',
@@ -249,6 +254,10 @@ export function MembershipPlans({ onSelectPlan, currentPlan }: MembershipPlansPr
             Unlock your potential with our flexible membership options. Start learning today and
             transform your career.
           </p>
+          <p className="mt-3 text-sm text-gray-500">
+            All paid plans include active membership access. The main difference is subscription
+            duration and bonus perks.
+          </p>
         </div>
 
         {/* Plans Grid */}
@@ -318,10 +327,7 @@ export function MembershipPlans({ onSelectPlan, currentPlan }: MembershipPlansPr
                       </span>
                     </div>
                     <div className="mt-2 flex items-center gap-2">
-                      <p className="text-sm text-gray-600">
-                        {plan.duration}{' '}
-                        {plan.duration === 1 ? 'month' : plan.duration === 12 ? 'year' : 'months'}
-                      </p>
+                      <p className="text-sm text-gray-600">{plan.periodLabel}</p>
                       {plan.savingsPercent && (
                         <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-600">
                           Save ~{plan.savingsPercent}%

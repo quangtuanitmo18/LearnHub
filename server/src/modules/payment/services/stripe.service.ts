@@ -11,7 +11,7 @@ export interface CreateCheckoutSessionParams {
   lineItems: {
     name: string;
     description?: string;
-    amount: number; // in nominal currency (e.g., dollars, will be multiplied by 100 for Stripe)
+    amount: number; // in nominal currency (e.g., USD dollars, VND units)
     quantity: number;
     imageUrl?: string;
   }[];
@@ -82,16 +82,26 @@ export class StripeService {
       metadata,
     } = params;
 
-    // Normalize currency code to lowercase
     const normalizedCurrency = currency.toLowerCase();
 
-    // Validate currency is supported (only USD and VND)
+    // Validate currency is supported (only USD and VND for now)
     const supportedCurrencies = ['usd', 'vnd'];
     if (!supportedCurrencies.includes(normalizedCurrency)) {
       throw new BadRequestException(
         `Currency ${currency} is not supported. Supported currencies: ${supportedCurrencies.join(', ')}`,
       );
     }
+
+    const zeroDecimalCurrencies = new Set(['vnd']);
+    const toStripeUnitAmount = (amount: number): number => {
+      if (amount < 0) {
+        throw new BadRequestException('Amount must be a non-negative number');
+      }
+
+      return zeroDecimalCurrencies.has(normalizedCurrency)
+        ? Math.round(amount)
+        : Math.round(amount * 100);
+    };
 
     try {
       const session = await this.stripe.checkout.sessions.create({
@@ -106,7 +116,7 @@ export class StripeService {
               description: item.description,
               images: item.imageUrl ? [item.imageUrl] : undefined,
             },
-            unit_amount: Math.round(item.amount * 100), // Convert to cents
+            unit_amount: toStripeUnitAmount(item.amount),
           },
           quantity: item.quantity,
         })),

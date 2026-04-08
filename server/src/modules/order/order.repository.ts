@@ -321,17 +321,17 @@ export class OrderRepository extends BaseService<
   }
 
   /**
-   * Find pending membership order by user and plan
+   * Find pending membership order by user
    */
   async findPendingMembershipOrder(
     userId: string,
-    membershipPlan: MembershipPlanType,
+    membershipPlan?: MembershipPlanType,
   ) {
     return this.prismaService.order.findFirst({
       where: {
         userId,
         orderType: OrderType.MEMBERSHIP as any,
-        membershipPlan: membershipPlan as any,
+        ...(membershipPlan ? { membershipPlan: membershipPlan as any } : {}),
         status: OrderStatus.PENDING,
       },
       include: {

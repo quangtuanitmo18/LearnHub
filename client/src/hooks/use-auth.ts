@@ -1,4 +1,5 @@
 import { ROUTE_CONFIG } from '@/configs/routes';
+import { resolveAuthRedirectPath } from '@/lib/auth-redirect';
 import {
   AuthService,
   ChangePasswordRequest,
@@ -148,9 +149,11 @@ export function useSocialAuth(mode: 'login' | 'register') {
         }
         await getCurrentUser();
         toast.success('Login successful!');
-        const callbackUrl = searchParams?.get('callbackUrl') || ROUTE_CONFIG.HOME;
-        router.push(callbackUrl);
-        router.refresh();
+        const callbackUrl = resolveAuthRedirectPath(
+          searchParams?.get('callbackUrl'),
+          ROUTE_CONFIG.HOME,
+        );
+        router.replace(callbackUrl);
       } else {
         // Registration flow
         toast.success((response as { message: string }).message || 'Registration successful!');
@@ -196,9 +199,11 @@ export function useLogin() {
         }
         await getCurrentUser();
         toast.success('Login successful!');
-        const callbackUrl = searchParams?.get('callbackUrl') || ROUTE_CONFIG.HOME;
-        router.push(callbackUrl);
-        router.refresh();
+        const callbackUrl = resolveAuthRedirectPath(
+          searchParams?.get('callbackUrl'),
+          ROUTE_CONFIG.HOME,
+        );
+        router.replace(callbackUrl);
       } else {
         toast.error('Invalid login response');
       }

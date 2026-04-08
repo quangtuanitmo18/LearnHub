@@ -34,11 +34,11 @@ export const MembershipDuration: Record<MembershipPlanType, number> = {
   [MembershipPlan.DIAMOND]: 12, // 1 year
 };
 
-// Membership plan prices (in your currency unit)
+// Membership plan prices in USD
 export const MembershipPrice: Record<MembershipPlanType, number> = {
   [MembershipPlan.NONE]: 0,
-  [MembershipPlan.COPPER]: 99000, // 1 month price
-  [MembershipPlan.SILVER]: 249000, // 3 months price (save ~16%)
-  [MembershipPlan.GOLD]: 449000, // 6 months price (save ~25%)
-  [MembershipPlan.DIAMOND]: 799000, // 1 year price (save ~33%)
+  [MembershipPlan.COPPER]: 9.99, // 1 month price
+  [MembershipPlan.SILVER]: 24.99, // 3 months price (save ~16%)
+  [MembershipPlan.GOLD]: 44.99, // 6 months price (save ~25%)
+  [MembershipPlan.DIAMOND]: 79.99, // 1 year price (save ~33%)
 };
