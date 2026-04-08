@@ -5,7 +5,6 @@ import { AuthService } from './auth.service';
 import { EmailModule } from '../email/email.module';
 import { AUTH_QUEUE } from './constants';
 import { AuthQueueService } from './services';
-import { AuthProcessor } from './processors';
 
 @Module({
   imports: [
@@ -15,7 +14,7 @@ import { AuthProcessor } from './processors';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthQueueService, AuthProcessor],
+  providers: [AuthService, AuthQueueService],
   exports: [AuthQueueService],
 })
 export class AuthModule {}

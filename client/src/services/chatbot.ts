@@ -36,7 +36,9 @@ class ChatbotService {
    * Send a message to the chatbot
    */
   static async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
-    const response = await ApiService.post<SendMessageResponse>(ENDPOINTS.SEND_MESSAGE, request);
+    const response = await ApiService.post<SendMessageResponse>(ENDPOINTS.SEND_MESSAGE, request, {
+      timeout: 60_000,
+    });
 
     return response;
   }

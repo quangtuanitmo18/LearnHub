@@ -4,7 +4,6 @@ import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { OrderRepository } from './order.repository';
 import { OrderQueueService } from './services/order-queue.service';
-import { OrderProcessor } from './processors/order.processor';
 import { CartModule } from '../cart/cart.module';
 import { CouponModule } from '../coupon/coupon.module';
 import { CourseModule } from '../course/course.module';
@@ -24,7 +23,7 @@ import { ORDER_QUEUE } from './constants/order-queue.constant';
     }),
   ],
   controllers: [OrderController],
-  providers: [OrderService, OrderRepository, OrderQueueService, OrderProcessor],
+  providers: [OrderService, OrderRepository, OrderQueueService],
   exports: [OrderService, OrderRepository, OrderQueueService],
 })
 export class OrderModule {}

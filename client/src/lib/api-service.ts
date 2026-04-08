@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api-client';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Generic API response type
 export interface ApiResponse<T = unknown> {
@@ -47,9 +47,13 @@ export class ApiService {
   }
 
   // POST request
-  static async post<T, D = unknown>(url: string, data?: D): Promise<T> {
+  static async post<T, D = unknown>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
     try {
-      const response: AxiosResponse<ApiResponse<T>> = await apiClient.post(url, data);
+      const response: AxiosResponse<ApiResponse<T>> = await apiClient.post(url, data, config);
 
       return response.data.data !== undefined
         ? response.data.data
@@ -116,6 +120,13 @@ export class ApiService {
   // Error handler
   private static handleError(error: unknown): ApiError {
     const axiosError = error as AxiosError<ApiErrorResponse>;
+
+    if (axiosError.code === 'ECONNABORTED') {
+      return {
+        message: 'Request timed out - the server took too long to respond',
+        code: 'TIMEOUT_ERROR',
+      };
+    }
 
     if (axiosError.response) {
       // Server responded with error status

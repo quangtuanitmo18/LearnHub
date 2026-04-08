@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix client\" \"npm run start:dev --prefix server\"",
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run start:dev --prefix server\" \"npm run start:worker:dev --prefix server\"",
     "install:all": "npm install && npm install --prefix client && npm install --prefix server",
     "prepare": "husky"
   },
