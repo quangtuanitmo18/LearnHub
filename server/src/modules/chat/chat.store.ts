@@ -21,10 +21,12 @@ export class ChatStore implements OnModuleDestroy {
   private redis: Redis;
 
   constructor(private configService: ConfigService) {
+    const isTls = this.configService.get<string>('REDIS_TLS') === 'true';
     this.redis = new Redis({
       host: this.configService.get<string>('REDIS_HOST') || 'localhost',
       port: this.configService.get<number>('REDIS_PORT') || 6379,
       password: this.configService.get<string>('REDIS_PASSWORD') || undefined,
+      tls: isTls ? {} : undefined,
     });
   }
 

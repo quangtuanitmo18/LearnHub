@@ -1,13 +1,18 @@
 import 'dotenv/config';
-import { PrismaClient } from '../src/generated/prisma';
 import OpenAI from 'openai';
+import { PrismaClient } from 'src/generated/prisma/client';
+
+import { PrismaPg } from '@prisma/adapter-pg';
 
 /**
  * One-time script to embed all existing content into DocumentChunk table.
- * Run: npx ts-node prisma/seed-embeddings.ts
+ * Run: npx ts-node -r tsconfig-paths/register prisma/seed-embeddings.ts
  */
 async function main() {
-  const prisma = new PrismaClient();
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+  } as any);
+  const prisma = new PrismaClient({ adapter });
   const jinaKey = process.env.JINA_API_KEY;
 
   if (!jinaKey) {
@@ -22,7 +27,10 @@ async function main() {
 
   // Helper: strip HTML tags
   const stripHtml = (html: string) =>
-    html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    html
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
 
   // Helper: chunk text by words
   const chunkText = (text: string, size = 500, overlap = 50): string[] => {
@@ -86,7 +94,12 @@ async function main() {
   let total = 0;
   for (const course of courses) {
     if (!course.description) continue;
-    const count = await embedAndInsert(course.description, 'COURSE', course.id, null);
+    const count = await embedAndInsert(
+      course.description,
+      'COURSE',
+      course.id,
+      null,
+    );
     console.log(`✅ Course "${course.title}" → ${count} chunks`);
     total += count;
   }
@@ -118,7 +131,12 @@ async function main() {
   for (const lesson of lessons) {
     if (!lesson.description) continue;
     const text = `${lesson.title}: ${lesson.description}`;
-    const count = await embedAndInsert(text, 'LESSON_ARTICLE', lesson.courseId, lesson.id);
+    const count = await embedAndInsert(
+      text,
+      'LESSON_ARTICLE',
+      lesson.courseId,
+      lesson.id,
+    );
     console.log(`✅ Lesson desc "${lesson.title}" → ${count} chunks`);
     total += count;
   }
