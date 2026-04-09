@@ -80,13 +80,9 @@ export class UserController {
 
   @Get('wishlist')
   @ResponseMessage('Wishlist retrieved successfully')
-  async getMyWishlist(
-    @CurrentUser('sub') userId: string,
-    @Query() query: any,
-  ) {
+  async getMyWishlist(@CurrentUser('sub') userId: string, @Query() query: any) {
     return this.userService.getMyWishlist(userId, query);
   }
-
 
   @Get('settings/me')
   @ResponseMessage('User settings retrieved successfully')

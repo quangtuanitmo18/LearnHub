@@ -1,30 +1,30 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/shared/services/prisma.service';
+import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
 import {
-  CreateUserDto,
-  UpdateUserDto,
-  UpdateMeDto,
-  UpdateUserAdminDto,
-  UserQueryDto,
-  AvatarPresignedRequestDto,
-  AvatarPresignedResponseDto,
-  UpdateUserSettingsDto,
-  UserSettingsResponseDto,
-} from './dto/user.dto';
+  MembershipDuration,
+  MembershipPlan,
+  type MembershipPlanType,
+} from 'src/shared/constants/user.constant';
+import { PrismaService } from 'src/shared/services/prisma.service';
+import { S3Service } from 'src/shared/services/s3.service';
+import { v4 as uuidv4 } from 'uuid';
 import {
   AdminUpdateMembershipDto,
   MembershipResponseDto,
 } from './dto/membership.dto';
-import { UserRepository } from './user.repository';
-import { S3Service } from 'src/shared/services/s3.service';
-import { ConfigService } from '@nestjs/config';
-import * as bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
 import {
-  MembershipPlan,
-  MembershipDuration,
-  type MembershipPlanType,
-} from 'src/shared/constants/user.constant';
+  AvatarPresignedRequestDto,
+  AvatarPresignedResponseDto,
+  CreateUserDto,
+  UpdateMeDto,
+  UpdateUserAdminDto,
+  UpdateUserDto,
+  UpdateUserSettingsDto,
+  UserQueryDto,
+  UserSettingsResponseDto,
+} from './dto/user.dto';
+import { UserRepository } from './user.repository';
 
 // Allowed avatar mimetypes
 const ALLOWED_AVATAR_MIMETYPES = [
@@ -538,7 +538,7 @@ export class UserService {
     ]);
 
     // Gather course IDs to compute aggregations
-    const courseIds = items.map((w) => w.courseId).filter(Boolean) as string[];
+    const courseIds = items.map((w) => w.courseId).filter(Boolean);
 
     let durationMap = new Map<string, number>();
     let reviewMap = new Map<string, number>();
@@ -550,7 +550,9 @@ export class UserService {
         where: { courseId: { in: courseIds } },
         _sum: { durationSec: true },
       });
-      durationMap = new Map(durations.map((d) => [d.courseId, d._sum.durationSec || 0]));
+      durationMap = new Map(
+        durations.map((d) => [d.courseId, d._sum.durationSec || 0]),
+      );
 
       // Get average rating per course
       const reviews = await this.prismaService.review.groupBy({
@@ -564,7 +566,7 @@ export class UserService {
 
     const mappedItems = items.map((w) => {
       // Exclude _count from the final object, map to our canonical fields
-      const { _count, ...courseData } = w.course as any;
+      const { _count, ...courseData } = w.course;
       return {
         ...courseData,
         totalLessons: _count?.lessons || 0,
@@ -586,4 +588,3 @@ export class UserService {
     };
   }
 }
-

@@ -1,12 +1,11 @@
 'use client';
 
-import * as React from 'react';
+import { CourseCard } from '@/components/course/course-card';
 import Loader from '@/components/loader';
+import { Button } from '@/components/ui/button';
 import { useMyWishlist, useToggleWishlist } from '@/hooks/use-wishlist';
 import { Heart, SearchX } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { CourseCard } from '@/components/course/course-card';
 
 const WishlistPage = () => {
   const { data: wishlist, isLoading } = useMyWishlist({ limit: 100 });
@@ -56,33 +55,33 @@ const WishlistPage = () => {
         ) : (
           <div className="grid auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {items.map((course: any) => (
-                <div key={course.id} className="group/item relative flex h-full">
-                  {/* 
+              <div key={course.id} className="group/item relative flex h-full">
+                {/* 
                     Render the standard CourseCard exactly as it appears in Courses grid.
                     Wrapped in flex-1 so it spans full height.
                   */}
-                  <div className="flex-1">
-                    <CourseCard course={course} />
-                  </div>
-
-                  {/* Remove Button Overlay - shifted down and to the right to avoid badges */}
-                  <div className="absolute top-[3.5rem] right-3 z-20">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleWishlistMutation.mutate(course.id);
-                      }}
-                      disabled={toggleWishlistMutation.isPending}
-                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-red-500 shadow-md backdrop-blur transition-all hover:scale-110 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
-                      title="Remove from wishlist"
-                      aria-label="Remove from wishlist"
-                    >
-                      <Heart className="h-4 w-4 fill-current" />
-                    </button>
-                  </div>
+                <div className="flex-1">
+                  <CourseCard course={course} />
                 </div>
-              ))}
+
+                {/* Remove Button Overlay - shifted down and to the right to avoid badges */}
+                <div className="absolute top-[3.5rem] right-3 z-20">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleWishlistMutation.mutate(course.id);
+                    }}
+                    disabled={toggleWishlistMutation.isPending}
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-red-500 shadow-md backdrop-blur transition-all hover:scale-110 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                    title="Remove from wishlist"
+                    aria-label="Remove from wishlist"
+                  >
+                    <Heart className="h-4 w-4 fill-current" />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

@@ -270,7 +270,9 @@ export class PaymentRepository {
     }
 
     if (order.paymentMethod !== PaymentMethod.STRIPE) {
-      throw new BadRequestException('This order is not configured for Stripe payment');
+      throw new BadRequestException(
+        'This order is not configured for Stripe payment',
+      );
     }
 
     // Build line items for Stripe
@@ -421,7 +423,9 @@ export class PaymentRepository {
       const completedOrder = await this.orderRepository.completeOrder(order.id);
 
       if (!completedOrder) {
-        this.logger.warn(`Order ${orderCode} was already completed by another process`);
+        this.logger.warn(
+          `Order ${orderCode} was already completed by another process`,
+        );
         return;
       }
 
@@ -475,7 +479,9 @@ export class PaymentRepository {
     const session = await this.stripeService.retrieveCheckoutSession(sessionId);
 
     if (!session.metadata?.userId || session.metadata.userId !== userId) {
-      throw new ForbiddenException('You do not have access to this checkout session');
+      throw new ForbiddenException(
+        'You do not have access to this checkout session',
+      );
     }
 
     const zeroDecimalCurrencies = new Set(['vnd']);
