@@ -1,6 +1,5 @@
 export const dynamic = 'force-dynamic';
 
-import FloatingButtons from '@/components/floating-buttons';
 import { MembershipPlans } from '@/components/membership';
 import { generateHomeMetadata } from '@/components/seo';
 import TetFlowerEffect from '@/components/tet-flower-effect';
@@ -39,7 +38,6 @@ const HomePage = async () => {
       <FeaturedCoursesSection coursesData={courses} />
       <MembershipPlans />
       <BlogSection blogsData={blogs} />
-      <FloatingButtons telegramUrl="https://t.me/quangtuanitmo18" />
     </>
   );
 };

@@ -39,7 +39,7 @@ const getBaseURL = () => {
 
 const API_CONFIG = {
   baseURL: getBaseURL(),
-  timeout: 10000,
+  timeout: 60000,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -217,17 +217,33 @@ const CourseOverview = ({ course, activeTab, onTabChange }: CourseOverviewProps)
               {(course.info?.documents && course.info.documents.length > 0
                 ? course.info.documents
                 : ['Course materials will be available after enrollment']
-              ).map((document: string, index: number) => (
-                <div
-                  key={index}
-                  className="flex items-start space-x-2 rounded-lg border border-gray-200 bg-gray-50 p-3 transition-all hover:shadow-md sm:space-x-3 sm:p-4"
-                >
-                  <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-blue-500 sm:h-5 sm:w-5" />
-                  <div className="flex-grow">
-                    <p className="text-xs text-gray-700 sm:text-sm">{document}</p>
+              ).map((document: any, index: number) => {
+                const isObject = typeof document === 'object' && document !== null;
+                const title = isObject ? document.title || 'Course Document' : document;
+                const url = isObject ? document.url : null;
+
+                return (
+                  <div
+                    key={index}
+                    className="flex items-start space-x-2 rounded-lg border border-gray-200 bg-gray-50 p-3 transition-all hover:shadow-md sm:space-x-3 sm:p-4"
+                  >
+                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-blue-500 sm:h-5 sm:w-5" />
+                    <div className="flex flex-grow items-center justify-between">
+                      <p className="text-xs text-gray-700 sm:text-sm">{title}</p>
+                      {url && (
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-4 shrink-0 text-xs font-medium text-blue-600 hover:text-blue-800"
+                        >
+                          View / Download
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
