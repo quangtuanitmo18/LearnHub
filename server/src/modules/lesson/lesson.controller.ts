@@ -123,4 +123,23 @@ export class LessonController {
       lessonId,
     );
   }
+
+  @Post(':lessonId/quiz/start')
+  @ResponseMessage('Quiz started successfully')
+  async startQuiz(
+    @Param('lessonId') lessonId: string,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return this.lessonService.startQuiz(lessonId, userId);
+  }
+
+  @Post(':lessonId/quiz/submit')
+  @ResponseMessage('Quiz submitted successfully')
+  async submitQuiz(
+    @Param('lessonId') lessonId: string,
+    @CurrentUser('sub') userId: string,
+    @Body('answers') answers: { questionId: string; selectedOptionIds: string[] }[],
+  ) {
+    return this.lessonService.submitQuiz(lessonId, userId, answers);
+  }
 }

@@ -39,6 +39,8 @@ import { ResponseInterceptor } from './shared/interceptors/response.interceptor'
 import { SharedModule } from './shared/shared.module';
 
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { NoteModule } from './modules/note/note.module';
+import { CertificateModule } from './modules/certificate/certificate.module';
 
 @Module({
   imports: [
@@ -93,6 +95,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     ]),
     InstructorModule,
     AiWorkerModule,
+    NoteModule,
+    CertificateModule,
   ],
   controllers: [AppController],
   providers: [

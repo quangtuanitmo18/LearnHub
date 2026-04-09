@@ -46,6 +46,8 @@ model User {
   wishlists            Wishlist[]
   memory               UserMemory?
   roles                Role[]                  @relation("RoleToUser")
+  certificates         Certificate[]
+  videoNotes           VideoNote[]
 
   @@index([email], map: "idx_user_email")
   @@index([resetPasswordToken], map: "idx_user_reset_token")
@@ -149,6 +151,7 @@ model Course {
   coupons        Coupon[]             @relation("CouponToCourse")
   previewImages  Media[]              @relation("CoursePreviewImages")
   wishlists      Wishlist[]
+  certificates   Certificate[]
 
   @@index([title], map: "idx_course_title")
   @@index([slug], map: "idx_course_slug")
@@ -194,6 +197,7 @@ model Lesson {
   quiz           LessonQuiz?
   video          LessonVideo?
   userProgress   UserLessonProgress[]
+  videoNotes     VideoNote[]
 
   @@index([type])
   @@index([courseId], map: "idx_lesson_course")
@@ -715,4 +719,32 @@ enum DocumentSourceType {
   LESSON_VIDEO
   LESSON_QUIZ
   BLOG
+}
+
+model Certificate {
+  id          String   @id @default(uuid())
+  userId      String
+  courseId    String
+  pdfUrl      String?  @db.Text
+  issuedAt    DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId], name: "unique_user_certificate")
+  @@index([userId], map: "idx_certificate_user")
+  @@index([courseId], map: "idx_certificate_course")
+}
+
+model VideoNote {
+  id          String   @id @default(uuid())
+  userId      String
+  lessonId    String
+  content     String
+  timestamp   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([userId, lessonId], map: "idx_video_note_user_lesson")
 }

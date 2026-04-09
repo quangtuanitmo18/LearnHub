@@ -624,4 +624,134 @@ export class LessonService {
 
     return { message: 'Lessons reordered successfully' };
   }
+
+  // ============ QUIZ EXECUTION ============
+  
+  async startQuiz(lessonId: string, userId: string) {
+    const lesson = await this.prismaService.lesson.findUnique({
+      where: { id: lessonId },
+      include: { quiz: true },
+    });
+    if (!lesson || !lesson.quiz) {
+      throw new NotFoundException('Quiz not found');
+    }
+
+    // Check previous attempts
+    const attempts = await this.prismaService.quizAttempt.findMany({
+      where: { lessonId, userId },
+      orderBy: { attemptNo: 'desc' },
+    });
+
+    const maxAttempts = lesson.quiz.maxAttempts || 999;
+    if (attempts.length >= maxAttempts) {
+      throw new BadRequestException('Maximum attempts reached');
+    }
+
+    const nextAttemptNo = attempts.length > 0 ? attempts[0].attemptNo + 1 : 1;
+    const expiresAt = lesson.quiz.durationSec
+      ? new Date(Date.now() + lesson.quiz.durationSec * 1000)
+      : null;
+
+    return this.prismaService.quizAttempt.create({
+      data: {
+        lessonId,
+        userId,
+        attemptNo: nextAttemptNo,
+        status: 'IN_PROGRESS',
+        expiresAt,
+      },
+    });
+  }
+
+  async submitQuiz(lessonId: string, userId: string, answers: { questionId: string; selectedOptionIds: string[] }[]) {
+    const attempt = await this.prismaService.quizAttempt.findFirst({
+      where: { lessonId, userId, status: 'IN_PROGRESS' },
+      orderBy: { attemptNo: 'desc' },
+    });
+
+    if (!attempt) {
+      throw new BadRequestException('No active quiz attempt found');
+    }
+
+    if (attempt.expiresAt && attempt.expiresAt < new Date()) {
+      await this.prismaService.quizAttempt.update({
+        where: { id: attempt.id },
+        data: { status: 'EXPIRED' },
+      });
+      throw new BadRequestException('Quiz attempt has expired');
+    }
+
+    const quizInfo = await this.prismaService.lessonQuiz.findUnique({
+      where: { lessonId },
+      include: {
+        questions: {
+          include: { options: true },
+        },
+      },
+    });
+
+    if (!quizInfo) {
+      throw new BadRequestException('Quiz info not found');
+    }
+
+    let totalScore = 0;
+    const maxScore = quizInfo.questions.reduce((sum, q) => sum + q.points, 0);
+    let correctCount = 0;
+
+    const answerRecords = answers.map((ans) => {
+      const question = quizInfo.questions.find((q) => q.id === ans.questionId);
+      if (!question) return null;
+
+      const correctOptionIds = question.options.filter((o) => o.isCorrect).map((o) => o.id);
+      
+      // Simple exact match logic for correct options
+      const isCorrect = 
+        correctOptionIds.length === ans.selectedOptionIds.length &&
+        correctOptionIds.every((id) => ans.selectedOptionIds.includes(id));
+
+      const earnedScore = isCorrect ? question.points : 0;
+      totalScore += earnedScore;
+      if (isCorrect) correctCount++;
+
+      return {
+        questionId: question.id,
+        selectedOptionIds: ans.selectedOptionIds,
+        isCorrect,
+        earnedScore,
+      };
+    }).filter((r): r is NonNullable<typeof r> => r !== null);
+
+    const passScore = quizInfo.passScore || 80;
+    const percentage = maxScore > 0 ? (totalScore / maxScore) * 100 : 100;
+    const passed = percentage >= passScore;
+
+    return this.prismaService.$transaction(async (tx) => {
+      const updatedAttempt = await tx.quizAttempt.update({
+        where: { id: attempt.id },
+        data: {
+          status: 'SUBMITTED',
+          submittedAt: new Date(),
+          score: totalScore,
+          maxScore,
+          passed,
+          correctCount,
+          totalCount: quizInfo.questions.length,
+        },
+      });
+
+      for (const record of answerRecords) {
+        await tx.quizAttemptAnswer.create({
+          data: {
+            attemptId: attempt.id,
+            questionId: record.questionId,
+            selectedOptionIds: record.selectedOptionIds,
+            isCorrect: record.isCorrect,
+            earnedScore: record.earnedScore,
+          },
+        });
+      }
+
+      return updatedAttempt;
+    });
+  }
 }
