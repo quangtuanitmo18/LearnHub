@@ -2,13 +2,18 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { CircularProgress } from '@/components/ui/circular-progress';
 import { ArrowLeft, Compass } from 'lucide-react';
 
+import { useClaimCertificate, useMyCertificates } from '@/hooks/use-certificate';
+import { Award, Loader2 } from 'lucide-react';
+
 interface LessonHeaderProps {
   courseTitle: string;
   courseSlug: string;
+  courseId?: string;
   completedLessons: number;
   totalLessons: number;
   onGuideClick?: () => void;
@@ -18,12 +23,34 @@ interface LessonHeaderProps {
 const LessonHeader = ({
   courseTitle,
   courseSlug,
+  courseId,
   completedLessons,
   totalLessons,
   onGuideClick,
 }: LessonHeaderProps) => {
+  const claimMutation = useClaimCertificate();
   const progressPercentage =
     totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+  const { data: certificates } = useMyCertificates();
+  const hasClaimed = certificates?.some((cert) => cert.courseId === courseId);
+  const router = useRouter();
+
+  const isCompleted = completedLessons === totalLessons && totalLessons > 0;
+
+  const handleClaim = () => {
+    if (!courseId) return;
+    if (hasClaimed) {
+      router.push('/my-certificates');
+      return;
+    }
+    claimMutation.mutate(courseId, {
+      onSuccess: () => {
+        // Option to redirect to dashboard upon claiming
+        router.push('/my-certificates');
+      }
+    });
+  };
 
   return (
     <div className="fixed top-0 right-0 left-0 z-50 border-b border-slate-700 bg-slate-900 text-white">
@@ -45,24 +72,42 @@ const LessonHeader = ({
 
         {/* Right Section */}
         <div className="flex shrink-0 items-center space-x-2 text-xs sm:space-x-4 sm:text-sm md:space-x-6">
-          {/* Circular Progress */}
-          <div
-            id="tour-progress"
-            className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3"
-          >
-            <CircularProgress
-              value={progressPercentage}
+          {/* Certificate or Progress */}
+          {isCompleted ? (
+            <Button 
+              onClick={handleClaim} 
+              disabled={claimMutation.isPending && !hasClaimed}
               size="sm"
-              color="blue"
-              thickness={3}
-              className="h-8 w-8 text-white sm:h-10 sm:w-10"
-            />
-            <div className="hidden text-center sm:block">
-              <div className="text-xs font-semibold whitespace-nowrap sm:text-sm">
-                {completedLessons}/{totalLessons} lessons
+              className={hasClaimed 
+                ? "bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-md" 
+                : "bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white border-0 shadow-lg"}
+            >
+              {claimMutation.isPending && !hasClaimed ? (
+                <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+              ) : (
+                <Award className="mr-1.5 h-4 w-4" />
+              )}
+              {hasClaimed ? 'View Certificate' : 'Claim Certificate'}
+            </Button>
+          ) : (
+            <div
+              id="tour-progress"
+              className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3"
+            >
+              <CircularProgress
+                value={progressPercentage}
+                size="sm"
+                color="blue"
+                thickness={3}
+                className="h-8 w-8 text-white sm:h-10 sm:w-10"
+              />
+              <div className="hidden text-center sm:block">
+                <div className="text-xs font-semibold whitespace-nowrap sm:text-sm">
+                  {completedLessons}/{totalLessons} lessons
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <Button
             variant="ghost"

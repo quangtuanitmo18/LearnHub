@@ -1006,7 +1006,7 @@ const CoursesActionDialog = ({
                         {courseInfo.documents.map((document, index) => (
                           <div key={index} className="flex gap-2">
                             <Input
-                              value={document}
+                              value={typeof document === string ? document : (document?.title || ")}
                               onChange={(e) =>
                                 setCourseInfo((draft) => {
                                   draft.documents[index] = e.target.value;

@@ -7,4 +7,3 @@ import { CertificateController } from './certificate.controller';
   providers: [CertificateService],
 })
 export class CertificateModule {}
-

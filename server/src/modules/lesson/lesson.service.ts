@@ -626,7 +626,7 @@ export class LessonService {
   }
 
   // ============ QUIZ EXECUTION ============
-  
+
   async startQuiz(lessonId: string, userId: string) {
     const lesson = await this.prismaService.lesson.findUnique({
       where: { id: lessonId },
@@ -663,7 +663,11 @@ export class LessonService {
     });
   }
 
-  async submitQuiz(lessonId: string, userId: string, answers: { questionId: string; selectedOptionIds: string[] }[]) {
+  async submitQuiz(
+    lessonId: string,
+    userId: string,
+    answers: { questionId: string; selectedOptionIds: string[] }[],
+  ) {
     const attempt = await this.prismaService.quizAttempt.findFirst({
       where: { lessonId, userId, status: 'IN_PROGRESS' },
       orderBy: { attemptNo: 'desc' },
@@ -698,28 +702,34 @@ export class LessonService {
     const maxScore = quizInfo.questions.reduce((sum, q) => sum + q.points, 0);
     let correctCount = 0;
 
-    const answerRecords = answers.map((ans) => {
-      const question = quizInfo.questions.find((q) => q.id === ans.questionId);
-      if (!question) return null;
+    const answerRecords = answers
+      .map((ans) => {
+        const question = quizInfo.questions.find(
+          (q) => q.id === ans.questionId,
+        );
+        if (!question) return null;
 
-      const correctOptionIds = question.options.filter((o) => o.isCorrect).map((o) => o.id);
-      
-      // Simple exact match logic for correct options
-      const isCorrect = 
-        correctOptionIds.length === ans.selectedOptionIds.length &&
-        correctOptionIds.every((id) => ans.selectedOptionIds.includes(id));
+        const correctOptionIds = question.options
+          .filter((o) => o.isCorrect)
+          .map((o) => o.id);
 
-      const earnedScore = isCorrect ? question.points : 0;
-      totalScore += earnedScore;
-      if (isCorrect) correctCount++;
+        // Simple exact match logic for correct options
+        const isCorrect =
+          correctOptionIds.length === ans.selectedOptionIds.length &&
+          correctOptionIds.every((id) => ans.selectedOptionIds.includes(id));
 
-      return {
-        questionId: question.id,
-        selectedOptionIds: ans.selectedOptionIds,
-        isCorrect,
-        earnedScore,
-      };
-    }).filter((r): r is NonNullable<typeof r> => r !== null);
+        const earnedScore = isCorrect ? question.points : 0;
+        totalScore += earnedScore;
+        if (isCorrect) correctCount++;
+
+        return {
+          questionId: question.id,
+          selectedOptionIds: ans.selectedOptionIds,
+          isCorrect,
+          earnedScore,
+        };
+      })
+      .filter((r): r is NonNullable<typeof r> => r !== null);
 
     const passScore = quizInfo.passScore || 80;
     const percentage = maxScore > 0 ? (totalScore / maxScore) * 100 : 100;

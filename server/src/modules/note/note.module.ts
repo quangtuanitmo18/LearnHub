@@ -7,4 +7,3 @@ import { NoteController } from './note.controller';
   providers: [NoteService],
 })
 export class NoteModule {}
-

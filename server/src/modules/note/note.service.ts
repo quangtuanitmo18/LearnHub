@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../../shared/services/prisma.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
-import { PrismaService } from '../../shared/services/prisma.service';
 
 @Injectable()
 export class NoteService {
@@ -33,8 +33,14 @@ export class NoteService {
     return this.prisma.videoNote.update({
       where: { id },
       data: {
-        content: updateNoteDto.content !== undefined ? updateNoteDto.content : note.content,
-        timestamp: updateNoteDto.timestamp !== undefined ? updateNoteDto.timestamp : note.timestamp,
+        content:
+          updateNoteDto.content !== undefined
+            ? updateNoteDto.content
+            : note.content,
+        timestamp:
+          updateNoteDto.timestamp !== undefined
+            ? updateNoteDto.timestamp
+            : note.timestamp,
       },
     });
   }

@@ -13,4 +13,3 @@ export class CreateNoteDto {
   @Min(0)
   timestamp: number;
 }
-

@@ -1,4 +1,7 @@
 import { AuthInitializer } from '@/components/auth/auth-initializer';
+import dynamic from 'next/dynamic';
+
+const FloatingButtons = dynamic(() => import('@/components/floating-buttons'));
 import { QueryProvider } from '@/components/providers/query-provider';
 import NextAuthSessionProvider from '@/components/providers/session-provider';
 import { StructuredData } from '@/components/seo/structured-data';
@@ -108,6 +111,7 @@ export default function RootLayout({
             <QueryProvider>
               {children}
               <Toaster position="top-right" />
+              <FloatingButtons telegramUrl="https://t.me/quangtuanitmo18" />
             </QueryProvider>
           </AuthInitializer>
         </NextAuthSessionProvider>

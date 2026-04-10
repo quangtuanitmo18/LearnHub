@@ -15,6 +15,9 @@ import Link from 'next/link';
 import React from 'react';
 import { MdOutlineSlowMotionVideo } from 'react-icons/md';
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LessonNotes } from './lesson-notes';
+
 interface SidebarLesson {
   id: string;
   title: string;
@@ -126,23 +129,36 @@ const LessonSidebar = ({
         </button>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto pb-10">
-        {chapters.map((chapter, chapterIndex) => (
-          <ChapterItem
-            key={chapter.id}
-            chapter={chapter}
-            chapterIndex={chapterIndex}
-            isOpen={openChapters.has(chapter.id)}
-            onToggle={() => toggleChapter(chapter.id)}
-            currentLessonId={currentLessonId}
-            courseSlug={courseSlug}
-            courseId={courseId}
-            completedLessonIds={completedLessonIds}
-            onToggleSidebar={onToggleSidebar}
-          />
-        ))}
-      </div>
+      {/* Content with Tabs */}
+      <Tabs defaultValue="outline" className="flex-1 flex flex-col overflow-hidden">
+        <div className="px-4 py-2 border-b border-gray-100 bg-white">
+          <TabsList className="w-full grid h-9 grid-cols-2">
+            <TabsTrigger value="outline" className="text-xs sm:text-sm">Outline</TabsTrigger>
+            <TabsTrigger value="notes" className="text-xs sm:text-sm">Notes</TabsTrigger>
+          </TabsList>
+        </div>
+
+        <TabsContent value="outline" className="flex-1 overflow-y-auto pb-10 m-0 border-0 outline-none">
+          {chapters.map((chapter, chapterIndex) => (
+            <ChapterItem
+              key={chapter.id}
+              chapter={chapter}
+              chapterIndex={chapterIndex}
+              isOpen={openChapters.has(chapter.id)}
+              onToggle={() => toggleChapter(chapter.id)}
+              currentLessonId={currentLessonId}
+              courseSlug={courseSlug}
+              courseId={courseId}
+              completedLessonIds={completedLessonIds}
+              onToggleSidebar={onToggleSidebar}
+            />
+          ))}
+        </TabsContent>
+
+        <TabsContent value="notes" className="flex-1 overflow-hidden m-0 border-0 outline-none">
+          <LessonNotes lessonId={currentLessonId || ''} courseId={courseId} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

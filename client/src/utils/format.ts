@@ -81,7 +81,7 @@ export const secondsToTimeString = (seconds: number = 0): string => {
 export const secondsToDisplayTime = (seconds: number = 0): string => {
   const hours = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
+  const secs = Math.floor(seconds % 60);
 
   // If hours is 0, only show MM:SS
   if (hours === 0) {

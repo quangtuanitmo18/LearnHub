@@ -5,6 +5,7 @@ import { AlertCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { notFound, useSearchParams } from 'next/navigation';
 import React from 'react';
+import { VideoPlayerProvider } from './context/video-player-context';
 
 import { useLesson, usePublishedLessonsByChapter } from '@/hooks/use-lessons';
 import { useUserCourseTracks } from '@/hooks/use-track';
@@ -159,6 +160,7 @@ const LessonPage = () => {
   }
 
   return (
+    <VideoPlayerProvider>
     <div className="h-screen overflow-hidden">
       {/* Backdrop overlay for mobile sidebar */}
       {isSidebarOpen && (
@@ -171,6 +173,7 @@ const LessonPage = () => {
       <LessonHeader
         courseTitle={lesson?.course?.title || 'Course'}
         courseSlug={lesson?.course?.slug || ''}
+        courseId={lesson?.courseId || ''}
         completedLessons={completedCount}
         totalLessons={totalLessons}
         onGuideClick={startTour}
@@ -221,6 +224,7 @@ const LessonPage = () => {
         />
       )}
     </div>
+    </VideoPlayerProvider>
   );
 };
 

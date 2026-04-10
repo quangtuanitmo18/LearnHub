@@ -100,7 +100,11 @@ const QuizAttemptDetailsDialog = ({
                       {row.selected}
                     </TableCell>
                     <TableCell className="text-xs whitespace-normal text-gray-900 sm:text-sm">
-                      {row.correct}
+                      {attemptResultData?.passed ? (
+                        row.correct
+                      ) : (
+                        <span className="text-gray-400 italic">Hidden until passed</span>
+                      )}
                     </TableCell>
                     <TableCell className="text-center">
                       <Badge

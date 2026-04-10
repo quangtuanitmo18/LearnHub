@@ -60,6 +60,12 @@ export function connectNotificationSocket(): Socket {
   const socket = getNotificationSocket();
 
   if (!socket.connected) {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        socket.auth = { token };
+      }
+    }
     socket.connect();
   }
 
@@ -151,6 +157,12 @@ export function connectVideoSocket(): Socket {
   const socket = getVideoSocket();
 
   if (!socket.connected) {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        socket.auth = { token };
+      }
+    }
     socket.connect();
   }
 

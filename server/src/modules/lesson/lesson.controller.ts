@@ -138,7 +138,8 @@ export class LessonController {
   async submitQuiz(
     @Param('lessonId') lessonId: string,
     @CurrentUser('sub') userId: string,
-    @Body('answers') answers: { questionId: string; selectedOptionIds: string[] }[],
+    @Body('answers')
+    answers: { questionId: string; selectedOptionIds: string[] }[],
   ) {
     return this.lessonService.submitQuiz(lessonId, userId, answers);
   }

@@ -4,13 +4,16 @@ import { PermissionGuard } from '../../shared/guards/permission.guard';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 import { Public } from '../../shared/decorators/public.decorator';
 
-@Controller('api/v1/certificates')
+@Controller('certificates')
 @UseGuards(PermissionGuard)
 export class CertificateController {
   constructor(private readonly certificateService: CertificateService) {}
 
   @Post('claim')
-  claim(@CurrentUser('sub') userId: string, @Body('courseId') courseId: string) {
+  claim(
+    @CurrentUser('sub') userId: string,
+    @Body('courseId') courseId: string,
+  ) {
     return this.certificateService.claim(userId, courseId);
   }
 
@@ -25,7 +28,3 @@ export class CertificateController {
     return this.certificateService.verify(id);
   }
 }
-
-
-
-
