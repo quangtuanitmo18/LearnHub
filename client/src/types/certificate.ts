@@ -1,17 +1,26 @@
+export interface ICertificateCourse {
+  title: string;
+  slug: string;
+  image?: {
+    cdnBaseUrl: string;
+    storageKey: string;
+  } | null;
+  author?: {
+    username: string;
+  };
+}
+
 export interface ICertificate {
   id: string;
   userId: string;
   courseId: string;
   issuedAt: string;
-  pdfUrl?: string; // To be generated or handled in frontend
-  course?: {
-    title: string;
-    slug: string;
-    image: string;
-    author: {
-      username: string;
-    };
+  pdfUrl?: string | null;
+  user?: {
+    username: string;
+    email: string;
   };
+  course?: ICertificateCourse;
 }
 
 export interface ClaimCertificateRequest {

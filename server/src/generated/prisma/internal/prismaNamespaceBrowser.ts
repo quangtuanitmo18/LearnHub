@@ -90,6 +90,10 @@ export const ModelName = {
   Wishlist: 'Wishlist',
   Certificate: 'Certificate',
   VideoNote: 'VideoNote',
+  UserGamification: 'UserGamification',
+  PointHistory: 'PointHistory',
+  Badge: 'Badge',
+  UserBadge: 'UserBadge',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -606,6 +610,54 @@ export const VideoNoteScalarFieldEnum = {
 
 export type VideoNoteScalarFieldEnum =
   (typeof VideoNoteScalarFieldEnum)[keyof typeof VideoNoteScalarFieldEnum];
+
+export const UserGamificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  totalPoints: 'totalPoints',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastActiveDate: 'lastActiveDate',
+} as const;
+
+export type UserGamificationScalarFieldEnum =
+  (typeof UserGamificationScalarFieldEnum)[keyof typeof UserGamificationScalarFieldEnum];
+
+export const PointHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  points: 'points',
+  reason: 'reason',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+} as const;
+
+export type PointHistoryScalarFieldEnum =
+  (typeof PointHistoryScalarFieldEnum)[keyof typeof PointHistoryScalarFieldEnum];
+
+export const BadgeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  conditionType: 'conditionType',
+  conditionValue: 'conditionValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type BadgeScalarFieldEnum =
+  (typeof BadgeScalarFieldEnum)[keyof typeof BadgeScalarFieldEnum];
+
+export const UserBadgeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  badgeId: 'badgeId',
+  earnedAt: 'earnedAt',
+} as const;
+
+export type UserBadgeScalarFieldEnum =
+  (typeof UserBadgeScalarFieldEnum)[keyof typeof UserBadgeScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

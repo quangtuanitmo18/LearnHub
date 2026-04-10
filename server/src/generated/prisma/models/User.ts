@@ -355,6 +355,12 @@ export type UserWhereInput = {
   roles?: Prisma.RoleListRelationFilter;
   certificates?: Prisma.CertificateListRelationFilter;
   videoNotes?: Prisma.VideoNoteListRelationFilter;
+  gamification?: Prisma.XOR<
+    Prisma.UserGamificationNullableScalarRelationFilter,
+    Prisma.UserGamificationWhereInput
+  > | null;
+  pointHistory?: Prisma.PointHistoryListRelationFilter;
+  badges?: Prisma.UserBadgeListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -397,6 +403,9 @@ export type UserOrderByWithRelationInput = {
   roles?: Prisma.RoleOrderByRelationAggregateInput;
   certificates?: Prisma.CertificateOrderByRelationAggregateInput;
   videoNotes?: Prisma.VideoNoteOrderByRelationAggregateInput;
+  gamification?: Prisma.UserGamificationOrderByWithRelationInput;
+  pointHistory?: Prisma.PointHistoryOrderByRelationAggregateInput;
+  badges?: Prisma.UserBadgeOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -457,6 +466,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     roles?: Prisma.RoleListRelationFilter;
     certificates?: Prisma.CertificateListRelationFilter;
     videoNotes?: Prisma.VideoNoteListRelationFilter;
+    gamification?: Prisma.XOR<
+      Prisma.UserGamificationNullableScalarRelationFilter,
+      Prisma.UserGamificationWhereInput
+    > | null;
+    pointHistory?: Prisma.PointHistoryListRelationFilter;
+    badges?: Prisma.UserBadgeListRelationFilter;
   },
   'id' | 'email'
 >;
@@ -586,6 +601,9 @@ export type UserCreateInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -628,6 +646,9 @@ export type UserUncheckedCreateInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserUpdateInput = {
@@ -691,6 +712,9 @@ export type UserUpdateInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -754,6 +778,9 @@ export type UserUncheckedUpdateInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -1482,6 +1509,84 @@ export type UserUpdateOneRequiredWithoutVideoNotesNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutGamificationInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutGamificationInput,
+    Prisma.UserUncheckedCreateWithoutGamificationInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGamificationInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutGamificationNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutGamificationInput,
+    Prisma.UserUncheckedCreateWithoutGamificationInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGamificationInput;
+  upsert?: Prisma.UserUpsertWithoutGamificationInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutGamificationInput,
+      Prisma.UserUpdateWithoutGamificationInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutGamificationInput
+  >;
+};
+
+export type UserCreateNestedOneWithoutPointHistoryInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutPointHistoryInput,
+    Prisma.UserUncheckedCreateWithoutPointHistoryInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPointHistoryInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutPointHistoryNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutPointHistoryInput,
+    Prisma.UserUncheckedCreateWithoutPointHistoryInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPointHistoryInput;
+  upsert?: Prisma.UserUpsertWithoutPointHistoryInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutPointHistoryInput,
+      Prisma.UserUpdateWithoutPointHistoryInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutPointHistoryInput
+  >;
+};
+
+export type UserCreateNestedOneWithoutBadgesInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutBadgesInput,
+    Prisma.UserUncheckedCreateWithoutBadgesInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutBadgesNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutBadgesInput,
+    Prisma.UserUncheckedCreateWithoutBadgesInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput;
+  upsert?: Prisma.UserUpsertWithoutBadgesInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutBadgesInput,
+      Prisma.UserUpdateWithoutBadgesInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutBadgesInput
+  >;
+};
+
 export type UserCreateWithoutInstructorProfileInput = {
   id?: string;
   username: string;
@@ -1521,6 +1626,9 @@ export type UserCreateWithoutInstructorProfileInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutInstructorProfileInput = {
@@ -1562,6 +1670,9 @@ export type UserUncheckedCreateWithoutInstructorProfileInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutInstructorProfileInput = {
@@ -1652,6 +1763,9 @@ export type UserUpdateWithoutInstructorProfileInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutInstructorProfileInput = {
@@ -1714,6 +1828,9 @@ export type UserUncheckedUpdateWithoutInstructorProfileInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutRolesInput = {
@@ -1755,6 +1872,9 @@ export type UserCreateWithoutRolesInput = {
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutRolesInput = {
@@ -1796,6 +1916,9 @@ export type UserUncheckedCreateWithoutRolesInput = {
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutRolesInput = {
@@ -1906,6 +2029,9 @@ export type UserCreateWithoutBlogsInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutBlogsInput = {
@@ -1947,6 +2073,9 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutBlogsInput = {
@@ -2037,6 +2166,9 @@ export type UserUpdateWithoutBlogsInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutBlogsInput = {
@@ -2099,6 +2231,9 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCoursesInput = {
@@ -2140,6 +2275,9 @@ export type UserCreateWithoutCoursesInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCoursesInput = {
@@ -2181,6 +2319,9 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCoursesInput = {
@@ -2271,6 +2412,9 @@ export type UserUpdateWithoutCoursesInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -2333,6 +2477,9 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutMediaInput = {
@@ -2374,6 +2521,9 @@ export type UserCreateWithoutMediaInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutMediaInput = {
@@ -2415,6 +2565,9 @@ export type UserUncheckedCreateWithoutMediaInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutMediaInput = {
@@ -2505,6 +2658,9 @@ export type UserUpdateWithoutMediaInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutMediaInput = {
@@ -2567,6 +2723,9 @@ export type UserUncheckedUpdateWithoutMediaInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCartsInput = {
@@ -2608,6 +2767,9 @@ export type UserCreateWithoutCartsInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCartsInput = {
@@ -2649,6 +2811,9 @@ export type UserUncheckedCreateWithoutCartsInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCartsInput = {
@@ -2739,6 +2904,9 @@ export type UserUpdateWithoutCartsInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCartsInput = {
@@ -2801,6 +2969,9 @@ export type UserUncheckedUpdateWithoutCartsInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutOrdersInput = {
@@ -2842,6 +3013,9 @@ export type UserCreateWithoutOrdersInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -2883,6 +3057,9 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -2973,6 +3150,9 @@ export type UserUpdateWithoutOrdersInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -3035,6 +3215,9 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutReviewsInput = {
@@ -3076,6 +3259,9 @@ export type UserCreateWithoutReviewsInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -3117,6 +3303,9 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -3207,6 +3396,9 @@ export type UserUpdateWithoutReviewsInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -3269,6 +3461,9 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutNotificationsInput = {
@@ -3310,6 +3505,9 @@ export type UserCreateWithoutNotificationsInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -3351,6 +3549,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -3441,6 +3642,9 @@ export type UserUpdateWithoutNotificationsInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -3503,6 +3707,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCommentsInput = {
@@ -3544,6 +3751,9 @@ export type UserCreateWithoutCommentsInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -3585,6 +3795,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -3675,6 +3888,9 @@ export type UserUpdateWithoutCommentsInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -3737,6 +3953,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCommentReactionsInput = {
@@ -3778,6 +3997,9 @@ export type UserCreateWithoutCommentReactionsInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCommentReactionsInput = {
@@ -3819,6 +4041,9 @@ export type UserUncheckedCreateWithoutCommentReactionsInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCommentReactionsInput = {
@@ -3909,6 +4134,9 @@ export type UserUpdateWithoutCommentReactionsInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCommentReactionsInput = {
@@ -3971,6 +4199,9 @@ export type UserUncheckedUpdateWithoutCommentReactionsInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutLessonProgressInput = {
@@ -4012,6 +4243,9 @@ export type UserCreateWithoutLessonProgressInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutLessonProgressInput = {
@@ -4053,6 +4287,9 @@ export type UserUncheckedCreateWithoutLessonProgressInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutLessonProgressInput = {
@@ -4143,6 +4380,9 @@ export type UserUpdateWithoutLessonProgressInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutLessonProgressInput = {
@@ -4205,6 +4445,9 @@ export type UserUncheckedUpdateWithoutLessonProgressInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutMemoryInput = {
@@ -4246,6 +4489,9 @@ export type UserCreateWithoutMemoryInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutMemoryInput = {
@@ -4287,6 +4533,9 @@ export type UserUncheckedCreateWithoutMemoryInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutMemoryInput = {
@@ -4377,6 +4626,9 @@ export type UserUpdateWithoutMemoryInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutMemoryInput = {
@@ -4439,6 +4691,9 @@ export type UserUncheckedUpdateWithoutMemoryInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutWishlistsInput = {
@@ -4480,6 +4735,9 @@ export type UserCreateWithoutWishlistsInput = {
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutWishlistsInput = {
@@ -4521,6 +4779,9 @@ export type UserUncheckedCreateWithoutWishlistsInput = {
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutWishlistsInput = {
@@ -4611,6 +4872,9 @@ export type UserUpdateWithoutWishlistsInput = {
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutWishlistsInput = {
@@ -4673,6 +4937,9 @@ export type UserUncheckedUpdateWithoutWishlistsInput = {
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCertificatesInput = {
@@ -4714,6 +4981,9 @@ export type UserCreateWithoutCertificatesInput = {
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCertificatesInput = {
@@ -4755,6 +5025,9 @@ export type UserUncheckedCreateWithoutCertificatesInput = {
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCertificatesInput = {
@@ -4845,6 +5118,9 @@ export type UserUpdateWithoutCertificatesInput = {
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCertificatesInput = {
@@ -4907,6 +5183,9 @@ export type UserUncheckedUpdateWithoutCertificatesInput = {
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutVideoNotesInput = {
@@ -4948,6 +5227,9 @@ export type UserCreateWithoutVideoNotesInput = {
   memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
   roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutVideoNotesInput = {
@@ -4989,6 +5271,9 @@ export type UserUncheckedCreateWithoutVideoNotesInput = {
   memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
   roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
   certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutVideoNotesInput = {
@@ -5079,6 +5364,9 @@ export type UserUpdateWithoutVideoNotesInput = {
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
   roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutVideoNotesInput = {
@@ -5141,6 +5429,747 @@ export type UserUncheckedUpdateWithoutVideoNotesInput = {
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
+};
+
+export type UserCreateWithoutGamificationInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  resetPasswordExpires?: Date | string | null;
+  resetPasswordToken?: string | null;
+  isEmailVerified?: boolean;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  darkMode?: boolean;
+  emailNotifications?: boolean;
+  language?: string;
+  marketingEmails?: boolean;
+  pushNotifications?: boolean;
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput;
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput;
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput;
+  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
+  certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
+  videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
+};
+
+export type UserUncheckedCreateWithoutGamificationInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  resetPasswordExpires?: Date | string | null;
+  resetPasswordToken?: string | null;
+  isEmailVerified?: boolean;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  darkMode?: boolean;
+  emailNotifications?: boolean;
+  language?: string;
+  marketingEmails?: boolean;
+  pushNotifications?: boolean;
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput;
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput;
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
+  videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
+};
+
+export type UserCreateOrConnectWithoutGamificationInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutGamificationInput,
+    Prisma.UserUncheckedCreateWithoutGamificationInput
+  >;
+};
+
+export type UserUpsertWithoutGamificationInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutGamificationInput,
+    Prisma.UserUncheckedUpdateWithoutGamificationInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutGamificationInput,
+    Prisma.UserUncheckedCreateWithoutGamificationInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutGamificationInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutGamificationInput,
+    Prisma.UserUncheckedUpdateWithoutGamificationInput
+  >;
+};
+
+export type UserUpdateWithoutGamificationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  language?: Prisma.StringFieldUpdateOperationsInput | string;
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput;
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput;
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
+  certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
+  videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutGamificationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  language?: Prisma.StringFieldUpdateOperationsInput | string;
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput;
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput;
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
+  videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
+};
+
+export type UserCreateWithoutPointHistoryInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  resetPasswordExpires?: Date | string | null;
+  resetPasswordToken?: string | null;
+  isEmailVerified?: boolean;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  darkMode?: boolean;
+  emailNotifications?: boolean;
+  language?: string;
+  marketingEmails?: boolean;
+  pushNotifications?: boolean;
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput;
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput;
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput;
+  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
+  certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
+  videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  badges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput;
+};
+
+export type UserUncheckedCreateWithoutPointHistoryInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  resetPasswordExpires?: Date | string | null;
+  resetPasswordToken?: string | null;
+  isEmailVerified?: boolean;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  darkMode?: boolean;
+  emailNotifications?: boolean;
+  language?: string;
+  marketingEmails?: boolean;
+  pushNotifications?: boolean;
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput;
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput;
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
+  videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  badges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput;
+};
+
+export type UserCreateOrConnectWithoutPointHistoryInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutPointHistoryInput,
+    Prisma.UserUncheckedCreateWithoutPointHistoryInput
+  >;
+};
+
+export type UserUpsertWithoutPointHistoryInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutPointHistoryInput,
+    Prisma.UserUncheckedUpdateWithoutPointHistoryInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutPointHistoryInput,
+    Prisma.UserUncheckedCreateWithoutPointHistoryInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutPointHistoryInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutPointHistoryInput,
+    Prisma.UserUncheckedUpdateWithoutPointHistoryInput
+  >;
+};
+
+export type UserUpdateWithoutPointHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  language?: Prisma.StringFieldUpdateOperationsInput | string;
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput;
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput;
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
+  certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
+  videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutPointHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  language?: Prisma.StringFieldUpdateOperationsInput | string;
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput;
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput;
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
+  videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
+};
+
+export type UserCreateWithoutBadgesInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  resetPasswordExpires?: Date | string | null;
+  resetPasswordToken?: string | null;
+  isEmailVerified?: boolean;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  darkMode?: boolean;
+  emailNotifications?: boolean;
+  language?: string;
+  marketingEmails?: boolean;
+  pushNotifications?: boolean;
+  blogs?: Prisma.BlogCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput;
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionCreateNestedManyWithoutUserInput;
+  courses?: Prisma.CourseCreateNestedManyWithoutAuthorInput;
+  instructorProfile?: Prisma.InstructorProfileCreateNestedOneWithoutUserInput;
+  media?: Prisma.MediaCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressCreateNestedManyWithoutUserInput;
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryCreateNestedOneWithoutUserInput;
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput;
+  certificates?: Prisma.CertificateCreateNestedManyWithoutUserInput;
+  videoNotes?: Prisma.VideoNoteCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryCreateNestedManyWithoutUserInput;
+};
+
+export type UserUncheckedCreateWithoutBadgesInput = {
+  id?: string;
+  username: string;
+  email: string;
+  password?: string | null;
+  status?: $Enums.UserStatus;
+  avatar?: string | null;
+  userType?: $Enums.UserType;
+  plan?: $Enums.MembershipPlan;
+  planStartDate?: Date | string | null;
+  planEndDate?: Date | string | null;
+  isMembership?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  resetPasswordExpires?: Date | string | null;
+  resetPasswordToken?: string | null;
+  isEmailVerified?: boolean;
+  otpCode?: string | null;
+  otpExpires?: Date | string | null;
+  darkMode?: boolean;
+  emailNotifications?: boolean;
+  language?: string;
+  marketingEmails?: boolean;
+  pushNotifications?: boolean;
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput;
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput;
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput;
+  commentReactions?: Prisma.CommentReactionUncheckedCreateNestedManyWithoutUserInput;
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutAuthorInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedCreateNestedOneWithoutUserInput;
+  media?: Prisma.MediaUncheckedCreateNestedManyWithoutUserInput;
+  notifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedCreateNestedManyWithoutUserInput;
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput;
+  memory?: Prisma.UserMemoryUncheckedCreateNestedOneWithoutUserInput;
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput;
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutUserInput;
+  videoNotes?: Prisma.VideoNoteUncheckedCreateNestedManyWithoutUserInput;
+  gamification?: Prisma.UserGamificationUncheckedCreateNestedOneWithoutUserInput;
+  pointHistory?: Prisma.PointHistoryUncheckedCreateNestedManyWithoutUserInput;
+};
+
+export type UserCreateOrConnectWithoutBadgesInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutBadgesInput,
+    Prisma.UserUncheckedCreateWithoutBadgesInput
+  >;
+};
+
+export type UserUpsertWithoutBadgesInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutBadgesInput,
+    Prisma.UserUncheckedUpdateWithoutBadgesInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutBadgesInput,
+    Prisma.UserUncheckedCreateWithoutBadgesInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutBadgesInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutBadgesInput,
+    Prisma.UserUncheckedUpdateWithoutBadgesInput
+  >;
+};
+
+export type UserUpdateWithoutBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  language?: Prisma.StringFieldUpdateOperationsInput | string;
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  blogs?: Prisma.BlogUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput;
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUpdateManyWithoutUserNestedInput;
+  courses?: Prisma.CourseUpdateManyWithoutAuthorNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUpdateOneWithoutUserNestedInput;
+  media?: Prisma.MediaUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUpdateManyWithoutUserNestedInput;
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput;
+  certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
+  videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  username?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  userType?: Prisma.EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType;
+  plan?:
+    | Prisma.EnumMembershipPlanFieldUpdateOperationsInput
+    | $Enums.MembershipPlan;
+  planStartDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  planEndDate?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  isMembership?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  resetPasswordExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  resetPasswordToken?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  otpCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  otpExpires?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  darkMode?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  language?: Prisma.StringFieldUpdateOperationsInput | string;
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  pushNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput;
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput;
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput;
+  commentReactions?: Prisma.CommentReactionUncheckedUpdateManyWithoutUserNestedInput;
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutAuthorNestedInput;
+  instructorProfile?: Prisma.InstructorProfileUncheckedUpdateOneWithoutUserNestedInput;
+  media?: Prisma.MediaUncheckedUpdateManyWithoutUserNestedInput;
+  notifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput;
+  lessonProgress?: Prisma.UserLessonProgressUncheckedUpdateManyWithoutUserNestedInput;
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput;
+  memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput;
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
+  videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUpdateWithoutRolesInput = {
@@ -5203,6 +6232,9 @@ export type UserUpdateWithoutRolesInput = {
   memory?: Prisma.UserMemoryUpdateOneWithoutUserNestedInput;
   certificates?: Prisma.CertificateUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRolesInput = {
@@ -5265,6 +6297,9 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   memory?: Prisma.UserMemoryUncheckedUpdateOneWithoutUserNestedInput;
   certificates?: Prisma.CertificateUncheckedUpdateManyWithoutUserNestedInput;
   videoNotes?: Prisma.VideoNoteUncheckedUpdateManyWithoutUserNestedInput;
+  gamification?: Prisma.UserGamificationUncheckedUpdateOneWithoutUserNestedInput;
+  pointHistory?: Prisma.PointHistoryUncheckedUpdateManyWithoutUserNestedInput;
+  badges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateManyWithoutRolesInput = {
@@ -5333,6 +6368,8 @@ export type UserCountOutputType = {
   roles: number;
   certificates: number;
   videoNotes: number;
+  pointHistory: number;
+  badges: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -5353,6 +6390,8 @@ export type UserCountOutputTypeSelect<
   roles?: boolean | UserCountOutputTypeCountRolesArgs;
   certificates?: boolean | UserCountOutputTypeCountCertificatesArgs;
   videoNotes?: boolean | UserCountOutputTypeCountVideoNotesArgs;
+  pointHistory?: boolean | UserCountOutputTypeCountPointHistoryArgs;
+  badges?: boolean | UserCountOutputTypeCountBadgesArgs;
 };
 
 /**
@@ -5508,6 +6547,26 @@ export type UserCountOutputTypeCountVideoNotesArgs<
   where?: Prisma.VideoNoteWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPointHistoryArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.PointHistoryWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBadgesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.UserBadgeWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -5552,6 +6611,9 @@ export type UserSelect<
     roles?: boolean | Prisma.User$rolesArgs<ExtArgs>;
     certificates?: boolean | Prisma.User$certificatesArgs<ExtArgs>;
     videoNotes?: boolean | Prisma.User$videoNotesArgs<ExtArgs>;
+    gamification?: boolean | Prisma.User$gamificationArgs<ExtArgs>;
+    pointHistory?: boolean | Prisma.User$pointHistoryArgs<ExtArgs>;
+    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -5696,6 +6758,9 @@ export type UserInclude<
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>;
   certificates?: boolean | Prisma.User$certificatesArgs<ExtArgs>;
   videoNotes?: boolean | Prisma.User$videoNotesArgs<ExtArgs>;
+  gamification?: boolean | Prisma.User$gamificationArgs<ExtArgs>;
+  pointHistory?: boolean | Prisma.User$pointHistoryArgs<ExtArgs>;
+  badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -5729,6 +6794,9 @@ export type $UserPayload<
     roles: Prisma.$RolePayload<ExtArgs>[];
     certificates: Prisma.$CertificatePayload<ExtArgs>[];
     videoNotes: Prisma.$VideoNotePayload<ExtArgs>[];
+    gamification: Prisma.$UserGamificationPayload<ExtArgs> | null;
+    pointHistory: Prisma.$PointHistoryPayload<ExtArgs>[];
+    badges: Prisma.$UserBadgePayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -6479,6 +7547,41 @@ export interface Prisma__UserClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$VideoNotePayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  gamification<T extends Prisma.User$gamificationArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$gamificationArgs<ExtArgs>>,
+  ): Prisma.Prisma__UserGamificationClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$UserGamificationPayload<ExtArgs>,
+      T,
+      'findUniqueOrThrow',
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
+  pointHistory<T extends Prisma.User$pointHistoryArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$pointHistoryArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$PointHistoryPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  badges<T extends Prisma.User$badgesArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$badgesArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$UserBadgePayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -7448,6 +8551,90 @@ export type User$videoNotesArgs<
   distinct?:
     | Prisma.VideoNoteScalarFieldEnum
     | Prisma.VideoNoteScalarFieldEnum[];
+};
+
+/**
+ * User.gamification
+ */
+export type User$gamificationArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the UserGamification
+   */
+  select?: Prisma.UserGamificationSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the UserGamification
+   */
+  omit?: Prisma.UserGamificationOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserGamificationInclude<ExtArgs> | null;
+  where?: Prisma.UserGamificationWhereInput;
+};
+
+/**
+ * User.pointHistory
+ */
+export type User$pointHistoryArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the PointHistory
+   */
+  select?: Prisma.PointHistorySelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the PointHistory
+   */
+  omit?: Prisma.PointHistoryOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PointHistoryInclude<ExtArgs> | null;
+  where?: Prisma.PointHistoryWhereInput;
+  orderBy?:
+    | Prisma.PointHistoryOrderByWithRelationInput
+    | Prisma.PointHistoryOrderByWithRelationInput[];
+  cursor?: Prisma.PointHistoryWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.PointHistoryScalarFieldEnum
+    | Prisma.PointHistoryScalarFieldEnum[];
+};
+
+/**
+ * User.badges
+ */
+export type User$badgesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the UserBadge
+   */
+  select?: Prisma.UserBadgeSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the UserBadge
+   */
+  omit?: Prisma.UserBadgeOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserBadgeInclude<ExtArgs> | null;
+  where?: Prisma.UserBadgeWhereInput;
+  orderBy?:
+    | Prisma.UserBadgeOrderByWithRelationInput
+    | Prisma.UserBadgeOrderByWithRelationInput[];
+  cursor?: Prisma.UserBadgeWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.UserBadgeScalarFieldEnum
+    | Prisma.UserBadgeScalarFieldEnum[];
 };
 
 /**

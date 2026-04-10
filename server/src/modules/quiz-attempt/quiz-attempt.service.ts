@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { AttemptStatus } from 'src/generated/prisma/enums';
 import { PrismaService } from 'src/shared/services/prisma.service';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import {
   AttemptContentResponseDto,
   AttemptMetaResponseDto,
@@ -22,6 +24,7 @@ export class QuizAttemptService {
   constructor(
     private readonly quizAttemptRepository: QuizAttemptRepository,
     private readonly prismaService: PrismaService,
+    @InjectQueue('gamification') private readonly gamificationQueue: Queue,
   ) {}
 
   private async verifyCourseAccess(userId: string, lessonId: string) {
@@ -396,6 +399,16 @@ export class QuizAttemptService {
       gradedAnswers,
       { score, maxScore, passed, correctCount, totalCount },
     );
+
+    // Gamification: +20 points for passing a quiz
+    if (passed === true) {
+      void this.gamificationQueue.add('add-points', {
+        userId,
+        points: 20,
+        reason: 'QUIZ_PASSED',
+        metadata: { lessonId: attempt.lessonId, attemptId },
+      });
+    }
 
     return {
       attemptId: submittedAttempt.id,

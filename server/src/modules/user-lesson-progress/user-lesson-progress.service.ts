@@ -4,6 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/shared/services/prisma.service';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { LessonRepository } from '../lesson/lesson.repository';
 import { UserRepository } from '../user/user.repository';
 import { UserLessonProgressRepository } from './user-lesson-progress.repository';
@@ -15,6 +17,7 @@ export class UserLessonProgressService {
     private readonly lessonRepository: LessonRepository,
     private readonly userRepository: UserRepository,
     private readonly prismaService: PrismaService,
+    @InjectQueue('gamification') private readonly gamificationQueue: Queue,
   ) {}
 
   async toggleProgress(userId: string, lessonId: string): Promise<any> {
@@ -57,11 +60,23 @@ export class UserLessonProgressService {
       }
     }
 
-    return this.userLessonProgressRepository.toggleProgress(
+    const result = await this.userLessonProgressRepository.toggleProgress(
       userId,
       lessonId,
       lesson.courseId,
     );
+
+    // If it was created (has an id and not removed), trigger gamification points
+    if (result && !('removed' in result)) {
+      await this.gamificationQueue.add('add-points', {
+        userId,
+        points: 10, // 10 points per lesson
+        reason: 'LESSON_COMPLETED',
+        metadata: { lessonId },
+      });
+    }
+
+    return result;
   }
 
   /**

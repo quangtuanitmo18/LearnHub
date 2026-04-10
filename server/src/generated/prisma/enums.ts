@@ -183,3 +183,22 @@ export const DocumentSourceType = {
 
 export type DocumentSourceType =
   (typeof DocumentSourceType)[keyof typeof DocumentSourceType];
+
+export const PointReason = {
+  DAILY_LOGIN: 'DAILY_LOGIN',
+  LESSON_COMPLETED: 'LESSON_COMPLETED',
+  QUIZ_PASSED: 'QUIZ_PASSED',
+  COURSE_COMPLETED: 'COURSE_COMPLETED',
+  REVIEW_ADDED: 'REVIEW_ADDED',
+} as const;
+
+export type PointReason = (typeof PointReason)[keyof typeof PointReason];
+
+export const BadgeCondition = {
+  POINTS_REACHED: 'POINTS_REACHED',
+  STREAK_REACHED: 'STREAK_REACHED',
+  LESSONS_COMPLETED: 'LESSONS_COMPLETED',
+} as const;
+
+export type BadgeCondition =
+  (typeof BadgeCondition)[keyof typeof BadgeCondition];

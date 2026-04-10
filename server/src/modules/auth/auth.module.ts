@@ -9,9 +9,7 @@ import { AuthQueueService } from './services';
 @Module({
   imports: [
     EmailModule,
-    BullModule.registerQueue({
-      name: AUTH_QUEUE,
-    }),
+    BullModule.registerQueue({ name: AUTH_QUEUE }, { name: 'gamification' }),
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthQueueService],

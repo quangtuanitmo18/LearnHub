@@ -8,7 +8,9 @@ import {
   Put,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { PERMISSIONS } from 'src/shared/configs/permission';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { RequirePermissions } from 'src/shared/decorators/permission.decorator';
@@ -42,6 +44,8 @@ export class CourseController {
 
   @Get('published')
   @Public()
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(300000) // 5 minutes
   @ResponseMessage('Published courses retrieved successfully')
   async getPublishedCourses(@Query() publicQuery: PublicCourseQueryDto) {
     return this.courseService.getPublishedCourses(publicQuery);
@@ -63,6 +67,8 @@ export class CourseController {
 
   @Get('slug/:slug')
   @Public()
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(300000) // 5 minutes
   @ResponseMessage('Course retrieved successfully')
   async getCourseBySlug(@Param('slug') slug: string) {
     return this.courseService.getCourseBySlug(slug);

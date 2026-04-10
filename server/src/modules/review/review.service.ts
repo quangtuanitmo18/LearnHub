@@ -4,6 +4,8 @@ import {
   BadRequestException,
   ForbiddenException,
 } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { ReviewRepository } from './review.repository';
 import { CourseRepository } from '../course/course.repository';
 import { OrderRepository } from '../order/order.repository';
@@ -25,6 +27,7 @@ export class ReviewService {
     private readonly reviewRepository: ReviewRepository,
     private readonly courseRepository: CourseRepository,
     private readonly orderRepository: OrderRepository,
+    @InjectQueue('gamification') private readonly gamificationQueue: Queue,
   ) {}
 
   /**
@@ -51,13 +54,23 @@ export class ReviewService {
     }
 
     // Create review (users can review multiple times)
-    return await this.reviewRepository.create({
+    const review = await this.reviewRepository.create({
       userId,
       courseId,
       star,
       content,
       status: ReviewStatus.APPROVED,
     });
+
+    // Gamification: +5 points for adding a review
+    void this.gamificationQueue.add('add-points', {
+      userId,
+      points: 5,
+      reason: 'REVIEW_ADDED',
+      metadata: { courseId, reviewId: review.id },
+    });
+
+    return review;
   }
 
   /**

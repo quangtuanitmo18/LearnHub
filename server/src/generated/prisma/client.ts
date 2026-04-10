@@ -222,3 +222,23 @@ export type Certificate = Prisma.CertificateModel;
  *
  */
 export type VideoNote = Prisma.VideoNoteModel;
+/**
+ * Model UserGamification
+ *
+ */
+export type UserGamification = Prisma.UserGamificationModel;
+/**
+ * Model PointHistory
+ *
+ */
+export type PointHistory = Prisma.PointHistoryModel;
+/**
+ * Model Badge
+ *
+ */
+export type Badge = Prisma.BadgeModel;
+/**
+ * Model UserBadge
+ *
+ */
+export type UserBadge = Prisma.UserBadgeModel;

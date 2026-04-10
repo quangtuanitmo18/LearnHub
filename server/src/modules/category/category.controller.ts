@@ -8,7 +8,9 @@ import {
   Put,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { PERMISSIONS } from 'src/shared/configs/permission';
 import { RequirePermissions } from 'src/shared/decorators/permission.decorator';
 import { Public } from 'src/shared/decorators/public.decorator';
@@ -29,6 +31,8 @@ export class CategoryController {
 
   @Get('all')
   @Public()
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(300000) // 5 minutes
   @ResponseMessage('All categories retrieved successfully')
   async getAllCategoriesUnpaginated() {
     return this.categoryService.getAllCategoriesUnpaginated();

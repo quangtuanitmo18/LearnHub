@@ -41,14 +41,14 @@ const LessonHeader = ({
   const handleClaim = () => {
     if (!courseId) return;
     if (hasClaimed) {
-      router.push('/my-certificates');
+      router.push('/my-profile?tab=certificates');
       return;
     }
     claimMutation.mutate(courseId, {
       onSuccess: () => {
         // Option to redirect to dashboard upon claiming
-        router.push('/my-certificates');
-      }
+        router.push('/my-profile?tab=certificates');
+      },
     });
   };
 
@@ -74,13 +74,15 @@ const LessonHeader = ({
         <div className="flex shrink-0 items-center space-x-2 text-xs sm:space-x-4 sm:text-sm md:space-x-6">
           {/* Certificate or Progress */}
           {isCompleted ? (
-            <Button 
-              onClick={handleClaim} 
+            <Button
+              onClick={handleClaim}
               disabled={claimMutation.isPending && !hasClaimed}
               size="sm"
-              className={hasClaimed 
-                ? "bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-md" 
-                : "bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white border-0 shadow-lg"}
+              className={
+                hasClaimed
+                  ? 'border-0 bg-emerald-600 text-white shadow-md hover:bg-emerald-700'
+                  : 'border-0 bg-gradient-to-r from-amber-500 to-yellow-600 text-white shadow-lg hover:from-amber-600 hover:to-yellow-700'
+              }
             >
               {claimMutation.isPending && !hasClaimed ? (
                 <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />

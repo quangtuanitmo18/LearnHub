@@ -1315,6 +1315,70 @@ export type EnumDocumentSourceTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>;
 };
 
+export type EnumPointReasonFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.PointReason
+    | Prisma.EnumPointReasonFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumPointReasonFilter<$PrismaModel> | $Enums.PointReason;
+};
+
+export type EnumPointReasonWithAggregatesFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.PointReason
+    | Prisma.EnumPointReasonFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumPointReasonWithAggregatesFilter<$PrismaModel>
+    | $Enums.PointReason;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumPointReasonFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumPointReasonFilter<$PrismaModel>;
+};
+
+export type EnumBadgeConditionFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.BadgeCondition
+    | Prisma.EnumBadgeConditionFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.BadgeCondition[]
+    | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.BadgeCondition[]
+    | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumBadgeConditionFilter<$PrismaModel>
+    | $Enums.BadgeCondition;
+};
+
+export type EnumBadgeConditionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.BadgeCondition
+    | Prisma.EnumBadgeConditionFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.BadgeCondition[]
+    | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.BadgeCondition[]
+    | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumBadgeConditionWithAggregatesFilter<$PrismaModel>
+    | $Enums.BadgeCondition;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumBadgeConditionFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumBadgeConditionFilter<$PrismaModel>;
+};
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>;
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
@@ -2585,3 +2649,68 @@ export type NestedEnumDocumentSourceTypeWithAggregatesFilter<
   _min?: Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>;
   _max?: Prisma.NestedEnumDocumentSourceTypeFilter<$PrismaModel>;
 };
+
+export type NestedEnumPointReasonFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.PointReason
+    | Prisma.EnumPointReasonFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumPointReasonFilter<$PrismaModel> | $Enums.PointReason;
+};
+
+export type NestedEnumPointReasonWithAggregatesFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.PointReason
+    | Prisma.EnumPointReasonFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.PointReason[]
+    | Prisma.ListEnumPointReasonFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumPointReasonWithAggregatesFilter<$PrismaModel>
+    | $Enums.PointReason;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumPointReasonFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumPointReasonFilter<$PrismaModel>;
+};
+
+export type NestedEnumBadgeConditionFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.BadgeCondition
+    | Prisma.EnumBadgeConditionFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.BadgeCondition[]
+    | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.BadgeCondition[]
+    | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumBadgeConditionFilter<$PrismaModel>
+    | $Enums.BadgeCondition;
+};
+
+export type NestedEnumBadgeConditionWithAggregatesFilter<$PrismaModel = never> =
+  {
+    equals?:
+      | $Enums.BadgeCondition
+      | Prisma.EnumBadgeConditionFieldRefInput<$PrismaModel>;
+    in?:
+      | $Enums.BadgeCondition[]
+      | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+    notIn?:
+      | $Enums.BadgeCondition[]
+      | Prisma.ListEnumBadgeConditionFieldRefInput<$PrismaModel>;
+    not?:
+      | Prisma.NestedEnumBadgeConditionWithAggregatesFilter<$PrismaModel>
+      | $Enums.BadgeCondition;
+    _count?: Prisma.NestedIntFilter<$PrismaModel>;
+    _min?: Prisma.NestedEnumBadgeConditionFilter<$PrismaModel>;
+    _max?: Prisma.NestedEnumBadgeConditionFilter<$PrismaModel>;
+  };

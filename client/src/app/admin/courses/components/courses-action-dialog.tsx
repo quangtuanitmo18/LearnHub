@@ -35,20 +35,19 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { CourseInfo, CourseLevel, CourseStatus, ICourse } from '@/types/course';
 
+import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
 import Editor from '@/components/tiptap/editor';
 import Toolbar from '@/components/tiptap/toolbar';
-import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
 import { useCategories } from '@/hooks/use-categories';
 import { useCreateCourse, useUpdateCourse } from '@/hooks/use-courses';
+import { IMedia, MediaType, getMediaDisplayUrl } from '@/types/media';
 import { CourseSchema, courseFormSchema } from '@/validators/course.validator';
+import { Film, Image as ImageIcon, Trash2 } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { NumericFormat } from 'react-number-format';
 import { toast } from 'sonner';
-import { Image as ImageIcon, Trash2, Film } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
-import { IMedia, MediaType } from '@/types/media';
-import { getMediaDisplayUrl } from '@/types/media';
 
 export const createEmptyCourseInfo = (): CourseInfo => ({
   requirements: [],
@@ -1006,7 +1005,7 @@ const CoursesActionDialog = ({
                         {courseInfo.documents.map((document, index) => (
                           <div key={index} className="flex gap-2">
                             <Input
-                              value={typeof document === string ? document : (document?.title || ")}
+                              value={document}
                               onChange={(e) =>
                                 setCourseInfo((draft) => {
                                   draft.documents[index] = e.target.value;

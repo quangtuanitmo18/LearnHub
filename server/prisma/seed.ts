@@ -612,6 +612,66 @@ async function main() {
     },
   });
 
+  console.log('🌱 Creating Gamification Badges...');
+  const badgesData = [
+    {
+      name: 'Newcomer',
+      description: 'Welcome aboard! You earned your first 50 XP.',
+      imageUrl:
+        'https://api.dicebear.com/7.x/shapes/svg?seed=newcomer&backgroundColor=b6e3f4',
+      conditionType: 'POINTS_REACHED' as const,
+      conditionValue: 50,
+    },
+    {
+      name: 'Rising Star',
+      description: 'You have accumulated 500 XP. Keep it up!',
+      imageUrl:
+        'https://api.dicebear.com/7.x/shapes/svg?seed=risingstar&backgroundColor=c0aede',
+      conditionType: 'POINTS_REACHED' as const,
+      conditionValue: 500,
+    },
+    {
+      name: 'Gold Scholar',
+      description: 'Impressive! You reached the 1,000 XP milestone.',
+      imageUrl:
+        'https://api.dicebear.com/7.x/shapes/svg?seed=goldscholar&backgroundColor=ffd5dc',
+      conditionType: 'POINTS_REACHED' as const,
+      conditionValue: 1000,
+    },
+    {
+      name: 'Legend',
+      description: 'A true legend with 5,000 XP accumulated.',
+      imageUrl:
+        'https://api.dicebear.com/7.x/shapes/svg?seed=legend&backgroundColor=ffdfbf',
+      conditionType: 'POINTS_REACHED' as const,
+      conditionValue: 5000,
+    },
+    {
+      name: 'Busy Bee',
+      description: 'Maintained a 7-day learning streak!',
+      imageUrl:
+        'https://api.dicebear.com/7.x/shapes/svg?seed=busybee&backgroundColor=d1d5db',
+      conditionType: 'STREAK_REACHED' as const,
+      conditionValue: 7,
+    },
+    {
+      name: 'Iron Discipline',
+      description: 'An incredible 30-day learning streak!',
+      imageUrl:
+        'https://api.dicebear.com/7.x/shapes/svg?seed=irondiscipline&backgroundColor=a7f3d0',
+      conditionType: 'STREAK_REACHED' as const,
+      conditionValue: 30,
+    },
+  ];
+
+  for (const badge of badgesData) {
+    await prisma.badge.upsert({
+      where: { name: badge.name },
+      update: {},
+      create: badge,
+    });
+  }
+
   console.log('✅ Completed the Production-ready Data Seeding process!');
 }
 

@@ -25,13 +25,24 @@ const SettingsTab = dynamic(() => import('./components/settings-tab'), {
   ssr: false,
 });
 
+const GamificationTab = dynamic(() => import('./components/gamification-tab'), { ssr: false });
+
+const CertificatesTab = dynamic(() => import('./components/certificates-tab'), { ssr: false });
+
 // Main profile page - Arrow function
 const MyProfilePage = () => {
   const searchParams = useSearchParams();
 
   const getInitialTab = (): ProfileTab => {
     const tab = searchParams.get('tab');
-    if (tab === 'account' || tab === 'courses' || tab === 'posts' || tab === 'settings') {
+    if (
+      tab === 'account' ||
+      tab === 'courses' ||
+      tab === 'posts' ||
+      tab === 'settings' ||
+      tab === 'achievements' ||
+      tab === 'certificates'
+    ) {
       return tab;
     }
     return 'account';
@@ -41,7 +52,14 @@ const MyProfilePage = () => {
 
   useEffect(() => {
     const tab = searchParams.get('tab');
-    if (tab === 'account' || tab === 'courses' || tab === 'posts' || tab === 'settings') {
+    if (
+      tab === 'account' ||
+      tab === 'courses' ||
+      tab === 'posts' ||
+      tab === 'settings' ||
+      tab === 'achievements' ||
+      tab === 'certificates'
+    ) {
       setActiveTab(tab);
     }
   }, [searchParams]);
@@ -55,6 +73,10 @@ const MyProfilePage = () => {
         return <MyCoursesTab />;
       case 'posts':
         return <MyPostsTab />;
+      case 'achievements':
+        return <GamificationTab />;
+      case 'certificates':
+        return <CertificatesTab />;
       case 'settings':
         return <SettingsTab />;
       default:
