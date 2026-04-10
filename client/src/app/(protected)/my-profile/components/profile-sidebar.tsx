@@ -8,9 +8,16 @@ import { ROUTE_CONFIG } from '@/configs/routes';
 import { DEFAULT_AVATAR } from '@/constants';
 import { useAuthStore } from '@/stores/auth-store';
 import { useRouter } from 'next/navigation';
-import { MdArticle, MdLogout, MdPerson, MdSchool, MdSettings } from 'react-icons/md';
+import { MdArticle, MdEmojiEvents, MdLogout, MdPerson, MdSchool, MdSettings } from 'react-icons/md';
+import { Award } from 'lucide-react';
 
-export type ProfileTab = 'account' | 'courses' | 'posts' | 'settings';
+export type ProfileTab =
+  | 'account'
+  | 'courses'
+  | 'posts'
+  | 'achievements'
+  | 'certificates'
+  | 'settings';
 
 interface ProfileSidebarProps {
   activeTab: ProfileTab;
@@ -32,6 +39,16 @@ const sidebarItems = [
     id: 'posts' as ProfileTab,
     label: 'My Posts',
     icon: MdArticle,
+  },
+  {
+    id: 'achievements' as ProfileTab,
+    label: 'Achievements',
+    icon: MdEmojiEvents,
+  },
+  {
+    id: 'certificates' as ProfileTab,
+    label: 'Certificates',
+    icon: Award,
   },
   {
     id: 'settings' as ProfileTab,

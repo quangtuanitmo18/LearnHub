@@ -11,6 +11,8 @@ import { Response as ExpressResponse } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import { EmailQueueService } from '../email/services';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import {
   ChangePasswordDto,
   FacebookAuthDto,
@@ -35,6 +37,7 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly emailQueueService: EmailQueueService,
     private readonly authQueueService: AuthQueueService,
+    @InjectQueue('gamification') private readonly gamificationQueue: Queue,
   ) {
     const googleClientId = this.configService.get<string>('google.clientId');
     this.googleClient = new OAuth2Client(googleClientId);
@@ -301,6 +304,14 @@ export class AuthService {
       this.generateAccessToken(user.id, user.userType),
       this.generateRefreshToken(user.id),
     ]);
+
+    // Gamification: Daily login points (fire-and-forget)
+    void this.gamificationQueue.add('add-points', {
+      userId: user.id,
+      points: 5,
+      reason: 'DAILY_LOGIN',
+      metadata: { trigger: 'login' },
+    });
 
     const permissions = new Set<string>();
     user.roles.forEach((role) => {

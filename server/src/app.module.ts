@@ -1,4 +1,5 @@
 import { BullModule } from '@nestjs/bullmq';
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
@@ -41,6 +42,8 @@ import { SharedModule } from './shared/shared.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { NoteModule } from './modules/note/note.module';
 import { CertificateModule } from './modules/certificate/certificate.module';
+import { GamificationModule } from './modules/gamification/gamification.module';
+import { redisStore } from 'cache-manager-ioredis-yet';
 
 @Module({
   imports: [
@@ -87,6 +90,20 @@ import { CertificateModule } from './modules/certificate/certificate.module';
       }),
       inject: [ConfigService],
     }),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        store: await redisStore({
+          host: configService.get('redis.host'),
+          port: configService.get('redis.port'),
+          password: configService.get('redis.password'),
+          ...(configService.get('redis.tls') ? { tls: {} } : {}),
+          ttl: 300000, // Default TTL: 5 minutes (in ms)
+        }),
+      }),
+      inject: [ConfigService],
+    }),
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 60 seconds
@@ -97,6 +114,7 @@ import { CertificateModule } from './modules/certificate/certificate.module';
     AiWorkerModule,
     NoteModule,
     CertificateModule,
+    GamificationModule,
   ],
   controllers: [AppController],
   providers: [

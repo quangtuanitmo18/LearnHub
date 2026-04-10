@@ -43,4 +43,8 @@ export type * from './models/DocumentChunkConcept.js';
 export type * from './models/Wishlist.js';
 export type * from './models/Certificate.js';
 export type * from './models/VideoNote.js';
+export type * from './models/UserGamification.js';
+export type * from './models/PointHistory.js';
+export type * from './models/Badge.js';
+export type * from './models/UserBadge.js';
 export type * from './commonInputTypes.js';
