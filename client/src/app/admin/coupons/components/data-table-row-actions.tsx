@@ -13,7 +13,6 @@ import { OPERATIONS, RESOURCES } from '@/configs/permission';
 import { usePermissions } from '@/hooks/use-permissions';
 import { ICoupon } from '@/types/coupon';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-// @ts-ignore
 import { IconCopy, IconEdit, IconTrash } from '@tabler/icons-react';
 import { Row } from '@tanstack/react-table';
 import { useState } from 'react';

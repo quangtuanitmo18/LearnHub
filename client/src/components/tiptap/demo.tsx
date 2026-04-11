@@ -1,4 +1,6 @@
-// @ts-ignore
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
 import { IconAlignCenter, IconAlignLeft, IconAlignRight } from '@tabler/icons-react';
 import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 import {
@@ -6,9 +8,6 @@ import {
   ResizableImageComponent,
   ResizableImageNodeViewRendererProps,
 } from 'tiptap-extension-resizable-image';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 
 const NodeView = (props: ResizableImageNodeViewRendererProps) => {
   const { node, updateAttributes } = props;

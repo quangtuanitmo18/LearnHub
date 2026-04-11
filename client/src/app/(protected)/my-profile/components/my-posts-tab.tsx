@@ -70,7 +70,7 @@ function PostCard({ post, onDelete }: { post: IBlog; onDelete: (id: string) => v
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {/* Status Badge */}
-        <div className="absolute left-4 top-4">
+        <div className="absolute top-4 left-4">
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium shadow-sm ${statusConfig.className}`}
           >
@@ -90,7 +90,7 @@ function PostCard({ post, onDelete }: { post: IBlog; onDelete: (id: string) => v
               {format(new Date(post.createdAt), 'MMM dd, yyyy')}
             </span>
           </div>
-          
+
           {post.status === BlogStatus.PUBLISHED && (
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1.5">
@@ -106,7 +106,7 @@ function PostCard({ post, onDelete }: { post: IBlog; onDelete: (id: string) => v
         </div>
 
         {/* Title */}
-        <h3 className="line-clamp-2 text-lg font-bold leading-tight text-gray-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+        <h3 className="line-clamp-2 text-lg leading-tight font-bold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
           {post.title || 'Untitled Post'}
         </h3>
 
@@ -125,26 +125,26 @@ function PostCard({ post, onDelete }: { post: IBlog; onDelete: (id: string) => v
         )}
 
         {/* Actions Footer */}
-        <div className="mt-auto pt-4 flex flex-wrap items-center gap-2 border-t border-gray-100 dark:border-gray-700/50">
+        <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-gray-100 pt-4 dark:border-gray-700/50">
           {canEdit && (
             <Link href={`/my-profile/posts/${post.id}/edit`}>
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 gap-1.5 text-xs text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 bg-transparent"
+                className="h-8 gap-1.5 bg-transparent text-xs text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
               >
                 <FileEdit className="h-3.5 w-3.5" />
                 Edit
               </Button>
             </Link>
           )}
-          
+
           {post.status === BlogStatus.PUBLISHED && post.slug && (
             <Link href={`/blogs/${post.slug}`} target="_blank">
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 gap-1.5 text-xs text-gray-700 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400 bg-transparent"
+                className="h-8 gap-1.5 bg-transparent text-xs text-gray-700 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400"
               >
                 <Eye className="h-3.5 w-3.5" />
                 Read
@@ -156,7 +156,7 @@ function PostCard({ post, onDelete }: { post: IBlog; onDelete: (id: string) => v
             <Button
               variant="outline"
               size="sm"
-              className="h-8 gap-1.5 text-xs text-red-600 hover:bg-red-50 hover:text-red-700 border-red-200 bg-transparent dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-900/20"
+              className="h-8 gap-1.5 border-red-200 bg-transparent text-xs text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-900/20"
               onClick={() => onDelete(post.id)}
             >
               <Trash2 className="h-3.5 w-3.5" />
@@ -172,7 +172,7 @@ function PostCard({ post, onDelete }: { post: IBlog; onDelete: (id: string) => v
 // Loading skeleton
 function PostCardSkeleton() {
   return (
-    <div className="animate-pulse flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+    <div className="flex animate-pulse flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
       <div className="aspect-[16/10] bg-gray-200 dark:bg-gray-700" />
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-3 flex items-center justify-between">
@@ -182,8 +182,8 @@ function PostCardSkeleton() {
         <div className="mb-2 h-6 w-3/4 rounded bg-gray-200 dark:bg-gray-700" />
         <div className="mb-4 h-4 w-full rounded bg-gray-200 dark:bg-gray-700" />
         <div className="mb-4 h-4 w-2/3 rounded bg-gray-200 dark:bg-gray-700" />
-        
-        <div className="mt-auto pt-4 flex gap-2 border-t border-gray-100 dark:border-gray-700/50">
+
+        <div className="mt-auto flex gap-2 border-t border-gray-100 pt-4 dark:border-gray-700/50">
           <div className="h-8 w-16 rounded bg-gray-200 dark:bg-gray-700" />
           <div className="h-8 w-16 rounded bg-gray-200 dark:bg-gray-700" />
         </div>
@@ -199,8 +199,7 @@ const MyPostsTab = () => {
   const deleteMutation = useDeleteCommunityPost();
 
   const posts = data?.result || [];
-  const filteredPosts =
-    activeTab === 'all' ? posts : posts.filter((p) => p.status === activeTab);
+  const filteredPosts = activeTab === 'all' ? posts : posts.filter((p) => p.status === activeTab);
   const pagination = data?.meta;
 
   const handleDelete = (id: string) => {
@@ -214,7 +213,7 @@ const MyPostsTab = () => {
       {/* Header */}
       <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div>
-          <h1 className="mb-1 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
+          <h1 className="mb-1 text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
             My Posts
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -238,7 +237,7 @@ const MyPostsTab = () => {
               setActiveTab(tab.key);
               setPage(1);
             }}
-            className={`whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium transition-all sm:text-sm ${
+            className={`rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all sm:text-sm ${
               activeTab === tab.key
                 ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-700 dark:text-white'
                 : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
@@ -295,7 +294,9 @@ const MyPostsTab = () => {
             <BookOpen className="h-10 w-10 text-blue-600 dark:text-blue-400" />
           </div>
           <h3 className="mb-2 text-lg font-bold text-gray-900 dark:text-white">
-            {activeTab === 'all' ? '✍️ No Posts Yet' : `No ${TABS.find((t) => t.key === activeTab)?.label} Posts`}
+            {activeTab === 'all'
+              ? '✍️ No Posts Yet'
+              : `No ${TABS.find((t) => t.key === activeTab)?.label} Posts`}
           </h3>
           <p className="mx-auto mb-6 max-w-md text-sm text-gray-600 dark:text-gray-400">
             {activeTab === 'all'

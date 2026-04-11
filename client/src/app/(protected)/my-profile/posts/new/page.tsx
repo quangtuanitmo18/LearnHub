@@ -36,21 +36,25 @@ import { useMyCourses } from '@/hooks/use-courses';
 import { useCreateCommunityPost } from '@/hooks/use-blogs';
 import { BlogStatus } from '@/types/blog';
 import { IMedia, MediaType, getMediaDisplayUrl } from '@/types/media';
-import {
-  ArrowLeft,
-  Save,
-  Send,
-  Loader2,
-  Image as ImageIcon,
-  Trash2,
-} from 'lucide-react';
+import { ArrowLeft, Save, Send, Loader2, Image as ImageIcon, Trash2 } from 'lucide-react';
 
 // Validation schema for community post
 const communityPostSchema = yup
   .object({
-    title: yup.string().required('Title is required').min(10, 'Title must be at least 10 characters').max(200),
-    content: yup.string().required('Content is required').min(50, 'Content must be at least 50 characters'),
-    excerpt: yup.string().required('Excerpt is required').min(10, 'Excerpt must be at least 10 characters').max(300),
+    title: yup
+      .string()
+      .required('Title is required')
+      .min(10, 'Title must be at least 10 characters')
+      .max(200),
+    content: yup
+      .string()
+      .required('Content is required')
+      .min(50, 'Content must be at least 50 characters'),
+    excerpt: yup
+      .string()
+      .required('Excerpt is required')
+      .min(10, 'Excerpt must be at least 10 characters')
+      .max(300),
     thumbnail: yup.string().optional().default(''),
     categoryId: yup.string().required('Category is required'),
     courseId: yup.string().optional().default(''),
@@ -125,9 +129,7 @@ const CreatePostPage = () => {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Create New Post
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create New Post</h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Share your knowledge with the community
             </p>
@@ -213,7 +215,7 @@ const CreatePostPage = () => {
                       ))}
                     </SelectContent>
                   </Select>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     Link your post to a course you&apos;re enrolled in
                   </div>
                 </FormItem>
@@ -318,7 +320,7 @@ const CreatePostPage = () => {
                   </FormControl>
                   <FormMessage />
                   {!field.value && (
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       Recommended: 16:9 aspect ratio, minimum 1200x675px
                     </p>
                   )}

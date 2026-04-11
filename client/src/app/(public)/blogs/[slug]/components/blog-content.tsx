@@ -23,10 +23,10 @@ const BlogContent = ({ blog }: BlogContentProps) => {
         />
       </article>
 
-      <BlogUpvote 
-        blogId={blog.id} 
-        authorId={blog.authorId || ''} 
-        upvotesCount={blog.upvotesCount} 
+      <BlogUpvote
+        blogId={blog.id}
+        authorId={blog.authorId || ''}
+        upvotesCount={blog.upvotesCount}
       />
 
       {/* Article Footer */}

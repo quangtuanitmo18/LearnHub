@@ -3,7 +3,18 @@
 import React, { useCallback } from 'react';
 import { useMyCertificates } from '@/hooks/use-certificate';
 import { format } from 'date-fns';
-import { Award, Calendar, CheckCircle2, Copy, Download, ExternalLink, Eye, Fingerprint, Loader2, Share2 } from 'lucide-react';
+import {
+  Award,
+  Calendar,
+  CheckCircle2,
+  Copy,
+  Download,
+  ExternalLink,
+  Eye,
+  Fingerprint,
+  Loader2,
+  Share2,
+} from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -123,9 +134,7 @@ const CertificatesTab = () => {
                       <span>Issued On</span>
                     </div>
                     <span className="font-semibold text-gray-900 dark:text-white">
-                      {cert.issuedAt
-                        ? format(new Date(cert.issuedAt), 'MMM dd, yyyy')
-                        : 'Unknown'}
+                      {cert.issuedAt ? format(new Date(cert.issuedAt), 'MMM dd, yyyy') : 'Unknown'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-xs sm:text-sm">
@@ -165,10 +174,7 @@ const CertificatesTab = () => {
                     <Share2 className="h-3.5 w-3.5" />
                     Share
                   </Button>
-                  <Link
-                    href={`/courses/${cert.course?.slug}`}
-                    className="hidden sm:block"
-                  >
+                  <Link href={`/courses/${cert.course?.slug}`} className="hidden sm:block">
                     <Button
                       variant="ghost"
                       size="sm"

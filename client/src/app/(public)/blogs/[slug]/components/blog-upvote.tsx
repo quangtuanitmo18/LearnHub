@@ -17,7 +17,7 @@ export function BlogUpvote({ blogId, authorId, upvotesCount }: BlogUpvoteProps) 
   const user = useUser();
   const { data: statusData } = useBlogUpvoteStatus(blogId);
   const { mutate: toggleUpvote, isPending } = useToggleUpvote();
-  
+
   // Optimistic UI state
   const [isUpvoted, setIsUpvoted] = React.useState(false);
   const [localCount, setLocalCount] = React.useState(upvotesCount);
@@ -59,29 +59,29 @@ export function BlogUpvote({ blogId, authorId, upvotesCount }: BlogUpvoteProps) 
   };
 
   return (
-    <div className="flex items-center gap-3 py-6 mt-8 border-t border-gray-100">
+    <div className="mt-8 flex items-center gap-3 border-t border-gray-100 py-6">
       <Button
         variant="outline"
         size="lg"
         onClick={handleUpvote}
         disabled={isPending}
         className={`group relative overflow-hidden rounded-full transition-all duration-300 ${
-          isUpvoted 
-            ? 'border-primary bg-primary/5 text-primary hover:bg-primary/10' 
+          isUpvoted
+            ? 'border-primary bg-primary/5 text-primary hover:bg-primary/10'
             : 'hover:border-primary hover:bg-primary/5 hover:text-primary'
         }`}
       >
-        <ThumbsUp 
+        <ThumbsUp
           className={`mr-2 h-5 w-5 transition-transform duration-300 ${
             isUpvoted ? 'fill-primary scale-110' : 'group-hover:scale-110 group-active:scale-95'
           }`}
         />
         <span className="font-semibold">{localCount}</span>
-        
+
         {/* Subtle ripple effect on hover/active */}
-        <span className="absolute inset-0 scale-0 rounded-full bg-primary/10 opacity-0 transition-all duration-300 group-active:scale-100 group-active:opacity-100" />
+        <span className="bg-primary/10 absolute inset-0 scale-0 rounded-full opacity-0 transition-all duration-300 group-active:scale-100 group-active:opacity-100" />
       </Button>
-      <span className="text-sm text-gray-500 font-medium select-none">
+      <span className="text-sm font-medium text-gray-500 select-none">
         {isUpvoted ? 'You liked this post' : 'Like this post if it helped you'}
       </span>
     </div>

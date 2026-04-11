@@ -42,15 +42,19 @@ const StreakFire = ({
               </div>
               <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">Daily Streak</p>
             </div>
-            
+
             <div className="mt-3 flex items-baseline gap-1.5">
-              <span className="bg-gradient-to-br from-orange-600 to-red-600 bg-clip-text text-4xl font-black tracking-tight text-transparent sm:text-5xl drop-shadow-sm">
+              <span className="bg-gradient-to-br from-orange-600 to-red-600 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-sm sm:text-5xl">
                 {currentStreak}
               </span>
               <span className="text-sm font-medium text-gray-500 dark:text-gray-400">days</span>
             </div>
             <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Best streak: <span className="font-semibold text-gray-700 dark:text-gray-300">{longestStreak}</span> days
+              Best streak:{' '}
+              <span className="font-semibold text-gray-700 dark:text-gray-300">
+                {longestStreak}
+              </span>{' '}
+              days
             </p>
           </div>
           <div className="relative">
@@ -110,13 +114,21 @@ const LevelProgressBar = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold text-gray-900 sm:text-xl dark:text-white">Level {level}</h3>
-                <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-[10px] text-emerald-600 dark:border-emerald-900/50 dark:bg-emerald-900/20 dark:text-emerald-400">
+                <h3 className="text-lg font-bold text-gray-900 sm:text-xl dark:text-white">
+                  Level {level}
+                </h3>
+                <Badge
+                  variant="outline"
+                  className="border-emerald-200 bg-emerald-50 text-[10px] text-emerald-600 dark:border-emerald-900/50 dark:bg-emerald-900/20 dark:text-emerald-400"
+                >
                   {Math.round(progress * 100)}%
                 </Badge>
               </div>
               <p className="mt-0.5 text-xs text-gray-500 sm:text-sm dark:text-gray-400">
-                <span className="font-semibold text-gray-700 dark:text-gray-300">{totalPoints.toLocaleString()}</span> XP total
+                <span className="font-semibold text-gray-700 dark:text-gray-300">
+                  {totalPoints.toLocaleString()}
+                </span>{' '}
+                XP total
               </p>
             </div>
           </div>
@@ -126,7 +138,10 @@ const LevelProgressBar = ({
               <span className="text-xs font-semibold">Keep going!</span>
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              <span className="font-semibold text-gray-700 dark:text-gray-300">{(nextLevelPoints - totalPoints).toLocaleString()}</span> XP to Lvl {level + 1}
+              <span className="font-semibold text-gray-700 dark:text-gray-300">
+                {(nextLevelPoints - totalPoints).toLocaleString()}
+              </span>{' '}
+              XP to Lvl {level + 1}
             </p>
           </div>
         </div>
@@ -160,7 +175,7 @@ const BadgeShowcase = ({ badges }: { badges: GamificationProfile['badges'] }) =>
       <Card className="border-0 bg-linear-to-br from-white via-gray-50/50 to-slate-50/50 shadow-lg dark:from-gray-900 dark:via-gray-800/10 dark:to-slate-800/10">
         <CardContent className="flex flex-col items-center justify-center p-8 text-center sm:p-12">
           <div className="mb-4 rounded-full bg-gray-100 p-4 dark:bg-gray-800">
-            <MdWorkspacePremium className="h-10 w-10 text-gray-400 dark:text-gray-500 sm:h-12 sm:w-12" />
+            <MdWorkspacePremium className="h-10 w-10 text-gray-400 sm:h-12 sm:w-12 dark:text-gray-500" />
           </div>
           <h3 className="text-lg font-bold text-gray-900 sm:text-xl dark:text-white">
             No Badges Yet
@@ -176,18 +191,20 @@ const BadgeShowcase = ({ badges }: { badges: GamificationProfile['badges'] }) =>
   return (
     <Card className="border-0 bg-linear-to-br from-white via-amber-50/10 to-yellow-50/10 shadow-lg dark:from-gray-900 dark:via-amber-900/5 dark:to-yellow-900/5">
       <CardContent className="p-5 sm:p-6">
-        <div className="mb-5 flex flex-wrap gap-3 items-center justify-between">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 justify-center items-center rounded-xl bg-gradient-to-br from-amber-100 to-yellow-200 shadow-sm dark:from-amber-900/40 dark:to-yellow-900/40">
-               <MdMilitaryTech className="h-6 w-6 text-amber-600 sm:h-7 sm:w-7 dark:text-amber-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-yellow-200 shadow-sm dark:from-amber-900/40 dark:to-yellow-900/40">
+              <MdMilitaryTech className="h-6 w-6 text-amber-600 sm:h-7 sm:w-7 dark:text-amber-500" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 sm:text-xl dark:text-white">Badge Collection</h3>
+            <h3 className="text-lg font-bold text-gray-900 sm:text-xl dark:text-white">
+              Badge Collection
+            </h3>
           </div>
-          <Badge className="border border-amber-200 bg-amber-50 px-3 py-1 font-semibold text-amber-600 dark:border-amber-800/50 dark:bg-amber-900/20 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/40">
+          <Badge className="border border-amber-200 bg-amber-50 px-3 py-1 font-semibold text-amber-600 hover:bg-amber-100 dark:border-amber-800/50 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/40">
             {badges.length} badges earned
           </Badge>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {badges.map((badge) => (
             <div
@@ -196,8 +213,8 @@ const BadgeShowcase = ({ badges }: { badges: GamificationProfile['badges'] }) =>
             >
               {/* Highlight background on hover */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-50/50 to-yellow-50/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-amber-900/10 dark:to-yellow-900/10" />
-              
-              <div className="relative mb-3 z-10 pt-2">
+
+              <div className="relative z-10 mb-3 pt-2">
                 <img
                   src={badge.imageUrl}
                   alt={badge.name}
@@ -211,14 +228,21 @@ const BadgeShowcase = ({ badges }: { badges: GamificationProfile['badges'] }) =>
                   <MdStar className="h-3.5 w-3.5 text-white" />
                 </div>
               </div>
-              <h4 className="z-10 text-sm font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:block transition-all">{badge.name}</h4>
-              <p className="z-10 mt-1 line-clamp-2 text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+              <h4 className="z-10 line-clamp-1 text-sm font-bold text-gray-900 transition-all group-hover:block dark:text-white">
+                {badge.name}
+              </h4>
+              <p className="z-10 mt-1 line-clamp-2 text-xs text-gray-500 transition-colors group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300">
                 {badge.description}
               </p>
-              <div className="mt-auto pt-3 z-10 w-full">
+              <div className="z-10 mt-auto w-full pt-3">
                 <div className="flex w-full justify-center rounded-lg bg-gray-50 py-1.5 dark:bg-gray-700/50">
                   <p className="text-[10px] font-medium text-gray-500 dark:text-gray-400">
-                    Earned on {new Date(badge.earnedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    Earned on{' '}
+                    {new Date(badge.earnedAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
               </div>
@@ -255,16 +279,22 @@ const RankCard = ({ rank, totalPoints }: { rank: number | null; totalPoints: num
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-100 to-blue-100 shadow-sm dark:from-indigo-900/40 dark:to-blue-900/40">
                 <MdEmojiEvents className="h-5 w-5 text-indigo-500" />
               </div>
-              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">Global Ranking</p>
+              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Global Ranking
+              </p>
             </div>
-            
+
             <div className="mt-3 flex items-baseline gap-1.5">
-              <span className="bg-gradient-to-br from-indigo-600 to-blue-600 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl drop-shadow-sm">
+              <span className="bg-gradient-to-br from-indigo-600 to-blue-600 bg-clip-text text-3xl font-black tracking-tight text-transparent drop-shadow-sm sm:text-4xl">
                 {getRankLabel(rank)}
               </span>
             </div>
             <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-              Total Points: <span className="font-semibold text-gray-700 dark:text-gray-300">{totalPoints.toLocaleString()}</span> XP
+              Total Points:{' '}
+              <span className="font-semibold text-gray-700 dark:text-gray-300">
+                {totalPoints.toLocaleString()}
+              </span>{' '}
+              XP
             </p>
           </div>
           <div className="relative">

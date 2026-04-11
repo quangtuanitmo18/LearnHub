@@ -1,11 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { Row } from '@tanstack/react-table';
-// @ts-ignore
-import { IconEdit, IconTrash, IconList } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -15,9 +9,14 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { OPERATIONS, RESOURCES } from '@/configs/permission';
 import { usePermissions } from '@/hooks/use-permissions';
-import { RESOURCES, OPERATIONS } from '@/configs/permission';
 import { ICourse } from '@/types/course';
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { IconEdit, IconList, IconTrash } from '@tabler/icons-react';
+import { Row } from '@tanstack/react-table';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import CoursesActionDialog from './courses-action-dialog';
 import CoursesDeleteDialog from './courses-delete-dialog';
 

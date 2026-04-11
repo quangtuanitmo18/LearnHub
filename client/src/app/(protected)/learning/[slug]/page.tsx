@@ -161,69 +161,69 @@ const LessonPage = () => {
 
   return (
     <VideoPlayerProvider>
-    <div className="h-screen overflow-hidden">
-      {/* Backdrop overlay for mobile sidebar */}
-      {isSidebarOpen && (
+      <div className="h-screen overflow-hidden">
+        {/* Backdrop overlay for mobile sidebar */}
+        {isSidebarOpen && (
+          <div
+            className="bg-opacity-50 fixed inset-0 z-40 bg-black transition-opacity duration-300 lg:hidden"
+            onClick={toggleSidebar}
+          />
+        )}
+
+        <LessonHeader
+          courseTitle={lesson?.course?.title || 'Course'}
+          courseSlug={lesson?.course?.slug || ''}
+          courseId={lesson?.courseId || ''}
+          completedLessons={completedCount}
+          totalLessons={totalLessons}
+          onGuideClick={startTour}
+        />
+
         <div
-          className="bg-opacity-50 fixed inset-0 z-40 bg-black transition-opacity duration-300 lg:hidden"
-          onClick={toggleSidebar}
+          className={`h-screen pt-16 pb-16 transition-all duration-300 ${
+            isSidebarOpen ? 'lg:pr-[23%]' : 'pr-0'
+          }`}
+        >
+          <div className="h-full w-full overflow-y-auto">{renderLessonContent()}</div>
+        </div>
+
+        <LessonNavigation
+          courseSlug={lesson?.course?.slug || ''}
+          previousLesson={previousLesson ? { id: previousLesson?.id } : undefined}
+          nextLesson={nextLesson ? { id: nextLesson?.id } : undefined}
+          currentChapterTitle={currentChapterTitle}
+          isSidebarOpen={isSidebarOpen}
+          onToggleSidebar={toggleSidebar}
         />
-      )}
 
-      <LessonHeader
-        courseTitle={lesson?.course?.title || 'Course'}
-        courseSlug={lesson?.course?.slug || ''}
-        courseId={lesson?.courseId || ''}
-        completedLessons={completedCount}
-        totalLessons={totalLessons}
-        onGuideClick={startTour}
-      />
+        <LessonSidebar
+          courseTitle={lesson?.course?.title || 'Course'}
+          courseSlug={lesson?.course?.slug || ''}
+          courseId={lesson?.courseId || ''}
+          chapters={sidebarChapters}
+          currentLessonId={lessonId}
+          currentChapterId={lesson?.chapterId || ''}
+          tracks={tracks}
+          isSidebarOpen={isSidebarOpen}
+          onToggleSidebar={toggleSidebar}
+        />
 
-      <div
-        className={`h-screen pt-16 pb-16 transition-all duration-300 ${
-          isSidebarOpen ? 'lg:pr-[23%]' : 'pr-0'
-        }`}
-      >
-        <div className="h-full w-full overflow-y-auto">{renderLessonContent()}</div>
+        <LessonCommentButton
+          className={`bottom-20 sm:bottom-20 ${
+            isSidebarOpen ? 'right-4 lg:right-[25%]' : 'right-4 sm:right-10'
+          }`}
+          onClick={handleOpenComments}
+        />
+
+        {/* Only render drawer if user has clicked the button */}
+        {showComments && (
+          <LessonCommentDrawer
+            lessonId={lessonId}
+            isOpen={showComments}
+            onOpenChange={setShowComments}
+          />
+        )}
       </div>
-
-      <LessonNavigation
-        courseSlug={lesson?.course?.slug || ''}
-        previousLesson={previousLesson ? { id: previousLesson?.id } : undefined}
-        nextLesson={nextLesson ? { id: nextLesson?.id } : undefined}
-        currentChapterTitle={currentChapterTitle}
-        isSidebarOpen={isSidebarOpen}
-        onToggleSidebar={toggleSidebar}
-      />
-
-      <LessonSidebar
-        courseTitle={lesson?.course?.title || 'Course'}
-        courseSlug={lesson?.course?.slug || ''}
-        courseId={lesson?.courseId || ''}
-        chapters={sidebarChapters}
-        currentLessonId={lessonId}
-        currentChapterId={lesson?.chapterId || ''}
-        tracks={tracks}
-        isSidebarOpen={isSidebarOpen}
-        onToggleSidebar={toggleSidebar}
-      />
-
-      <LessonCommentButton
-        className={`bottom-20 sm:bottom-20 ${
-          isSidebarOpen ? 'right-4 lg:right-[25%]' : 'right-4 sm:right-10'
-        }`}
-        onClick={handleOpenComments}
-      />
-
-      {/* Only render drawer if user has clicked the button */}
-      {showComments && (
-        <LessonCommentDrawer
-          lessonId={lessonId}
-          isOpen={showComments}
-          onOpenChange={setShowComments}
-        />
-      )}
-    </div>
     </VideoPlayerProvider>
   );
 };

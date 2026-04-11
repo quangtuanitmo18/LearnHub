@@ -10,14 +10,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { OPERATIONS, RESOURCES } from '@/configs/permission';
+import { useUpdateBlogStatus } from '@/hooks/use-blogs';
 import { usePermissions } from '@/hooks/use-permissions';
 import { IBlog } from '@/types/blog';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-// @ts-ignore
-import { IconEdit, IconTrash, IconCheck, IconX } from '@tabler/icons-react';
+import { IconCheck, IconEdit, IconTrash, IconX } from '@tabler/icons-react';
 import { Row } from '@tanstack/react-table';
 import { useState } from 'react';
-import { useUpdateBlogStatus } from '@/hooks/use-blogs';
 import BlogsActionDialog from './blogs-action-dialog';
 import BlogsDeleteDialog from './blogs-delete-dialog';
 

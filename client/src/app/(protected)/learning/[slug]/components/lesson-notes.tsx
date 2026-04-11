@@ -221,11 +221,7 @@ export function LessonNotes({ lessonId, courseId }: LessonNotesProps) {
                       autoFocus
                     />
                     <div className="flex justify-end gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setEditingNoteId(null)}
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => setEditingNoteId(null)}>
                         Cancel
                       </Button>
                       <Button size="sm" onClick={() => handleUpdateNote(note.id)}>
@@ -234,7 +230,7 @@ export function LessonNotes({ lessonId, courseId }: LessonNotesProps) {
                     </div>
                   </div>
                 ) : (
-                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700">
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap text-gray-700">
                     {note.content}
                   </p>
                 )}

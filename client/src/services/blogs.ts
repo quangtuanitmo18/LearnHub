@@ -152,7 +152,10 @@ export class BlogsService {
   }
 
   // Update blog status (Admin)
-  static async updateBlogStatus(id: string, status: 'DRAFT' | 'PENDING' | 'PUBLISHED' | 'REJECTED'): Promise<IBlog> {
+  static async updateBlogStatus(
+    id: string,
+    status: 'DRAFT' | 'PENDING' | 'PUBLISHED' | 'REJECTED',
+  ): Promise<IBlog> {
     return ApiService.put<IBlog, { status: string }>(ENDPOINTS.BLOG_STATUS(id), { status });
   }
 
@@ -195,4 +198,3 @@ export class BlogsService {
 }
 
 export default BlogsService;
-

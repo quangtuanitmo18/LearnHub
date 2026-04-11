@@ -76,9 +76,9 @@ export function VideoPlayerProvider({ children }: { children: React.ReactNode })
 }
 
 // Separate context for the sync callback to avoid unnecessary re-renders
-const VideoPlayerSyncContext = createContext<
-  ((time: number, playing: boolean) => void) | null
->(null);
+const VideoPlayerSyncContext = createContext<((time: number, playing: boolean) => void) | null>(
+  null,
+);
 
 /** Hook for components that need to read player state (Notes, etc.) */
 export function useVideoPlayer() {

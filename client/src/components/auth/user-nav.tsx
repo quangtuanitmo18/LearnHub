@@ -70,15 +70,20 @@ export function UserNav() {
               <div className="absolute right-0 bottom-0 h-3 w-3 rounded-full border-2 border-white bg-green-500 shadow-sm"></div>
             </div>
             <div className="flex-1 overflow-hidden">
-              <h3 className="text-lg font-semibold text-gray-900 truncate" title={user.username}>{user.username}</h3>
-              <p className="text-sm text-gray-600 truncate" title={user.email}>{user.email}</p>
+              <h3 className="truncate text-lg font-semibold text-gray-900" title={user.username}>
+                {user.username}
+              </h3>
+              <p className="truncate text-sm text-gray-600" title={user.email}>
+                {user.email}
+              </p>
               {user.roles && user.roles.length > 0 && (
                 <div className="mt-1 flex flex-wrap gap-1">
                   {user.roles.map((role) => (
-                    <span 
-                      key={role.id} 
+                    <span
+                      key={role.id}
                       className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                        role.name === SYSTEM_ROLE_NAMES.SUPER_ADMIN || role.name === SYSTEM_ROLE_NAMES.ADMIN
+                        role.name === SYSTEM_ROLE_NAMES.SUPER_ADMIN ||
+                        role.name === SYSTEM_ROLE_NAMES.ADMIN
                           ? 'bg-red-100 text-red-800'
                           : 'bg-blue-100 text-blue-800'
                       }`}

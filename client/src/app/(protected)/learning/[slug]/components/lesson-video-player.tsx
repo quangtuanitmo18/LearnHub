@@ -46,10 +46,7 @@ const LessonVideoPlayer = ({
     if (!syncTime) return;
     const interval = setInterval(() => {
       if (playerRef.current) {
-        syncTime(
-          playerRef.current.currentTime,
-          !playerRef.current.paused,
-        );
+        syncTime(playerRef.current.currentTime, !playerRef.current.paused);
       }
     }, 500);
     return () => clearInterval(interval);

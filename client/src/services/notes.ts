@@ -21,10 +21,7 @@ export class NoteService {
     return ApiService.get<INote[]>(ENDPOINTS.BY_LESSON(lessonId));
   }
 
-  static async update(
-    id: string,
-    data: { content?: string; timestamp?: number },
-  ): Promise<INote> {
+  static async update(id: string, data: { content?: string; timestamp?: number }): Promise<INote> {
     return ApiService.put<INote, typeof data>(ENDPOINTS.UPDATE(id), data);
   }
 

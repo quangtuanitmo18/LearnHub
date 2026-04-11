@@ -2,7 +2,11 @@
 
 import { useState, useCallback } from 'react';
 import { Editor as TipTapEditor } from '@tiptap/react';
-import { useInfiniteBlogComments, useCreateBlogComment, useLoadReplies } from '@/hooks/use-comments';
+import {
+  useInfiniteBlogComments,
+  useCreateBlogComment,
+  useLoadReplies,
+} from '@/hooks/use-comments';
 import { IComment } from '@/types/comment';
 import { CommentsService } from '@/services/comments';
 import { toast } from 'sonner';
@@ -177,7 +181,7 @@ const BlogCommentSection = ({ blogId }: BlogCommentSectionProps) => {
       return;
     }
 
-    const parentCommentId = commentId; 
+    const parentCommentId = commentId;
     const specificCommentId = commentId;
     const parentLevel = found.comment.level || 1;
 
@@ -228,10 +232,10 @@ const BlogCommentSection = ({ blogId }: BlogCommentSectionProps) => {
   };
 
   return (
-    <div className="mt-12 sm:mt-16 pt-8 border-t border-gray-200">
-      <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+    <div className="mt-12 border-t border-gray-200 pt-8 sm:mt-16">
+      <h3 className="mb-6 flex items-center gap-2 text-xl font-bold text-gray-900">
         Comments
-        <span className="bg-gray-100 text-gray-600 text-sm py-0.5 px-2.5 rounded-full">
+        <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-sm text-gray-600">
           {totalComments}
         </span>
       </h3>
@@ -250,8 +254,8 @@ const BlogCommentSection = ({ blogId }: BlogCommentSectionProps) => {
           />
         </div>
       ) : (
-        <div className="mb-8 p-4 bg-gray-50 rounded-lg text-center border border-gray-100">
-          <p className="text-gray-600 mb-3 text-sm">You must be logged in to leave a comment.</p>
+        <div className="mb-8 rounded-lg border border-gray-100 bg-gray-50 p-4 text-center">
+          <p className="mb-3 text-sm text-gray-600">You must be logged in to leave a comment.</p>
         </div>
       )}
 
@@ -285,7 +289,7 @@ const BlogCommentSection = ({ blogId }: BlogCommentSectionProps) => {
               size="sm"
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
-              className="px-6 rounded-full"
+              className="rounded-full px-6"
             >
               {isFetchingNextPage ? (
                 <>

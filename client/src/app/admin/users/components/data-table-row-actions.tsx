@@ -10,7 +10,6 @@ import {
 import { useDeleteUser } from '@/hooks/use-users';
 import { IUser } from '@/types/user';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-// @ts-ignore
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { Row } from '@tanstack/react-table';
 import { useState } from 'react';

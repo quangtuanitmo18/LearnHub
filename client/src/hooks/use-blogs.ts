@@ -201,8 +201,13 @@ export function useUpdateBlogStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, status }: { id: string; status: 'DRAFT' | 'PENDING' | 'PUBLISHED' | 'REJECTED' }) =>
-      BlogsService.updateBlogStatus(id, status),
+    mutationFn: ({
+      id,
+      status,
+    }: {
+      id: string;
+      status: 'DRAFT' | 'PENDING' | 'PUBLISHED' | 'REJECTED';
+    }) => BlogsService.updateBlogStatus(id, status),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: blogKeys.lists() });
       queryClient.invalidateQueries({ queryKey: blogKeys.detail(data.id) });

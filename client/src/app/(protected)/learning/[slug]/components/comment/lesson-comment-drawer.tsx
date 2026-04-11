@@ -43,7 +43,7 @@ const LessonCommentDrawer = ({ lessonId, isOpen, onOpenChange }: LessonCommentDr
   } = useInfiniteComments(lessonId);
 
   const createCommentMutation = useCreateComment();
-  const { loadReplies, loadingReplies } = useLoadReplies(lessonId);
+  const { loadReplies, loadingReplies } = useLoadReplies({ lessonId });
 
   // Local state
   const [isComposing, setIsComposing] = useState(false);
