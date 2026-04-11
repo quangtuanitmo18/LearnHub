@@ -14,6 +14,7 @@ const ENDPOINTS = {
   COMMENTS: '/comments',
   COMMENT: (id: string) => `/comments/${id}`,
   LESSON_COMMENTS: (lessonId: string) => `/lessons/${lessonId}/comments`,
+  BLOG_COMMENTS: (blogId: string) => `/blogs/${blogId}/comments`,
   COMMENT_REPLIES: (commentId: string) => `/comments/${commentId}/replies`,
   COMMENT_REACT: (id: string) => `/comments/${id}/react`,
   COMMENT_STATUS: (id: string) => `/comments/${id}/status`,
@@ -72,13 +73,49 @@ export class CommentsService {
     return ApiService.get<IComment>(ENDPOINTS.COMMENT(id));
   }
 
-  // Create comment
+  // Create comment on lesson
   static async createComment(
     lessonId: string,
     commentData: CreateCommentRequest,
   ): Promise<IComment> {
     return ApiService.post<IComment, CreateCommentRequest>(
       ENDPOINTS.LESSON_COMMENTS(lessonId),
+      commentData,
+    );
+  }
+
+  // Get blog comments
+  static async getBlogComments(
+    blogId: string,
+    params?: Omit<CommentsFilterParams, 'blogId'>,
+  ): Promise<CommentsListResponse> {
+    try {
+      return await ApiService.get<CommentsListResponse>(
+        ENDPOINTS.BLOG_COMMENTS(blogId),
+        params as Record<string, unknown>,
+      );
+    } catch {
+      return {
+        result: [],
+        meta: {
+          page: 1,
+          limit: 10,
+          totalItems: 0,
+          totalPages: 0,
+          hasNextPage: false,
+          hasPreviousPage: false,
+        },
+      };
+    }
+  }
+
+  // Create comment on blog
+  static async createBlogComment(
+    blogId: string,
+    commentData: CreateCommentRequest,
+  ): Promise<IComment> {
+    return ApiService.post<IComment, CreateCommentRequest>(
+      ENDPOINTS.BLOG_COMMENTS(blogId),
       commentData,
     );
   }

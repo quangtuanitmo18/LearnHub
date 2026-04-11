@@ -32,9 +32,10 @@ interface EditorProps {
   onChange?: (content: string) => void;
   onReady?: (editor: TipTapEditor) => void;
   className?: string;
+  autoFocus?: boolean | 'start' | 'end' | 'all';
 }
 
-const Editor = ({ content = '', onChange, onReady, className }: EditorProps) => {
+const Editor = ({ content = '', onChange, onReady, className, autoFocus = false }: EditorProps) => {
   const { setEditor } = useEditorStore();
   const lowlight = createLowlight();
   lowlight.register(common);
@@ -115,6 +116,7 @@ const Editor = ({ content = '', onChange, onReady, className }: EditorProps) => 
       Underline,
     ],
     content: content,
+    autofocus: autoFocus,
     immediatelyRender: false,
   });
 

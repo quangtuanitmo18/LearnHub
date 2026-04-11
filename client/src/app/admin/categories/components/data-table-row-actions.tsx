@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Row } from '@tanstack/react-table';
+// @ts-ignore
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import {

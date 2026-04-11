@@ -22,12 +22,88 @@ import {
   UpdateBlogDto,
   BlogQueryDto,
   BulkDeleteBlogDto,
+  CreateCommunityPostDto,
+  UpdateCommunityPostDto,
+  UpdateBlogStatusDto,
 } from './dto/blog.dto';
 
 @Controller('blogs')
 @UseGuards(PermissionGuard)
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
+
+  // ==========================================
+  // COMMUNITY ENDPOINTS (must be before :id routes)
+  // ==========================================
+
+  @Get('me')
+  @ResponseMessage('My posts retrieved successfully')
+  async getMyPosts(
+    @CurrentUser('sub') userId: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
+    return this.blogService.getMyPosts(userId, paginationQuery);
+  }
+
+  @Post('community')
+  @ResponseMessage('Community post created successfully')
+  async createCommunityPost(
+    @Body() dto: CreateCommunityPostDto,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return this.blogService.createCommunityPost(dto, userId);
+  }
+
+  @Put('community/:id')
+  @ResponseMessage('Community post updated successfully')
+  async updateCommunityPost(
+    @Param('id') id: string,
+    @Body() dto: UpdateCommunityPostDto,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return this.blogService.updateCommunityPost(id, dto, userId);
+  }
+
+  @Delete('community/:id')
+  @ResponseMessage('Community post deleted successfully')
+  async deleteCommunityPost(
+    @Param('id') id: string,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return this.blogService.deleteCommunityPost(id, userId);
+  }
+
+  @Post(':id/upvote')
+  @ResponseMessage('Upvote toggled successfully')
+  async toggleUpvote(
+    @Param('id') id: string,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return this.blogService.toggleUpvote(id, userId);
+  }
+
+  @Get(':id/upvote-status')
+  @ResponseMessage('Upvote status retrieved')
+  async getUpvoteStatus(
+    @Param('id') id: string,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return this.blogService.checkUpvoteStatus(id, userId);
+  }
+
+  @Put(':id/status')
+  @RequirePermissions(PERMISSIONS.BLOG_UPDATE)
+  @ResponseMessage('Blog status updated successfully')
+  async updateBlogStatus(
+    @Param('id') id: string,
+    @Body() dto: UpdateBlogStatusDto,
+  ) {
+    return this.blogService.updateBlogStatus(id, dto.status);
+  }
+
+  // ==========================================
+  // ADMIN ENDPOINTS (existing)
+  // ==========================================
 
   @Get()
   @RequirePermissions(PERMISSIONS.BLOG_READ)
@@ -48,6 +124,19 @@ export class BlogController {
   @ResponseMessage('Published blogs retrieved successfully')
   async getPublishedBlogs(@Query() paginationQuery: PaginationQueryDto) {
     return this.blogService.getPublishedBlogs(paginationQuery);
+  }
+
+  @Get('course/:courseId')
+  @Public()
+  @ResponseMessage('Community blogs for course retrieved successfully')
+  async getCommunityBlogsByCourse(
+    @Param('courseId') courseId: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
+    return this.blogService.getCommunityBlogsByCourse(
+      courseId,
+      paginationQuery,
+    );
   }
 
   @Get('slug/:slug')

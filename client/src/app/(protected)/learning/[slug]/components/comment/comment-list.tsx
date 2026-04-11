@@ -18,6 +18,7 @@ interface CommentListProps {
   showReplies: Record<string, boolean>;
   loadingReplies: Record<string, boolean>;
   lessonId?: string; // Add lessonId for cache invalidation
+  blogId?: string; // Add blogId for cache invalidation
   onReply: (commentId: string, userName: string) => void;
   onToggleReplies: (commentId: string) => void;
   onLoadReplies: (commentId: string) => void;
@@ -48,6 +49,7 @@ const CommentList = ({
   onReplySubmit,
   onReplyCancel,
   onRefetch,
+  blogId,
 }: CommentListProps) => {
   // Error State
   if (error) {
@@ -113,6 +115,7 @@ const CommentList = ({
           loadingRepliesState={loadingReplies}
           onToggleRepliesWithId={onToggleReplies}
           onLoadRepliesWithId={onLoadReplies}
+          blogId={blogId}
           level={1}
         />
       ))}

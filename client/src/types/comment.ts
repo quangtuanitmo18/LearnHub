@@ -24,7 +24,8 @@ export interface CommentUser {
 export interface IComment {
   id: string;
   content: string;
-  lessonId: string;
+  lessonId?: string;
+  blogId?: string;
   userId: string;
   parentId?: string | null; // For nested replies
   level: number; // Nesting level (0 for top-level, 1+ for replies)

@@ -1,13 +1,13 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Loader2 } from 'lucide-react';
-import Toolbar from '@/components/tiptap/toolbar';
 import Editor from '@/components/tiptap/editor';
-import { Editor as TipTapEditor } from '@tiptap/react';
-import { useUser } from '@/stores/auth-store';
+import Toolbar from '@/components/tiptap/toolbar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { DEFAULT_AVATAR } from '@/constants';
+import { useUser } from '@/stores/auth-store';
+import { Editor as TipTapEditor } from '@tiptap/react';
+import { Loader2 } from 'lucide-react';
 
 interface CommentEditorProps {
   isComposing: boolean;
@@ -73,7 +73,12 @@ const CommentEditor = ({
           <Toolbar />
         </div>
 
-        <Editor content={content} onChange={onContentChange} onReady={onEditorReady} />
+        <Editor
+          content={content}
+          onChange={onContentChange}
+          onReady={onEditorReady}
+          autoFocus="end"
+        />
 
         <div className="flex justify-end gap-1.5 p-2 sm:gap-2 sm:p-3">
           <Button

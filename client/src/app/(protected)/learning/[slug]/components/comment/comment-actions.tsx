@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ThumbsUp, MoreHorizontal, Edit3, Trash2 } from 'lucide-react';
+import { DeleteDialog } from '@/components/ui/delete-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +19,7 @@ interface CommentActionsProps {
   comment: IComment;
   userName: string;
   lessonId?: string; // For cache invalidation
+  blogId?: string; // For cache invalidation
   onReply: (commentId: string, userName: string) => void;
   onEdit?: (commentId: string) => void;
   level?: number; // Comment nesting level
@@ -28,6 +30,7 @@ const CommentActions = ({
   comment,
   userName,
   lessonId,
+  blogId,
   onReply,
   onEdit,
   level = 1,
@@ -36,11 +39,12 @@ const CommentActions = ({
   const currentUserId = currentUser?.id;
   const userReaction = getUserReaction(comment); // Now uses myReaction from API
   const [showReactions, setShowReactions] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Use custom hooks for comment operations
-  const { toggleReaction, isLoading } = useCommentReactions({ lessonId });
-  const deleteCommentMutation = useDeleteComment(lessonId);
+  const { toggleReaction, isLoading } = useCommentReactions({ lessonId, blogId });
+  const deleteCommentMutation = useDeleteComment({ lessonId, blogId });
 
   // Check if current user owns this comment
   const isCommentOwner = currentUserId === comment.userId;
@@ -52,11 +56,7 @@ const CommentActions = ({
     }
   };
 
-  const handleDeleteClick = async () => {
-    if (!window.confirm('Are you sure you want to delete this comment?')) {
-      return;
-    }
-
+  const handleDeleteConfirm = async () => {
     await deleteCommentMutation.deleteComment(comment.id);
   };
 
@@ -316,7 +316,7 @@ const CommentActions = ({
                   Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={handleDeleteClick}
+                  onClick={() => setShowDeleteDialog(true)}
                   disabled={deleteCommentMutation.isPending}
                   variant="destructive"
                   className="cursor-pointer text-xs sm:text-sm"
@@ -332,6 +332,15 @@ const CommentActions = ({
               </DropdownMenuContent>
             </DropdownMenu>
           )}
+
+          <DeleteDialog
+            open={showDeleteDialog}
+            onOpenChange={setShowDeleteDialog}
+            title="Delete Comment"
+            description="Are you sure you want to delete this comment? This action cannot be undone."
+            onDelete={handleDeleteConfirm}
+            trigger={<span className="hidden" />}
+          />
         </div>
       </div>
     </div>

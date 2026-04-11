@@ -5,6 +5,7 @@ import { ROUTE_CONFIG } from '@/configs/routes';
 import { IBlog } from '@/types/blog';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { BlogUpvote } from './blog-upvote';
 
 interface BlogContentProps {
   blog: IBlog;
@@ -21,6 +22,12 @@ const BlogContent = ({ blog }: BlogContentProps) => {
           className="tiptap ProseMirror rich-content"
         />
       </article>
+
+      <BlogUpvote 
+        blogId={blog.id} 
+        authorId={blog.authorId || ''} 
+        upvotesCount={blog.upvotesCount} 
+      />
 
       {/* Article Footer */}
       <footer className="mt-10 border-t border-gray-200 pt-6 sm:mt-12 sm:pt-8 md:mt-16">

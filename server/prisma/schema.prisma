@@ -33,6 +33,7 @@ model User {
   marketingEmails      Boolean                 @default(false)
   pushNotifications    Boolean                 @default(false)
   blogs                Blog[]
+  blogUpvotes          BlogUpvote[]
   carts                Cart[]
   comments             Comment[]
   commentReactions     CommentReaction[]
@@ -96,15 +97,34 @@ model Blog {
   updatedAt      DateTime        @updatedAt
   authorId       String?
   categoryId     String
+  courseId       String?
+  upvotesCount   Int             @default(0)
+  viewsCount     Int             @default(0)
   author         User?           @relation(fields: [authorId], references: [id])
   category       Category        @relation(fields: [categoryId], references: [id])
+  course         Course?         @relation(fields: [courseId], references: [id], onDelete: SetNull)
   documentChunks DocumentChunk[]
+  blogUpvotes    BlogUpvote[]
+  comments       Comment[]
 
   @@index([title], map: "idx_blog_title")
   @@index([slug], map: "idx_blog_slug")
   @@index([status], map: "idx_blog_status")
   @@index([authorId], map: "idx_blog_author")
   @@index([categoryId], map: "idx_blog_category")
+  @@index([courseId], map: "idx_blog_course")
+}
+
+model BlogUpvote {
+  id        String   @id @default(uuid())
+  userId    String
+  blogId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, blogId], name: "unique_user_blog_upvote")
+  @@index([blogId], map: "idx_blog_upvote_blog")
 }
 
 model Category {
@@ -155,6 +175,7 @@ model Course {
   previewImages  Media[]              @relation("CoursePreviewImages")
   wishlists      Wishlist[]
   certificates   Certificate[]
+  blogs          Blog[]
 
   @@index([title], map: "idx_course_title")
   @@index([slug], map: "idx_course_slug")
@@ -466,7 +487,8 @@ model NotificationRecipient {
 
 model Comment {
   id        String            @id @default(uuid())
-  lessonId  String
+  lessonId  String?
+  blogId    String?
   userId    String
   parentId  String?
   content   String
@@ -474,13 +496,15 @@ model Comment {
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
   status    CommentStatus     @default(APPROVED)
-  lesson    Lesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lesson    Lesson?           @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  blog      Blog?             @relation(fields: [blogId], references: [id], onDelete: Cascade)
   parent    Comment?          @relation("Children", fields: [parentId], references: [id], onDelete: Cascade)
   children  Comment[]         @relation("Children")
   user      User              @relation(fields: [userId], references: [id])
   reactions CommentReaction[]
 
   @@index([lessonId], map: "idx_comment_lesson")
+  @@index([blogId], map: "idx_comment_blog")
   @@index([parentId], map: "idx_comment_parent")
   @@index([userId], map: "idx_comment_user")
   @@index([status], map: "idx_comment_status")
@@ -664,7 +688,9 @@ enum ReviewStatus {
 
 enum BlogStatus {
   DRAFT
+  PENDING
   PUBLISHED
+  REJECTED
 }
 
 enum MembershipPlan {
@@ -810,6 +836,8 @@ enum PointReason {
   QUIZ_PASSED
   COURSE_COMPLETED
   REVIEW_ADDED
+  BLOG_PUBLISHED
+  BLOG_UPVOTED
 }
 
 enum BadgeCondition {

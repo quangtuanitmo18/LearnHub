@@ -21,7 +21,8 @@ interface CommentItemProps {
   isPending: boolean;
   showReplies: boolean;
   loadingReplies: boolean;
-  lessonId?: string; // Add lessonId for cache invalidation
+  lessonId?: string;
+  blogId?: string; // Add blogId for cache invalidation
   onReply: (commentId: string, userName: string) => void;
   onToggleReplies: () => void;
   onLoadReplies: () => void;
@@ -48,6 +49,7 @@ const CommentItem = ({
   showReplies,
   loadingReplies,
   lessonId,
+  blogId,
   onReply,
   onToggleReplies,
   onLoadReplies,
@@ -68,7 +70,7 @@ const CommentItem = ({
   const [editEditor, setEditEditor] = useState<TipTapEditor | null>(null);
 
   // Custom hook for updating comment
-  const updateCommentMutation = useUpdateComment(lessonId);
+  const updateCommentMutation = useUpdateComment({ lessonId, blogId });
   const isUpdating = updateCommentMutation.isPending;
 
   // Calculate avatar size based on nesting level
@@ -171,6 +173,7 @@ const CommentItem = ({
             comment={comment}
             userName={comment.user?.username || 'Unknown User'}
             lessonId={lessonId}
+            blogId={blogId}
             onReply={onReply}
             onEdit={handleEditStart}
             level={level}
@@ -252,6 +255,7 @@ const CommentItem = ({
                       showReplies={showRepliesState?.[reply.id] || false}
                       loadingReplies={loadingRepliesState?.[reply.id] || false}
                       lessonId={lessonId}
+                      blogId={blogId}
                       onReply={onReply}
                       onToggleReplies={() => onToggleRepliesWithId?.(reply.id)}
                       onLoadReplies={() => onLoadRepliesWithId?.(reply.id)}

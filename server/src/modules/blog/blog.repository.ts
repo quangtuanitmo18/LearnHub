@@ -32,6 +32,9 @@ export class BlogRepository extends BaseService<
         publishedAt: true,
         authorId: true,
         categoryId: true,
+        courseId: true,
+        upvotesCount: true,
+        viewsCount: true,
         createdAt: true,
         updatedAt: true,
         author: {
@@ -49,17 +52,23 @@ export class BlogRepository extends BaseService<
             slug: true,
           },
         },
+        course: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+          },
+        },
       },
     });
   }
 
   /**
-   * Find all blogs with filtering by status, author, and category
+   * Find all blogs with filtering by status, author, category, and course
    */
   async findAllBlogs(
     blogQuery?: BlogQueryDto,
   ): Promise<PaginatedResponseDto<any>> {
-    // Build additional where conditions for filtering
     const additionalWhere: any = {};
 
     if (blogQuery?.status) {
@@ -78,7 +87,10 @@ export class BlogRepository extends BaseService<
       additionalWhere.categoryId = blogQuery.categoryId;
     }
 
-    // Use the base findAll method with additional filters
+    if (blogQuery?.courseId) {
+      additionalWhere.courseId = blogQuery.courseId;
+    }
+
     return this.findAll(blogQuery, additionalWhere);
   }
 
@@ -90,10 +102,42 @@ export class BlogRepository extends BaseService<
   }
 
   /**
-   * Find blogs by author
+   * Find blogs by author with pagination (My Posts)
    */
   async findByAuthor(authorId: string, paginationQuery?: PaginationQueryDto) {
     return this.findAll(paginationQuery, { authorId });
+  }
+
+  /**
+   * Find blogs by author with status filter (My Posts with status tabs)
+   */
+  async findByAuthorWithStatus(
+    authorId: string,
+    status?: BlogStatus | BlogStatus[],
+    paginationQuery?: PaginationQueryDto,
+  ) {
+    const where: any = { authorId };
+    if (status) {
+      if (Array.isArray(status)) {
+        where.status = { in: status };
+      } else {
+        where.status = status;
+      }
+    }
+    return this.findAll(paginationQuery, where);
+  }
+
+  /**
+   * Find published blogs linked to a specific course (Community Articles)
+   */
+  async findPublishedByCourse(
+    courseId: string,
+    paginationQuery?: PaginationQueryDto,
+  ) {
+    return this.findAll(paginationQuery, {
+      courseId,
+      status: BlogStatus.PUBLISHED,
+    });
   }
 
   /**
@@ -126,5 +170,58 @@ export class BlogRepository extends BaseService<
     }
     const blog = await this.findFirst(where);
     return !!blog;
+  }
+
+  /**
+   * Toggle upvote: returns { action: 'added' | 'removed', upvotesCount }
+   */
+  async toggleUpvote(blogId: string, userId: string) {
+    const existing = await this.prismaService.blogUpvote.findUnique({
+      where: { unique_user_blog_upvote: { userId, blogId } },
+    });
+
+    if (existing) {
+      // Remove upvote
+      await this.prismaService.blogUpvote.delete({
+        where: { id: existing.id },
+      });
+      const blog = await this.prismaService.blog.update({
+        where: { id: blogId },
+        data: { upvotesCount: { decrement: 1 } },
+        select: { upvotesCount: true, authorId: true },
+      });
+      return { action: 'removed' as const, ...blog };
+    } else {
+      // Add upvote
+      await this.prismaService.blogUpvote.create({
+        data: { userId, blogId },
+      });
+      const blog = await this.prismaService.blog.update({
+        where: { id: blogId },
+        data: { upvotesCount: { increment: 1 } },
+        select: { upvotesCount: true, authorId: true },
+      });
+      return { action: 'added' as const, ...blog };
+    }
+  }
+
+  /**
+   * Check if a user has upvoted a blog
+   */
+  async hasUserUpvoted(blogId: string, userId: string): Promise<boolean> {
+    const upvote = await this.prismaService.blogUpvote.findUnique({
+      where: { unique_user_blog_upvote: { userId, blogId } },
+    });
+    return !!upvote;
+  }
+
+  /**
+   * Increment view count
+   */
+  async incrementViewCount(blogId: string) {
+    return this.prismaService.blog.update({
+      where: { id: blogId },
+      data: { viewsCount: { increment: 1 } },
+    });
   }
 }

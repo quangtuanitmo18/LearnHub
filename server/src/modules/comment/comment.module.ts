@@ -3,10 +3,11 @@ import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
 import { CommentRepository } from './comment.repository';
 import { LessonModule } from '../lesson/lesson.module';
+import { BlogModule } from '../blog/blog.module';
 import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [LessonModule, UserModule],
+  imports: [LessonModule, BlogModule, UserModule],
   controllers: [CommentController],
   providers: [CommentService, CommentRepository],
   exports: [CommentService, CommentRepository],

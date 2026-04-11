@@ -13,6 +13,7 @@ const CourseReviews = dynamic(() => import('./course-reviews'), {
 import CourseOverview from './course-overview';
 import CourseCurriculum from './course-curriculum';
 import EnrollmentCard from './enrollment-card';
+import CourseCommunityArticles from './course-community-articles';
 import { usePublishedChaptersByCourse } from '@/hooks/use-chapters';
 
 interface CourseContentProps {
@@ -46,6 +47,9 @@ const CourseContent = ({ course }: CourseContentProps) => {
             fallbackAverageRating={course?.averageRating || 0}
             fallbackTotalReviews={course?.totalReviews || 0}
           />
+
+          {/* Community Articles */}
+          <CourseCommunityArticles courseId={course?.id} />
         </div>
 
         {/* Right Sidebar - Desktop (sticky) */}

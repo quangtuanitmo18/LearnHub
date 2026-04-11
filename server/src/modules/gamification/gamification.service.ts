@@ -22,8 +22,13 @@ export class GamificationService {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     private readonly notificationService: NotificationService,
   ) {
-    // Cast to access the underlying ioredis client within CacheManager
-    this.redisClient = (this.cacheManager as any).store.client;
+    // Safely access the underlying ioredis client for leaderboard ZSet operations
+    try {
+      this.redisClient = (this.cacheManager as any)?.store?.client ?? null;
+    } catch {
+      this.logger.warn('Redis client not available — leaderboard features disabled');
+      this.redisClient = null;
+    }
   }
 
   /**

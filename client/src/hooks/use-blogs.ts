@@ -1,7 +1,15 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import BlogsService from '@/services/blogs';
 import { toast } from 'sonner';
-import { CreateBlogRequest, UpdateBlogRequest, BlogsFilterParams } from '@/types/blog';
+import {
+  CreateBlogRequest,
+  CreateCommunityPostRequest,
+  UpdateBlogRequest,
+  UpdateCommunityPostRequest,
+  BlogsFilterParams,
+} from '@/types/blog';
+import { BaseFilterParams } from '@/types/common';
+import { useAuthStore } from '@/stores/auth-store';
 
 // Query keys for blogs
 export const blogKeys = {
@@ -12,9 +20,15 @@ export const blogKeys = {
     [...blogKeys.all, 'published', params] as const,
   allBlogs: () => [...blogKeys.all, 'all'] as const,
   detail: (id: string) => [...blogKeys.all, 'detail', id] as const,
+  myPosts: (params?: BaseFilterParams) => [...blogKeys.all, 'my-posts', params] as const,
+  byCourse: (courseId: string, params?: BaseFilterParams) =>
+    [...blogKeys.all, 'course', courseId, params] as const,
 };
 
-// Hooks for blogs
+// ==========================================
+// EXISTING ADMIN HOOKS
+// ==========================================
+
 export function useBlogs(params?: BlogsFilterParams) {
   return useQuery({
     queryKey: blogKeys.list(params || {}),
@@ -23,7 +37,6 @@ export function useBlogs(params?: BlogsFilterParams) {
   });
 }
 
-// Hook for getting published blogs
 export function usePublishedBlogs(params?: Omit<BlogsFilterParams, 'status'>) {
   return useQuery({
     queryKey: blogKeys.published(params || {}),
@@ -32,7 +45,6 @@ export function usePublishedBlogs(params?: Omit<BlogsFilterParams, 'status'>) {
   });
 }
 
-// Hook for getting all blogs (for dropdowns)
 export function useAllBlogs() {
   return useQuery({
     queryKey: blogKeys.allBlogs(),
@@ -40,7 +52,6 @@ export function useAllBlogs() {
   });
 }
 
-// Hook for getting single blog
 export function useBlog(id: string) {
   return useQuery({
     queryKey: blogKeys.detail(id),
@@ -49,7 +60,6 @@ export function useBlog(id: string) {
   });
 }
 
-// Hook for getting blog by slug
 export function useBlogBySlug(slug: string) {
   return useQuery({
     queryKey: [...blogKeys.all, 'slug', slug] as const,
@@ -112,5 +122,114 @@ export function useBulkDeleteBlogs() {
     onError: (error) => {
       toast.error(error?.message || 'Failed to delete blogs');
     },
+  });
+}
+
+// ==========================================
+// COMMUNITY HOOKS
+// ==========================================
+
+export function useMyPosts(params?: BaseFilterParams) {
+  return useQuery({
+    queryKey: blogKeys.myPosts(params),
+    queryFn: () => BlogsService.getMyPosts(params),
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useCreateCommunityPost() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateCommunityPostRequest) => BlogsService.createCommunityPost(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: blogKeys.myPosts() });
+      toast.success('Post created successfully!');
+    },
+    onError: (error) => {
+      toast.error(error?.message || 'Failed to create post');
+    },
+  });
+}
+
+export function useUpdateCommunityPost() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: UpdateCommunityPostRequest }) =>
+      BlogsService.updateCommunityPost(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: blogKeys.myPosts() });
+      toast.success('Post updated successfully!');
+    },
+    onError: (error) => {
+      toast.error(error?.message || 'Failed to update post');
+    },
+  });
+}
+
+export function useDeleteCommunityPost() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => BlogsService.deleteCommunityPost(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: blogKeys.myPosts() });
+      toast.success('Post deleted successfully');
+    },
+    onError: (error) => {
+      toast.error(error?.message || 'Failed to delete post');
+    },
+  });
+}
+
+export function useToggleUpvote() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (blogId: string) => BlogsService.toggleUpvote(blogId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: blogKeys.all });
+    },
+    onError: (error) => {
+      toast.error(error?.message || 'Failed to update vote');
+    },
+  });
+}
+
+export function useUpdateBlogStatus() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: 'DRAFT' | 'PENDING' | 'PUBLISHED' | 'REJECTED' }) =>
+      BlogsService.updateBlogStatus(id, status),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: blogKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: blogKeys.detail(data.id) });
+      toast.success('Status updated successfully');
+    },
+    onError: (error) => {
+      toast.error(error?.message || 'Failed to update status');
+    },
+  });
+}
+
+export function useBlogUpvoteStatus(blogId: string) {
+  const isAuth = useAuthStore((s) => !!s.user);
+
+  return useQuery({
+    queryKey: [...blogKeys.all, 'upvote-status', blogId],
+    queryFn: () => BlogsService.getUpvoteStatus(blogId),
+    enabled: !!blogId && isAuth,
+    retry: false, // Don't retry if it fails
+  });
+}
+
+export function useCommunityBlogsByCourse(courseId: string, params?: BaseFilterParams) {
+  return useQuery({
+    queryKey: blogKeys.byCourse(courseId, params),
+    queryFn: () => BlogsService.getCommunityBlogsByCourse(courseId, params),
+    enabled: !!courseId,
+    placeholderData: keepPreviousData,
   });
 }

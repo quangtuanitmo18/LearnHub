@@ -46,6 +46,21 @@ export class CommentController {
     );
   }
 
+  @Get('blogs/:blogId/comments')
+  @Public()
+  @ResponseMessage('Blog comments retrieved successfully')
+  async getBlogComments(
+    @Param('blogId') blogId: string,
+    @Query() paginationQuery: PaginationQueryDto,
+    @CurrentUser('sub') userId?: string,
+  ) {
+    return this.commentService.getBlogComments(
+      blogId,
+      paginationQuery,
+      userId,
+    );
+  }
+
   @Get('comments/:id/replies')
   @Public()
   @ResponseMessage('Comment replies retrieved successfully')
@@ -65,6 +80,20 @@ export class CommentController {
   ) {
     return this.commentService.createComment(
       lessonId,
+      userId,
+      createCommentDto,
+    );
+  }
+
+  @Post('blogs/:blogId/comments')
+  @ResponseMessage('Blog comment created successfully')
+  async createBlogComment(
+    @Param('blogId') blogId: string,
+    @CurrentUser('sub') userId: string,
+    @Body() createCommentDto: CreateCommentDto,
+  ) {
+    return this.commentService.createBlogComment(
+      blogId,
       userId,
       createCommentDto,
     );

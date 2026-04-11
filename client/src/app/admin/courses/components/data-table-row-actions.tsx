@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Row } from '@tanstack/react-table';
+// @ts-ignore
 import { IconEdit, IconTrash, IconList } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import {

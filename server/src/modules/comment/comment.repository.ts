@@ -28,6 +28,7 @@ export class CommentRepository extends BaseService<
       selectFields: {
         id: true,
         lessonId: true,
+        blogId: true,
         userId: true,
         parentId: true,
         content: true,
@@ -57,6 +58,26 @@ export class CommentRepository extends BaseService<
   ) {
     const where: Prisma.CommentWhereInput = {
       lessonId,
+      parentId: null,
+    };
+
+    if (status) {
+      (where as any).status = status;
+    }
+
+    return this.findAll(paginationQuery, where);
+  }
+
+  /**
+   * Find root comments for a blog (parentId is null)
+   */
+  async findRootCommentsByBlog(
+    blogId: string,
+    paginationQuery?: PaginationQueryDto,
+    status?: string,
+  ) {
+    const where: Prisma.CommentWhereInput = {
+      blogId,
       parentId: null,
     };
 
@@ -172,16 +193,17 @@ export class CommentRepository extends BaseService<
   }
 
   /**
-   * Find root comments with reactions aggregated
+   * Find root comments with reactions aggregated (generic for lesson or blog)
    */
   async findRootCommentsWithReactions(
-    lessonId: string,
+    targetId: string,
+    targetType: 'lesson' | 'blog',
     paginationQuery?: PaginationQueryDto,
     userId?: string,
     status?: string,
   ) {
     const where: Prisma.CommentWhereInput = {
-      lessonId,
+      ...(targetType === 'lesson' ? { lessonId: targetId } : { blogId: targetId }),
       parentId: null,
     };
 
@@ -212,7 +234,8 @@ export class CommentRepository extends BaseService<
    * Create comment with level calculation
    */
   async createComment(data: {
-    lessonId: string;
+    lessonId?: string;
+    blogId?: string;
     userId: string;
     content: string;
     parentId?: string;
@@ -226,7 +249,8 @@ export class CommentRepository extends BaseService<
     }
 
     return this.create({
-      lessonId: data.lessonId,
+      lessonId: data.lessonId || null,
+      blogId: data.blogId || null,
       userId: data.userId,
       content: data.content,
       parentId: data.parentId || null,

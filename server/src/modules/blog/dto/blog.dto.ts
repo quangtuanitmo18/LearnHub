@@ -59,6 +59,75 @@ export class CreateBlogDto {
 
   @IsUUID()
   categoryId: string;
+
+  @IsOptional()
+  @IsUUID()
+  courseId?: string;
+}
+
+export class CreateCommunityPostDto {
+  @IsString()
+  @MinLength(10)
+  @MaxLength(255)
+  title: string;
+
+  @IsString()
+  @MinLength(50)
+  content: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  excerpt?: string;
+
+  @IsOptional()
+  @IsString()
+  thumbnail?: string;
+
+  @IsUUID()
+  categoryId: string;
+
+  @IsOptional()
+  @IsUUID()
+  courseId?: string;
+
+  @IsOptional()
+  @IsEnum(BlogStatus)
+  status?: BlogStatus;
+}
+
+export class UpdateCommunityPostDto {
+  @IsOptional()
+  @IsString()
+  @MinLength(10)
+  @MaxLength(255)
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(50)
+  content?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  excerpt?: string;
+
+  @IsOptional()
+  @IsString()
+  thumbnail?: string;
+
+  @IsOptional()
+  @IsUUID()
+  categoryId?: string;
+
+  @IsOptional()
+  @IsUUID()
+  courseId?: string;
+
+  @IsOptional()
+  @IsEnum(BlogStatus)
+  status?: BlogStatus;
 }
 
 export class UpdateBlogDto {
@@ -121,4 +190,8 @@ export class BlogQueryDto extends PaginationQueryDto {
   @IsOptional()
   @IsUUID()
   categoryId?: string;
+
+  @IsOptional()
+  @IsUUID()
+  courseId?: string;
 }

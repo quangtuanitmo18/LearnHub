@@ -37,7 +37,7 @@ const LessonVideoPlayer = ({
       },
       pause: () => playerRef.current?.pause(),
       play: () => playerRef.current?.play(),
-      isPlaying: () => !playerRef.current?.paused ?? false,
+      isPlaying: () => (playerRef.current ? !playerRef.current.paused : false),
     });
   }, [registerPlayer]);
 

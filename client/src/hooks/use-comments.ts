@@ -30,6 +30,7 @@ export const commentKeys = {
   details: () => [...commentKeys.all, 'detail'] as const,
   detail: (id: string) => [...commentKeys.details(), id] as const,
   lessonComments: (lessonId: string) => [...commentKeys.all, 'lesson', lessonId] as const,
+  blogComments: (blogId: string) => [...commentKeys.all, 'blog', blogId] as const,
   replies: (parentId: string) => [...commentKeys.all, 'replies', parentId] as const,
 };
 
@@ -174,7 +175,7 @@ export function useCreateComment() {
 }
 
 // Hook to update a comment (similar to comment reactions - direct cache update)
-export function useUpdateComment(lessonId?: string) {
+export function useUpdateComment(targetOptions?: { lessonId?: string; blogId?: string }) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -182,7 +183,7 @@ export function useUpdateComment(lessonId?: string) {
       CommentsService.updateComment(id, data),
     onSuccess: (updatedComment) => {
       // Update the comment in cache - only merge updated data, preserve everything else
-      if (!lessonId) return;
+      if (!targetOptions?.lessonId && !targetOptions?.blogId) return;
 
       // Helper function to recursively find and update specific comment
       const updateCommentInArray = (comments: IComment[]): IComment[] => {
@@ -207,8 +208,15 @@ export function useUpdateComment(lessonId?: string) {
         });
       };
 
-      // Update infinite query cache (primary cache used by lesson-comment-drawer)
-      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
+      // Update infinite query cache
+      const infiniteQueryKey = [
+        ...(targetOptions.lessonId
+          ? commentKeys.lessonComments(targetOptions.lessonId)
+          : targetOptions.blogId
+            ? commentKeys.blogComments(targetOptions.blogId)
+            : []),
+        'infinite',
+      ];
       queryClient.setQueryData(
         infiniteQueryKey,
         (oldData: InfiniteData<CommentsListResponse, unknown> | undefined) => {
@@ -238,14 +246,14 @@ export function useUpdateComment(lessonId?: string) {
 }
 
 // Hook to delete a comment (similar to comment reactions - direct cache update)
-export function useDeleteComment(lessonId?: string) {
+export function useDeleteComment(targetOptions?: { lessonId?: string; blogId?: string }) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (id: string) => CommentsService.deleteComment(id),
     onSuccess: (_, commentId) => {
       // Update the comment in cache - remove the deleted comment, preserve everything else
-      if (!lessonId) return;
+      if (!targetOptions?.lessonId && !targetOptions?.blogId) return;
 
       // Helper function to recursively find and remove specific comment
       const removeCommentFromArray = (comments: IComment[]): IComment[] => {
@@ -268,8 +276,15 @@ export function useDeleteComment(lessonId?: string) {
           });
       };
 
-      // Update infinite query cache (primary cache used by lesson-comment-drawer)
-      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
+      // Update infinite query cache
+      const infiniteQueryKey = [
+        ...(targetOptions.lessonId
+          ? commentKeys.lessonComments(targetOptions.lessonId)
+          : targetOptions.blogId
+            ? commentKeys.blogComments(targetOptions.blogId)
+            : []),
+        'infinite',
+      ];
       queryClient.setQueryData(
         infiniteQueryKey,
         (oldData: InfiniteData<CommentsListResponse, unknown> | undefined) => {
@@ -347,7 +362,7 @@ export function useBulkDeleteComments() {
 }
 
 // Hook to load replies for a comment
-export function useLoadReplies(lessonId: string) {
+export function useLoadReplies(targetOptions?: { lessonId?: string; blogId?: string }) {
   const queryClient = useQueryClient();
   const [loadingReplies, setLoadingReplies] = useState<Record<string, boolean>>({});
 
@@ -383,7 +398,14 @@ export function useLoadReplies(lessonId: string) {
       const repliesData = await CommentsService.getReplies(commentId);
 
       // Update React Query cache with the fetched replies
-      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
+      const infiniteQueryKey = [
+        ...(targetOptions?.lessonId
+          ? commentKeys.lessonComments(targetOptions.lessonId)
+          : targetOptions?.blogId
+            ? commentKeys.blogComments(targetOptions.blogId)
+            : []),
+        'infinite',
+      ];
 
       queryClient.setQueryData(
         infiniteQueryKey,
@@ -444,9 +466,10 @@ export function useLoadReplies(lessonId: string) {
 // Hook to handle comment reactions
 interface UseCommentReactionsParams {
   lessonId?: string;
+  blogId?: string;
 }
 
-export function useCommentReactions({ lessonId }: UseCommentReactionsParams = {}) {
+export function useCommentReactions(targetOptions: UseCommentReactionsParams = {}) {
   const queryClient = useQueryClient();
 
   const reactionMutation = useMutation({
@@ -462,7 +485,7 @@ export function useCommentReactions({ lessonId }: UseCommentReactionsParams = {}
     onSuccess: (updatedComment) => {
       // Update the comment in cache - only merge reaction data, preserve everything else
 
-      if (!lessonId) return;
+      if (!targetOptions?.lessonId && !targetOptions?.blogId) return;
 
       // Helper function to recursively find and update specific comment
       const updateCommentReactions = (comments: IComment[]): IComment[] => {
@@ -486,8 +509,15 @@ export function useCommentReactions({ lessonId }: UseCommentReactionsParams = {}
         });
       };
 
-      // Update infinite query cache (primary cache used by lesson-comment-drawer)
-      const infiniteQueryKey = [...commentKeys.lessonComments(lessonId), 'infinite'];
+      // Update infinite query cache
+      const infiniteQueryKey = [
+        ...(targetOptions.lessonId
+          ? commentKeys.lessonComments(targetOptions.lessonId)
+          : targetOptions.blogId
+            ? commentKeys.blogComments(targetOptions.blogId)
+            : []),
+        'infinite',
+      ];
       queryClient.setQueryData(
         infiniteQueryKey,
         (oldData: InfiniteData<CommentsListResponse, unknown> | undefined) => {
@@ -552,6 +582,13 @@ export function useUpdateCommentStatus() {
         });
       }
 
+      // If we know the blogId, invalidate specific blog comments
+      if (updatedComment.blogId) {
+        queryClient.invalidateQueries({
+          queryKey: commentKeys.blogComments(updatedComment.blogId),
+        });
+      }
+
       // Show success toast based on status
       const statusMessages: Record<CommentStatus, string> = {
         [CommentStatus.APPROVED]: 'Comment approved successfully',
@@ -563,6 +600,105 @@ export function useUpdateCommentStatus() {
     },
     onError: () => {
       toast.error('Failed to update comment status');
+    },
+  });
+}
+
+// ==========================================
+// BLOG COMMENT HOOKS
+// ==========================================
+
+// Hook to get infinite scroll comments for a blog
+export function useInfiniteBlogComments(blogId: string) {
+  return useInfiniteQuery({
+    queryKey: [...commentKeys.blogComments(blogId), 'infinite'],
+    queryFn: ({ pageParam = 1 }) => CommentsService.getBlogComments(blogId, { page: pageParam }),
+    enabled: !!blogId,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const { meta } = lastPage;
+      return meta.hasNextPage ? meta.page + 1 : undefined;
+    },
+  });
+}
+
+// Hook to create a blog comment
+export function useCreateBlogComment() {
+  const queryClient = useQueryClient();
+
+  // Helper function to recursively add reply to nested structure
+  const addReplyToComments = (
+    comments: IComment[],
+    parentId: string,
+    newReply: IComment,
+  ): IComment[] => {
+    return comments.map((comment) => {
+      if (comment.id === parentId) {
+        return {
+          ...comment,
+          replies: [newReply, ...(comment.replies || [])],
+          replyCount: (comment.replyCount || 0) + 1,
+        };
+      } else if (comment.replies && comment.replies.length > 0) {
+        const updatedReplies = addReplyToComments(comment.replies, parentId, newReply);
+        if (updatedReplies !== comment.replies) {
+          return {
+            ...comment,
+            replies: updatedReplies,
+          };
+        }
+      }
+      return comment;
+    });
+  };
+
+  return useMutation({
+    mutationFn: ({ blogId, commentData }: { blogId: string; commentData: CreateCommentRequest }) =>
+      CommentsService.createBlogComment(blogId, commentData),
+    onSuccess: (newComment, variables) => {
+      if (newComment) {
+        const infiniteQueryKey = [...commentKeys.blogComments(variables.blogId), 'infinite'];
+
+        if (!newComment.parentId) {
+          queryClient.setQueryData(
+            infiniteQueryKey,
+            (old: InfiniteData<CommentsListResponse, unknown>) => {
+              if (!old?.pages?.[0]) return old;
+              const firstPage = old.pages[0];
+              const updatedFirstPage = {
+                ...firstPage,
+                result: [newComment, ...firstPage.result],
+                meta: {
+                  ...firstPage.meta,
+                  totalItems: firstPage.meta.totalItems + 1,
+                },
+              };
+              return {
+                ...old,
+                pages: [updatedFirstPage, ...old.pages.slice(1)],
+              };
+            },
+          );
+        } else {
+          queryClient.setQueryData(
+            infiniteQueryKey,
+            (old: InfiniteData<CommentsListResponse, unknown>) => {
+              if (!old?.pages) return old;
+              const newData = cloneDeep(old);
+              newData.pages = newData.pages.map((page) => ({
+                ...page,
+                result: addReplyToComments(page.result, newComment.parentId!, newComment),
+              }));
+              return newData;
+            },
+          );
+        }
+      }
+
+      toast.success('Comment has been added!');
+    },
+    onError: (error: Error) => {
+      toast.error(error?.message || 'Failed to add comment. Please try again.');
     },
   });
 }

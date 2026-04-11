@@ -18,6 +18,7 @@ import BlogHeader from './components/blog-header';
 
 // Dynamic import for heavy content section
 const BlogContent = dynamic(() => import('./components/blog-content'));
+const BlogCommentSection = dynamic(() => import('./components/blog-comment-section'));
 
 // Main blog post page - Arrow function
 const BlogPostPage = ({ params }: BlogPostPageProps) => {
@@ -59,6 +60,9 @@ const BlogPostPage = ({ params }: BlogPostPageProps) => {
 
           {/* Below-the-fold content - progressive loading */}
           <BlogContent blog={blog} />
+
+          {/* Comments section */}
+          <BlogCommentSection blogId={blog.id} />
         </div>
       </div>
     </div>

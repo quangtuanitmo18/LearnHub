@@ -3,19 +3,14 @@
 import React, { useCallback } from 'react';
 import { useMyCertificates } from '@/hooks/use-certificate';
 import { format } from 'date-fns';
-import { Award, CheckCircle2, Copy, ExternalLink, Eye, Loader2 } from 'lucide-react';
-import Image from 'next/image';
+import { Award, Calendar, CheckCircle2, Copy, Download, ExternalLink, Eye, Fingerprint, Loader2, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:4000';
-
-function getImageUrl(image?: { cdnBaseUrl: string; storageKey: string } | null) {
-  if (!image) return null;
-  return `${image.cdnBaseUrl}/${image.storageKey}`;
-}
 
 const CertificatesTab = () => {
   const { data: certificates, isLoading } = useMyCertificates();
@@ -70,148 +65,126 @@ const CertificatesTab = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
-          {certificates.map((cert) => {
-            const imageUrl = getImageUrl(cert.course?.image);
-            return (
-              <div
-                key={cert.id}
-                className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
-              >
-                {/* Certificate preview thumbnail */}
-                <div className="relative flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-100 p-6 dark:from-amber-900/20 dark:to-yellow-900/20">
-                  {imageUrl ? (
-                    <Image
-                      src={imageUrl}
-                      alt={`Certificate for ${cert.course?.title}`}
-                      fill
-                      className="object-contain opacity-15"
-                    />
-                  ) : null}
+          {certificates.map((cert) => (
+            <Card
+              key={cert.id}
+              className="group relative cursor-default overflow-hidden border-0 bg-linear-to-br from-white via-amber-50/30 to-yellow-50/30 shadow-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:from-gray-900 dark:via-amber-950/20 dark:to-yellow-950/20"
+            >
+              {/* Animated Background Pattern */}
+              <div className="absolute inset-0 opacity-30">
+                <div className="absolute top-0 right-0 h-24 w-24 animate-pulse rounded-full bg-linear-to-br from-amber-400/20 to-yellow-400/20 blur-xl sm:h-32 sm:w-32" />
+                <div className="absolute bottom-0 left-0 h-20 w-20 animate-pulse rounded-full bg-linear-to-br from-orange-400/20 to-red-400/20 blur-xl delay-1000 sm:h-24 sm:w-24" />
+              </div>
 
-                  {/* Certificate mini-view */}
-                  <div className="z-10 w-full space-y-3 rounded-xl border border-amber-200 bg-white/95 p-4 text-center shadow-sm backdrop-blur-sm dark:border-amber-800 dark:bg-gray-900/95">
-                    <Award className="mx-auto h-10 w-10 text-amber-500" />
-                    <div>
-                      <p className="text-[10px] font-bold tracking-widest text-amber-600 uppercase">
-                        Certificate of Completion
-                      </p>
-                      <p className="mt-1 line-clamp-2 font-serif text-sm font-semibold text-gray-900 dark:text-white">
-                        {cert.course?.title}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-center gap-1 text-xs text-green-600">
-                      <CheckCircle2 className="h-3.5 w-3.5" />
-                      <span>Verified by LearnHub</span>
-                    </div>
+              {/* Main Content */}
+              <div className="relative z-10 p-4 sm:p-5 md:p-6">
+                {/* Certificate mini preview */}
+                <div className="mb-4 flex items-start gap-3 sm:mb-5 sm:gap-4 md:gap-5">
+                  {/* Certificate Icon */}
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-yellow-200 shadow-md ring-2 ring-white/50 sm:h-20 sm:w-20 sm:rounded-2xl sm:ring-4 dark:from-amber-900/40 dark:to-yellow-900/40 dark:ring-gray-800/50">
+                    <Award className="h-8 w-8 text-amber-600 sm:h-10 sm:w-10 dark:text-amber-400" />
                   </div>
 
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
-                    <Link
-                      href={`/certificate/${cert.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button
-                        variant="default"
-                        size="sm"
-                        className="w-44 gap-2 bg-amber-500 hover:bg-amber-600"
-                      >
-                        <Eye className="h-4 w-4" />
-                        View & Download
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      className="w-44 gap-2"
-                      onClick={() => handleCopyLink(cert.id)}
-                    >
-                      <Copy className="h-4 w-4" />
-                      Copy Verify Link
-                    </Button>
-                    <Link
-                      href={`/courses/${cert.course?.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-44 gap-2 text-white hover:text-white"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        View Course
-                      </Button>
-                    </Link>
+                  {/* Certificate Info */}
+                  <div className="min-w-0 flex-1">
+                    {/* Verified Badge */}
+                    <div className="mb-2 flex flex-wrap items-center gap-1.5 sm:mb-3">
+                      <div className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-semibold text-green-600 sm:text-xs dark:bg-green-900/30 dark:text-green-400">
+                        <CheckCircle2 className="h-3 w-3" />
+                        Verified
+                      </div>
+                      <div className="ml-auto">
+                        <span className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2 py-0.5 text-[10px] font-medium text-white shadow-md sm:px-3 sm:py-1 sm:text-xs">
+                          Certificate
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Course Title */}
+                    <h3 className="mb-1 line-clamp-2 text-sm leading-tight font-bold text-gray-900 sm:text-base dark:text-white">
+                      {cert.course?.title}
+                    </h3>
+                    {cert.course?.author?.username && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        by{' '}
+                        <span className="font-medium text-gray-700 dark:text-gray-300">
+                          {cert.course.author.username}
+                        </span>
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                {/* Card body */}
-                <div className="p-4 sm:p-5">
-                  <h3
-                    className="line-clamp-1 text-base font-semibold text-gray-900 dark:text-white"
-                    title={cert.course?.title}
+                {/* Details Section */}
+                <div className="space-y-2 rounded-lg bg-white/60 p-3 backdrop-blur-sm sm:space-y-3 sm:p-4 dark:bg-gray-800/40">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
+                      <Calendar className="h-3.5 w-3.5" />
+                      <span>Issued On</span>
+                    </div>
+                    <span className="font-semibold text-gray-900 dark:text-white">
+                      {cert.issuedAt
+                        ? format(new Date(cert.issuedAt), 'MMM dd, yyyy')
+                        : 'Unknown'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
+                      <Fingerprint className="h-3.5 w-3.5" />
+                      <span>Certificate ID</span>
+                    </div>
+                    <span className="rounded border bg-gray-50 px-2 py-0.5 font-mono text-[10px] tracking-wider sm:text-xs dark:border-gray-600 dark:bg-gray-700">
+                      {cert.id.substring(0, 12)}…
+                    </span>
+                  </div>
+                </div>
+
+                {/* Action buttons row */}
+                <div className="mt-4 flex gap-2 sm:gap-3">
+                  <Link
+                    href={`/certificate/${cert.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1"
                   >
-                    {cert.course?.title}
-                  </h3>
-                  {cert.course?.author?.username && (
-                    <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-                      by{' '}
-                      <span className="font-medium text-gray-700 dark:text-gray-300">
-                        {cert.course.author.username}
-                      </span>
-                    </p>
-                  )}
-
-                  <div className="mt-3 flex flex-col gap-1.5 text-sm text-gray-600 dark:text-gray-400">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Issued On:</span>
-                      <span className="font-medium text-gray-900 dark:text-white">
-                        {cert.issuedAt
-                          ? format(new Date(cert.issuedAt), 'MMM dd, yyyy')
-                          : 'Unknown'}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Certificate ID:</span>
-                      <span className="rounded border bg-gray-100 px-2 py-0.5 font-mono text-xs dark:border-gray-600 dark:bg-gray-700">
-                        {cert.id.substring(0, 12)}…
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Action buttons row */}
-                  <div className="mt-4 flex gap-2">
-                    <Link
-                      href={`/certificate/${cert.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1"
-                    >
-                      <Button
-                        variant="default"
-                        size="sm"
-                        className="w-full gap-1.5 bg-amber-500 text-xs hover:bg-amber-600"
-                      >
-                        <Eye className="h-3.5 w-3.5" />
-                        View & Download
-                      </Button>
-                    </Link>
                     <Button
-                      variant="outline"
+                      variant="default"
                       size="sm"
-                      className="flex-1 gap-1.5 text-xs"
-                      onClick={() => handleCopyLink(cert.id)}
+                      className="w-full gap-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-xs shadow-md transition-all hover:from-amber-600 hover:to-orange-600 hover:shadow-lg"
                     >
-                      <Copy className="h-3.5 w-3.5" />
-                      Share
+                      <Eye className="h-3.5 w-3.5" />
+                      View
                     </Button>
-                  </div>
+                  </Link>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 gap-1.5 text-xs transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
+                    onClick={() => handleCopyLink(cert.id)}
+                  >
+                    <Share2 className="h-3.5 w-3.5" />
+                    Share
+                  </Button>
+                  <Link
+                    href={`/courses/${cert.course?.slug}`}
+                    className="hidden sm:block"
+                  >
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="gap-1.5 text-xs text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Course
+                    </Button>
+                  </Link>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Subtle border glow on hover */}
+              <div className="pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </Card>
+          ))}
         </div>
       )}
     </div>

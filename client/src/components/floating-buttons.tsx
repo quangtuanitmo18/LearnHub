@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { usePathname } from 'next/navigation';
 
 // Dynamic imports with ssr: false to prevent hydration mismatch
 const Chatbot = dynamic(() => import('@/components/chatbot/chatbot'), {
@@ -16,6 +17,11 @@ interface FloatingButtonsProps {
 }
 
 const FloatingButtons = ({ telegramUrl }: FloatingButtonsProps) => {
+  const pathname = usePathname();
+
+  // Hide on learning pages to avoid overlapping with lesson UI
+  if (pathname?.startsWith('/learning')) return null;
+
   return (
     <>
       <Chatbot />

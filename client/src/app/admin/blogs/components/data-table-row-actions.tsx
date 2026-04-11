@@ -13,9 +13,11 @@ import { OPERATIONS, RESOURCES } from '@/configs/permission';
 import { usePermissions } from '@/hooks/use-permissions';
 import { IBlog } from '@/types/blog';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+// @ts-ignore
+import { IconEdit, IconTrash, IconCheck, IconX } from '@tabler/icons-react';
 import { Row } from '@tanstack/react-table';
 import { useState } from 'react';
+import { useUpdateBlogStatus } from '@/hooks/use-blogs';
 import BlogsActionDialog from './blogs-action-dialog';
 import BlogsDeleteDialog from './blogs-delete-dialog';
 
@@ -43,6 +45,16 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
     setDeleteDialogOpen(true);
   };
 
+  const { mutate: updateStatus } = useUpdateBlogStatus();
+
+  const handleApprove = () => {
+    updateStatus({ id: blog.id, status: 'PUBLISHED' });
+  };
+
+  const handleReject = () => {
+    updateStatus({ id: blog.id, status: 'REJECTED' });
+  };
+
   return (
     <>
       <DropdownMenu modal={false}>
@@ -53,6 +65,24 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
+          {UPDATE && blog.status === 'PENDING' && (
+            <>
+              <DropdownMenuItem onClick={handleApprove} className="text-green-600">
+                Approve Post
+                <DropdownMenuShortcut>
+                  <IconCheck size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleReject} className="text-orange-600">
+                Reject Post
+                <DropdownMenuShortcut>
+                  <IconX size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
+
           {UPDATE && (
             <DropdownMenuItem onClick={handleEditClick}>
               Edit

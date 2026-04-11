@@ -1,3 +1,4 @@
+// @ts-ignore
 import { IconAlignCenter, IconAlignLeft, IconAlignRight } from '@tabler/icons-react';
 import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 import {

@@ -2,13 +2,22 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
-import { CreateBlogDto, UpdateBlogDto, BlogQueryDto } from './dto/blog.dto';
+import {
+  CreateBlogDto,
+  UpdateBlogDto,
+  BlogQueryDto,
+  CreateCommunityPostDto,
+  UpdateCommunityPostDto,
+} from './dto/blog.dto';
 import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { BlogRepository } from './blog.repository';
 import { UserRepository } from '../user/user.repository';
 import { CategoryRepository } from '../category/category.repository';
 import { BlogStatus } from 'src/shared/constants/blog.constant';
+import { GamificationService } from '../gamification/gamification.service';
+import { PointReason } from 'src/generated/prisma/client';
 
 @Injectable()
 export class BlogService {
@@ -16,7 +25,12 @@ export class BlogService {
     private readonly blogRepository: BlogRepository,
     private readonly userRepository: UserRepository,
     private readonly categoryRepository: CategoryRepository,
+    private readonly gamificationService: GamificationService,
   ) {}
+
+  // ==========================================
+  // ADMIN ENDPOINTS (existing)
+  // ==========================================
 
   async getAllBlogs(blogQuery?: BlogQueryDto) {
     return await this.blogRepository.findAllBlogs(blogQuery);
@@ -46,11 +60,12 @@ export class BlogService {
     if (!blog) {
       throw new NotFoundException('Blog not found');
     }
+    // Increment view count in background
+    this.blogRepository.incrementViewCount(blog.id).catch(() => {});
     return blog;
   }
 
   async createBlog(createBlogDto: CreateBlogDto, authorId: string) {
-    // Validate category
     const category = await this.categoryRepository.findOneOrNull({
       id: createBlogDto.categoryId,
     });
@@ -58,7 +73,6 @@ export class BlogService {
       throw new BadRequestException('Category not found');
     }
 
-    // Check if slug already exists
     if (createBlogDto.slug) {
       const existingSlug = await this.blogRepository.isSlugExists(
         createBlogDto.slug,
@@ -68,7 +82,6 @@ export class BlogService {
       }
     }
 
-    // Set publishedAt if status is PUBLISHED
     if (
       createBlogDto.status === BlogStatus.PUBLISHED &&
       !createBlogDto.publishedAt
@@ -80,13 +93,11 @@ export class BlogService {
   }
 
   async updateBlog(id: string, updateBlogDto: UpdateBlogDto) {
-    // Check if blog exists
     const existingBlog = await this.blogRepository.findOneOrNull({ id });
     if (!existingBlog) {
       throw new NotFoundException('Blog not found');
     }
 
-    // Validate author if provided
     if (updateBlogDto.authorId) {
       const author = await this.userRepository.findOneOrNull({
         id: updateBlogDto.authorId,
@@ -96,7 +107,6 @@ export class BlogService {
       }
     }
 
-    // Validate category if provided
     if (updateBlogDto.categoryId) {
       const category = await this.categoryRepository.findOneOrNull({
         id: updateBlogDto.categoryId,
@@ -106,7 +116,6 @@ export class BlogService {
       }
     }
 
-    // Check if slug already exists (excluding current blog)
     if (updateBlogDto.slug) {
       const existingSlug = await this.blogRepository.isSlugExists(
         updateBlogDto.slug,
@@ -117,7 +126,6 @@ export class BlogService {
       }
     }
 
-    // Set publishedAt if status changes to PUBLISHED and no publishedAt yet
     if (
       updateBlogDto.status === BlogStatus.PUBLISHED &&
       !existingBlog.publishedAt &&
@@ -130,7 +138,6 @@ export class BlogService {
   }
 
   async deleteBlog(id: string) {
-    // Check if blog exists
     const existingBlog = await this.blogRepository.findOneOrNull({ id });
     if (!existingBlog) {
       throw new NotFoundException('Blog not found');
@@ -154,5 +161,245 @@ export class BlogService {
       deletedCount: result.count,
       message: `Successfully deleted ${result.count} ${result.count === 1 ? 'blog' : 'blogs'}`,
     };
+  }
+
+  /**
+   * Admin: Update blog status (Approve/Reject community posts)
+   */
+  async updateBlogStatus(id: string, status: string) {
+    const blog = await this.blogRepository.findOneOrNull({ id });
+    if (!blog) {
+      throw new NotFoundException('Blog not found');
+    }
+
+    const updateData: any = { status };
+
+    // Set publishedAt when approving and award XP
+    if (status === BlogStatus.PUBLISHED && !blog.publishedAt) {
+      updateData.publishedAt = new Date();
+      // Award points for publishing a community post
+      if (blog.authorId) {
+        this.gamificationService
+          .handleAddPoints(blog.authorId, 50, PointReason.BLOG_PUBLISHED, {
+            blogId: blog.id,
+          })
+          .catch((err) =>
+            console.error(`Failed to award points for blog publish:`, err),
+          );
+      }
+    }
+
+    return this.blogRepository.update({ id }, updateData);
+  }
+
+  // ==========================================
+  // COMMUNITY ENDPOINTS (new)
+  // ==========================================
+
+  /**
+   * Get current user's posts (My Posts tab)
+   */
+  async getMyPosts(userId: string, paginationQuery?: PaginationQueryDto) {
+    return this.blogRepository.findByAuthorWithStatus(
+      userId,
+      undefined,
+      paginationQuery,
+    );
+  }
+
+  /**
+   * Create a community post (any logged-in user)
+   */
+  async createCommunityPost(
+    dto: CreateCommunityPostDto,
+    userId: string,
+  ) {
+    // Validate category
+    const category = await this.categoryRepository.findOneOrNull({
+      id: dto.categoryId,
+    });
+    if (!category) {
+      throw new BadRequestException('Category not found');
+    }
+
+    // Force status: only DRAFT or PENDING allowed
+    const status =
+      dto.status === BlogStatus.PENDING
+        ? BlogStatus.PENDING
+        : BlogStatus.DRAFT;
+
+    // Generate slug from title
+    const baseSlug = dto.title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+    let slug = baseSlug;
+    let counter = 1;
+    while (await this.blogRepository.isSlugExists(slug)) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    // Generate excerpt from content if not provided
+    const excerpt =
+      dto.excerpt ||
+      dto.content
+        .replace(/[#*`>\-\[\]()!]/g, '')
+        .substring(0, 200)
+        .trim() + '...';
+
+    return this.blogRepository.create({
+      title: dto.title,
+      slug,
+      content: dto.content,
+      excerpt,
+      thumbnail: dto.thumbnail || '',
+      status,
+      authorId: userId,
+      categoryId: dto.categoryId,
+      courseId: dto.courseId,
+    } as any);
+  }
+
+  /**
+   * Update own community post (owner only, Draft/Pending/Rejected)
+   */
+  async updateCommunityPost(
+    id: string,
+    dto: UpdateCommunityPostDto,
+    userId: string,
+  ) {
+    const blog = await this.blogRepository.findOneOrNull({ id });
+    if (!blog) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (blog.authorId !== userId) {
+      throw new ForbiddenException('You can only edit your own posts');
+    }
+
+    // Cannot edit published posts
+    if (blog.status === BlogStatus.PUBLISHED) {
+      throw new BadRequestException(
+        'Cannot edit a published post. Contact admin if changes are needed.',
+      );
+    }
+
+    // Force status guard: can only set DRAFT or PENDING
+    if (dto.status && dto.status !== BlogStatus.DRAFT && dto.status !== BlogStatus.PENDING) {
+      throw new BadRequestException('You can only set status to DRAFT or PENDING');
+    }
+
+    // Regenerate slug if title changed
+    const updateData: any = { ...dto };
+    if (dto.title && dto.title !== blog.title) {
+      const baseSlug = dto.title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      let slug = baseSlug;
+      let counter = 1;
+      while (await this.blogRepository.isSlugExists(slug, id)) {
+        slug = `${baseSlug}-${counter}`;
+        counter++;
+      }
+      updateData.slug = slug;
+    }
+
+    // Regenerate excerpt if content changed and no custom excerpt
+    if (dto.content && !dto.excerpt) {
+      updateData.excerpt =
+        dto.content
+          .replace(/[#*`>\-\[\]()!]/g, '')
+          .substring(0, 200)
+          .trim() + '...';
+    }
+
+    return this.blogRepository.update({ id }, updateData);
+  }
+
+  /**
+   * Delete own community post (owner only, Draft/Pending only)
+   */
+  async deleteCommunityPost(id: string, userId: string) {
+    const blog = await this.blogRepository.findOneOrNull({ id });
+    if (!blog) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (blog.authorId !== userId) {
+      throw new ForbiddenException('You can only delete your own posts');
+    }
+
+    if (
+      blog.status === BlogStatus.PUBLISHED ||
+      blog.status === BlogStatus.REJECTED
+    ) {
+      throw new BadRequestException(
+        'Cannot delete a published or rejected post. Contact admin.',
+      );
+    }
+
+    return this.blogRepository.delete({ id });
+  }
+
+  /**
+   * Toggle upvote on a published blog
+   */
+  async toggleUpvote(blogId: string, userId: string) {
+    const blog = await this.blogRepository.findOneOrNull({ id: blogId });
+    if (!blog) {
+      throw new NotFoundException('Blog not found');
+    }
+
+    if (blog.status !== BlogStatus.PUBLISHED) {
+      throw new BadRequestException('Can only upvote published posts');
+    }
+
+    // Don't allow self-upvote
+    if (blog.authorId === userId) {
+      throw new BadRequestException('Cannot upvote your own post');
+    }
+
+    const result = await this.blogRepository.toggleUpvote(blogId, userId);
+
+    // If result.action === 'added' means an upvote was just added, give points to author
+    if (result.action === 'added' && blog.authorId) {
+      this.gamificationService
+        .handleAddPoints(blog.authorId, 5, PointReason.BLOG_UPVOTED, {
+          blogId,
+          fromUserId: userId,
+        })
+        .catch((err) =>
+          console.error(`Failed to award points for blog upvote:`, err),
+        );
+    }
+
+    return result;
+  }
+
+  /**
+   * Get published blogs for a course (Community Articles section)
+   */
+  async getCommunityBlogsByCourse(
+    courseId: string,
+    paginationQuery?: PaginationQueryDto,
+  ) {
+    return this.blogRepository.findPublishedByCourse(
+      courseId,
+      paginationQuery,
+    );
+  }
+
+  /**
+   * Check if current user has upvoted
+   */
+  async checkUpvoteStatus(blogId: string, userId: string) {
+    const hasUpvoted = await this.blogRepository.hasUserUpvoted(blogId, userId);
+    return { hasUpvoted };
   }
 }

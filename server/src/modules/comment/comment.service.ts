@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { CommentRepository } from './comment.repository';
 import { LessonRepository } from '../lesson/lesson.repository';
+import { BlogRepository } from '../blog/blog.repository';
 import { UserRepository } from '../user/user.repository';
 import {
   CreateCommentDto,
@@ -22,6 +23,7 @@ export class CommentService {
   constructor(
     private readonly commentRepository: CommentRepository,
     private readonly lessonRepository: LessonRepository,
+    private readonly blogRepository: BlogRepository,
     private readonly userRepository: UserRepository,
   ) {}
 
@@ -42,6 +44,30 @@ export class CommentService {
     // For public endpoints, only show APPROVED comments
     return this.commentRepository.findRootCommentsWithReactions(
       lessonId,
+      'lesson',
+      paginationQuery,
+      userId,
+      CommentStatus.APPROVED as string,
+    );
+  }
+
+  /**
+   * Get root comments for a blog
+   */
+  async getBlogComments(
+    blogId: string,
+    paginationQuery?: PaginationQueryDto,
+    userId?: string,
+  ) {
+    // Verify blog exists
+    const blog = await this.blogRepository.findOneOrNull({ id: blogId });
+    if (!blog) {
+      throw new NotFoundException('Blog not found');
+    }
+
+    return this.commentRepository.findRootCommentsWithReactions(
+      blogId,
+      'blog',
       paginationQuery,
       userId,
       CommentStatus.APPROVED as string,
@@ -113,6 +139,48 @@ export class CommentService {
 
     const comment = await this.commentRepository.createComment({
       lessonId,
+      userId,
+      content: createCommentDto.content,
+      parentId: createCommentDto.parentId,
+    });
+
+    // Return comment with reactions
+    return this.commentRepository.findCommentWithReactions(comment.id, userId);
+  }
+
+  /**
+   * Create a comment on a blog (root or reply)
+   */
+  async createBlogComment(
+    blogId: string,
+    userId: string,
+    createCommentDto: CreateCommentDto,
+  ) {
+    // Verify blog exists
+    const blog = await this.blogRepository.findOneOrNull({ id: blogId });
+    if (!blog) {
+      throw new NotFoundException('Blog not found');
+    }
+
+    // If parentId is provided, verify parent comment exists and belongs to same blog
+    if (createCommentDto.parentId) {
+      const parentComment = await this.commentRepository.findOneOrNull({
+        id: createCommentDto.parentId,
+      });
+
+      if (!parentComment) {
+        throw new NotFoundException('Parent comment not found');
+      }
+
+      if (parentComment.blogId !== blogId) {
+        throw new BadRequestException(
+          'Parent comment does not belong to this blog',
+        );
+      }
+    }
+
+    const comment = await this.commentRepository.createComment({
+      blogId,
       userId,
       content: createCommentDto.content,
       parentId: createCommentDto.parentId,
