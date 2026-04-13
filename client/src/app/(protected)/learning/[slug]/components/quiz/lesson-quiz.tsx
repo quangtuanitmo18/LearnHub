@@ -143,9 +143,13 @@ const LessonQuiz = ({ lesson }: LessonQuizProps) => {
           timeSpent={timeSpent}
           passingScore={lesson.quiz?.passScore || 70}
           isPassed={resultData.passed}
+          isResultMasked={resultData.isResultMasked}
+          showResultDate={lesson.quiz?.showResultDate}
           onRetry={usedAttempts < (maxAttempts || Infinity) ? handleRetry : undefined}
           onBackToOverview={handleBackToOverview}
-          onViewDetails={resultData ? () => setIsDetailsOpen(true) : undefined}
+          onViewDetails={
+            resultData && !resultData.isResultMasked ? () => setIsDetailsOpen(true) : undefined
+          }
         />
         <QuizAttemptDetailsDialog
           open={isDetailsOpen}

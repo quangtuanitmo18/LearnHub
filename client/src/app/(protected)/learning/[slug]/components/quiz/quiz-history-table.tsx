@@ -56,6 +56,17 @@ const QuizHistoryTable = ({
   const getStatusBadge = (attempt: QuizAttempt) => {
     switch (attempt.status) {
       case AttemptStatus.SUBMITTED:
+        if (attempt.isResultMasked) {
+          return (
+            <Badge
+              variant="secondary"
+              className="border-gray-500 bg-gray-500 text-white hover:bg-gray-600"
+            >
+              <MdVisibility className="mr-1 h-3 w-3" />
+              Masked
+            </Badge>
+          );
+        }
         const isPassed = attempt.passed === true;
         return (
           <Badge
@@ -143,9 +154,10 @@ const QuizHistoryTable = ({
 
   // Calculate summary statistics
   const submittedAttempts = completedAttempts.filter((a) => a.status === AttemptStatus.SUBMITTED);
-  const passedAttempts = submittedAttempts.filter((a) => a.passed === true);
+  const unmaskedSubmittedAttempts = submittedAttempts.filter((a) => !a.isResultMasked);
+  const passedAttempts = unmaskedSubmittedAttempts.filter((a) => a.passed === true);
 
-  const scores = submittedAttempts
+  const scores = unmaskedSubmittedAttempts
     .filter((a) => a.score != null && a.maxScore != null && (a.maxScore ?? 0) > 0)
     .map((a) => ((a.score ?? 0) / (a.maxScore ?? 1)) * 100);
 
@@ -216,9 +228,13 @@ const QuizHistoryTable = ({
                       {/* Score */}
                       <TableCell className="py-2 text-center text-xs whitespace-nowrap text-gray-600 sm:py-3 sm:text-sm">
                         {attempt.status === AttemptStatus.SUBMITTED ? (
-                          <>
-                            {attempt.score}/{attempt.maxScore} ({scorePercent.toFixed(1)}%)
-                          </>
+                          attempt.isResultMasked ? (
+                            'Masked'
+                          ) : (
+                            <>
+                              {attempt.score}/{attempt.maxScore} ({scorePercent.toFixed(1)}%)
+                            </>
+                          )
                         ) : (
                           '-'
                         )}
@@ -227,9 +243,13 @@ const QuizHistoryTable = ({
                       {/* Correct Answers */}
                       <TableCell className="py-2 text-center text-xs text-gray-600 sm:py-3 sm:text-sm">
                         {attempt.status === AttemptStatus.SUBMITTED ? (
-                          <>
-                            {attempt.correctCount}/{attempt.totalCount}
-                          </>
+                          attempt.isResultMasked ? (
+                            'Masked'
+                          ) : (
+                            <>
+                              {attempt.correctCount}/{attempt.totalCount}
+                            </>
+                          )
                         ) : (
                           '-'
                         )}
@@ -247,7 +267,7 @@ const QuizHistoryTable = ({
 
                       {/* Details */}
                       <TableCell className="py-2 text-center sm:py-3">
-                        {attempt.status === AttemptStatus.SUBMITTED && (
+                        {attempt.status === AttemptStatus.SUBMITTED && !attempt.isResultMasked && (
                           <Button
                             variant="ghost"
                             size="sm"
@@ -298,7 +318,7 @@ const QuizHistoryTable = ({
           <div className="text-center">
             <div className="mb-0.5 text-xs text-gray-600 sm:mb-1 sm:text-sm">Passed:</div>
             <div className="text-sm font-semibold text-gray-900 sm:text-base md:text-lg">
-              {passedAttempts.length}/{submittedAttempts.length}
+              {passedAttempts.length}/{unmaskedSubmittedAttempts.length}
             </div>
           </div>
         </div>

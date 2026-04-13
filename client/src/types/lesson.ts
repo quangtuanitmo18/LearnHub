@@ -98,6 +98,10 @@ export interface BackendQuizContent {
   durationSec: number;
   passScore: number;
   maxAttempts: number | null;
+  isContest?: boolean;
+  startTime?: string | null;
+  endTime?: string | null;
+  showResultDate?: string | null;
   questions: BackendQuizQuestion[];
 }
 
@@ -179,6 +183,10 @@ export interface QuizQuestionRequest {
 export interface QuizContent {
   durationSec: number;
   passScore: number;
+  isContest?: boolean;
+  startTime?: string | null;
+  endTime?: string | null;
+  showResultDate?: string | null;
   questions: QuizQuestionRequest[];
 }
 

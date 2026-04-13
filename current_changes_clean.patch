@@ -1,0 +1,1196 @@
+diff --git a/client/src/app/(protected)/learning/[slug]/components/quiz/lesson-quiz.tsx b/client/src/app/(protected)/learning/[slug]/components/quiz/lesson-quiz.tsx
+index 311cc1a..d56a6c6 100644
+--- a/client/src/app/(protected)/learning/[slug]/components/quiz/lesson-quiz.tsx
++++ b/client/src/app/(protected)/learning/[slug]/components/quiz/lesson-quiz.tsx
+@@ -143,9 +143,11 @@ const LessonQuiz = ({ lesson }: LessonQuizProps) => {
+           timeSpent={timeSpent}
+           passingScore={lesson.quiz?.passScore || 70}
+           isPassed={resultData.passed}
++          isResultMasked={resultData.isResultMasked}
++          showResultDate={lesson.quiz?.showResultDate}
+           onRetry={usedAttempts < (maxAttempts || Infinity) ? handleRetry : undefined}
+           onBackToOverview={handleBackToOverview}
+-          onViewDetails={resultData ? () => setIsDetailsOpen(true) : undefined}
++          onViewDetails={resultData && !resultData.isResultMasked ? () => setIsDetailsOpen(true) : undefined}
+         />
+         <QuizAttemptDetailsDialog
+           open={isDetailsOpen}
+diff --git a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-history-table.tsx b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-history-table.tsx
+index f69f219..1a98001 100644
+--- a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-history-table.tsx
++++ b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-history-table.tsx
+@@ -56,6 +56,17 @@ const QuizHistoryTable = ({
+   const getStatusBadge = (attempt: QuizAttempt) => {
+     switch (attempt.status) {
+       case AttemptStatus.SUBMITTED:
++        if (attempt.isResultMasked) {
++          return (
++            <Badge
++              variant="secondary"
++              className="border-gray-500 bg-gray-500 text-white hover:bg-gray-600"
++            >
++              <MdVisibility className="mr-1 h-3 w-3" />
++              Masked
++            </Badge>
++          );
++        }
+         const isPassed = attempt.passed === true;
+         return (
+           <Badge
+@@ -143,9 +154,10 @@ const QuizHistoryTable = ({
+ 
+   // Calculate summary statistics
+   const submittedAttempts = completedAttempts.filter((a) => a.status === AttemptStatus.SUBMITTED);
+-  const passedAttempts = submittedAttempts.filter((a) => a.passed === true);
++  const unmaskedSubmittedAttempts = submittedAttempts.filter((a) => !a.isResultMasked);
++  const passedAttempts = unmaskedSubmittedAttempts.filter((a) => a.passed === true);
+ 
+-  const scores = submittedAttempts
++  const scores = unmaskedSubmittedAttempts
+     .filter((a) => a.score != null && a.maxScore != null && (a.maxScore ?? 0) > 0)
+     .map((a) => ((a.score ?? 0) / (a.maxScore ?? 1)) * 100);
+ 
+@@ -216,9 +228,11 @@ const QuizHistoryTable = ({
+                       {/* Score */}
+                       <TableCell className="py-2 text-center text-xs whitespace-nowrap text-gray-600 sm:py-3 sm:text-sm">
+                         {attempt.status === AttemptStatus.SUBMITTED ? (
+-                          <>
+-                            {attempt.score}/{attempt.maxScore} ({scorePercent.toFixed(1)}%)
+-                          </>
++                          attempt.isResultMasked ? 'Masked' : (
++                            <>
++                              {attempt.score}/{attempt.maxScore} ({scorePercent.toFixed(1)}%)
++                            </>
++                          )
+                         ) : (
+                           '-'
+                         )}
+@@ -227,9 +241,11 @@ const QuizHistoryTable = ({
+                       {/* Correct Answers */}
+                       <TableCell className="py-2 text-center text-xs text-gray-600 sm:py-3 sm:text-sm">
+                         {attempt.status === AttemptStatus.SUBMITTED ? (
+-                          <>
+-                            {attempt.correctCount}/{attempt.totalCount}
+-                          </>
++                          attempt.isResultMasked ? 'Masked' : (
++                            <>
++                              {attempt.correctCount}/{attempt.totalCount}
++                            </>
++                          )
+                         ) : (
+                           '-'
+                         )}
+@@ -247,7 +263,7 @@ const QuizHistoryTable = ({
+ 
+                       {/* Details */}
+                       <TableCell className="py-2 text-center sm:py-3">
+-                        {attempt.status === AttemptStatus.SUBMITTED && (
++                        {attempt.status === AttemptStatus.SUBMITTED && !attempt.isResultMasked && (
+                           <Button
+                             variant="ghost"
+                             size="sm"
+@@ -298,7 +314,7 @@ const QuizHistoryTable = ({
+           <div className="text-center">
+             <div className="mb-0.5 text-xs text-gray-600 sm:mb-1 sm:text-sm">Passed:</div>
+             <div className="text-sm font-semibold text-gray-900 sm:text-base md:text-lg">
+-              {passedAttempts.length}/{submittedAttempts.length}
++              {passedAttempts.length}/{unmaskedSubmittedAttempts.length}
+             </div>
+           </div>
+         </div>
+diff --git a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-overview.tsx b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-overview.tsx
+index 5500c5b..634e4f8 100644
+--- a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-overview.tsx
++++ b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-overview.tsx
+@@ -12,7 +12,10 @@ import {
+   MdRefresh,
+   MdRestartAlt,
+   MdTrendingUp,
++  MdEvent,
+ } from 'react-icons/md';
++import { useServerTime } from '@/hooks/use-quiz';
++import { format } from 'date-fns';
+ 
+ interface QuizOverviewProps {
+   lesson?: ILesson;
+@@ -43,16 +46,32 @@ const QuizOverview = ({
+   const inProgressAttempt = attempts.find((a) => a.status === AttemptStatus.IN_PROGRESS);
+   const hasOngoingAttempt = !!inProgressAttempt;
+ 
+-  // Calculate attempts info
+-  const hasStarted = usedAttempts > 0;
+-  const canRetake = maxAttempts == null || usedAttempts < maxAttempts;
++  // Contest logic
++  const { data: serverTimeData } = useServerTime({ refetchInterval: 10000 }); // Check every 10s
++  const isContest = lesson?.quiz?.isContest;
++  const rawStartTime = lesson?.quiz?.startTime;
++  const rawEndTime = lesson?.quiz?.endTime;
++  const startTime = rawStartTime ? new Date(rawStartTime) : null;
++  const endTime = rawEndTime ? new Date(rawEndTime) : null;
++  const now = serverTimeData?.serverTime ? new Date(serverTimeData.serverTime) : new Date();
++
++  const isBeforeStart = isContest && startTime && now.getTime() < startTime.getTime();
++  const isAfterEnd = isContest && endTime && now.getTime() > endTime.getTime();
++  const isStartDisabled = isStarting || !!isBeforeStart || !!isAfterEnd;
+ 
+   return (
+     <div className="overflow-hidden">
+-      <div className="border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6">
++      <div className={`border-b border-gray-100 p-4 sm:p-6 ${
++        isContest ? 'bg-gradient-to-r from-red-50 to-orange-50' : 'bg-gradient-to-r from-blue-50 to-indigo-50'
++      }`}>
+         {/* Section Title */}
+-        <div className="mb-3 sm:mb-4">
+-          <h2 className="mb-2 text-lg font-bold text-gray-900 sm:text-xl">Quiz</h2>
++        <div className="mb-3 sm:mb-4 flex items-center justify-between">
++          <h2 className="mb-2 text-lg font-bold text-gray-900 sm:text-xl">{isContest ? 'Contest' : 'Quiz'}</h2>
++          {isContest && (
++            <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-600 sm:text-sm">
++              STRICT TIMING
++            </span>
++          )}
+         </div>
+ 
+         {/* Quiz Title with Icon and Status */}
+@@ -137,6 +156,25 @@ const QuizOverview = ({
+               </span>
+             </div>
+           </div>
++          {isContest && (
++            <div className="space-y-3 sm:space-y-4 md:col-span-2">
++              <div className="flex items-center justify-between border-b border-gray-100 py-2 sm:py-3">
++                <div className="flex min-w-0 items-center gap-2 sm:gap-3">
++                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 sm:h-10 sm:w-10">
++                    <MdEvent className="h-4 w-4 text-red-600 sm:h-5 sm:w-5" />
++                  </div>
++                  <span className="truncate text-xs font-medium text-gray-600 sm:text-sm">
++                    Contest Window:
++                  </span>
++                </div>
++                <span className="ml-2 shrink-0 text-right text-xs font-bold text-red-600 sm:text-sm">
++                  {startTime ? format(startTime, 'dd MMM yyyy, HH:mm') : 'N/A'} 
++                  {' - '} 
++                  {endTime ? format(endTime, 'dd MMM yyyy, HH:mm') : 'N/A'}
++                </span>
++              </div>
++            </div>
++          )}
+         </div>
+ 
+         {/* Action Buttons */}
+@@ -158,6 +196,22 @@ const QuizOverview = ({
+             </div>
+           )}
+ 
++          {isContest && isBeforeStart && (
++            <div className="mb-3 rounded-lg bg-yellow-50 p-3 text-center border border-yellow-200 sm:mb-4 sm:p-4">
++              <p className="text-xs font-medium text-yellow-700 sm:text-sm">
++                This contest has not started yet.
++              </p>
++            </div>
++          )}
++
++          {isContest && isAfterEnd && (
++            <div className="mb-3 rounded-lg bg-red-50 p-3 text-center border border-red-200 sm:mb-4 sm:p-4">
++              <p className="text-xs font-medium text-red-700 sm:text-sm">
++                This contest has ended.
++              </p>
++            </div>
++          )}
++
+           {/* Button Actions */}
+           <div className="flex items-center justify-between gap-3 sm:gap-4">
+             {/* Main Action Button */}
+@@ -166,8 +220,8 @@ const QuizOverview = ({
+               {hasOngoingAttempt && (
+                 <Button
+                   onClick={onStartQuiz}
+-                  disabled={isStarting}
+-                  className="h-10 w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-green-700 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
++                  disabled={isStartDisabled}
++                  className="h-10 w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-green-700 sm:h-12 sm:px-6 sm:py-3 sm:text-base disabled:opacity-50"
+                 >
+                   <MdPlayArrow className="mr-1.5 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
+                   {isStarting ? 'Loading...' : 'Continue Quiz'}
+@@ -178,8 +232,8 @@ const QuizOverview = ({
+               {!hasOngoingAttempt && !hasStarted && (
+                 <Button
+                   onClick={onStartQuiz}
+-                  disabled={isStarting}
+-                  className="h-10 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-700 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
++                  disabled={isStartDisabled}
++                  className="h-10 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-700 sm:h-12 sm:px-6 sm:py-3 sm:text-base disabled:opacity-50"
+                 >
+                   <MdPlayArrow className="mr-1.5 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
+                   {isStarting ? 'Starting...' : 'Start Quiz'}
+@@ -190,9 +244,9 @@ const QuizOverview = ({
+               {!hasOngoingAttempt && hasStarted && canRetake && (
+                 <Button
+                   onClick={onStartQuiz}
+-                  disabled={isStarting}
++                  disabled={isStartDisabled}
+                   variant="outline"
+-                  className="h-10 w-full rounded-lg border-2 border-blue-600 px-4 py-2.5 text-sm font-semibold text-blue-600 transition-colors duration-200 hover:bg-blue-50 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
++                  className="h-10 w-full rounded-lg border-2 border-blue-600 px-4 py-2.5 text-sm font-semibold text-blue-600 transition-colors duration-200 hover:bg-blue-50 sm:h-12 sm:px-6 sm:py-3 sm:text-base disabled:opacity-50"
+                 >
+                   <MdRestartAlt className="mr-1.5 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
+                   {isStarting ? 'Starting...' : 'Retake'}
+diff --git a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-result.tsx b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-result.tsx
+index 92fc7bf..e1d9709 100644
+--- a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-result.tsx
++++ b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-result.tsx
+@@ -26,6 +26,8 @@ interface QuizResultProps {
+   onRetry?: () => void;
+   onBackToOverview?: () => void;
+   onViewDetails?: () => void;
++  isResultMasked?: boolean;
++  showResultDate?: string | null;
+ }
+ 
+ // Quiz result component - Arrow function
+@@ -39,8 +41,13 @@ const QuizResult = ({
+   onRetry,
+   onBackToOverview,
+   onViewDetails,
++  isResultMasked = false,
++  showResultDate,
+ }: QuizResultProps) => {
+   const incorrectAnswers = totalQuestions - correctAnswers;
++  
++  // Format the result date if available
++  const formattedResultDate = showResultDate ? new Date(showResultDate).toLocaleString() : 'a later date';
+ 
+   return (
+     <div className="flex h-full w-full items-center justify-center bg-gray-50 p-4 sm:p-6">
+@@ -63,40 +70,49 @@ const QuizResult = ({
+ 
+               <div>
+                 <h1 className="mb-2 text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl">
+-                  {isPassed ? 'Congratulations!' : 'Requirements not met'}
++                  {isResultMasked
++                    ? 'Submitted Successfully!'
++                    : isPassed
++                      ? 'Congratulations!'
++                      : 'Requirements not met'}
+                 </h1>
+                 <p className="px-2 text-sm text-gray-600 sm:text-base md:text-lg">
+-                  {isPassed
+-                    ? 'You have successfully completed the quiz'
+-                    : 'You need to achieve at least ' + passingScore + '% to pass the quiz'}
++                  {isResultMasked
++                    ? `Your answers have been saved. The results are hidden and will be published on ${formattedResultDate}.`
++                    : isPassed
++                      ? 'You have successfully completed the quiz'
++                      : 'You need to achieve at least ' + passingScore + '% to pass the quiz'}
+                 </p>
+               </div>
+ 
+               {/* Score Display */}
+-              <div className="space-y-2 sm:space-y-3">
+-                <Badge
+-                  variant={isPassed ? 'default' : 'destructive'}
+-                  className={`px-4 py-2 text-xl font-bold sm:px-6 sm:py-3 sm:text-2xl ${
+-                    isPassed
+-                      ? 'bg-green-500 text-white hover:bg-green-600'
+-                      : 'bg-red-500 text-white hover:bg-red-600'
+-                  }`}
+-                >
+-                  {score.toFixed(1)}%
+-                </Badge>
+-                <div className="mx-auto w-full max-w-md px-2">
+-                  <Progress value={score} className="h-2 sm:h-3" />
+-                  <div className="mt-1 flex justify-between text-xs text-gray-500 sm:text-sm">
+-                    <span>0%</span>
+-                    <span className="text-center font-medium">Required: {passingScore}%</span>
+-                    <span>100%</span>
++              {!isResultMasked && (
++                <div className="space-y-2 sm:space-y-3">
++                  <Badge
++                    variant={isPassed ? 'default' : 'destructive'}
++                    className={`px-4 py-2 text-xl font-bold sm:px-6 sm:py-3 sm:text-2xl ${
++                      isPassed
++                        ? 'bg-green-500 text-white hover:bg-green-600'
++                        : 'bg-red-500 text-white hover:bg-red-600'
++                    }`}
++                  >
++                    {score.toFixed(1)}%
++                  </Badge>
++                  <div className="mx-auto w-full max-w-md px-2">
++                    <Progress value={score} className="h-2 sm:h-3" />
++                    <div className="mt-1 flex justify-between text-xs text-gray-500 sm:text-sm">
++                      <span>0%</span>
++                      <span className="text-center font-medium">Required: {passingScore}%</span>
++                      <span>100%</span>
++                    </div>
+                   </div>
+                 </div>
+-              </div>
++              )}
+             </div>
+ 
+             {/* Statistics */}
+-            <div className="grid grid-cols-1 gap-3 border-t border-gray-200 py-4 sm:grid-cols-2 sm:gap-4 sm:py-6 md:gap-6">
++            {!isResultMasked && (
++              <div className="grid grid-cols-1 gap-3 border-t border-gray-200 py-4 sm:grid-cols-2 sm:gap-4 sm:py-6 md:gap-6">
+               <div className="space-y-3 sm:space-y-4">
+                 <div className="rounded-lg bg-gray-50 p-3 sm:p-4">
+                   <div className="mb-1.5 flex items-center gap-2 sm:mb-2 sm:gap-3">
+@@ -154,10 +170,12 @@ const QuizResult = ({
+                   </p>
+                 </div>
+               </div>
+-            </div>
++                </div>
++              </div>
++            )}
+ 
+             {/* Action Buttons */}
+-            <div className="flex flex-col gap-3 border-t border-gray-200 pt-4 sm:flex-row sm:gap-4 sm:pt-6">
++            <div className={`flex flex-col gap-3 ${isResultMasked ? 'pt-2 sm:pt-4' : 'border-t border-gray-200 pt-4 sm:pt-6'} sm:flex-row sm:gap-4`}>
+               <Button
+                 variant="outline"
+                 onClick={onBackToOverview}
+diff --git a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-taking.tsx b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-taking.tsx
+index b24e9e9..41bfd14 100644
+--- a/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-taking.tsx
++++ b/client/src/app/(protected)/learning/[slug]/components/quiz/quiz-taking.tsx
+@@ -76,14 +76,34 @@ const QuizTaking = ({
+ 
+   // Initialize answers from savedAnswers
+   useEffect(() => {
+-    if (savedAnswers.length > 0 && Object.keys(answers).length === 0) {
+-      const initialAnswers: Record<string, string[]> = {};
++    if (questions.length === 0 || !attemptId) return;
++
++    let initialAnswers: Record<string, string[]> = {};
++    let loadedFromLocal = false;
++
++    // 1. Try to load from localStorage first
++    try {
++      const localData = localStorage.getItem(`quiz_attempt_${attemptId}`);
++      if (localData) {
++        const parsed = JSON.parse(localData);
++        if (Object.keys(parsed).length > 0) {
++          initialAnswers = parsed;
++          loadedFromLocal = true;
++          setAnswers(initialAnswers);
++        }
++      }
++    } catch (e) {
++      console.error('Error loading from local storage', e);
++    }
++
++    // 2. If nothing in local storage (or failed), use backend savedAnswers
++    if (!loadedFromLocal && savedAnswers.length > 0 && Object.keys(answers).length === 0) {
+       savedAnswers.forEach((sa) => {
+         initialAnswers[sa.questionId] = sa.selectedOptionIds;
+       });
+       setAnswers(initialAnswers);
+     }
+-  }, [savedAnswers, answers]);
++  }, [savedAnswers, attemptId, questions.length]);
+ 
+   // Convert answers to API payload format
+   const formatAnswersForBackend = useCallback(
+@@ -184,6 +204,10 @@ const QuizTaking = ({
+               }));
+             }
+ 
++            try {
++              localStorage.removeItem(`quiz_attempt_${attemptId}`);
++            } catch (e) {}
++
+             if (onSuccess) {
+               onSuccess(result);
+             }
+@@ -342,6 +366,13 @@ const QuizTaking = ({
+         [questionId]: newAnswers,
+       };
+ 
++      // Auto-save to localStorage immediately
++      try {
++        localStorage.setItem(`quiz_attempt_${attemptId}`, JSON.stringify(updatedAnswers));
++      } catch (e) {
++        // Ignore errors
++      }
++
+       // Trigger autosave
+       autosaveAnswers(updatedAnswers);
+ 
+@@ -349,6 +380,28 @@ const QuizTaking = ({
+     });
+   };
+ 
++  // Tab switching anti-cheat
++  useEffect(() => {
++    if (submissionState.hasSubmitted || submissionState.isSubmitting || status !== AttemptStatus.IN_PROGRESS) return;
++
++    const handleVisibilityChange = () => {
++      if (document.hidden) {
++        if (!submissionAttemptedRef.current && isComponentMountedRef.current) {
++          // Trigger auto-submit when leaving tab
++          setAnswers((currentAnswers) => {
++            handleQuizSubmission(currentAnswers, true);
++            return currentAnswers;
++          });
++        }
++      }
++    };
++
++    document.addEventListener('visibilitychange', handleVisibilityChange);
++    return () => {
++      document.removeEventListener('visibilitychange', handleVisibilityChange);
++    };
++  }, [submissionState.hasSubmitted, submissionState.isSubmitting, status, handleQuizSubmission]);
++
+   const handleFlag = (questionId: string) => {
+     if (submissionState.hasSubmitted) return;
+ 
+diff --git a/client/src/app/admin/courses/[courseId]/outline/components/lesson-form-dialog.tsx b/client/src/app/admin/courses/[courseId]/outline/components/lesson-form-dialog.tsx
+index 31e0180..1f9c74c 100644
+--- a/client/src/app/admin/courses/[courseId]/outline/components/lesson-form-dialog.tsx
++++ b/client/src/app/admin/courses/[courseId]/outline/components/lesson-form-dialog.tsx
+@@ -80,6 +80,10 @@ interface LessonFormData {
+   // Quiz specific
+   passScore?: number;
+   maxAttempts?: number | null;
++  isContest?: boolean;
++  startTime?: string | null;
++  endTime?: string | null;
++  showResultDate?: string | null;
+   // Quiz questions - managed separately from validation schema
+   questions?: QuizQuestionForm[];
+ }
+@@ -132,6 +136,22 @@ const lessonFormSchema: yup.ObjectSchema<LessonFormData> = yup.object({
+           .nullable(),
+       otherwise: (schema) => schema.optional(),
+     }),
++  isContest: yup.boolean().default(false),
++  startTime: yup.string().nullable().when('isContest', {
++    is: true,
++    then: (schema) => schema.required('Start time is required for contests'),
++    otherwise: (schema) => schema.optional(),
++  }),
++  endTime: yup.string().nullable().when('isContest', {
++    is: true,
++    then: (schema) => schema.required('End time is required for contests'),
++    otherwise: (schema) => schema.optional(),
++  }),
++  showResultDate: yup.string().nullable().when('isContest', {
++    is: true,
++    then: (schema) => schema.required('Show result date is required for contests'),
++    otherwise: (schema) => schema.optional(),
++  }),
+   // Questions are managed separately, not validated here
+   questions: yup.array().optional(),
+ });
+@@ -497,6 +517,10 @@ const LessonFormDialog = ({
+       articleContent: '',
+       passScore: 70,
+       maxAttempts: null,
++      isContest: false,
++      startTime: null,
++      endTime: null,
++      showResultDate: null,
+       questions: [],
+     },
+   });
+@@ -528,6 +552,10 @@ const LessonFormDialog = ({
+     } else if (lessonData.type === LessonType.QUIZ && lessonData.quiz) {
+       baseFormData.passScore = lessonData.quiz.passScore;
+       baseFormData.maxAttempts = lessonData.quiz.maxAttempts;
++      baseFormData.isContest = lessonData.quiz.isContest;
++      baseFormData.startTime = lessonData.quiz.startTime ? new Date(lessonData.quiz.startTime).toISOString().slice(0,16) : null;
++      baseFormData.endTime = lessonData.quiz.endTime ? new Date(lessonData.quiz.endTime).toISOString().slice(0,16) : null;
++      baseFormData.showResultDate = lessonData.quiz.showResultDate ? new Date(lessonData.quiz.showResultDate).toISOString().slice(0,16) : null;
+     }
+ 
+     return baseFormData;
+@@ -664,6 +692,10 @@ const LessonFormDialog = ({
+             durationSec: durationInSeconds,
+             passScore: data.passScore!,
+             maxAttempts: data.maxAttempts || null,
++            isContest: data.isContest,
++            startTime: data.isContest && data.startTime ? new Date(data.startTime).toISOString() : null,
++            endTime: data.isContest && data.endTime ? new Date(data.endTime).toISOString() : null,
++            showResultDate: data.isContest && data.showResultDate ? new Date(data.showResultDate).toISOString() : null,
+             questions: questions.map((q) => ({
+               ...(q.id && { id: q.id }),
+               type: q.type,
+@@ -1021,7 +1053,93 @@ const LessonFormDialog = ({
+                           <FormMessage />
+                         </FormItem>
+                       )}
++                  </div>
++                )}
++
++                {selectedContentType === LessonType.QUIZ && (
++                  <div className="space-y-4 rounded-md border p-4">
++                    <FormField
++                      control={form.control}
++                      name="isContest"
++                      render={({ field }) => (
++                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
++                          <div className="space-y-0.5">
++                            <FormLabel>Make this Quiz a Contest</FormLabel>
++                            <div className="text-sm text-muted-foreground">
++                              Enable strict time limits and hide results until a specific date.
++                            </div>
++                          </div>
++                          <FormControl>
++                            <Switch
++                              checked={field.value}
++                              onCheckedChange={field.onChange}
++                              disabled={isLoading || isSubmitting}
++                            />
++                          </FormControl>
++                        </FormItem>
++                      )}
+                     />
++
++                    {form.watch('isContest') && (
++                      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
++                        <FormField
++                          control={form.control}
++                          name="startTime"
++                          render={({ field }) => (
++                            <FormItem>
++                              <FormLabel>Start Time <span className="text-red-500">*</span></FormLabel>
++                              <FormControl>
++                                <Input
++                                  {...field}
++                                  type="datetime-local"
++                                  value={field.value || ''}
++                                  disabled={isLoading || isSubmitting}
++                                />
++                              </FormControl>
++                              <FormMessage />
++                            </FormItem>
++                          )}
++                        />
++
++                        <FormField
++                          control={form.control}
++                          name="endTime"
++                          render={({ field }) => (
++                            <FormItem>
++                              <FormLabel>End Time <span className="text-red-500">*</span></FormLabel>
++                              <FormControl>
++                                <Input
++                                  {...field}
++                                  type="datetime-local"
++                                  value={field.value || ''}
++                                  disabled={isLoading || isSubmitting}
++                                />
++                              </FormControl>
++                              <FormMessage />
++                            </FormItem>
++                          )}
++                        />
++
++                        <FormField
++                          control={form.control}
++                          name="showResultDate"
++                          render={({ field }) => (
++                            <FormItem>
++                              <FormLabel>Show Result Date <span className="text-red-500">*</span></FormLabel>
++                              <FormControl>
++                                <Input
++                                  {...field}
++                                  type="datetime-local"
++                                  value={field.value || ''}
++                                  disabled={isLoading || isSubmitting}
++                                />
++                              </FormControl>
++                              <FormMessage />
++                            </FormItem>
++                          )}
++                        />
++                      </div>
++                    )}
+                   </div>
+                 )}
+ 
+diff --git a/client/src/hooks/use-quiz.ts b/client/src/hooks/use-quiz.ts
+index 70af36f..e64298f 100644
+--- a/client/src/hooks/use-quiz.ts
++++ b/client/src/hooks/use-quiz.ts
+@@ -13,6 +13,7 @@ import {
+ 
+ export const QUIZ_QUERY_KEYS = {
+   // User quiz taking
++  SERVER_TIME: ['quiz', 'serverTime'],
+   ATTEMPTS_LIST: (lessonId: string) => ['quiz', 'attempts', 'list', lessonId],
+   ATTEMPT: (attemptId: string) => ['quiz', 'attempt', attemptId],
+   ATTEMPT_RESULT: (attemptId: string) => ['quiz', 'attempt', 'result', attemptId],
+@@ -24,6 +25,19 @@ export const QUIZ_QUERY_KEYS = {
+ 
+ // ========== USER QUIZ TAKING HOOKS ==========
+ 
++/**
++ * Hook to get server time
++ * GET /api/quizzes/server-time
++ */
++export function useServerTime(options?: { enabled?: boolean; refetchInterval?: number | false }) {
++  return useQuery({
++    queryKey: QUIZ_QUERY_KEYS.SERVER_TIME,
++    queryFn: () => QuizService.getServerTime(),
++    enabled: options?.enabled ?? true,
++    refetchInterval: options?.refetchInterval ?? false,
++  });
++}
++
+ /**
+  * Hook to list all attempts for a lesson quiz
+  * GET /api/quizzes/:lessonId/attempts
+diff --git a/client/src/services/quiz.ts b/client/src/services/quiz.ts
+index 1a78afd..fee5f3f 100644
+--- a/client/src/services/quiz.ts
++++ b/client/src/services/quiz.ts
+@@ -25,6 +25,7 @@ const ENDPOINTS = {
+   QUIZ_UNPUBLISH: (id: string) => `/quiz-questions/${id}/unpublish`,
+ 
+   // User quiz attempt endpoints (new API structure)
++  SERVER_TIME: '/quizzes/server-time',
+   START_ATTEMPT: (lessonId: string) => `/quizzes/${lessonId}/attempts/start`,
+   LOAD_ATTEMPT: (attemptId: string) => `/attempts/${attemptId}`,
+   SAVE_ANSWERS: (attemptId: string) => `/attempts/${attemptId}/answers`,
+@@ -38,6 +39,14 @@ const ENDPOINTS = {
+ export class QuizService {
+   // ========== USER QUIZ TAKING (New API) ==========
+ 
++  /**
++   * Get server time for synchronization
++   * GET /api/quizzes/server-time
++   */
++  static async getServerTime(): Promise<{ serverTime: string }> {
++    return ApiService.get<{ serverTime: string }>(ENDPOINTS.SERVER_TIME);
++  }
++
+   /**
+    * Start or resume a quiz attempt
+    * POST /api/quizzes/:lessonId/attempts/start
+diff --git a/client/src/types/lesson.ts b/client/src/types/lesson.ts
+index 57c6eba..c586f57 100644
+--- a/client/src/types/lesson.ts
++++ b/client/src/types/lesson.ts
+@@ -98,6 +98,10 @@ export interface BackendQuizContent {
+   durationSec: number;
+   passScore: number;
+   maxAttempts: number | null;
++  isContest?: boolean;
++  startTime?: string | null;
++  endTime?: string | null;
++  showResultDate?: string | null;
+   questions: BackendQuizQuestion[];
+ }
+ 
+@@ -179,6 +183,10 @@ export interface QuizQuestionRequest {
+ export interface QuizContent {
+   durationSec: number;
+   passScore: number;
++  isContest?: boolean;
++  startTime?: string | null;
++  endTime?: string | null;
++  showResultDate?: string | null;
+   questions: QuizQuestionRequest[];
+ }
+ 
+diff --git a/client/src/types/quiz.ts b/client/src/types/quiz.ts
+index 0a357a2..1b36069 100644
+--- a/client/src/types/quiz.ts
++++ b/client/src/types/quiz.ts
+@@ -60,6 +60,7 @@ export interface QuizAttempt {
+   passed?: boolean | null;
+   correctCount?: number | null;
+   totalCount?: number | null;
++  isResultMasked?: boolean;
+ }
+ 
+ // ========== SAVED ANSWER (during quiz taking) ==========
+@@ -137,6 +138,7 @@ export interface SubmitAttemptResponse {
+   totalCount: number;
+   startedAt: string;
+   submittedAt: string;
++  isResultMasked?: boolean;
+ }
+ 
+ // Response from GET /api/attempts/:attemptId/result
+@@ -153,6 +155,7 @@ export interface AttemptResultResponse {
+   startedAt: string;
+   submittedAt: string;
+   answers: AttemptAnswerResult[];
++  isResultMasked?: boolean;
+ }
+ 
+ // Response from GET /api/quizzes/:lessonId/attempts
+diff --git a/server/prisma/schema.prisma b/server/prisma/schema.prisma
+index a244f8a..f87745e 100644
+--- a/server/prisma/schema.prisma
++++ b/server/prisma/schema.prisma
+@@ -244,11 +244,15 @@ model LessonVideo {
+ }
+ 
+ model LessonQuiz {
+-  lessonId    String         @id
+-  passScore   Int?
+-  maxAttempts Int?
+-  durationSec Int?
+-  lesson      Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
++  lessonId       String         @id
++  passScore      Int?
++  maxAttempts    Int?
++  durationSec    Int?
++  isContest      Boolean        @default(false)
++  startTime      DateTime?
++  endTime        DateTime?
++  showResultDate DateTime?
++  lesson         Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+   attempts    QuizAttempt[]
+   questions   QuizQuestion[]
+ }
+@@ -293,6 +297,7 @@ model QuizAttempt {
+   passed       Boolean?
+   correctCount Int?
+   totalCount   Int?
++  strikes      Int                 @default(0)
+   quiz         LessonQuiz          @relation(fields: [lessonId], references: [lessonId], onDelete: Cascade)
+   answers      QuizAttemptAnswer[]
+ 
+diff --git a/server/src/modules/quiz-attempt/dto/quiz-attempt.dto.ts b/server/src/modules/quiz-attempt/dto/quiz-attempt.dto.ts
+index f7b4d9e..32bd0e6 100644
+--- a/server/src/modules/quiz-attempt/dto/quiz-attempt.dto.ts
++++ b/server/src/modules/quiz-attempt/dto/quiz-attempt.dto.ts
+@@ -28,6 +28,8 @@ export class SaveAnswersDto {
+   @Type(() => AnswerDto)
+   @ArrayMinSize(1)
+   answers: AnswerDto[];
++
++  strikes?: number;
+ }
+ 
+ export class SubmitAttemptDto {
+@@ -35,6 +37,8 @@ export class SubmitAttemptDto {
+   @ValidateNested({ each: true })
+   @Type(() => AnswerDto)
+   answers: AnswerDto[];
++
++  strikes?: number;
+ }
+ 
+ // ============ RESPONSE DTOs ============
+diff --git a/server/src/modules/quiz-attempt/quiz-attempt.controller.ts b/server/src/modules/quiz-attempt/quiz-attempt.controller.ts
+index aaa4417..ea503d9 100644
+--- a/server/src/modules/quiz-attempt/quiz-attempt.controller.ts
++++ b/server/src/modules/quiz-attempt/quiz-attempt.controller.ts
+@@ -20,6 +20,16 @@ export class QuizAttemptController {
+ 
+   // ============ QUIZ-BASED ENDPOINTS ============
+ 
++  /**
++   * Get server time for frontend synchronization
++   * GET /api/quizzes/server-time
++   */
++  @Get('quizzes/server-time')
++  @ResponseMessage('Server time retrieved successfully')
++  async getServerTime() {
++    return { serverTime: new Date().toISOString() };
++  }
++
+   /**
+    * Start or resume a quiz attempt
+    * POST /api/quizzes/:lessonId/attempts/start
+diff --git a/server/src/modules/quiz-attempt/quiz-attempt.module.ts b/server/src/modules/quiz-attempt/quiz-attempt.module.ts
+index c9a0443..6a0f78c 100644
+--- a/server/src/modules/quiz-attempt/quiz-attempt.module.ts
++++ b/server/src/modules/quiz-attempt/quiz-attempt.module.ts
+@@ -3,12 +3,17 @@ import { BullModule } from '@nestjs/bullmq';
+ import { QuizAttemptController } from './quiz-attempt.controller';
+ import { QuizAttemptService } from './quiz-attempt.service';
+ import { QuizAttemptRepository } from './quiz-attempt.repository';
++import { QuizAttemptProcessor } from './quiz-attempt.processor';
+ import { SharedModule } from 'src/shared/shared.module';
+ 
+ @Module({
+-  imports: [SharedModule, BullModule.registerQueue({ name: 'gamification' })],
++  imports: [
++    SharedModule, 
++    BullModule.registerQueue({ name: 'gamification' }),
++    BullModule.registerQueue({ name: 'quiz-attempt' })
++  ],
+   controllers: [QuizAttemptController],
+-  providers: [QuizAttemptService, QuizAttemptRepository],
++  providers: [QuizAttemptService, QuizAttemptRepository, QuizAttemptProcessor],
+   exports: [QuizAttemptService, QuizAttemptRepository],
+ })
+ export class QuizAttemptModule {}
+diff --git a/server/src/modules/quiz-attempt/quiz-attempt.repository.ts b/server/src/modules/quiz-attempt/quiz-attempt.repository.ts
+index 9cc607c..32a6294 100644
+--- a/server/src/modules/quiz-attempt/quiz-attempt.repository.ts
++++ b/server/src/modules/quiz-attempt/quiz-attempt.repository.ts
+@@ -123,8 +123,9 @@ export class QuizAttemptRepository {
+   async upsertAnswers(
+     attemptId: string,
+     answers: { questionId: string; selectedOptionIds: string[] }[],
++    strikes?: number,
+   ) {
+-    const operations = answers.map((answer) =>
++    const operations: any[] = answers.map((answer) =>
+       this.prismaService.quizAttemptAnswer.upsert({
+         where: {
+           attemptId_questionId: {
+@@ -143,6 +144,15 @@ export class QuizAttemptRepository {
+       }),
+     );
+ 
++    if (strikes !== undefined) {
++      operations.push(
++        this.prismaService.quizAttempt.update({
++          where: { id: attemptId },
++          data: { strikes },
++        }),
++      );
++    }
++
+     return this.prismaService.$transaction(operations);
+   }
+ 
+@@ -163,6 +173,7 @@ export class QuizAttemptRepository {
+       passed: boolean | null;
+       correctCount: number;
+       totalCount: number;
++      strikes?: number;
+     },
+   ) {
+     return this.prismaService.$transaction(async (tx) => {
+@@ -191,17 +202,23 @@ export class QuizAttemptRepository {
+       }
+ 
+       // Update attempt with final results
++      const updateData: any = {
++        status: AttemptStatus.SUBMITTED,
++        submittedAt: new Date(),
++        score: summary.score,
++        maxScore: summary.maxScore,
++        passed: summary.passed,
++        correctCount: summary.correctCount,
++        totalCount: summary.totalCount,
++      };
++
++      if (summary.strikes !== undefined) {
++        updateData.strikes = summary.strikes;
++      }
++
+       return tx.quizAttempt.update({
+         where: { id: attemptId },
+-        data: {
+-          status: AttemptStatus.SUBMITTED,
+-          submittedAt: new Date(),
+-          score: summary.score,
+-          maxScore: summary.maxScore,
+-          passed: summary.passed,
+-          correctCount: summary.correctCount,
+-          totalCount: summary.totalCount,
+-        },
++        data: updateData,
+       });
+     });
+   }
+@@ -262,4 +279,34 @@ export class QuizAttemptRepository {
+       },
+     });
+   }
++
++  /**
++   * Get leaderboard attempts for a contest
++   */
++  async getLeaderboardAttempts(lessonId: string, limit: number = 100) {
++    // Because Prisma orderBy doesn't support complex duration calculations directly,
++    // we fetch SUBMITTED attempts ordered primarily by score.
++    // Further duration-based exact sorting can be applied at the service level.
++    return this.prismaService.quizAttempt.findMany({
++      where: {
++        lessonId,
++        status: AttemptStatus.SUBMITTED,
++      },
++      orderBy: [
++        { score: 'desc' },
++        { submittedAt: 'asc' },
++      ],
++      take: limit,
++      include: {
++        user: {
++          select: {
++            id: true,
++            username: true,
++            avatar: true,
++          },
++        },
++      },
++    });
++  }
+ }
++
+diff --git a/server/src/modules/quiz-attempt/quiz-attempt.service.ts b/server/src/modules/quiz-attempt/quiz-attempt.service.ts
+index 3971d77..9a3484b 100644
+--- a/server/src/modules/quiz-attempt/quiz-attempt.service.ts
++++ b/server/src/modules/quiz-attempt/quiz-attempt.service.ts
+@@ -1,13 +1,16 @@
++import { InjectQueue } from '@nestjs/bullmq';
++import { CACHE_MANAGER } from '@nestjs/cache-manager';
+ import {
+   BadRequestException,
+   ForbiddenException,
++  Inject,
+   Injectable,
+   NotFoundException,
+ } from '@nestjs/common';
++import { Queue } from 'bullmq';
++import { Cache } from 'cache-manager';
+ import { AttemptStatus } from 'src/generated/prisma/enums';
+ import { PrismaService } from 'src/shared/services/prisma.service';
+-import { InjectQueue } from '@nestjs/bullmq';
+-import { Queue } from 'bullmq';
+ import {
+   AttemptContentResponseDto,
+   AttemptMetaResponseDto,
+@@ -25,6 +28,8 @@ export class QuizAttemptService {
+     private readonly quizAttemptRepository: QuizAttemptRepository,
+     private readonly prismaService: PrismaService,
+     @InjectQueue('gamification') private readonly gamificationQueue: Queue,
++    @InjectQueue('quiz-attempt') private readonly quizQueue: Queue,
++    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+   ) {}
+ 
+   private async verifyCourseAccess(userId: string, lessonId: string) {
+@@ -109,6 +114,16 @@ export class QuizAttemptService {
+       throw new NotFoundException('Quiz not found for this lesson');
+     }
+ 
++    if (quiz.isContest) {
++      const now = new Date();
++      if (quiz.startTime && now < quiz.startTime) {
++        throw new ForbiddenException('The contest has not started yet');
++      }
++      if (quiz.endTime && now > quiz.endTime) {
++        throw new ForbiddenException('The contest has already ended');
++      }
++    }
++
+     // Check for existing IN_PROGRESS attempt
+     const existingAttempt =
+       await this.quizAttemptRepository.findInProgressAttempt(lessonId, userId);
+@@ -152,6 +167,17 @@ export class QuizAttemptService {
+       expiresAt = new Date(Date.now() + quiz.durationSec * 1000);
+     }
+ 
++    // For contests, forcefully bind the expiresAt to the endTime
++    if (quiz.isContest && quiz.endTime) {
++      if (expiresAt) {
++        expiresAt = new Date(
++          Math.min(expiresAt.getTime(), quiz.endTime.getTime()),
++        );
++      } else {
++        expiresAt = quiz.endTime;
++      }
++    }
++
+     const newAttempt = await this.quizAttemptRepository.createAttempt({
+       lessonId,
+       userId,
+@@ -159,6 +185,19 @@ export class QuizAttemptService {
+       expiresAt,
+     });
+ 
++    // Schedule auto-submit for contest
++    if (quiz.isContest && expiresAt) {
++      const delayMs = Math.max(0, expiresAt.getTime() - Date.now());
++      void this.quizQueue.add(
++        'auto-submit-attempt',
++        {
++          attemptId: newAttempt.id,
++          userId: newAttempt.userId,
++        },
++        { delay: delayMs },
++      );
++    }
++
+     return {
+       attemptId: newAttempt.id,
+       lessonId: newAttempt.lessonId,
+@@ -273,7 +312,11 @@ export class QuizAttemptService {
+       );
+     }
+ 
+-    await this.quizAttemptRepository.upsertAnswers(attemptId, dto.answers);
++    await this.quizAttemptRepository.upsertAnswers(
++      attemptId,
++      dto.answers,
++      dto.strikes,
++    );
+ 
+     return { ok: true };
+   }
+@@ -286,6 +329,7 @@ export class QuizAttemptService {
+     attemptId: string,
+     userId: string,
+     dto: SubmitAttemptDto,
++    isAutoSubmit = false,
+   ): Promise<SubmitResultResponseDto> {
+     const attempt = await this.quizAttemptRepository.findAttemptById(attemptId);
+ 
+@@ -384,10 +428,19 @@ export class QuizAttemptService {
+       };
+     });
+ 
+-    // Get quiz for passScore check
++    // Get quiz for passScore check and contest check
+     const quiz = await this.quizAttemptRepository.findQuizByLessonId(
+       attempt.lessonId,
+     );
++
++    if (quiz?.isContest && !isAutoSubmit) {
++      const now = new Date();
++      // Allow a 10 seconds grace period for network latency
++      if (quiz.endTime && now.getTime() > quiz.endTime.getTime() + 10000) {
++        throw new BadRequestException('The contest has already ended');
++      }
++    }
++
+     const passed =
+       quiz?.passScore != null && maxScore > 0
+         ? (score / maxScore) * 100 >= quiz.passScore
+@@ -397,7 +450,14 @@ export class QuizAttemptService {
+     const submittedAttempt = await this.quizAttemptRepository.submitAttempt(
+       attemptId,
+       gradedAnswers,
+-      { score, maxScore, passed, correctCount, totalCount },
++      {
++        score,
++        maxScore,
++        passed,
++        correctCount,
++        totalCount,
++        strikes: dto.strikes,
++      },
+     );
+ 
+     // Gamification: +20 points for passing a quiz
+@@ -448,6 +508,26 @@ export class QuizAttemptService {
+       throw new BadRequestException('Attempt has not been submitted yet');
+     }
+ 
++    const quiz = await this.quizAttemptRepository.findQuizByLessonId(
++      attempt.lessonId,
++    );
++    if (quiz?.isContest) {
++      const now = new Date();
++      if (quiz.showResultDate && now < quiz.showResultDate) {
++        // Blind Result: Return only scores, NO answers yet.
++        return {
++          attemptId: attempt.id,
++          lessonId: attempt.lessonId,
++          attemptNo: attempt.attemptNo,
++          status: attempt.status,
++          score: attempt.score ?? 0,
++          maxScore: attempt.maxScore ?? 0,
++          passed: attempt.passed,
++          answers: [], // Hide the details!
++        };
++      }
++    }
++
+     // Map answers with question details
+     const answers = attempt.answers.map((answer) => {
+       return {
+@@ -546,4 +626,90 @@ export class QuizAttemptService {
+       })),
+     };
+   }
++
++  /**
++   * Get Leaderboard for a contest
++   * GET /api/quizzes/:lessonId/leaderboard
++   */
++  async getLeaderboard(lessonId: string, userId: string) {
++    // Only verify access if required, but leaderboards are often public or tied to the course.
++    await this.verifyCourseAccess(userId, lessonId);
++
++    const cacheKey = `leaderboard:${lessonId}`;
++    const cachedLeaderboard = await this.cacheManager.get(cacheKey);
++    if (cachedLeaderboard) {
++      return cachedLeaderboard;
++    }
++
++    const quiz = await this.quizAttemptRepository.findQuizByLessonId(lessonId);
++    if (!quiz || !quiz.isContest) {
++      throw new BadRequestException('This quiz is not a contest');
++    }
++
++    const attempts = await this.quizAttemptRepository.getLeaderboardAttempts(
++      lessonId,
++      100,
++    );
++
++    // Exact sort calculation logic:
++    // Sort by score DESC. If equal, sort by duration ASC.
++    const sorted = attempts.sort((a, b) => {
++      const scoreDiff = (b.score ?? 0) - (a.score ?? 0);
++      if (scoreDiff !== 0) return scoreDiff;
++
++      // Calculate duration
++      const durationA =
++        a.submittedAt && a.startedAt
++          ? a.submittedAt.getTime() - a.startedAt.getTime()
++          : Infinity;
++      const durationB =
++        b.submittedAt && b.startedAt
++          ? b.submittedAt.getTime() - b.startedAt.getTime()
++          : Infinity;
++
++      return durationA - durationB;
++    });
++
++    const leaderboard = sorted.map((attempt, index) => ({
++      rank: index + 1,
++      attemptId: attempt.id,
++      score: attempt.score,
++      maxScore: attempt.maxScore,
++      durationMs:
++        attempt.submittedAt && attempt.startedAt
++          ? attempt.submittedAt.getTime() - attempt.startedAt.getTime()
++          : null,
++      user: {
++        id: attempt.user.id,
++        username: attempt.user.username,
++        avatar: attempt.user.avatar,
++      },
++      submittedAt: attempt.submittedAt,
++    }));
++
++    // Cache the leaderboard for 1 minute (60 * 1000 ms)
++    await this.cacheManager.set(cacheKey, leaderboard, 60 * 1000);
++
++    return leaderboard;
++  }
++
++  /**
++   * Force auto-submit an attempt, called via Queue
++   */
++  async forceSubmitAttempt(attemptId: string, userId: string) {
++    const attempt =
++      await this.quizAttemptRepository.findAttemptWithAnswers(attemptId);
++    if (!attempt || attempt.status !== AttemptStatus.IN_PROGRESS) return;
++
++    // Map saved answers to SubmitAttemptDto
++    const dto: SubmitAttemptDto = {
++      strikes: attempt.strikes,
++      answers: attempt.answers.map((a) => ({
++        questionId: a.questionId,
++        selectedOptionIds: a.selectedOptionIds,
++      })),
++    };
++
++    return this.submitAttempt(attemptId, userId, dto, true);
++  }
+ }

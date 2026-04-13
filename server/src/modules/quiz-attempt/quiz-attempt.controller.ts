@@ -21,6 +21,16 @@ export class QuizAttemptController {
   // ============ QUIZ-BASED ENDPOINTS ============
 
   /**
+   * Get server time for frontend synchronization
+   * GET /api/quizzes/server-time
+   */
+  @Get('quizzes/server-time')
+  @ResponseMessage('Server time retrieved successfully')
+  getServerTime() {
+    return { serverTime: new Date().toISOString() };
+  }
+
+  /**
    * Start or resume a quiz attempt
    * POST /api/quizzes/:lessonId/attempts/start
    */

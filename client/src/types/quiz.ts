@@ -60,6 +60,7 @@ export interface QuizAttempt {
   passed?: boolean | null;
   correctCount?: number | null;
   totalCount?: number | null;
+  isResultMasked?: boolean;
 }
 
 // ========== SAVED ANSWER (during quiz taking) ==========
@@ -93,10 +94,12 @@ export interface AnswerPayload {
 
 export interface SaveAnswersPayload {
   answers: AnswerPayload[];
+  strikes?: number;
 }
 
 export interface SubmitAttemptPayload {
   answers: AnswerPayload[];
+  strikes?: number;
 }
 
 // ========== API RESPONSES ==========
@@ -137,6 +140,7 @@ export interface SubmitAttemptResponse {
   totalCount: number;
   startedAt: string;
   submittedAt: string;
+  isResultMasked?: boolean;
 }
 
 // Response from GET /api/attempts/:attemptId/result
@@ -153,6 +157,7 @@ export interface AttemptResultResponse {
   startedAt: string;
   submittedAt: string;
   answers: AttemptAnswerResult[];
+  isResultMasked?: boolean;
 }
 
 // Response from GET /api/quizzes/:lessonId/attempts

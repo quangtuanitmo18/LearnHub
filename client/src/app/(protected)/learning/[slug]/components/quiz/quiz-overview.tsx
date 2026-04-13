@@ -12,7 +12,10 @@ import {
   MdRefresh,
   MdRestartAlt,
   MdTrendingUp,
+  MdEvent,
 } from 'react-icons/md';
+import { useServerTime } from '@/hooks/use-quiz';
+import { format } from 'date-fns';
 
 interface QuizOverviewProps {
   lesson?: ILesson;
@@ -43,16 +46,38 @@ const QuizOverview = ({
   const inProgressAttempt = attempts.find((a) => a.status === AttemptStatus.IN_PROGRESS);
   const hasOngoingAttempt = !!inProgressAttempt;
 
-  // Calculate attempts info
-  const hasStarted = usedAttempts > 0;
-  const canRetake = maxAttempts == null || usedAttempts < maxAttempts;
+  // Contest logic
+  const { data: serverTimeData } = useServerTime({ refetchInterval: 10000 }); // Check every 10s
+  const isContest = lesson?.quiz?.isContest;
+  const rawStartTime = lesson?.quiz?.startTime;
+  const rawEndTime = lesson?.quiz?.endTime;
+  const startTime = rawStartTime ? new Date(rawStartTime) : null;
+  const endTime = rawEndTime ? new Date(rawEndTime) : null;
+  const now = serverTimeData?.serverTime ? new Date(serverTimeData.serverTime) : new Date();
+
+  const isBeforeStart = isContest && startTime && now.getTime() < startTime.getTime();
+  const isAfterEnd = isContest && endTime && now.getTime() > endTime.getTime();
+  const isStartDisabled = isStarting || !!isBeforeStart || !!isAfterEnd;
 
   return (
     <div className="overflow-hidden">
-      <div className="border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6">
+      <div
+        className={`border-b border-gray-100 p-4 sm:p-6 ${
+          isContest
+            ? 'bg-gradient-to-r from-red-50 to-orange-50'
+            : 'bg-gradient-to-r from-blue-50 to-indigo-50'
+        }`}
+      >
         {/* Section Title */}
-        <div className="mb-3 sm:mb-4">
-          <h2 className="mb-2 text-lg font-bold text-gray-900 sm:text-xl">Quiz</h2>
+        <div className="mb-3 flex items-center justify-between sm:mb-4">
+          <h2 className="mb-2 text-lg font-bold text-gray-900 sm:text-xl">
+            {isContest ? 'Contest' : 'Quiz'}
+          </h2>
+          {isContest && (
+            <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-600 sm:text-sm">
+              STRICT TIMING
+            </span>
+          )}
         </div>
 
         {/* Quiz Title with Icon and Status */}
@@ -137,6 +162,25 @@ const QuizOverview = ({
               </span>
             </div>
           </div>
+          {isContest && (
+            <div className="space-y-3 sm:space-y-4 md:col-span-2">
+              <div className="flex items-center justify-between border-b border-gray-100 py-2 sm:py-3">
+                <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 sm:h-10 sm:w-10">
+                    <MdEvent className="h-4 w-4 text-red-600 sm:h-5 sm:w-5" />
+                  </div>
+                  <span className="truncate text-xs font-medium text-gray-600 sm:text-sm">
+                    Contest Window:
+                  </span>
+                </div>
+                <span className="ml-2 shrink-0 text-right text-xs font-bold text-red-600 sm:text-sm">
+                  {startTime ? format(startTime, 'dd MMM yyyy, HH:mm') : 'N/A'}
+                  {' - '}
+                  {endTime ? format(endTime, 'dd MMM yyyy, HH:mm') : 'N/A'}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Action Buttons */}
@@ -158,6 +202,20 @@ const QuizOverview = ({
             </div>
           )}
 
+          {isContest && isBeforeStart && (
+            <div className="mb-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-center sm:mb-4 sm:p-4">
+              <p className="text-xs font-medium text-yellow-700 sm:text-sm">
+                This contest has not started yet.
+              </p>
+            </div>
+          )}
+
+          {isContest && isAfterEnd && (
+            <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-center sm:mb-4 sm:p-4">
+              <p className="text-xs font-medium text-red-700 sm:text-sm">This contest has ended.</p>
+            </div>
+          )}
+
           {/* Button Actions */}
           <div className="flex items-center justify-between gap-3 sm:gap-4">
             {/* Main Action Button */}
@@ -166,8 +224,8 @@ const QuizOverview = ({
               {hasOngoingAttempt && (
                 <Button
                   onClick={onStartQuiz}
-                  disabled={isStarting}
-                  className="h-10 w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-green-700 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
+                  disabled={isStartDisabled}
+                  className="h-10 w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-green-700 disabled:opacity-50 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
                 >
                   <MdPlayArrow className="mr-1.5 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
                   {isStarting ? 'Loading...' : 'Continue Quiz'}
@@ -178,8 +236,8 @@ const QuizOverview = ({
               {!hasOngoingAttempt && !hasStarted && (
                 <Button
                   onClick={onStartQuiz}
-                  disabled={isStarting}
-                  className="h-10 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-700 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
+                  disabled={isStartDisabled}
+                  className="h-10 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-700 disabled:opacity-50 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
                 >
                   <MdPlayArrow className="mr-1.5 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
                   {isStarting ? 'Starting...' : 'Start Quiz'}
@@ -190,9 +248,9 @@ const QuizOverview = ({
               {!hasOngoingAttempt && hasStarted && canRetake && (
                 <Button
                   onClick={onStartQuiz}
-                  disabled={isStarting}
+                  disabled={isStartDisabled}
                   variant="outline"
-                  className="h-10 w-full rounded-lg border-2 border-blue-600 px-4 py-2.5 text-sm font-semibold text-blue-600 transition-colors duration-200 hover:bg-blue-50 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
+                  className="h-10 w-full rounded-lg border-2 border-blue-600 px-4 py-2.5 text-sm font-semibold text-blue-600 transition-colors duration-200 hover:bg-blue-50 disabled:opacity-50 sm:h-12 sm:px-6 sm:py-3 sm:text-base"
                 >
                   <MdRestartAlt className="mr-1.5 h-4 w-4 sm:mr-2 sm:h-5 sm:w-5" />
                   {isStarting ? 'Starting...' : 'Retake'}

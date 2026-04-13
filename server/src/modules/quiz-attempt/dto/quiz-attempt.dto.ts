@@ -28,6 +28,8 @@ export class SaveAnswersDto {
   @Type(() => AnswerDto)
   @ArrayMinSize(1)
   answers: AnswerDto[];
+
+  strikes?: number;
 }
 
 export class SubmitAttemptDto {
@@ -35,13 +37,16 @@ export class SubmitAttemptDto {
   @ValidateNested({ each: true })
   @Type(() => AnswerDto)
   answers: AnswerDto[];
+
+  strikes?: number;
 }
 
 // ============ RESPONSE DTOs ============
 
 export class AttemptMetaResponseDto {
   attemptId: string;
-  lessonId: string;
+  lessonId?: string;
+  contestId?: string;
   attemptNo: number;
   status: string;
   startedAt: Date;
@@ -74,7 +79,8 @@ export class SavedAnswerResponseDto {
 
 export class AttemptContentResponseDto {
   attemptId: string;
-  lessonId: string;
+  lessonId?: string;
+  contestId?: string;
   status: string;
   expiresAt: Date | null;
   questions: QuestionResponseDto[];
@@ -111,7 +117,8 @@ export class AnswerResultResponseDto {
 
 export class AttemptResultResponseDto {
   attemptId: string;
-  lessonId: string;
+  lessonId?: string;
+  contestId?: string;
   attemptNo: number;
   status: string;
   score: number;
@@ -132,7 +139,8 @@ export class AttemptSummaryResponseDto {
 }
 
 export class AttemptsListResponseDto {
-  lessonId: string;
+  lessonId?: string;
+  contestId?: string;
   maxAttempts: number | null;
   usedAttempts: number;
   attempts: AttemptSummaryResponseDto[];

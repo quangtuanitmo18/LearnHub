@@ -1,6 +1,19 @@
 'use client';
 
+import Editor from '@/components/tiptap/editor';
+import Toolbar from '@/components/tiptap/toolbar';
+import { useCreateLesson, useLesson, useUpdateLesson } from '@/hooks/use-lessons';
+import {
+  BackendQuizQuestion,
+  CreateLessonRequest,
+  ILesson,
+  LessonType,
+  QuizQuestionForm,
+  UpdateLessonRequest,
+} from '@/types/lesson';
+import { QuestionType } from '@/types/quiz';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { format } from 'date-fns';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -13,19 +26,6 @@ import {
 } from 'react-icons/md';
 import { toast } from 'sonner';
 import * as yup from 'yup';
-
-import { useCreateLesson, useLesson, useUpdateLesson } from '@/hooks/use-lessons';
-import {
-  ILesson,
-  BackendQuizQuestion,
-  CreateLessonRequest,
-  LessonType,
-  QuizQuestionForm,
-  UpdateLessonRequest,
-} from '@/types/lesson';
-import { QuestionType } from '@/types/quiz';
-import Editor from '@/components/tiptap/editor';
-import Toolbar from '@/components/tiptap/toolbar';
 
 import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
 import { Badge } from '@/components/ui/badge';
@@ -61,10 +61,9 @@ import {
 import { SimpleTimePicker } from '@/components/ui/simple-time-picker';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import { IMedia, MediaType, getHlsUrl, getMediaDisplayUrl } from '@/types/media';
 import { secondsToTimeString, timeStringToSeconds } from '@/utils/format';
 import { Film, Trash2 } from 'lucide-react';
-import { IMedia, MediaType } from '@/types/media';
-import { getHlsUrl, getMediaDisplayUrl } from '@/types/media';
 
 interface LessonFormData {
   title: string;
@@ -80,6 +79,10 @@ interface LessonFormData {
   // Quiz specific
   passScore?: number;
   maxAttempts?: number | null;
+  isContest?: boolean;
+  startTime?: string | null;
+  endTime?: string | null;
+  showResultDate?: string | null;
   // Quiz questions - managed separately from validation schema
   questions?: QuizQuestionForm[];
 }
@@ -130,6 +133,31 @@ const lessonFormSchema: yup.ObjectSchema<LessonFormData> = yup.object({
           .min(1, 'Must allow at least 1 attempt')
           .max(10, 'Cannot exceed 10 attempts')
           .nullable(),
+      otherwise: (schema) => schema.optional(),
+    }),
+  isContest: yup.boolean().default(false),
+  startTime: yup
+    .string()
+    .nullable()
+    .when('isContest', {
+      is: true,
+      then: (schema) => schema.required('Start time is required for contests'),
+      otherwise: (schema) => schema.optional(),
+    }),
+  endTime: yup
+    .string()
+    .nullable()
+    .when('isContest', {
+      is: true,
+      then: (schema) => schema.required('End time is required for contests'),
+      otherwise: (schema) => schema.optional(),
+    }),
+  showResultDate: yup
+    .string()
+    .nullable()
+    .when('isContest', {
+      is: true,
+      then: (schema) => schema.required('Show result date is required for contests'),
       otherwise: (schema) => schema.optional(),
     }),
   // Questions are managed separately, not validated here
@@ -497,6 +525,10 @@ const LessonFormDialog = ({
       articleContent: '',
       passScore: 70,
       maxAttempts: null,
+      isContest: false,
+      startTime: null,
+      endTime: null,
+      showResultDate: null,
       questions: [],
     },
   });
@@ -528,6 +560,16 @@ const LessonFormDialog = ({
     } else if (lessonData.type === LessonType.QUIZ && lessonData.quiz) {
       baseFormData.passScore = lessonData.quiz.passScore;
       baseFormData.maxAttempts = lessonData.quiz.maxAttempts;
+      baseFormData.isContest = lessonData.quiz.isContest;
+      baseFormData.startTime = lessonData.quiz.startTime
+        ? format(new Date(lessonData.quiz.startTime), "yyyy-MM-dd'T'HH:mm")
+        : null;
+      baseFormData.endTime = lessonData.quiz.endTime
+        ? format(new Date(lessonData.quiz.endTime), "yyyy-MM-dd'T'HH:mm")
+        : null;
+      baseFormData.showResultDate = lessonData.quiz.showResultDate
+        ? format(new Date(lessonData.quiz.showResultDate), "yyyy-MM-dd'T'HH:mm")
+        : null;
     }
 
     return baseFormData;
@@ -664,6 +706,14 @@ const LessonFormDialog = ({
             durationSec: durationInSeconds,
             passScore: data.passScore!,
             maxAttempts: data.maxAttempts || null,
+            isContest: data.isContest,
+            startTime:
+              data.isContest && data.startTime ? new Date(data.startTime).toISOString() : null,
+            endTime: data.isContest && data.endTime ? new Date(data.endTime).toISOString() : null,
+            showResultDate:
+              data.isContest && data.showResultDate
+                ? new Date(data.showResultDate).toISOString()
+                : null,
             questions: questions.map((q) => ({
               ...(q.id && { id: q.id }),
               type: q.type,
@@ -1022,6 +1072,99 @@ const LessonFormDialog = ({
                         </FormItem>
                       )}
                     />
+                  </div>
+                )}
+
+                {selectedContentType === LessonType.QUIZ && (
+                  <div className="space-y-4 rounded-md border p-4">
+                    <FormField
+                      control={form.control}
+                      name="isContest"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                          <div className="space-y-0.5">
+                            <FormLabel>Make this Quiz a Contest</FormLabel>
+                            <div className="text-muted-foreground text-sm">
+                              Enable strict time limits and hide results until a specific date.
+                            </div>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              disabled={isLoading || isSubmitting}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    {form.watch('isContest') && (
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                        <FormField
+                          control={form.control}
+                          name="startTime"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                Start Time <span className="text-red-500">*</span>
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  type="datetime-local"
+                                  value={field.value || ''}
+                                  disabled={isLoading || isSubmitting}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="endTime"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                End Time <span className="text-red-500">*</span>
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  type="datetime-local"
+                                  value={field.value || ''}
+                                  disabled={isLoading || isSubmitting}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="showResultDate"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                Show Result Date <span className="text-red-500">*</span>
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  type="datetime-local"
+                                  value={field.value || ''}
+                                  disabled={isLoading || isSubmitting}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
 

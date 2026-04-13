@@ -26,12 +26,35 @@ export class QuizAttemptRepository {
   }
 
   /**
+   * Find contest by id with questions and options
+   */
+  async findContestById(contestId: string) {
+    return this.prismaService.contest.findUnique({
+      where: { id: contestId },
+      include: {
+        questions: {
+          orderBy: { order: 'asc' },
+          include: {
+            options: {
+              orderBy: { order: 'asc' },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  /**
    * Find an in-progress attempt for a user
    */
-  async findInProgressAttempt(lessonId: string, userId: string) {
+  async findInProgressAttempt(
+    referenceId: string,
+    userId: string,
+    isContest: boolean = false,
+  ) {
     return this.prismaService.quizAttempt.findFirst({
       where: {
-        lessonId,
+        ...(isContest ? { contestId: referenceId } : { lessonId: referenceId }),
         userId,
         status: AttemptStatus.IN_PROGRESS,
       },
@@ -42,10 +65,14 @@ export class QuizAttemptRepository {
   /**
    * Get used attempts count (SUBMITTED + EXPIRED)
    */
-  async getUsedAttemptsCount(lessonId: string, userId: string) {
+  async getUsedAttemptsCount(
+    referenceId: string,
+    userId: string,
+    isContest: boolean = false,
+  ) {
     return this.prismaService.quizAttempt.count({
       where: {
-        lessonId,
+        ...(isContest ? { contestId: referenceId } : { lessonId: referenceId }),
         userId,
         status: {
           in: [AttemptStatus.SUBMITTED, AttemptStatus.EXPIRED],
@@ -57,9 +84,16 @@ export class QuizAttemptRepository {
   /**
    * Get the next attempt number for a user
    */
-  async getNextAttemptNo(lessonId: string, userId: string) {
+  async getNextAttemptNo(
+    referenceId: string,
+    userId: string,
+    isContest: boolean = false,
+  ) {
     const lastAttempt = await this.prismaService.quizAttempt.findFirst({
-      where: { lessonId, userId },
+      where: {
+        ...(isContest ? { contestId: referenceId } : { lessonId: referenceId }),
+        userId,
+      },
       orderBy: { attemptNo: 'desc' },
       select: { attemptNo: true },
     });
@@ -70,7 +104,8 @@ export class QuizAttemptRepository {
    * Create a new attempt
    */
   async createAttempt(data: {
-    lessonId: string;
+    lessonId?: string;
+    contestId?: string;
     userId: string;
     attemptNo: number;
     expiresAt?: Date;
@@ -78,6 +113,7 @@ export class QuizAttemptRepository {
     return this.prismaService.quizAttempt.create({
       data: {
         lessonId: data.lessonId,
+        contestId: data.contestId,
         userId: data.userId,
         attemptNo: data.attemptNo,
         expiresAt: data.expiresAt,
@@ -123,8 +159,9 @@ export class QuizAttemptRepository {
   async upsertAnswers(
     attemptId: string,
     answers: { questionId: string; selectedOptionIds: string[] }[],
+    strikes?: number,
   ) {
-    const operations = answers.map((answer) =>
+    const operations: any[] = answers.map((answer) =>
       this.prismaService.quizAttemptAnswer.upsert({
         where: {
           attemptId_questionId: {
@@ -142,6 +179,15 @@ export class QuizAttemptRepository {
         },
       }),
     );
+
+    if (strikes !== undefined) {
+      operations.push(
+        this.prismaService.quizAttempt.update({
+          where: { id: attemptId },
+          data: { strikes },
+        }),
+      );
+    }
 
     return this.prismaService.$transaction(operations);
   }
@@ -163,6 +209,7 @@ export class QuizAttemptRepository {
       passed: boolean | null;
       correctCount: number;
       totalCount: number;
+      strikes?: number;
     },
   ) {
     return this.prismaService.$transaction(async (tx) => {
@@ -191,17 +238,23 @@ export class QuizAttemptRepository {
       }
 
       // Update attempt with final results
+      const updateData: any = {
+        status: AttemptStatus.SUBMITTED,
+        submittedAt: new Date(),
+        score: summary.score,
+        maxScore: summary.maxScore,
+        passed: summary.passed,
+        correctCount: summary.correctCount,
+        totalCount: summary.totalCount,
+      };
+
+      if (summary.strikes !== undefined) {
+        updateData.strikes = summary.strikes;
+      }
+
       return tx.quizAttempt.update({
         where: { id: attemptId },
-        data: {
-          status: AttemptStatus.SUBMITTED,
-          submittedAt: new Date(),
-          score: summary.score,
-          maxScore: summary.maxScore,
-          passed: summary.passed,
-          correctCount: summary.correctCount,
-          totalCount: summary.totalCount,
-        },
+        data: updateData,
       });
     });
   }
@@ -231,9 +284,16 @@ export class QuizAttemptRepository {
   /**
    * Get all attempts for a user on a quiz
    */
-  async findUserAttempts(lessonId: string, userId: string) {
+  async findUserAttempts(
+    referenceId: string,
+    userId: string,
+    isContest: boolean = false,
+  ) {
     return this.prismaService.quizAttempt.findMany({
-      where: { lessonId, userId },
+      where: {
+        ...(isContest ? { contestId: referenceId } : { lessonId: referenceId }),
+        userId,
+      },
       orderBy: { attemptNo: 'desc' },
       select: {
         id: true,
@@ -251,13 +311,48 @@ export class QuizAttemptRepository {
   /**
    * Find questions with options for a quiz (for grading)
    */
-  async findQuestionsWithOptions(lessonId: string) {
+  async findQuestionsWithOptions(
+    referenceId: string,
+    isContest: boolean = false,
+  ) {
     return this.prismaService.quizQuestion.findMany({
-      where: { quizId: lessonId },
+      where: {
+        ...(isContest ? { contestId: referenceId } : { quizId: referenceId }),
+      },
       orderBy: { order: 'asc' },
       include: {
         options: {
           orderBy: { order: 'asc' },
+        },
+      },
+    });
+  }
+
+  /**
+   * Get leaderboard attempts for a contest
+   */
+  async getLeaderboardAttempts(
+    referenceId: string,
+    limit: number = 100,
+    isContest: boolean = false,
+  ) {
+    // Because Prisma orderBy doesn't support complex duration calculations directly,
+    // we fetch SUBMITTED attempts ordered primarily by score.
+    // Further duration-based exact sorting can be applied at the service level.
+    return this.prismaService.quizAttempt.findMany({
+      where: {
+        ...(isContest ? { contestId: referenceId } : { lessonId: referenceId }),
+        status: AttemptStatus.SUBMITTED,
+      },
+      orderBy: [{ score: 'desc' }, { submittedAt: 'asc' }],
+      take: limit,
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            avatar: true,
+          },
         },
       },
     });

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { MdAccessTime, MdArrowBack, MdFlag } from 'react-icons/md';
+import { toast } from 'sonner';
 import {
   QuizQuestion,
   QuestionType,
@@ -57,6 +58,7 @@ const QuizTaking = ({
   const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const submissionAttemptedRef = useRef(false);
   const isComponentMountedRef = useRef(true);
+  const strikesRef = useRef(0);
 
   // Load attempt data (questions + savedAnswers)
   const {
@@ -76,14 +78,34 @@ const QuizTaking = ({
 
   // Initialize answers from savedAnswers
   useEffect(() => {
-    if (savedAnswers.length > 0 && Object.keys(answers).length === 0) {
-      const initialAnswers: Record<string, string[]> = {};
+    if (questions.length === 0 || !attemptId) return;
+
+    let initialAnswers: Record<string, string[]> = {};
+    let loadedFromLocal = false;
+
+    // 1. Try to load from localStorage first
+    try {
+      const localData = localStorage.getItem(`quiz_attempt_${attemptId}`);
+      if (localData) {
+        const parsed = JSON.parse(localData);
+        if (Object.keys(parsed).length > 0) {
+          initialAnswers = parsed;
+          loadedFromLocal = true;
+          setAnswers(initialAnswers);
+        }
+      }
+    } catch (e) {
+      console.error('Error loading from local storage', e);
+    }
+
+    // 2. If nothing in local storage (or failed), use backend savedAnswers
+    if (!loadedFromLocal && savedAnswers.length > 0 && Object.keys(answers).length === 0) {
       savedAnswers.forEach((sa) => {
         initialAnswers[sa.questionId] = sa.selectedOptionIds;
       });
       setAnswers(initialAnswers);
     }
-  }, [savedAnswers, answers]);
+  }, [savedAnswers, attemptId, questions.length]);
 
   // Convert answers to API payload format
   const formatAnswersForBackend = useCallback(
@@ -114,7 +136,7 @@ const QuizTaking = ({
 
   // Autosave answers (debounced)
   const autosaveAnswers = useCallback(
-    (answersMap: Record<string, string[]>) => {
+    (answersMap: Record<string, string[]>, strikes?: number) => {
       if (submissionState.hasSubmitted || status !== AttemptStatus.IN_PROGRESS) {
         return;
       }
@@ -127,6 +149,7 @@ const QuizTaking = ({
           saveAnswersMutation.mutate({
             attemptId,
             answers: formattedAnswers,
+            strikes,
           });
         }
       }, AUTOSAVE_DEBOUNCE_MS);
@@ -143,7 +166,7 @@ const QuizTaking = ({
 
   // Handle quiz submission
   const handleQuizSubmission = useCallback(
-    async (submissionAnswers: Record<string, string[]>, isAutoSubmit = false) => {
+    async (submissionAnswers: Record<string, string[]>, isAutoSubmit = false, strikes?: number) => {
       // Prevent multiple submissions
       if (submissionAttemptedRef.current || submissionState.hasSubmitted) {
         return;
@@ -172,6 +195,7 @@ const QuizTaking = ({
         {
           attemptId,
           answers: formattedAnswers,
+          strikes,
         },
         {
           onSuccess: (result) => {
@@ -183,6 +207,10 @@ const QuizTaking = ({
                 submissionError: null,
               }));
             }
+
+            try {
+              localStorage.removeItem(`quiz_attempt_${attemptId}`);
+            } catch (e) {}
 
             if (onSuccess) {
               onSuccess(result);
@@ -342,12 +370,62 @@ const QuizTaking = ({
         [questionId]: newAnswers,
       };
 
+      // Auto-save to localStorage immediately
+      try {
+        localStorage.setItem(`quiz_attempt_${attemptId}`, JSON.stringify(updatedAnswers));
+      } catch (e) {
+        // Ignore errors
+      }
+
       // Trigger autosave
       autosaveAnswers(updatedAnswers);
 
       return updatedAnswers;
     });
   };
+
+  // Tab switching anti-cheat
+  useEffect(() => {
+    if (
+      submissionState.hasSubmitted ||
+      submissionState.isSubmitting ||
+      status !== AttemptStatus.IN_PROGRESS
+    )
+      return;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (!submissionAttemptedRef.current && isComponentMountedRef.current) {
+          strikesRef.current += 1;
+          const currentStrikes = strikesRef.current;
+
+          if (currentStrikes >= 3) {
+            toast.error(
+              'You have switched tabs too many times. Your quiz has been auto-submitted.',
+            );
+            // Trigger auto-submit when leaving tab
+            setAnswers((currentAnswers) => {
+              handleQuizSubmission(currentAnswers, true, currentStrikes);
+              return currentAnswers;
+            });
+          } else {
+            toast.warning(
+              `Anti-cheat warning (${currentStrikes}/3): Please do not switch tabs during the quiz!`,
+            );
+            setAnswers((currentAnswers) => {
+              autosaveAnswers(currentAnswers, currentStrikes);
+              return currentAnswers;
+            });
+          }
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [submissionState.hasSubmitted, submissionState.isSubmitting, status, handleQuizSubmission]);
 
   const handleFlag = (questionId: string) => {
     if (submissionState.hasSubmitted) return;

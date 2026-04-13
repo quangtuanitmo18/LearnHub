@@ -25,6 +25,7 @@ const ENDPOINTS = {
   QUIZ_UNPUBLISH: (id: string) => `/quiz-questions/${id}/unpublish`,
 
   // User quiz attempt endpoints (new API structure)
+  SERVER_TIME: '/quizzes/server-time',
   START_ATTEMPT: (lessonId: string) => `/quizzes/${lessonId}/attempts/start`,
   LOAD_ATTEMPT: (attemptId: string) => `/attempts/${attemptId}`,
   SAVE_ANSWERS: (attemptId: string) => `/attempts/${attemptId}/answers`,
@@ -37,6 +38,14 @@ const ENDPOINTS = {
 
 export class QuizService {
   // ========== USER QUIZ TAKING (New API) ==========
+
+  /**
+   * Get server time for synchronization
+   * GET /api/quizzes/server-time
+   */
+  static async getServerTime(): Promise<{ serverTime: string }> {
+    return ApiService.get<{ serverTime: string }>(ENDPOINTS.SERVER_TIME);
+  }
 
   /**
    * Start or resume a quiz attempt
@@ -61,10 +70,11 @@ export class QuizService {
   static async saveAnswers(
     attemptId: string,
     answers: AnswerPayload[],
+    strikes?: number,
   ): Promise<SaveAnswersResponse> {
-    return ApiService.put<SaveAnswersResponse, { answers: AnswerPayload[] }>(
+    return ApiService.put<SaveAnswersResponse, { answers: AnswerPayload[]; strikes?: number }>(
       ENDPOINTS.SAVE_ANSWERS(attemptId),
-      { answers },
+      { answers, strikes },
     );
   }
 
@@ -75,10 +85,11 @@ export class QuizService {
   static async submitAttempt(
     attemptId: string,
     answers: AnswerPayload[],
+    strikes?: number,
   ): Promise<SubmitAttemptResponse> {
-    return ApiService.post<SubmitAttemptResponse, { answers: AnswerPayload[] }>(
+    return ApiService.post<SubmitAttemptResponse, { answers: AnswerPayload[]; strikes?: number }>(
       ENDPOINTS.SUBMIT_ATTEMPT(attemptId),
-      { answers },
+      { answers, strikes },
     );
   }
 

@@ -13,6 +13,7 @@ import {
 
 export const QUIZ_QUERY_KEYS = {
   // User quiz taking
+  SERVER_TIME: ['quiz', 'serverTime'],
   ATTEMPTS_LIST: (lessonId: string) => ['quiz', 'attempts', 'list', lessonId],
   ATTEMPT: (attemptId: string) => ['quiz', 'attempt', attemptId],
   ATTEMPT_RESULT: (attemptId: string) => ['quiz', 'attempt', 'result', attemptId],
@@ -23,6 +24,19 @@ export const QUIZ_QUERY_KEYS = {
 } as const;
 
 // ========== USER QUIZ TAKING HOOKS ==========
+
+/**
+ * Hook to get server time
+ * GET /api/quizzes/server-time
+ */
+export function useServerTime(options?: { enabled?: boolean; refetchInterval?: number | false }) {
+  return useQuery({
+    queryKey: QUIZ_QUERY_KEYS.SERVER_TIME,
+    queryFn: () => QuizService.getServerTime(),
+    enabled: options?.enabled ?? true,
+    refetchInterval: options?.refetchInterval ?? false,
+  });
+}
 
 /**
  * Hook to list all attempts for a lesson quiz
@@ -87,8 +101,15 @@ export function useStartAttempt() {
  */
 export function useSaveAnswers() {
   return useMutation({
-    mutationFn: ({ attemptId, answers }: { attemptId: string; answers: AnswerPayload[] }) =>
-      QuizService.saveAnswers(attemptId, answers),
+    mutationFn: ({
+      attemptId,
+      answers,
+      strikes,
+    }: {
+      attemptId: string;
+      answers: AnswerPayload[];
+      strikes?: number;
+    }) => QuizService.saveAnswers(attemptId, answers, strikes),
     // Silent - no toast on success/error for autosave
   });
 }
@@ -99,8 +120,15 @@ export function useSaveAnswers() {
  */
 export function useSubmitAttempt() {
   return useMutation({
-    mutationFn: ({ attemptId, answers }: { attemptId: string; answers: AnswerPayload[] }) =>
-      QuizService.submitAttempt(attemptId, answers),
+    mutationFn: ({
+      attemptId,
+      answers,
+      strikes,
+    }: {
+      attemptId: string;
+      answers: AnswerPayload[];
+      strikes?: number;
+    }) => QuizService.submitAttempt(attemptId, answers, strikes),
     onSuccess: (data) => {
       toast.success('Quiz submitted successfully!');
     },

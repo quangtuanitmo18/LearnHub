@@ -52,6 +52,7 @@ model User {
   gamification         UserGamification?
   pointHistory         PointHistory[]
   badges               UserBadge[]
+  quizAttempts         QuizAttempt[]
 
   @@index([email], map: "idx_user_email")
   @@index([resetPasswordToken], map: "idx_user_reset_token")
@@ -244,18 +245,52 @@ model LessonVideo {
 }
 
 model LessonQuiz {
-  lessonId    String         @id
-  passScore   Int?
-  maxAttempts Int?
-  durationSec Int?
-  lesson      Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  attempts    QuizAttempt[]
-  questions   QuizQuestion[]
+  lessonId       String         @id
+  passScore      Int?
+  maxAttempts    Int?
+  durationSec    Int?
+  isContest      Boolean        @default(false)
+  startTime      DateTime?
+  endTime        DateTime?
+  showResultDate DateTime?
+  lesson         Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  attempts       QuizAttempt[]
+  questions      QuizQuestion[]
+}
+
+enum ContestStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Contest {
+  id             String        @id @default(uuid())
+  title          String
+  slug           String        @unique
+  description    String?
+  imageId        String?
+  passScore      Int?
+  maxAttempts    Int?
+  durationSec    Int?
+  startTime      DateTime?
+  endTime        DateTime?
+  showResultDate DateTime?
+  isMembership   Boolean       @default(false)
+  status         ContestStatus @default(DRAFT)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  questions QuizQuestion[]
+  attempts  QuizAttempt[]
+
+  @@index([slug])
+  @@index([status])
 }
 
 model QuizQuestion {
   id             String              @id @default(uuid())
-  quizId         String
+  quizId         String?
+  contestId      String?
   type           QuestionType
   text           String
   explanation    String?
@@ -263,9 +298,11 @@ model QuizQuestion {
   points         Int                 @default(1)
   attemptAnswers QuizAttemptAnswer[]
   options        QuizOption[]
-  quiz           LessonQuiz          @relation(fields: [quizId], references: [lessonId], onDelete: Cascade)
+  quiz           LessonQuiz?         @relation(fields: [quizId], references: [lessonId], onDelete: Cascade)
+  contest        Contest?            @relation(fields: [contestId], references: [id], onDelete: Cascade)
 
   @@index([quizId, order])
+  @@index([contestId, order])
 }
 
 model QuizOption {
@@ -281,7 +318,8 @@ model QuizOption {
 
 model QuizAttempt {
   id           String              @id @default(uuid())
-  lessonId     String
+  lessonId     String?
+  contestId    String?
   userId       String
   attemptNo    Int
   status       AttemptStatus       @default(IN_PROGRESS)
@@ -293,11 +331,16 @@ model QuizAttempt {
   passed       Boolean?
   correctCount Int?
   totalCount   Int?
-  quiz         LessonQuiz          @relation(fields: [lessonId], references: [lessonId], onDelete: Cascade)
+  strikes      Int                 @default(0)
+  quiz         LessonQuiz?         @relation(fields: [lessonId], references: [lessonId], onDelete: Cascade)
+  contest      Contest?            @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   answers      QuizAttemptAnswer[]
 
   @@unique([lessonId, userId, attemptNo])
+  @@unique([contestId, userId, attemptNo])
   @@index([lessonId, userId])
+  @@index([contestId, userId])
   @@index([status, expiresAt])
 }
 
@@ -751,13 +794,13 @@ enum DocumentSourceType {
 }
 
 model Certificate {
-  id          String   @id @default(uuid())
-  userId      String
-  courseId    String
-  pdfUrl      String?  @db.Text
-  issuedAt    DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  id       String   @id @default(uuid())
+  userId   String
+  courseId String
+  pdfUrl   String?  @db.Text
+  issuedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId], name: "unique_user_certificate")
   @@index([userId], map: "idx_certificate_user")
@@ -765,15 +808,15 @@ model Certificate {
 }
 
 model VideoNote {
-  id          String   @id @default(uuid())
-  userId      String
-  lessonId    String
-  content     String
-  timestamp   Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid())
+  userId    String
+  lessonId  String
+  content   String
+  timestamp Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@index([userId, lessonId], map: "idx_video_note_user_lesson")
 }
@@ -783,13 +826,13 @@ model VideoNote {
 // ==========================================
 
 model UserGamification {
-  id            String    @id @default(uuid())
-  userId        String    @unique
-  totalPoints   Int       @default(0)
-  currentStreak Int       @default(0)
-  longestStreak Int       @default(0)
+  id             String    @id @default(uuid())
+  userId         String    @unique
+  totalPoints    Int       @default(0)
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
   lastActiveDate DateTime?
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([totalPoints(sort: Desc)], map: "idx_gamification_points")
 }
@@ -799,7 +842,7 @@ model PointHistory {
   userId    String
   points    Int
   reason    PointReason
-  metadata  Json?       // {"lessonId": "uuid"}
+  metadata  Json? // {"lessonId": "uuid"}
   createdAt DateTime    @default(now())
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -819,12 +862,12 @@ model Badge {
 }
 
 model UserBadge {
-  id        String   @id @default(uuid())
-  userId    String
-  badgeId   String
-  earnedAt  DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  id       String   @id @default(uuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
 
   @@unique([userId, badgeId], map: "unique_user_badge")
   @@index([userId], map: "idx_user_badge_user")

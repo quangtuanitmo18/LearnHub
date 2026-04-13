@@ -1,13 +1,16 @@
+import { InjectQueue } from '@nestjs/bullmq';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   BadRequestException,
   ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Queue } from 'bullmq';
+import { Cache } from 'cache-manager';
 import { AttemptStatus } from 'src/generated/prisma/enums';
 import { PrismaService } from 'src/shared/services/prisma.service';
-import { InjectQueue } from '@nestjs/bullmq';
-import { Queue } from 'bullmq';
 import {
   AttemptContentResponseDto,
   AttemptMetaResponseDto,
@@ -25,6 +28,8 @@ export class QuizAttemptService {
     private readonly quizAttemptRepository: QuizAttemptRepository,
     private readonly prismaService: PrismaService,
     @InjectQueue('gamification') private readonly gamificationQueue: Queue,
+    @InjectQueue('quiz-attempt') private readonly quizQueue: Queue,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
   private async verifyCourseAccess(userId: string, lessonId: string) {
@@ -98,20 +103,64 @@ export class QuizAttemptService {
    * POST /api/quizzes/:lessonId/attempts/start
    */
   async startOrResumeAttempt(
-    lessonId: string,
+    referenceId: string,
     userId: string,
+    isContest: boolean = false,
   ): Promise<AttemptMetaResponseDto> {
-    await this.verifyCourseAccess(userId, lessonId);
+    if (!isContest) {
+      await this.verifyCourseAccess(userId, referenceId);
+    } else {
+      // Contest is public or requires membership. We can verify membership here.
+      const contest = await this.prismaService.contest.findUnique({
+        where: { id: referenceId },
+      });
+      if (contest?.isMembership) {
+        const user = await this.prismaService.user.findUnique({
+          where: { id: userId },
+          include: { roles: true },
+        });
+        const hasMembership =
+          user?.isMembership &&
+          user.planEndDate &&
+          new Date(user.planEndDate) > new Date();
+        if (
+          !hasMembership &&
+          !user?.roles.some(
+            (r) => r.name === 'Admin' || r.name === 'Super Admin',
+          )
+        ) {
+          throw new ForbiddenException(
+            'Membership is required for this contest',
+          );
+        }
+      }
+    }
 
     // Find the quiz
-    const quiz = await this.quizAttemptRepository.findQuizByLessonId(lessonId);
+    const quiz = isContest
+      ? await this.quizAttemptRepository.findContestById(referenceId)
+      : await this.quizAttemptRepository.findQuizByLessonId(referenceId);
     if (!quiz) {
       throw new NotFoundException('Quiz not found for this lesson');
     }
 
+    if (isContest || (quiz as any).isContest) {
+      const now = new Date();
+      if (quiz.startTime && now < quiz.startTime) {
+        throw new ForbiddenException('The contest has not started yet');
+      }
+      if (quiz.endTime && now > quiz.endTime) {
+        throw new ForbiddenException('The contest has already ended');
+      }
+    }
+
     // Check for existing IN_PROGRESS attempt
     const existingAttempt =
-      await this.quizAttemptRepository.findInProgressAttempt(lessonId, userId);
+      await this.quizAttemptRepository.findInProgressAttempt(
+        referenceId,
+        userId,
+        isContest,
+      );
 
     if (existingAttempt) {
       // Check if it's expired (lazy-expire)
@@ -120,7 +169,7 @@ export class QuizAttemptService {
         // Return existing valid attempt (resume)
         return {
           attemptId: existingAttempt.id,
-          lessonId: existingAttempt.lessonId,
+          lessonId: existingAttempt.lessonId || undefined,
           attemptNo: existingAttempt.attemptNo,
           status: existingAttempt.status,
           startedAt: existingAttempt.startedAt,
@@ -132,7 +181,11 @@ export class QuizAttemptService {
     // Check maxAttempts
     if (quiz.maxAttempts) {
       const usedAttempts =
-        await this.quizAttemptRepository.getUsedAttemptsCount(lessonId, userId);
+        await this.quizAttemptRepository.getUsedAttemptsCount(
+          referenceId,
+          userId,
+          isContest,
+        );
       if (usedAttempts >= quiz.maxAttempts) {
         throw new BadRequestException(
           `Maximum attempts (${quiz.maxAttempts}) reached`,
@@ -142,8 +195,9 @@ export class QuizAttemptService {
 
     // Create new attempt
     const attemptNo = await this.quizAttemptRepository.getNextAttemptNo(
-      lessonId,
+      referenceId,
       userId,
+      isContest,
     );
 
     // Calculate expiresAt if quiz has time limit
@@ -152,16 +206,42 @@ export class QuizAttemptService {
       expiresAt = new Date(Date.now() + quiz.durationSec * 1000);
     }
 
+    // For contests, forcefully bind the expiresAt to the endTime
+    if ((isContest || (quiz as any).isContest) && quiz.endTime) {
+      if (expiresAt) {
+        expiresAt = new Date(
+          Math.min(expiresAt.getTime(), quiz.endTime.getTime()),
+        );
+      } else {
+        expiresAt = quiz.endTime;
+      }
+    }
+
     const newAttempt = await this.quizAttemptRepository.createAttempt({
-      lessonId,
+      lessonId: isContest ? undefined : referenceId,
+      contestId: isContest ? referenceId : undefined,
       userId,
       attemptNo,
       expiresAt,
     });
 
+    // Schedule auto-submit for contest
+    if ((isContest || (quiz as any).isContest) && expiresAt) {
+      const delayMs = Math.max(0, expiresAt.getTime() - Date.now());
+      void this.quizQueue.add(
+        'auto-submit-attempt',
+        {
+          attemptId: newAttempt.id,
+          userId: newAttempt.userId,
+        },
+        { delay: delayMs },
+      );
+    }
+
     return {
       attemptId: newAttempt.id,
-      lessonId: newAttempt.lessonId,
+      lessonId: newAttempt.lessonId || undefined,
+      contestId: newAttempt.contestId || undefined,
       attemptNo: newAttempt.attemptNo,
       status: newAttempt.status,
       startedAt: newAttempt.startedAt,
@@ -203,9 +283,11 @@ export class QuizAttemptService {
     }
 
     // Load quiz questions (without isCorrect)
-    const quiz = await this.quizAttemptRepository.findQuizByLessonId(
-      attempt.lessonId,
-    );
+    const quiz = attempt.contestId
+      ? await this.quizAttemptRepository.findContestById(attempt.contestId)
+      : attempt.lessonId
+        ? await this.quizAttemptRepository.findQuizByLessonId(attempt.lessonId)
+        : null;
     if (!quiz) {
       throw new NotFoundException('Quiz not found');
     }
@@ -232,7 +314,8 @@ export class QuizAttemptService {
 
     return {
       attemptId: attempt.id,
-      lessonId: attempt.lessonId,
+      lessonId: attempt.lessonId || undefined,
+      contestId: attempt.contestId || undefined,
       status: attempt.status,
       expiresAt: attempt.expiresAt,
       questions,
@@ -273,7 +356,11 @@ export class QuizAttemptService {
       );
     }
 
-    await this.quizAttemptRepository.upsertAnswers(attemptId, dto.answers);
+    await this.quizAttemptRepository.upsertAnswers(
+      attemptId,
+      dto.answers,
+      dto.strikes,
+    );
 
     return { ok: true };
   }
@@ -286,6 +373,7 @@ export class QuizAttemptService {
     attemptId: string,
     userId: string,
     dto: SubmitAttemptDto,
+    isAutoSubmit = false,
   ): Promise<SubmitResultResponseDto> {
     const attempt = await this.quizAttemptRepository.findAttemptById(attemptId);
 
@@ -328,7 +416,8 @@ export class QuizAttemptService {
 
     // Load questions with correct answers for grading
     const questions = await this.quizAttemptRepository.findQuestionsWithOptions(
-      attempt.lessonId,
+      attempt.contestId || attempt.lessonId!,
+      !!attempt.contestId,
     );
 
     // Build answer map from submitted data
@@ -384,10 +473,25 @@ export class QuizAttemptService {
       };
     });
 
-    // Get quiz for passScore check
-    const quiz = await this.quizAttemptRepository.findQuizByLessonId(
-      attempt.lessonId,
-    );
+    // Get quiz for passScore check and contest check
+    const quiz = attempt.contestId
+      ? await this.quizAttemptRepository.findContestById(attempt.contestId)
+      : attempt.lessonId
+        ? await this.quizAttemptRepository.findQuizByLessonId(attempt.lessonId)
+        : null;
+
+    if (
+      quiz &&
+      (!!attempt.contestId || (quiz as any).isContest) &&
+      !isAutoSubmit
+    ) {
+      const now = new Date();
+      // Allow a 10 seconds grace period for network latency
+      if (quiz.endTime && now.getTime() > quiz.endTime.getTime() + 10000) {
+        throw new BadRequestException('The contest has already ended');
+      }
+    }
+
     const passed =
       quiz?.passScore != null && maxScore > 0
         ? (score / maxScore) * 100 >= quiz.passScore
@@ -397,7 +501,14 @@ export class QuizAttemptService {
     const submittedAttempt = await this.quizAttemptRepository.submitAttempt(
       attemptId,
       gradedAnswers,
-      { score, maxScore, passed, correctCount, totalCount },
+      {
+        score,
+        maxScore,
+        passed,
+        correctCount,
+        totalCount,
+        strikes: dto.strikes,
+      },
     );
 
     // Gamification: +20 points for passing a quiz
@@ -406,7 +517,11 @@ export class QuizAttemptService {
         userId,
         points: 20,
         reason: 'QUIZ_PASSED',
-        metadata: { lessonId: attempt.lessonId, attemptId },
+        metadata: {
+          lessonId: attempt.lessonId || undefined,
+          contestId: attempt.contestId || undefined,
+          attemptId,
+        },
       });
     }
 
@@ -448,6 +563,29 @@ export class QuizAttemptService {
       throw new BadRequestException('Attempt has not been submitted yet');
     }
 
+    const quiz = attempt.contestId
+      ? await this.quizAttemptRepository.findContestById(attempt.contestId)
+      : attempt.lessonId
+        ? await this.quizAttemptRepository.findQuizByLessonId(attempt.lessonId)
+        : null;
+    if (quiz && (!!attempt.contestId || (quiz as any).isContest)) {
+      const now = new Date();
+      if (quiz.showResultDate && now < quiz.showResultDate) {
+        // Blind Result: Return only scores, NO answers yet.
+        return {
+          attemptId: attempt.id,
+          lessonId: attempt.lessonId || undefined,
+          contestId: attempt.contestId || undefined,
+          attemptNo: attempt.attemptNo,
+          status: attempt.status,
+          score: attempt.score ?? 0,
+          maxScore: attempt.maxScore ?? 0,
+          passed: attempt.passed,
+          answers: [], // Hide the details!
+        };
+      }
+    }
+
     // Map answers with question details
     const answers = attempt.answers.map((answer) => {
       return {
@@ -472,7 +610,8 @@ export class QuizAttemptService {
 
     return {
       attemptId: attempt.id,
-      lessonId: attempt.lessonId,
+      lessonId: attempt.lessonId || undefined,
+      contestId: attempt.contestId || undefined,
       attemptNo: attempt.attemptNo,
       status: attempt.status,
       score: attempt.score ?? 0,
@@ -487,21 +626,52 @@ export class QuizAttemptService {
    * GET /api/quizzes/:lessonId/attempts
    */
   async listAttempts(
-    lessonId: string,
+    referenceId: string,
     userId: string,
+    isContest: boolean = false,
   ): Promise<AttemptsListResponseDto> {
-    await this.verifyCourseAccess(userId, lessonId);
+    if (!isContest) {
+      await this.verifyCourseAccess(userId, referenceId);
+    } else {
+      // Contest is public or requires membership. We can verify membership here.
+      const contest = await this.prismaService.contest.findUnique({
+        where: { id: referenceId },
+      });
+      if (contest?.isMembership) {
+        const user = await this.prismaService.user.findUnique({
+          where: { id: userId },
+          include: { roles: true },
+        });
+        const hasMembership =
+          user?.isMembership &&
+          user.planEndDate &&
+          new Date(user.planEndDate) > new Date();
+        if (
+          !hasMembership &&
+          !user?.roles.some(
+            (r) => r.name === 'Admin' || r.name === 'Super Admin',
+          )
+        ) {
+          throw new ForbiddenException(
+            'Membership is required for this contest',
+          );
+        }
+      }
+    }
 
     // Get quiz for maxAttempts
-    const quiz = await this.quizAttemptRepository.findQuizByLessonId(lessonId);
+    const quiz = isContest
+      ? await this.quizAttemptRepository.findContestById(referenceId)
+      : await this.quizAttemptRepository.findQuizByLessonId(referenceId);
     if (!quiz) {
       throw new NotFoundException('Quiz not found for this lesson');
     }
 
     // Get all attempts
     const attempts = await this.quizAttemptRepository.findUserAttempts(
-      lessonId,
+      referenceId,
       userId,
+      isContest,
     );
 
     // Lazy-expire any IN_PROGRESS attempts
@@ -519,8 +689,9 @@ export class QuizAttemptService {
 
     // Refetch after potential expiration
     const updatedAttempts = await this.quizAttemptRepository.findUserAttempts(
-      lessonId,
+      referenceId,
       userId,
+      isContest,
     );
 
     // Count used attempts (SUBMITTED + EXPIRED)
@@ -531,7 +702,8 @@ export class QuizAttemptService {
     ).length;
 
     return {
-      lessonId,
+      lessonId: isContest ? undefined : referenceId,
+      contestId: isContest ? referenceId : undefined,
       maxAttempts: quiz.maxAttempts,
       usedAttempts,
       attempts: updatedAttempts.map((a) => ({
@@ -545,5 +717,127 @@ export class QuizAttemptService {
         submittedAt: a.submittedAt,
       })),
     };
+  }
+
+  /**
+   * Get Leaderboard for a contest
+   * GET /api/quizzes/:lessonId/leaderboard
+   */
+  async getLeaderboard(
+    referenceId: string,
+    userId: string,
+    isContest: boolean = false,
+  ) {
+    // Only verify access if required, but leaderboards are often public or tied to the course.
+    if (!isContest) {
+      await this.verifyCourseAccess(userId, referenceId);
+    } else {
+      // Contest is public or requires membership. We can verify membership here.
+      const contest = await this.prismaService.contest.findUnique({
+        where: { id: referenceId },
+      });
+      if (contest?.isMembership) {
+        const user = await this.prismaService.user.findUnique({
+          where: { id: userId },
+          include: { roles: true },
+        });
+        const hasMembership =
+          user?.isMembership &&
+          user.planEndDate &&
+          new Date(user.planEndDate) > new Date();
+        if (
+          !hasMembership &&
+          !user?.roles.some(
+            (r) => r.name === 'Admin' || r.name === 'Super Admin',
+          )
+        ) {
+          throw new ForbiddenException(
+            'Membership is required for this contest',
+          );
+        }
+      }
+    }
+
+    const cacheKey = isContest
+      ? `leaderboard_contest:${referenceId}`
+      : `leaderboard:${referenceId}`;
+    const cachedLeaderboard = await this.cacheManager.get(cacheKey);
+    if (cachedLeaderboard) {
+      return cachedLeaderboard;
+    }
+
+    const quiz = isContest
+      ? await this.quizAttemptRepository.findContestById(referenceId)
+      : await this.quizAttemptRepository.findQuizByLessonId(referenceId);
+    if (!quiz || (!isContest && !(quiz as any).isContest)) {
+      throw new BadRequestException('This quiz is not a contest');
+    }
+
+    const attempts = await this.quizAttemptRepository.getLeaderboardAttempts(
+      referenceId,
+      100,
+      isContest,
+    );
+
+    // Exact sort calculation logic:
+    // Sort by score DESC. If equal, sort by duration ASC.
+    const sorted = attempts.sort((a, b) => {
+      const scoreDiff = (b.score ?? 0) - (a.score ?? 0);
+      if (scoreDiff !== 0) return scoreDiff;
+
+      // Calculate duration
+      const durationA =
+        a.submittedAt && a.startedAt
+          ? a.submittedAt.getTime() - a.startedAt.getTime()
+          : Infinity;
+      const durationB =
+        b.submittedAt && b.startedAt
+          ? b.submittedAt.getTime() - b.startedAt.getTime()
+          : Infinity;
+
+      return durationA - durationB;
+    });
+
+    const leaderboard = sorted.map((attempt, index) => ({
+      rank: index + 1,
+      attemptId: attempt.id,
+      score: attempt.score,
+      maxScore: attempt.maxScore,
+      durationMs:
+        attempt.submittedAt && attempt.startedAt
+          ? attempt.submittedAt.getTime() - attempt.startedAt.getTime()
+          : null,
+      user: {
+        id: attempt.user.id,
+        username: attempt.user.username,
+        avatar: attempt.user.avatar,
+      },
+      submittedAt: attempt.submittedAt,
+    }));
+
+    // Cache the leaderboard for 1 minute (60 * 1000 ms)
+    await this.cacheManager.set(cacheKey, leaderboard, 60 * 1000);
+
+    return leaderboard;
+  }
+
+  /**
+   * Force auto-submit an attempt, called via Queue
+   */
+  async forceSubmitAttempt(attemptId: string, userId: string) {
+    const attempt =
+      await this.quizAttemptRepository.findAttemptWithAnswers(attemptId);
+    if (!attempt || attempt.status !== AttemptStatus.IN_PROGRESS) return;
+
+    // Map saved answers to SubmitAttemptDto
+    const dto: SubmitAttemptDto = {
+      strikes: attempt.strikes,
+      answers: attempt.answers.map((a) => ({
+        questionId: a.questionId,
+        selectedOptionIds: a.selectedOptionIds,
+      })),
+    };
+
+    return this.submitAttempt(attemptId, userId, dto, true);
   }
 }

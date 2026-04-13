@@ -44,6 +44,7 @@ import { NoteModule } from './modules/note/note.module';
 import { CertificateModule } from './modules/certificate/certificate.module';
 import { GamificationModule } from './modules/gamification/gamification.module';
 import { redisStore } from 'cache-manager-ioredis-yet';
+import { ContestModule } from './modules/contest/contest.module';
 
 @Module({
   imports: [
@@ -115,6 +116,7 @@ import { redisStore } from 'cache-manager-ioredis-yet';
     NoteModule,
     CertificateModule,
     GamificationModule,
+    ContestModule,
   ],
   controllers: [AppController],
   providers: [
