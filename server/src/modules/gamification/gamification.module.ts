@@ -1,18 +1,13 @@
-import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
+import { QueuesModule } from 'src/shared/queues';
 import { AdminGamificationController } from './admin-gamification.controller';
 import { GamificationController } from './gamification.controller';
-import { GamificationProcessor } from './gamification.processor';
 import { GamificationService } from './gamification.service';
 
 @Module({
-  imports: [
-    BullModule.registerQueue({
-      name: 'gamification',
-    }),
-  ],
+  imports: [QueuesModule],
   controllers: [GamificationController, AdminGamificationController],
-  providers: [GamificationService, GamificationProcessor],
+  providers: [GamificationService],
   exports: [GamificationService],
 })
 export class GamificationModule {}

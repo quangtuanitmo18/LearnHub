@@ -26,7 +26,9 @@ export class GamificationService {
     try {
       this.redisClient = (this.cacheManager as any)?.store?.client ?? null;
     } catch {
-      this.logger.warn('Redis client not available — leaderboard features disabled');
+      this.logger.warn(
+        'Redis client not available — leaderboard features disabled',
+      );
       this.redisClient = null;
     }
   }

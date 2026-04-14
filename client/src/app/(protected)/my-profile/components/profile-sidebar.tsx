@@ -9,11 +9,12 @@ import { DEFAULT_AVATAR } from '@/constants';
 import { useAuthStore } from '@/stores/auth-store';
 import { useRouter } from 'next/navigation';
 import { MdArticle, MdEmojiEvents, MdLogout, MdPerson, MdSchool, MdSettings } from 'react-icons/md';
-import { Award } from 'lucide-react';
+import { Award, Trophy } from 'lucide-react';
 
 export type ProfileTab =
   | 'account'
   | 'courses'
+  | 'contests'
   | 'posts'
   | 'achievements'
   | 'certificates'
@@ -34,6 +35,11 @@ const sidebarItems = [
     id: 'courses' as ProfileTab,
     label: 'My Courses',
     icon: MdSchool,
+  },
+  {
+    id: 'contests' as ProfileTab,
+    label: 'My Contests',
+    icon: Trophy,
   },
   {
     id: 'posts' as ProfileTab,

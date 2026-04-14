@@ -17,6 +17,10 @@ const ProfileInfoTab = dynamic(() => import('./components/profile-info-tab'), {
   ssr: false,
 });
 
+const MyContestsTab = dynamic(() => import('./components/my-contests-tab'), {
+  ssr: false,
+});
+
 const MyPostsTab = dynamic(() => import('./components/my-posts-tab'), {
   ssr: false,
 });
@@ -38,6 +42,7 @@ const MyProfilePage = () => {
     if (
       tab === 'account' ||
       tab === 'courses' ||
+      tab === 'contests' ||
       tab === 'posts' ||
       tab === 'settings' ||
       tab === 'achievements' ||
@@ -55,6 +60,7 @@ const MyProfilePage = () => {
     if (
       tab === 'account' ||
       tab === 'courses' ||
+      tab === 'contests' ||
       tab === 'posts' ||
       tab === 'settings' ||
       tab === 'achievements' ||
@@ -71,6 +77,8 @@ const MyProfilePage = () => {
         return <ProfileInfoTab />;
       case 'courses':
         return <MyCoursesTab />;
+      case 'contests':
+        return <MyContestsTab />;
       case 'posts':
         return <MyPostsTab />;
       case 'achievements':

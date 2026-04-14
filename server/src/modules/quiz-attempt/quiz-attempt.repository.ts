@@ -357,4 +357,90 @@ export class QuizAttemptRepository {
       },
     });
   }
+
+  /**
+   * Admin: Get completely paginated attempts for a contest/quiz
+   */
+  async findAdminContestAttempts(
+    referenceId: string,
+    isContest: boolean = false,
+    skip: number,
+    take: number,
+    search?: string,
+    status?: string,
+  ) {
+    const whereCondition: any = {
+      ...(isContest ? { contestId: referenceId } : { lessonId: referenceId }),
+    };
+
+    if (status) {
+      whereCondition.status = status as AttemptStatus;
+    }
+
+    if (search) {
+      whereCondition.user = {
+        OR: [
+          { username: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+        ],
+      };
+    }
+
+    return this.prismaService.quizAttempt.findMany({
+      where: whereCondition,
+      orderBy: { startedAt: 'desc' },
+      skip,
+      take,
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+  }
+
+  /**
+   * Admin: Count attempts for pagination
+   */
+  async countAdminContestAttempts(
+    referenceId: string,
+    isContest: boolean = false,
+    search?: string,
+    status?: string,
+  ) {
+    const whereCondition: any = {
+      ...(isContest ? { contestId: referenceId } : { lessonId: referenceId }),
+    };
+
+    if (status) {
+      whereCondition.status = status as AttemptStatus;
+    }
+
+    if (search) {
+      whereCondition.user = {
+        OR: [
+          { username: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+        ],
+      };
+    }
+
+    return this.prismaService.quizAttempt.count({
+      where: whereCondition,
+    });
+  }
+
+  /**
+   * Admin: Delete attempt
+   */
+  async deleteAttempt(attemptId: string) {
+    return this.prismaService.quizAttempt.delete({
+      where: { id: attemptId },
+    });
+  }
 }

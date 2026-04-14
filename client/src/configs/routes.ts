@@ -1,6 +1,7 @@
 export const ROUTE_CONFIG = {
   HOME: '/',
   COURSES: '/courses',
+  CONTESTS: '/contests',
   INSTRUCTORS: '/instructors',
   BLOGS: '/blogs',
   ABOUT: '/about',

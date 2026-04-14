@@ -86,6 +86,8 @@ import { ContestModule } from './modules/contest/contest.module';
           host: configService.get('redis.host'),
           port: configService.get('redis.port'),
           password: configService.get('redis.password'),
+          maxRetriesPerRequest: 3,
+          enableReadyCheck: false,
           ...(configService.get('redis.tls') ? { tls: {} } : {}),
         },
       }),

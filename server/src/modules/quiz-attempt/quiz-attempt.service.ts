@@ -21,6 +21,7 @@ import {
   SubmitResultResponseDto,
 } from './dto/quiz-attempt.dto';
 import { QuizAttemptRepository } from './quiz-attempt.repository';
+import { PaginationQueryDto, PaginatedResponseDto } from 'src/shared/dto/pagination.dto';
 
 @Injectable()
 export class QuizAttemptService {
@@ -525,6 +526,11 @@ export class QuizAttemptService {
       });
     }
 
+    const isResultMasked =
+      quiz && (!!attempt.contestId || (quiz as any).isContest)
+        ? quiz.showResultDate && new Date() < quiz.showResultDate
+        : false;
+
     return {
       attemptId: submittedAttempt.id,
       status: submittedAttempt.status,
@@ -535,6 +541,7 @@ export class QuizAttemptService {
       totalCount: submittedAttempt.totalCount!,
       startedAt: submittedAttempt.startedAt,
       submittedAt: submittedAttempt.submittedAt!,
+      isResultMasked: !!isResultMasked,
     };
   }
 
@@ -553,8 +560,21 @@ export class QuizAttemptService {
       throw new NotFoundException('Attempt not found');
     }
 
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      include: { roles: true },
+    });
+    
+    // Check if user has permission to manage contests, which qualifies them as an admin for this context
+    const isAdmin = user?.roles.some((r) => 
+      r.permissions.includes('contest:update') || 
+      r.permissions.includes('contest:read') ||
+      r.name === 'ADMIN' ||
+      r.name === 'Super Admin'
+    ) || false;
+
     // Verify ownership
-    if (attempt.userId !== userId) {
+    if (attempt.userId !== userId && !isAdmin) {
       throw new ForbiddenException('You do not have access to this attempt');
     }
 
@@ -570,7 +590,7 @@ export class QuizAttemptService {
         : null;
     if (quiz && (!!attempt.contestId || (quiz as any).isContest)) {
       const now = new Date();
-      if (quiz.showResultDate && now < quiz.showResultDate) {
+      if (!isAdmin && quiz.showResultDate && now < quiz.showResultDate) {
         // Blind Result: Return only scores, NO answers yet.
         return {
           attemptId: attempt.id,
@@ -581,30 +601,45 @@ export class QuizAttemptService {
           score: attempt.score ?? 0,
           maxScore: attempt.maxScore ?? 0,
           passed: attempt.passed,
+          correctCount: attempt.correctCount ?? 0,
+          totalCount: attempt.totalCount ?? 0,
+          startedAt: attempt.startedAt,
+          submittedAt: attempt.submittedAt ?? new Date(),
           answers: [], // Hide the details!
+          isResultMasked: true,
         };
       }
     }
 
+    // Fetch all questions to ensure unanswered questions are also included in the result
+    const questions = await this.quizAttemptRepository.findQuestionsWithOptions(
+      attempt.contestId ? attempt.contestId : attempt.lessonId!,
+      !!attempt.contestId,
+    );
+
     // Map answers with question details
-    const answers = attempt.answers.map((answer) => {
+    const answers = questions.map((question) => {
+      const userAnswer = attempt.answers.find(
+        (a) => a.questionId === question.id,
+      );
+
       return {
-        questionId: answer.questionId,
+        questionId: question.id,
         question: {
-          type: answer.question.type,
-          text: answer.question.text,
-          points: answer.question.points,
-          explanation: (answer.question as any).explanation ?? null,
-          options: answer.question.options.map((o) => ({
+          type: question.type,
+          text: question.text,
+          points: question.points,
+          explanation: (question as any).explanation ?? null,
+          options: question.options.map((o) => ({
             id: o.id,
             text: o.text,
             order: o.order,
             isCorrect: o.isCorrect,
           })),
         },
-        selectedOptionIds: answer.selectedOptionIds,
-        isCorrect: answer.isCorrect ?? false,
-        earnedScore: answer.earnedScore ?? 0,
+        selectedOptionIds: userAnswer ? userAnswer.selectedOptionIds : [],
+        isCorrect: userAnswer?.isCorrect ?? false,
+        earnedScore: userAnswer?.earnedScore ?? 0,
       };
     });
 
@@ -617,7 +652,12 @@ export class QuizAttemptService {
       score: attempt.score ?? 0,
       maxScore: attempt.maxScore ?? 0,
       passed: attempt.passed,
+      correctCount: attempt.correctCount ?? 0,
+      totalCount: attempt.totalCount ?? 0,
+      startedAt: attempt.startedAt,
+      submittedAt: attempt.submittedAt,
       answers,
+      isResultMasked: false,
     };
   }
 
@@ -701,6 +741,12 @@ export class QuizAttemptService {
         a.status === AttemptStatus.EXPIRED,
     ).length;
 
+    // Calculate if result is masked
+    const isResultMasked =
+      quiz && (isContest || (quiz as any).isContest)
+        ? quiz.showResultDate && new Date() < quiz.showResultDate
+        : false;
+
     return {
       lessonId: isContest ? undefined : referenceId,
       contestId: isContest ? referenceId : undefined,
@@ -715,6 +761,7 @@ export class QuizAttemptService {
         passed: a.passed,
         startedAt: a.startedAt,
         submittedAt: a.submittedAt,
+        isResultMasked: !!isResultMasked,
       })),
     };
   }
@@ -839,5 +886,51 @@ export class QuizAttemptService {
     };
 
     return this.submitAttempt(attemptId, userId, dto, true);
+  }
+
+  /**
+   * Admin: Get completely paginated attempts for a contest/quiz
+   */
+  async getAdminContestAttempts(
+    referenceId: string,
+    query: PaginationQueryDto & { status?: string },
+    isContest: boolean = false,
+  ): Promise<PaginatedResponseDto<any>> {
+    const page = query.page || 1;
+    const limit = query.limit || 10;
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await Promise.all([
+      this.quizAttemptRepository.findAdminContestAttempts(
+        referenceId,
+        isContest,
+        skip,
+        limit,
+        query.search,
+        query.status,
+      ),
+      this.quizAttemptRepository.countAdminContestAttempts(
+        referenceId,
+        isContest,
+        query.search,
+        query.status,
+      ),
+    ]);
+
+    return new PaginatedResponseDto(items, total, page, limit);
+  }
+
+  /**
+   * Admin: Delete attempt
+   */
+  async deleteAttempt(attemptId: string) {
+    const attempt = await this.quizAttemptRepository.findAttemptById(attemptId);
+    if (!attempt) {
+      throw new NotFoundException('Attempt not found');
+    }
+
+    await this.quizAttemptRepository.deleteAttempt(attemptId);
+
+    return { success: true };
   }
 }

@@ -100,6 +100,12 @@ export const PERMISSIONS = {
   USER_LESSON_PROGRESS_READ: 'user-lesson-progress:read',
   USER_LESSON_PROGRESS_UPDATE: 'user-lesson-progress:update',
   USER_LESSON_PROGRESS_DELETE: 'user-lesson-progress:delete',
+
+  // Contest Management
+  CONTEST_CREATE: 'contest:create',
+  CONTEST_READ: 'contest:read',
+  CONTEST_UPDATE: 'contest:update',
+  CONTEST_DELETE: 'contest:delete',
 } as const;
 
 // Resource definitions for UI generation
@@ -118,6 +124,7 @@ export const RESOURCES = {
   QUIZ_ATTEMPT: 'quiz-attempt',
   COMMENT: 'comment',
   USER_LESSON_PROGRESS: 'user-lesson-progress',
+  CONTEST: 'contest',
 } as const;
 
 // CRUD operations

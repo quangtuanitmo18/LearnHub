@@ -32,10 +32,10 @@ interface QuizResultProps {
 
 // Quiz result component - Arrow function
 const QuizResult = ({
-  score,
-  totalQuestions,
-  correctAnswers,
-  timeSpent,
+  score = 0,
+  totalQuestions = 0,
+  correctAnswers = 0,
+  timeSpent = 0,
   passingScore,
   isPassed,
   onRetry,

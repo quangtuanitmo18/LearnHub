@@ -20,6 +20,7 @@ import { GiGraduateCap } from 'react-icons/gi';
 
 const navigation = [
   { name: 'Courses', href: ROUTE_CONFIG.COURSES },
+  { name: 'Contests', href: ROUTE_CONFIG.CONTESTS },
   { name: 'Instructors', href: ROUTE_CONFIG.INSTRUCTORS },
   { name: 'Blogs', href: ROUTE_CONFIG.BLOGS },
   { name: 'About', href: ROUTE_CONFIG.ABOUT },

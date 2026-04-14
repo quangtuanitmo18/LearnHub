@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import QuizOverview from './quiz-overview';
-import QuizHistoryTable from './quiz-history-table';
-import QuizTaking from './quiz-taking';
-import QuizResult from './quiz-result';
-import QuizAttemptDetailsDialog from './quiz-attempt-details-dialog';
-import { useAttemptsList, useStartAttempt, useAttemptResult } from '@/hooks/use-quiz';
+import Loader from '@/components/loader';
+import { useAttemptResult, useAttemptsList, useStartAttempt } from '@/hooks/use-quiz';
 import { ILesson } from '@/types/lesson';
 import { AttemptStatus, SubmitAttemptResponse } from '@/types/quiz';
-import Loader from '@/components/loader';
+import { useEffect, useState } from 'react';
+import QuizAttemptDetailsDialog from './quiz-attempt-details-dialog';
+import QuizHistoryTable from './quiz-history-table';
+import QuizOverview from './quiz-overview';
+import QuizResult from './quiz-result';
+import QuizTaking from './quiz-taking';
 
 type QuizState = 'overview' | 'taking' | 'result';
 

@@ -88,6 +88,12 @@ export const PERMISSIONS = {
   MEDIA_READ: 'media:read',
   MEDIA_UPDATE: 'media:update',
   MEDIA_DELETE: 'media:delete',
+
+  // Contest Management
+  CONTEST_CREATE: 'contest:create',
+  CONTEST_READ: 'contest:read',
+  CONTEST_UPDATE: 'contest:update',
+  CONTEST_DELETE: 'contest:delete',
 } as const;
 
 // Resource definitions for UI generation
@@ -106,6 +112,7 @@ export const RESOURCES = {
   QUIZ_QUESTION: 'quiz_question',
   ORDER: 'order',
   MEDIA: 'media',
+  CONTEST: 'contest',
 } as const;
 
 // CRUD operations
@@ -186,6 +193,10 @@ export const PERMISSION_GROUPS = {
   media: {
     label: 'Media Management',
     permissions: getResourcePermissions('MEDIA'),
+  },
+  contest: {
+    label: 'Contest Management',
+    permissions: getResourcePermissions('CONTEST'),
   },
 } as const;
 

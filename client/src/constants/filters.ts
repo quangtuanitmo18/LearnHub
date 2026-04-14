@@ -160,6 +160,18 @@ export const FILTER_OPTIONS = {
       value: CommentStatus.REJECTED,
     },
   ],
+
+  // Contest filters
+  CONTEST_STATUS: [
+    {
+      label: 'Draft',
+      value: 'DRAFT',
+    },
+    {
+      label: 'Published',
+      value: 'PUBLISHED',
+    },
+  ],
 } as const;
 
 // Filter configuration interface

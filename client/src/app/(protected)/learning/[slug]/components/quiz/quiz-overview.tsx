@@ -45,6 +45,8 @@ const QuizOverview = ({
   // Check if user has an ongoing (IN_PROGRESS) attempt
   const inProgressAttempt = attempts.find((a) => a.status === AttemptStatus.IN_PROGRESS);
   const hasOngoingAttempt = !!inProgressAttempt;
+  const hasStarted = attempts.length > 0;
+  const canRetake = maxAttempts == null || usedAttempts < maxAttempts;
 
   // Contest logic
   const { data: serverTimeData } = useServerTime({ refetchInterval: 10000 }); // Check every 10s

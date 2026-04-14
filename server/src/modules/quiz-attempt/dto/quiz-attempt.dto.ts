@@ -1,11 +1,11 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayMinSize,
   IsArray,
   IsNotEmpty,
   IsString,
   IsUUID,
   ValidateNested,
-  ArrayMinSize,
 } from 'class-validator';
 
 // ============ ANSWER DTOs ============
@@ -97,6 +97,7 @@ export class SubmitResultResponseDto {
   totalCount: number;
   startedAt: Date;
   submittedAt: Date;
+  isResultMasked?: boolean;
 }
 
 export class QuestionWithCorrectResponseDto {
@@ -124,7 +125,12 @@ export class AttemptResultResponseDto {
   score: number;
   maxScore: number;
   passed: boolean | null;
+  correctCount?: number;
+  totalCount?: number;
+  startedAt?: Date;
+  submittedAt?: Date | null;
   answers: AnswerResultResponseDto[];
+  isResultMasked?: boolean;
 }
 
 export class AttemptSummaryResponseDto {
@@ -136,6 +142,7 @@ export class AttemptSummaryResponseDto {
   passed: boolean | null;
   startedAt: Date;
   submittedAt: Date | null;
+  isResultMasked?: boolean;
 }
 
 export class AttemptsListResponseDto {

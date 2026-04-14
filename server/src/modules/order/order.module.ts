@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { BullModule } from '@nestjs/bullmq';
+import { QueuesModule } from 'src/shared/queues';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { OrderRepository } from './order.repository';
@@ -9,19 +9,9 @@ import { CouponModule } from '../coupon/coupon.module';
 import { CourseModule } from '../course/course.module';
 import { UserModule } from '../user/user.module';
 import { EmailModule } from '../email/email.module';
-import { ORDER_QUEUE } from './constants/order-queue.constant';
 
 @Module({
-  imports: [
-    CartModule,
-    CouponModule,
-    CourseModule,
-    UserModule,
-    EmailModule,
-    BullModule.registerQueue({
-      name: ORDER_QUEUE,
-    }),
-  ],
+  imports: [CartModule, CouponModule, CourseModule, UserModule, EmailModule, QueuesModule],
   controllers: [OrderController],
   providers: [OrderService, OrderRepository, OrderQueueService],
   exports: [OrderService, OrderRepository, OrderQueueService],

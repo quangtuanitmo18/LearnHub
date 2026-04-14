@@ -1,14 +1,9 @@
 import { Module } from '@nestjs/common';
-import { BullModule } from '@nestjs/bullmq';
+import { QueuesModule } from 'src/shared/queues';
 import { EmailService, EmailQueueService, PdfService } from './services';
-import { EMAIL_QUEUE } from './constants';
 
 @Module({
-  imports: [
-    BullModule.registerQueue({
-      name: EMAIL_QUEUE,
-    }),
-  ],
+  imports: [QueuesModule],
   providers: [EmailService, EmailQueueService, PdfService],
   exports: [EmailService, EmailQueueService, PdfService],
 })

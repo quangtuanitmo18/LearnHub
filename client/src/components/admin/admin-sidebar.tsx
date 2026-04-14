@@ -25,6 +25,7 @@ import {
   MdComment,
   MdPermMedia,
   MdRateReview,
+  MdEmojiEvents,
 } from 'react-icons/md';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -47,6 +48,11 @@ const menuItems = [
     title: 'Courses',
     url: '/admin/courses',
     icon: MdSchool,
+  },
+  {
+    title: 'Contests',
+    url: '/admin/contests',
+    icon: MdEmojiEvents,
   },
   {
     title: 'Categories',
