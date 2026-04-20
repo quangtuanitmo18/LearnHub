@@ -5,8 +5,10 @@ import { ContestRepository } from './contest.repository';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import { QuizAttemptModule } from '../quiz-attempt/quiz-attempt.module';
 
+import { QueuesModule } from 'src/shared/queues';
+
 @Module({
-  imports: [QuizAttemptModule],
+  imports: [QuizAttemptModule, QueuesModule],
   controllers: [ContestController],
   providers: [ContestService, ContestRepository, PrismaService],
   exports: [ContestService],

@@ -10,6 +10,7 @@ import {
   MembershipActivatedEmailData,
   PasswordResetEmailData,
   OtpVerificationEmailData,
+  ContestResultReadyEmailData,
 } from '../interfaces';
 import {
   renderOrderConfirmationTemplate,
@@ -17,6 +18,7 @@ import {
   renderMembershipActivatedTemplate,
   renderPasswordResetTemplate,
   renderOtpVerificationTemplate,
+  renderContestResultReadyTemplate,
 } from '../templates';
 
 type EmailJobData =
@@ -24,7 +26,8 @@ type EmailJobData =
   | PaymentSuccessEmailData
   | MembershipActivatedEmailData
   | PasswordResetEmailData
-  | OtpVerificationEmailData;
+  | OtpVerificationEmailData
+  | ContestResultReadyEmailData;
 
 @Processor(EMAIL_QUEUE)
 export class EmailProcessor extends WorkerHost {
@@ -68,6 +71,11 @@ export class EmailProcessor extends WorkerHost {
       case EMAIL_JOBS.SEND_OTP_VERIFICATION:
         await this.handleOtpVerificationEmail(
           job.data as OtpVerificationEmailData,
+        );
+        break;
+      case EMAIL_JOBS.SEND_CONTEST_RESULT_READY:
+        await this.handleContestResultReadyEmail(
+          job.data as ContestResultReadyEmailData,
         );
         break;
       default:
@@ -133,6 +141,22 @@ export class EmailProcessor extends WorkerHost {
             },
           ]
         : undefined,
+    });
+  }
+
+  private async handleContestResultReadyEmail(
+    data: ContestResultReadyEmailData,
+  ): Promise<void> {
+    this.logger.log(
+      `Sending contest result ready email to ${data.to} for contest ${data.contestSlug}`,
+    );
+
+    const html = await renderContestResultReadyTemplate(data);
+
+    await this.emailService.sendMail({
+      to: data.to,
+      subject: `Kết quả cuộc thi: ${data.contestTitle}`,
+      html,
     });
   }
 

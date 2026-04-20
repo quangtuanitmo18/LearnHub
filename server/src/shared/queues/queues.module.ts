@@ -22,6 +22,7 @@ import { QUEUE_NAMES } from './queue.constants';
       { name: QUEUE_NAMES.ORDER },
       { name: QUEUE_NAMES.AI_EMBED },
       { name: QUEUE_NAMES.AI_CONCEPT },
+      { name: QUEUE_NAMES.CONTEST },
     ),
   ],
   exports: [BullModule],

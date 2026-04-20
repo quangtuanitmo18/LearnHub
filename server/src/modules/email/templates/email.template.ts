@@ -6,6 +6,7 @@ import {
   MembershipActivatedEmailData,
   PasswordResetEmailData,
   OtpVerificationEmailData,
+  ContestResultReadyEmailData,
 } from '../interfaces';
 
 export function formatCurrency(amount: number): string {
@@ -84,6 +85,17 @@ export async function renderOtpVerificationTemplate(
   data: OtpVerificationEmailData,
 ): Promise<string> {
   const templatePath = path.join(TEMPLATE_DIR, 'otp-verification.ejs');
+
+  return ejs.renderFile(templatePath, {
+    ...data,
+    ...templateHelpers,
+  });
+}
+
+export async function renderContestResultReadyTemplate(
+  data: ContestResultReadyEmailData,
+): Promise<string> {
+  const templatePath = path.join(TEMPLATE_DIR, 'contest-result-ready.ejs');
 
   return ejs.renderFile(templatePath, {
     ...data,

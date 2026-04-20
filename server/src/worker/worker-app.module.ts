@@ -10,6 +10,7 @@ import { GamificationWorkerModule } from '../modules/gamification/gamification-w
 import { NotificationModule } from '../modules/notification/notification.module';
 import { OrderWorkerModule } from '../modules/order/order-worker.module';
 import { QuizAttemptWorkerModule } from '../modules/quiz-attempt/quiz-attempt-worker.module';
+import { ContestWorkerModule } from '../modules/contest/contest-worker.module';
 import { configuration } from '../shared/configs/configuration';
 import { validate } from '../shared/configs/validation';
 import { SharedModule } from '../shared/shared.module';
@@ -61,6 +62,7 @@ import { SharedModule } from '../shared/shared.module';
     GamificationWorkerModule,
     QuizAttemptWorkerModule,
     AiWorkerProcessorsModule,
+    ContestWorkerModule,
   ],
 })
 export class WorkerAppModule {}

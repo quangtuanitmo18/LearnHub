@@ -54,3 +54,10 @@ export interface OtpVerificationEmailData {
   otpCode: string;
   expiresIn: string;
 }
+
+export interface ContestResultReadyEmailData {
+  to: string;
+  username: string;
+  contestTitle: string;
+  contestSlug: string;
+}

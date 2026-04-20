@@ -3,6 +3,9 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
+import { Queue } from 'bullmq';
+import { InjectQueue } from '@nestjs/bullmq';
+import { QUEUE_NAMES } from 'src/shared/queues/queue.constants';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import { ContestStatus } from 'src/generated/prisma/enums';
 import { CreateContestDto, UpdateContestDto } from './dto/contest.dto';
@@ -14,6 +17,7 @@ export class ContestService {
   constructor(
     private readonly contestRepository: ContestRepository,
     private readonly prismaService: PrismaService,
+    @InjectQueue(QUEUE_NAMES.CONTEST) private readonly contestQueue: Queue,
   ) {}
 
   // ─── Public APIs ──────────────────────────────────────────────
@@ -135,7 +139,9 @@ export class ContestService {
       throw new BadRequestException('Contest slug already exists');
     }
 
-    return this.contestRepository.create(createContestDto);
+    const contest = await this.contestRepository.create(createContestDto);
+    await this.scheduleContestJobs(contest);
+    return contest;
   }
 
   async updateContest(id: string, updateContestDto: UpdateContestDto) {
@@ -154,7 +160,12 @@ export class ContestService {
       }
     }
 
-    return this.contestRepository.update({ id }, updateContestDto);
+    const contest = await this.contestRepository.update(
+      { id },
+      updateContestDto,
+    );
+    await this.scheduleContestJobs(contest);
+    return contest;
   }
 
   async deleteContest(id: string) {
@@ -162,6 +173,10 @@ export class ContestService {
     if (!existing) {
       throw new NotFoundException('Contest not found');
     }
+
+    // Clean up jobs
+    await this.removeContestJobs(id);
+
     return this.contestRepository.delete({ id });
   }
 
@@ -282,5 +297,55 @@ export class ContestService {
       orderBy: { order: 'asc' },
       include: this.questionInclude,
     });
+  }
+
+  // ─── Job Scheduling Helpers ─────────────────────────────────────
+
+  private async removeContestJobs(contestId: string) {
+    const submitJobId = `force-submit-${contestId}`;
+    const submitJob = await this.contestQueue.getJob(submitJobId);
+    if (submitJob) await submitJob.remove();
+
+    const notifyJobId = `notify-result-${contestId}`;
+    const notifyJob = await this.contestQueue.getJob(notifyJobId);
+    if (notifyJob) await notifyJob.remove();
+  }
+
+  private async scheduleContestJobs(contest: any) {
+    const now = Date.now();
+
+    // 1. Force-submit job
+    if (contest.endTime) {
+      const endTime = new Date(contest.endTime).getTime();
+      const delay = endTime - now;
+      if (delay > 0) {
+        const jobId = `force-submit-${contest.id}`;
+        const existingJob = await this.contestQueue.getJob(jobId);
+        if (existingJob) await existingJob.remove();
+
+        await this.contestQueue.add(
+          'force-submit-contest',
+          { contestId: contest.id },
+          { delay, jobId, removeOnComplete: true },
+        );
+      }
+    }
+
+    // 2. Notify result job
+    if (contest.showResultDate) {
+      const showDate = new Date(contest.showResultDate).getTime();
+      const delay = showDate - now;
+      if (delay > 0) {
+        const jobId = `notify-result-${contest.id}`;
+        const existingJob = await this.contestQueue.getJob(jobId);
+        if (existingJob) await existingJob.remove();
+
+        await this.contestQueue.add(
+          'notify-contest-result',
+          { contestId: contest.id, title: contest.title, slug: contest.slug },
+          { delay, jobId, removeOnComplete: true },
+        );
+      }
+    }
   }
 }

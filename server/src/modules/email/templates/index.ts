@@ -6,4 +6,5 @@ export {
   renderMembershipActivatedTemplate,
   renderPasswordResetTemplate,
   renderOtpVerificationTemplate,
+  renderContestResultReadyTemplate,
 } from './email.template';
