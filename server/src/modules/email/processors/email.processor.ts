@@ -155,7 +155,7 @@ export class EmailProcessor extends WorkerHost {
 
     await this.emailService.sendMail({
       to: data.to,
-      subject: `Kết quả cuộc thi: ${data.contestTitle}`,
+      subject: `Contest Results: ${data.contestTitle}`,
       html,
     });
   }

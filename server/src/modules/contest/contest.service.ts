@@ -210,7 +210,7 @@ export class ContestService {
       where: { contestId },
       include: {
         user: {
-          select: { name: true, email: true },
+          select: { username: true, email: true },
         },
       },
       orderBy: [{ score: 'desc' }, { startedAt: 'asc' }],
@@ -220,15 +220,15 @@ export class ContestService {
     const worksheet = workbook.addWorksheet('Results');
 
     worksheet.columns = [
-      { header: 'Họ và tên', key: 'name', width: 25 },
+      { header: 'Username', key: 'name', width: 25 },
       { header: 'Email', key: 'email', width: 30 },
-      { header: 'Điểm', key: 'score', width: 10 },
-      { header: 'Số câu đúng', key: 'correct', width: 15 },
-      { header: 'Tổng câu', key: 'total', width: 15 },
-      { header: 'Cảnh cáo (Gian lận)', key: 'strikes', width: 20 },
-      { header: 'Trạng thái', key: 'status', width: 15 },
-      { header: 'Ngày thi', key: 'startedAt', width: 20 },
-      { header: 'Ngày nộp', key: 'submittedAt', width: 20 },
+      { header: 'Score', key: 'score', width: 10 },
+      { header: 'Correct Answers', key: 'correct', width: 15 },
+      { header: 'Total Questions', key: 'total', width: 15 },
+      { header: 'Strikes (Cheating)', key: 'strikes', width: 20 },
+      { header: 'Status', key: 'status', width: 15 },
+      { header: 'Started At', key: 'startedAt', width: 20 },
+      { header: 'Submitted At', key: 'submittedAt', width: 20 },
     ];
 
     // Style header
@@ -236,7 +236,7 @@ export class ContestService {
 
     attempts.forEach((attempt) => {
       worksheet.addRow({
-        name: attempt.user?.name || 'N/A',
+        name: attempt.user?.username || 'N/A',
         email: attempt.user?.email || 'N/A',
         score: attempt.score ?? 0,
         correct: attempt.correctCount ?? 0,

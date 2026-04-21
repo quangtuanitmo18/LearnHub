@@ -155,8 +155,8 @@ export class GamificationService {
           for (const badge of newBadgesToAward) {
             void this.notificationService.notifyUser(userId, {
               type: NotificationType.SYSTEM,
-              title: 'Huy Hiệu Mới! 🎖️',
-              message: `Chúc mừng bạn đã nhận được huy hiệu "${badge.name}"!`,
+              title: 'New Badge! 🎖️',
+              message: `Congratulations! You have earned the "${badge.name}" badge!`,
               data: {
                 badgeId: badge.id,
                 badgeName: badge.name,

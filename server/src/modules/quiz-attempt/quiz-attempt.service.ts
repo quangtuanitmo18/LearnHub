@@ -372,7 +372,7 @@ export class QuizAttemptService {
         true, // isAutoSubmit
       );
       throw new ForbiddenException(
-        'Bài thi của bạn đã bị khoá do phát hiện hành vi gian lận (chuyển tab/ứng dụng nhiều lần).',
+        'Your attempt has been locked due to detected cheating behavior (switching tabs/apps multiple times).',
       );
     }
 
