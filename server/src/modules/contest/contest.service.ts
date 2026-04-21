@@ -1,16 +1,17 @@
+import { InjectQueue } from '@nestjs/bullmq';
 import {
-  Injectable,
   BadRequestException,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { Queue } from 'bullmq';
-import { InjectQueue } from '@nestjs/bullmq';
+import * as ExcelJS from 'exceljs';
+import { ContestStatus } from 'src/generated/prisma/enums';
+import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { QUEUE_NAMES } from 'src/shared/queues/queue.constants';
 import { PrismaService } from 'src/shared/services/prisma.service';
-import { ContestStatus } from 'src/generated/prisma/enums';
-import { CreateContestDto, UpdateContestDto } from './dto/contest.dto';
-import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
 import { ContestRepository } from './contest.repository';
+import { CreateContestDto, UpdateContestDto } from './dto/contest.dto';
 
 @Injectable()
 export class ContestService {
@@ -195,6 +196,63 @@ export class ContestService {
       deletedCount: result.count,
       message: `Successfully deleted ${result.count} ${result.count === 1 ? 'contest' : 'contests'}`,
     };
+  }
+
+  async exportContestResults(contestId: string): Promise<ExcelJS.Buffer> {
+    const contest = await this.contestRepository.findOneOrNull({
+      id: contestId,
+    });
+    if (!contest) {
+      throw new NotFoundException('Contest not found');
+    }
+
+    const attempts = await this.prismaService.quizAttempt.findMany({
+      where: { contestId },
+      include: {
+        user: {
+          select: { name: true, email: true },
+        },
+      },
+      orderBy: [{ score: 'desc' }, { startedAt: 'asc' }],
+    });
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Results');
+
+    worksheet.columns = [
+      { header: 'Họ và tên', key: 'name', width: 25 },
+      { header: 'Email', key: 'email', width: 30 },
+      { header: 'Điểm', key: 'score', width: 10 },
+      { header: 'Số câu đúng', key: 'correct', width: 15 },
+      { header: 'Tổng câu', key: 'total', width: 15 },
+      { header: 'Cảnh cáo (Gian lận)', key: 'strikes', width: 20 },
+      { header: 'Trạng thái', key: 'status', width: 15 },
+      { header: 'Ngày thi', key: 'startedAt', width: 20 },
+      { header: 'Ngày nộp', key: 'submittedAt', width: 20 },
+    ];
+
+    // Style header
+    worksheet.getRow(1).font = { bold: true };
+
+    attempts.forEach((attempt) => {
+      worksheet.addRow({
+        name: attempt.user?.name || 'N/A',
+        email: attempt.user?.email || 'N/A',
+        score: attempt.score ?? 0,
+        correct: attempt.correctCount ?? 0,
+        total: attempt.totalCount ?? 0,
+        strikes: attempt.strikes ?? 0,
+        status: attempt.status,
+        startedAt: attempt.startedAt
+          ? attempt.startedAt.toLocaleString('vi-VN')
+          : '',
+        submittedAt: attempt.submittedAt
+          ? attempt.submittedAt.toLocaleString('vi-VN')
+          : '',
+      });
+    });
+
+    return workbook.xlsx.writeBuffer();
   }
 
   // ─── Contest Question Management ──────────────────────────────

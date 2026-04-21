@@ -54,11 +54,7 @@ export class CommentController {
     @Query() paginationQuery: PaginationQueryDto,
     @CurrentUser('sub') userId?: string,
   ) {
-    return this.commentService.getBlogComments(
-      blogId,
-      paginationQuery,
-      userId,
-    );
+    return this.commentService.getBlogComments(blogId, paginationQuery, userId);
   }
 
   @Get('comments/:id/replies')

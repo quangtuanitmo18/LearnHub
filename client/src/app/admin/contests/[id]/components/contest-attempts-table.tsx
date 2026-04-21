@@ -9,7 +9,10 @@ import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { columns } from './contest-attempts-columns';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Search, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ContestsService } from '@/services/contests';
+import { toast } from 'sonner';
 
 interface ContestAttemptsTableProps {
   contestId: string;
@@ -48,6 +51,24 @@ const ContestAttemptsTable = ({ contestId }: ContestAttemptsTableProps) => {
 
   const attempts = useMemo(() => attemptsData?.result || [], [attemptsData?.result]);
 
+  const handleExport = async () => {
+    try {
+      toast.loading('Exporting results...', { id: 'export-results' });
+      const blob = await ContestsService.exportAdminAttempts(contestId);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `contest-results.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success('Results exported successfully', { id: 'export-results' });
+    } catch (error) {
+      toast.error('Failed to export results', { id: 'export-results' });
+    }
+  };
+
   const table = useReactTable({
     data: attempts,
     columns,
@@ -71,6 +92,14 @@ const ContestAttemptsTable = ({ contestId }: ContestAttemptsTableProps) => {
             />
           </div>
         </div>
+        <Button
+          onClick={handleExport}
+          variant="outline"
+          className="ml-auto flex items-center gap-2"
+        >
+          <Download className="h-4 w-4" />
+          Export Excel
+        </Button>
       </div>
 
       <div className="overflow-hidden rounded-md border">

@@ -161,6 +161,10 @@ export class ContestsService {
   static async deleteAdminAttempt(contestId: string, attemptId: string): Promise<void> {
     return ApiService.delete<void>(ENDPOINTS.ADMIN_ATTEMPT(contestId, attemptId));
   }
+
+  static async exportAdminAttempts(contestId: string): Promise<Blob> {
+    return ApiService.downloadBlob(`/contests/admin/${contestId}/export`);
+  }
 }
 
 export default ContestsService;

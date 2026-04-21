@@ -21,7 +21,10 @@ import {
   SubmitResultResponseDto,
 } from './dto/quiz-attempt.dto';
 import { QuizAttemptRepository } from './quiz-attempt.repository';
-import { PaginationQueryDto, PaginatedResponseDto } from 'src/shared/dto/pagination.dto';
+import {
+  PaginationQueryDto,
+  PaginatedResponseDto,
+} from 'src/shared/dto/pagination.dto';
 
 @Injectable()
 export class QuizAttemptService {
@@ -357,6 +360,22 @@ export class QuizAttemptService {
       );
     }
 
+    // Check anti-cheat strikes
+    if (dto.strikes !== undefined && dto.strikes >= 3) {
+      await this.submitAttempt(
+        attemptId,
+        userId,
+        {
+          answers: dto.answers,
+          strikes: dto.strikes,
+        },
+        true, // isAutoSubmit
+      );
+      throw new ForbiddenException(
+        'Bài thi của bạn đã bị khoá do phát hiện hành vi gian lận (chuyển tab/ứng dụng nhiều lần).',
+      );
+    }
+
     await this.quizAttemptRepository.upsertAnswers(
       attemptId,
       dto.answers,
@@ -564,14 +583,16 @@ export class QuizAttemptService {
       where: { id: userId },
       include: { roles: true },
     });
-    
+
     // Check if user has permission to manage contests, which qualifies them as an admin for this context
-    const isAdmin = user?.roles.some((r) => 
-      r.permissions.includes('contest:update') || 
-      r.permissions.includes('contest:read') ||
-      r.name === 'ADMIN' ||
-      r.name === 'Super Admin'
-    ) || false;
+    const isAdmin =
+      user?.roles.some(
+        (r) =>
+          r.permissions.includes('contest:update') ||
+          r.permissions.includes('contest:read') ||
+          r.name === 'ADMIN' ||
+          r.name === 'Super Admin',
+      ) || false;
 
     // Verify ownership
     if (attempt.userId !== userId && !isAdmin) {

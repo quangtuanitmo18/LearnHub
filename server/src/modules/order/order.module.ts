@@ -11,7 +11,14 @@ import { UserModule } from '../user/user.module';
 import { EmailModule } from '../email/email.module';
 
 @Module({
-  imports: [CartModule, CouponModule, CourseModule, UserModule, EmailModule, QueuesModule],
+  imports: [
+    CartModule,
+    CouponModule,
+    CourseModule,
+    UserModule,
+    EmailModule,
+    QueuesModule,
+  ],
   controllers: [OrderController],
   providers: [OrderService, OrderRepository, OrderQueueService],
   exports: [OrderService, OrderRepository, OrderQueueService],

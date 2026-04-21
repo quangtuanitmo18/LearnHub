@@ -8,7 +8,10 @@ import {
   Put,
   Query,
   UseGuards,
+  StreamableFile,
+  Res,
 } from '@nestjs/common';
+import type { Response } from 'express';
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
 import { ResponseMessage } from 'src/shared/decorators/response-message.decorator';
 import { PermissionGuard } from 'src/shared/guards/permission.guard';
@@ -142,6 +145,25 @@ export class ContestController {
     );
   }
 
+  @Get('admin/:id/export')
+  @RequirePermissions(PERMISSIONS.CONTEST_READ)
+  async exportContestResults(
+    @Param('id') id: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const buffer = await this.contestService.exportContestResults(id);
+    const contest = await this.contestService.getContestById(id);
+
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename=contest-results-${contest.slug}.xlsx`,
+      'Content-Length': buffer.byteLength,
+    });
+
+    return new StreamableFile(new Uint8Array(buffer));
+  }
+
   @Delete('admin/:id/attempts/:attemptId')
   @RequirePermissions(PERMISSIONS.CONTEST_UPDATE)
   @ResponseMessage('Contest attempt deleted successfully')
@@ -164,10 +186,7 @@ export class ContestController {
   @Post('admin/:id/questions')
   @RequirePermissions(PERMISSIONS.CONTEST_UPDATE)
   @ResponseMessage('Question added successfully')
-  async addContestQuestion(
-    @Param('id') id: string,
-    @Body() question: any,
-  ) {
+  async addContestQuestion(@Param('id') id: string, @Body() question: any) {
     return this.contestService.addContestQuestion(id, question);
   }
 

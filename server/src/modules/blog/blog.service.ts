@@ -1,23 +1,23 @@
 import {
-  Injectable,
   BadRequestException,
-  NotFoundException,
   ForbiddenException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
+import { PointReason } from 'src/generated/prisma/client';
+import { BlogStatus } from 'src/shared/constants/blog.constant';
+import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
+import { CategoryRepository } from '../category/category.repository';
+import { GamificationService } from '../gamification/gamification.service';
+import { UserRepository } from '../user/user.repository';
+import { BlogRepository } from './blog.repository';
 import {
-  CreateBlogDto,
-  UpdateBlogDto,
   BlogQueryDto,
+  CreateBlogDto,
   CreateCommunityPostDto,
+  UpdateBlogDto,
   UpdateCommunityPostDto,
 } from './dto/blog.dto';
-import { PaginationQueryDto } from 'src/shared/dto/pagination.dto';
-import { BlogRepository } from './blog.repository';
-import { UserRepository } from '../user/user.repository';
-import { CategoryRepository } from '../category/category.repository';
-import { BlogStatus } from 'src/shared/constants/blog.constant';
-import { GamificationService } from '../gamification/gamification.service';
-import { PointReason } from 'src/generated/prisma/client';
 
 @Injectable()
 export class BlogService {
@@ -189,7 +189,7 @@ export class BlogService {
       }
     }
 
-    return this.blogRepository.update({ id }, updateData);
+    return this.blogRepository.update({ id }, updateData as UpdateBlogDto);
   }
 
   // ==========================================
@@ -210,10 +210,7 @@ export class BlogService {
   /**
    * Create a community post (any logged-in user)
    */
-  async createCommunityPost(
-    dto: CreateCommunityPostDto,
-    userId: string,
-  ) {
+  async createCommunityPost(dto: CreateCommunityPostDto, userId: string) {
     // Validate category
     const category = await this.categoryRepository.findOneOrNull({
       id: dto.categoryId,
@@ -224,9 +221,7 @@ export class BlogService {
 
     // Force status: only DRAFT or PENDING allowed
     const status =
-      dto.status === BlogStatus.PENDING
-        ? BlogStatus.PENDING
-        : BlogStatus.DRAFT;
+      dto.status === BlogStatus.PENDING ? BlogStatus.PENDING : BlogStatus.DRAFT;
 
     // Generate slug from title
     const baseSlug = dto.title
@@ -246,7 +241,7 @@ export class BlogService {
     const excerpt =
       dto.excerpt ||
       dto.content
-        .replace(/[#*`>\-\[\]()!]/g, '')
+        .replace(/[#*`>\-[\]()!]/g, '')
         .substring(0, 200)
         .trim() + '...';
 
@@ -260,7 +255,7 @@ export class BlogService {
       authorId: userId,
       categoryId: dto.categoryId,
       courseId: dto.courseId,
-    } as any);
+    } as CreateBlogDto);
   }
 
   /**
@@ -288,8 +283,14 @@ export class BlogService {
     }
 
     // Force status guard: can only set DRAFT or PENDING
-    if (dto.status && dto.status !== BlogStatus.DRAFT && dto.status !== BlogStatus.PENDING) {
-      throw new BadRequestException('You can only set status to DRAFT or PENDING');
+    if (
+      dto.status &&
+      dto.status !== BlogStatus.DRAFT &&
+      dto.status !== BlogStatus.PENDING
+    ) {
+      throw new BadRequestException(
+        'You can only set status to DRAFT or PENDING',
+      );
     }
 
     // Regenerate slug if title changed
@@ -314,12 +315,12 @@ export class BlogService {
     if (dto.content && !dto.excerpt) {
       updateData.excerpt =
         dto.content
-          .replace(/[#*`>\-\[\]()!]/g, '')
+          .replace(/[#*`>\-[\]()!]/g, '')
           .substring(0, 200)
           .trim() + '...';
     }
 
-    return this.blogRepository.update({ id }, updateData);
+    return this.blogRepository.update({ id }, updateData as UpdateBlogDto);
   }
 
   /**
@@ -389,10 +390,7 @@ export class BlogService {
     courseId: string,
     paginationQuery?: PaginationQueryDto,
   ) {
-    return this.blogRepository.findPublishedByCourse(
-      courseId,
-      paginationQuery,
-    );
+    return this.blogRepository.findPublishedByCourse(courseId, paginationQuery);
   }
 
   /**

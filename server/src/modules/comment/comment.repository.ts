@@ -203,7 +203,9 @@ export class CommentRepository extends BaseService<
     status?: string,
   ) {
     const where: Prisma.CommentWhereInput = {
-      ...(targetType === 'lesson' ? { lessonId: targetId } : { blogId: targetId }),
+      ...(targetType === 'lesson'
+        ? { lessonId: targetId }
+        : { blogId: targetId }),
       parentId: null,
     };
 
