@@ -27,24 +27,32 @@ export class ChatStore implements OnModuleDestroy {
       port: this.configService.get<number>('REDIS_PORT') || 6379,
       password: this.configService.get<string>('REDIS_PASSWORD') || undefined,
       tls: isTls ? {} : undefined,
+      maxRetriesPerRequest: 3,
+      enableOfflineQueue: false,
+    });
+
+    // Suppress unhandled error events
+    this.redis.on('error', (err) => {
+      console.error('ChatStore Redis Error:', err.message);
     });
   }
 
   onModuleDestroy() {
-    void this.redis.quit();
+    void this.redis.quit().catch(() => {});
   }
 
   /**
    * Get all messages for a user
    */
   async getMessages(userId: string): Promise<ChatMessage[]> {
-    const data = await this.redis.get(`chat_session:${userId}`);
-    if (!data) return [];
-
     try {
+      const data = await this.redis.get(`chat_session:${userId}`);
+      if (!data) return [];
+
       const session = JSON.parse(data) as SessionData;
-      return session.messages;
-    } catch {
+      return session.messages || [];
+    } catch (err) {
+      console.error('Failed to get chat messages from Redis:', err.message);
       return [];
     }
   }
@@ -53,47 +61,58 @@ export class ChatStore implements OnModuleDestroy {
    * Append a message to user's history (keeps max 50 messages)
    */
   async append(userId: string, msg: ChatMessage): Promise<void> {
-    const data = await this.redis.get(`chat_session:${userId}`);
-    let session: SessionData = { messages: [], updatedAt: Date.now() };
+    try {
+      const data = await this.redis
+        .get(`chat_session:${userId}`)
+        .catch(() => null);
+      let session: SessionData = { messages: [], updatedAt: Date.now() };
 
-    if (data) {
-      try {
-        session = JSON.parse(data);
-      } catch {
-        // Corrupted session data, start fresh
+      if (data) {
+        try {
+          session = JSON.parse(data);
+        } catch {
+          // Corrupted session data, start fresh
+        }
       }
+
+      const next = [...(session.messages || []), msg];
+      // Keep only the last MAX_MESSAGES_PER_USER messages
+      session.messages = next.slice(-MAX_MESSAGES_PER_USER);
+      session.updatedAt = Date.now();
+
+      await this.redis.set(
+        `chat_session:${userId}`,
+        JSON.stringify(session),
+        'EX',
+        TTL_SEC,
+      );
+    } catch (err) {
+      console.error('Failed to append chat message to Redis:', err.message);
     }
-
-    const next = [...session.messages, msg];
-    // Keep only the last MAX_MESSAGES_PER_USER messages
-    session.messages = next.slice(-MAX_MESSAGES_PER_USER);
-    session.updatedAt = Date.now();
-
-    await this.redis.set(
-      `chat_session:${userId}`,
-      JSON.stringify(session),
-      'EX',
-      TTL_SEC,
-    );
   }
 
   /**
    * Clear all messages for a user
    */
   async clear(userId: string): Promise<void> {
-    await this.redis.del(`chat_session:${userId}`);
+    try {
+      await this.redis.del(`chat_session:${userId}`);
+    } catch (err) {
+      console.error('Failed to clear chat session in Redis:', err.message);
+    }
   }
 
   /**
    * Get the number of messages for a user
    */
   async getMessageCount(userId: string): Promise<number> {
-    const data = await this.redis.get(`chat_session:${userId}`);
-    if (!data) return 0;
     try {
+      const data = await this.redis.get(`chat_session:${userId}`);
+      if (!data) return 0;
       const session = JSON.parse(data) as SessionData;
-      return session.messages.length;
-    } catch {
+      return (session.messages || []).length;
+    } catch (err) {
+      console.error('Failed to get message count from Redis:', err.message);
       return 0;
     }
   }
