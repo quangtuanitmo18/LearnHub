@@ -32,65 +32,72 @@ export class ToolsService {
       schema: z.object({}),
       func: async () => {
         try {
-          const progress = await this.prisma.userLessonProgress.findMany({
+          // Get count of completed lessons per course for this user
+          const completedCounts = await this.prisma.userLessonProgress.groupBy({
+            by: ['courseId'],
             where: { userId },
-            include: {
-              course: { select: { id: true, title: true } },
-              lesson: { select: { id: true, title: true } },
-            },
-            orderBy: { updatedAt: 'desc' },
-            take: 20,
+            _count: { lessonId: true },
           });
 
-          if (progress.length === 0) {
+          if (completedCounts.length === 0) {
             return JSON.stringify({
               message: 'This student has not started any courses yet.',
               courses: [],
             });
           }
 
-          // Group by course
-          const courseMap = new Map<
-            string,
-            {
-              title: string;
-              completed: number;
-              total: number;
-              lastLesson: string;
-            }
-          >();
-          for (const p of progress) {
-            const courseId = p.courseId;
-            if (!courseMap.has(courseId)) {
-              // Count total lessons in course
-              const totalLessons = await this.prisma.lesson.count({
-                where: { courseId },
-              });
-              courseMap.set(courseId, {
-                title: p.course.title ?? 'Untitled Course',
-                completed: 0,
-                total: totalLessons,
-                lastLesson: p.lesson.title ?? 'Unknown',
-              });
-            }
-            const entry = courseMap.get(courseId)!;
-            entry.completed++;
-            entry.lastLesson = p.lesson.title ?? entry.lastLesson;
-          }
+          const courseIds = completedCounts.map((c) => c.courseId);
+          const courses = await this.prisma.course.findMany({
+            where: { id: { in: courseIds } },
+            select: {
+              id: true,
+              title: true,
+              _count: { select: { lessons: true } },
+            },
+          });
 
-          const courses = Array.from(courseMap.entries()).map(([id, data]) => ({
-            courseId: id,
-            title: data.title,
-            completedLessons: data.completed,
-            totalLessons: data.total,
-            progressPercent:
-              data.total > 0
-                ? Math.round((data.completed / data.total) * 100)
-                : 0,
-            lastLesson: data.lastLesson,
-          }));
+          // Fetch the single most recently updated progress record to identify the last active lesson
+          const lastProgress = await this.prisma.userLessonProgress.findFirst({
+            where: { userId },
+            include: {
+              course: { select: { title: true } },
+              lesson: { select: { title: true } },
+            },
+            orderBy: { updatedAt: 'desc' },
+          });
 
-          return JSON.stringify({ courses });
+          const courseList = courses.map((course) => {
+            const completedCount =
+              completedCounts.find((c) => c.courseId === course.id)?._count
+                ?.lessonId || 0;
+            const totalCount = course._count?.lessons || 0;
+            const isLastCourse = lastProgress?.courseId === course.id;
+
+            return {
+              courseId: course.id,
+              title: course.title || 'Untitled Course',
+              completedLessons: completedCount,
+              totalLessons: totalCount,
+              progressPercent:
+                totalCount > 0
+                  ? Math.round((completedCount / totalCount) * 100)
+                  : 0,
+              lastLesson: isLastCourse
+                ? lastProgress?.lesson?.title || 'Unknown'
+                : undefined,
+            };
+          });
+
+          return JSON.stringify({
+            courses: courseList,
+            lastStudied: lastProgress
+              ? {
+                  courseTitle: lastProgress.course?.title || 'Unknown',
+                  lessonTitle: lastProgress.lesson?.title || 'Unknown',
+                  updatedAt: lastProgress.updatedAt,
+                }
+              : null,
+          });
         } catch (error) {
           this.logger.error('get_learning_progress failed', error);
           return JSON.stringify({ error: 'Failed to fetch learning progress' });
