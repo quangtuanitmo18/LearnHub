@@ -668,6 +668,25 @@ export class AuthService {
             },
           });
         }
+
+        // Auto-assign Student role if user has no roles (e.g. failed initial assignment)
+        if (user.roles.length === 0) {
+          user = await this.prismaService.user.update({
+            where: { id: user.id },
+            data: {
+              roles: { connect: { name: SYSTEM_ROLE_NAMES.STUDENT } },
+            },
+            include: {
+              roles: {
+                select: {
+                  id: true,
+                  name: true,
+                  permissions: true,
+                },
+              },
+            },
+          });
+        }
       } else {
         // Create new user
         user = await this.prismaService.user.create({
@@ -785,6 +804,25 @@ export class AuthService {
           user = await this.prismaService.user.update({
             where: { id: user.id },
             data: { avatar: avatarUrl },
+            include: {
+              roles: {
+                select: {
+                  id: true,
+                  name: true,
+                  permissions: true,
+                },
+              },
+            },
+          });
+        }
+
+        // Auto-assign Student role if user has no roles (e.g. failed initial assignment)
+        if (user.roles.length === 0) {
+          user = await this.prismaService.user.update({
+            where: { id: user.id },
+            data: {
+              roles: { connect: { name: SYSTEM_ROLE_NAMES.STUDENT } },
+            },
             include: {
               roles: {
                 select: {
