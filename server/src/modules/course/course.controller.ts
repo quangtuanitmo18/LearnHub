@@ -144,4 +144,11 @@ export class CourseController {
       courseId,
     );
   }
+
+  @Get(':id/related')
+  @Public()
+  @ResponseMessage('Related courses retrieved successfully')
+  async getRelatedCourses(@Param('id') id: string) {
+    return this.courseService.getRelatedCourses(id);
+  }
 }

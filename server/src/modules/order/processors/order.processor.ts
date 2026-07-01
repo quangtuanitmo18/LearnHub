@@ -38,23 +38,20 @@ export class OrderProcessor extends WorkerHost {
     this.logger.log(`Checking order ${orderCode} for cancellation...`);
 
     try {
-      // Get current order status
-      const order = await this.orderRepository.findOneOrNull({ id: orderId });
+      // Perform atomic status change from PENDING to CANCELLED
+      const updatedOrder = await this.orderRepository.updateStatus(
+        orderId,
+        OrderStatus.CANCELLED,
+        OrderStatus.PENDING,
+      );
 
-      if (!order) {
-        this.logger.warn(`Order ${orderCode} not found`);
-        return;
-      }
-
-      // Only cancel if still PENDING
-      if (order.status === OrderStatus.PENDING) {
-        await this.orderRepository.updateStatus(orderId, OrderStatus.CANCELLED);
+      if (updatedOrder) {
         this.logger.log(
           `Order ${orderCode} cancelled due to non-payment after 24 hours`,
         );
       } else {
         this.logger.log(
-          `Order ${orderCode} is already ${order.status}, skipping cancellation`,
+          `Order ${orderCode} is not in PENDING status, skipping cancellation`,
         );
       }
     } catch (error) {

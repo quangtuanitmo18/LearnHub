@@ -178,7 +178,20 @@ export class OrderRepository extends BaseService<
   /**
    * Update order status
    */
-  async updateStatus(orderId: string, status: OrderStatusType) {
+  async updateStatus(
+    orderId: string,
+    status: OrderStatusType,
+    expectedStatus?: OrderStatusType,
+  ) {
+    if (expectedStatus) {
+      const result = await this.prismaService.order.updateMany({
+        where: { id: orderId, status: expectedStatus },
+        data: { status },
+      });
+      if (result.count === 0) {
+        return null;
+      }
+    }
     return await this.prismaService.order.update({
       where: { id: orderId },
       data: { status },

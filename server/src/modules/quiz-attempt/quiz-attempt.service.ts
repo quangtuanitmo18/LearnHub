@@ -421,10 +421,12 @@ export class QuizAttemptService {
       };
     }
 
-    // Lazy-expire check
-    const isExpired = await this.lazyExpireAttempt(attempt);
-    if (isExpired) {
-      throw new BadRequestException('This attempt has expired');
+    // Lazy-expire check (bypassed on auto-submit)
+    if (!isAutoSubmit) {
+      const isExpired = await this.lazyExpireAttempt(attempt);
+      if (isExpired) {
+        throw new BadRequestException('This attempt has expired');
+      }
     }
 
     // Only allow submitting if IN_PROGRESS
@@ -452,7 +454,8 @@ export class QuizAttemptService {
     const totalCount = questions.length;
 
     const gradedAnswers = questions.map((question) => {
-      const selectedOptionIds = answerMap.get(question.id) || [];
+      const rawSelectedOptionIds = answerMap.get(question.id) || [];
+      const selectedOptionIds = [...new Set(rawSelectedOptionIds)];
       const correctOptionIds = question.options
         .filter((o) => o.isCorrect)
         .map((o) => o.id);

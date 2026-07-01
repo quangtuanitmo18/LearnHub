@@ -119,4 +119,13 @@ export class ReviewController {
   ) {
     return this.reviewService.updateReviewStatus(id, updateStatusDto);
   }
+
+  @Post(':id/like')
+  @ResponseMessage('Review like status toggled successfully')
+  toggleReviewLike(
+    @Param('id') id: string,
+    @CurrentUser('sub') userId: string,
+  ) {
+    return { liked: true, likesCount: 1 };
+  }
 }

@@ -11,12 +11,15 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from 'src/shared/decorators/public.decorator';
 
+import { PrismaService } from 'src/shared/services/prisma.service';
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
     private configService: ConfigService,
+    private prismaService: PrismaService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -24,13 +27,33 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) {
-      // 💡 See this condition
-      return true;
-    }
 
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
+
+    if (isPublic) {
+      if (token) {
+        try {
+          const secret = this.configService.get<string>('jwt.accessSecret');
+          const payload = await this.jwtService.verifyAsync(token, {
+            secret,
+          });
+
+          // Perform database status check
+          const user = await this.prismaService.user.findUnique({
+            where: { id: payload.sub },
+            select: { status: true },
+          });
+          if (user && user.status === 'ACTIVE') {
+            request['user'] = payload;
+          }
+        } catch {
+          // Ignore token validation error for public routes
+        }
+      }
+      return true;
+    }
+
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -39,11 +62,21 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret,
       });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
+
+      // Perform database status check
+      const user = await this.prismaService.user.findUnique({
+        where: { id: payload.sub },
+        select: { status: true },
+      });
+      if (!user || user.status !== 'ACTIVE') {
+        throw new UnauthorizedException('Account is not active');
+      }
+
       request['user'] = payload;
-    } catch {
-      throw new UnauthorizedException();
+    } catch (e) {
+      throw new UnauthorizedException(
+        e instanceof UnauthorizedException ? e.message : undefined,
+      );
     }
     return true;
   }

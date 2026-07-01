@@ -98,10 +98,9 @@ export class ReviewsService {
     return ApiService.delete<void>(`${ENDPOINTS.REVIEWS}/${reviewId}`);
   }
 
-  // Bulk delete admin reviews
   static async bulkDeleteAdminReviews(reviewIds: string[]): Promise<void> {
-    return ApiService.delete<void, { reviewIds: string[] }>(`${ENDPOINTS.REVIEWS}/bulk`, {
-      reviewIds,
+    return ApiService.delete<void, { ids: string[] }>(`${ENDPOINTS.REVIEWS}/bulk-delete`, {
+      ids: reviewIds,
     });
   }
 }

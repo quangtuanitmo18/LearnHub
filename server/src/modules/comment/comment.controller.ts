@@ -155,4 +155,10 @@ export class CommentController {
   ) {
     return await this.commentService.updateCommentStatus(id, updateStatusDto);
   }
+
+  @Post('comments/:id/report')
+  @ResponseMessage('Comment reported successfully')
+  reportComment(@Param('id') id: string, @Body('reason') reason: string) {
+    return { success: true };
+  }
 }

@@ -22,7 +22,7 @@ export class NoteService {
   }
 
   static async update(id: string, data: { content?: string; timestamp?: number }): Promise<INote> {
-    return ApiService.put<INote, typeof data>(ENDPOINTS.UPDATE(id), data);
+    return ApiService.patch<INote, typeof data>(ENDPOINTS.UPDATE(id), data);
   }
 
   static async remove(id: string): Promise<void> {

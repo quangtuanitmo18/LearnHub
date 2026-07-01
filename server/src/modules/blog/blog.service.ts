@@ -241,7 +241,7 @@ export class BlogService {
     const excerpt =
       dto.excerpt ||
       dto.content
-        .replace(/[#*`>\-[\]()!]/g, '')
+        .replace(/[#*`>\-\[\]()!]/g, '')
         .substring(0, 200)
         .trim() + '...';
 
@@ -315,7 +315,7 @@ export class BlogService {
     if (dto.content && !dto.excerpt) {
       updateData.excerpt =
         dto.content
-          .replace(/[#*`>\-[\]()!]/g, '')
+          .replace(/[#*`>\-\[\]()!]/g, '')
           .substring(0, 200)
           .trim() + '...';
     }

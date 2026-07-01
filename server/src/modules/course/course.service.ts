@@ -462,4 +462,58 @@ export class CourseService {
       },
     };
   }
+
+  async getRelatedCourses(courseId: string) {
+    const course = await this.prismaService.course.findUnique({
+      where: { id: courseId },
+      select: { categoryId: true },
+    });
+
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+
+    const related = await this.prismaService.course.findMany({
+      where: {
+        categoryId: course.categoryId,
+        status: 'PUBLISHED',
+        id: { not: courseId },
+      },
+      take: 4,
+      include: {
+        image: true,
+        previewImages: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            avatar: true,
+          },
+        },
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+        _count: {
+          select: {
+            chapters: true,
+            lessons: true,
+          },
+        },
+      },
+    });
+
+    return related.map((c) => ({
+      ...c,
+      chaptersCount: c._count.chapters,
+      lessonsCount: c._count.lessons,
+      totalLessons: c._count.lessons,
+      _count: undefined,
+    }));
+  }
 }

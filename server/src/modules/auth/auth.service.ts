@@ -10,6 +10,7 @@ import * as crypto from 'crypto';
 import { Response as ExpressResponse } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from 'src/shared/services/prisma.service';
+import { SYSTEM_ROLE_NAMES } from 'src/shared/configs/permission';
 import { EmailQueueService } from '../email/services';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
@@ -214,6 +215,7 @@ export class AuthService {
         isEmailVerified: true,
         otpCode: null,
         otpExpires: null,
+        roles: { connect: { name: SYSTEM_ROLE_NAMES.STUDENT } },
       },
     });
 
@@ -676,6 +678,7 @@ export class AuthService {
             status: 'ACTIVE',
             isEmailVerified: true, // Google verified the email
             userType: 'GOOGLE',
+            roles: { connect: { name: SYSTEM_ROLE_NAMES.STUDENT } },
           },
           include: {
             roles: {
@@ -803,6 +806,7 @@ export class AuthService {
             status: 'ACTIVE',
             isEmailVerified: true, // Facebook verified the email
             userType: 'FACEBOOK',
+            roles: { connect: { name: SYSTEM_ROLE_NAMES.STUDENT } },
           },
           include: {
             roles: {
