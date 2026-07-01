@@ -1,6 +1,7 @@
 import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable, Logger } from '@nestjs/common';
 import { Queue } from 'bullmq';
+import { PrismaService } from 'src/shared/services/prisma.service';
 
 /**
  * Service responsible for dispatching document embedding jobs to BullMQ.
@@ -11,7 +12,10 @@ import { Queue } from 'bullmq';
 export class EmbedService {
   private readonly logger = new Logger(EmbedService.name);
 
-  constructor(@InjectQueue('ai-embed') private readonly embedQueue: Queue) {}
+  constructor(
+    @InjectQueue('ai-embed') private readonly embedQueue: Queue,
+    private readonly prismaService: PrismaService,
+  ) {}
 
   /**
    * Split content into chunks and dispatch embedding jobs.
@@ -35,6 +39,9 @@ export class EmbedService {
       this.logger.debug('Content too short, skipping embedding');
       return;
     }
+
+    // Delete existing chunks to prevent duplicates on update
+    await this.clearContent({ blogId, lessonId, courseId });
 
     // Strip HTML tags for cleaner embeddings
     const cleanText = content
@@ -68,6 +75,37 @@ export class EmbedService {
     this.logger.log(
       `Enqueued ${chunks.length} embedding jobs for ${sourceType} (lesson: ${lessonId || 'N/A'})`,
     );
+  }
+
+  /**
+   * Clear existing chunks for a resource to avoid duplicates.
+   */
+  async clearContent(params: {
+    blogId?: string;
+    lessonId?: string;
+    courseId?: string;
+  }): Promise<void> {
+    const { blogId, lessonId, courseId } = params;
+    try {
+      if (blogId) {
+        await this.prismaService.documentChunk.deleteMany({
+          where: { blogId },
+        });
+        this.logger.debug(`Cleared chunks for blog: ${blogId}`);
+      } else if (lessonId) {
+        await this.prismaService.documentChunk.deleteMany({
+          where: { lessonId },
+        });
+        this.logger.debug(`Cleared chunks for lesson: ${lessonId}`);
+      } else if (courseId) {
+        await this.prismaService.documentChunk.deleteMany({
+          where: { courseId, lessonId: null, blogId: null },
+        });
+        this.logger.debug(`Cleared chunks for course: ${courseId}`);
+      }
+    } catch (err) {
+      this.logger.error('Failed to clear document chunks', err);
+    }
   }
 
   /**

@@ -18,7 +18,7 @@ export function DesktopNavigation() {
 
   return (
     <nav
-      className="hidden flex-1 items-center justify-center space-x-12 lg:flex"
+      className="hidden flex-1 items-center justify-center space-x-4 lg:flex xl:space-x-6 2xl:space-x-10"
       role="navigation"
       aria-label="Main navigation"
     >
@@ -31,7 +31,7 @@ export function DesktopNavigation() {
             key={item.name}
             href={item.href}
             className={cn(
-              'group relative rounded-md px-2 py-2 text-base font-semibold transition-all duration-200 focus:outline-none',
+              'group relative rounded-md px-2 py-2 text-sm font-semibold transition-all duration-200 focus:outline-none xl:text-base',
               isActive ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600',
             )}
             aria-current={isActive ? 'page' : undefined}

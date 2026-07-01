@@ -11,6 +11,7 @@ import { CategoryRepository } from '../category/category.repository';
 import { GamificationService } from '../gamification/gamification.service';
 import { UserRepository } from '../user/user.repository';
 import { BlogRepository } from './blog.repository';
+import { EmbedService } from '../ai-worker/embed.service';
 import {
   BlogQueryDto,
   CreateBlogDto,
@@ -26,6 +27,7 @@ export class BlogService {
     private readonly userRepository: UserRepository,
     private readonly categoryRepository: CategoryRepository,
     private readonly gamificationService: GamificationService,
+    private readonly embedService: EmbedService,
   ) {}
 
   // ==========================================
@@ -65,6 +67,18 @@ export class BlogService {
     return blog;
   }
 
+  private dispatchEmbedding(content: string, blogId: string): void {
+    this.embedService
+      .enqueueContent({ content, sourceType: 'BLOG', blogId })
+      .catch((err) => console.error('Blog embed dispatch failed:', err));
+  }
+
+  private dispatchDeleteEmbedding(blogId: string): void {
+    this.embedService
+      .clearContent({ blogId })
+      .catch((err) => console.error('Blog embed delete failed:', err));
+  }
+
   async createBlog(createBlogDto: CreateBlogDto, authorId: string) {
     const category = await this.categoryRepository.findOneOrNull({
       id: createBlogDto.categoryId,
@@ -89,7 +103,14 @@ export class BlogService {
       createBlogDto.publishedAt = new Date().toISOString();
     }
 
-    return this.blogRepository.create({ ...createBlogDto, authorId });
+    const blog = await this.blogRepository.create({
+      ...createBlogDto,
+      authorId,
+    });
+    if (blog.status === BlogStatus.PUBLISHED && blog.content) {
+      this.dispatchEmbedding(blog.content, blog.id);
+    }
+    return blog;
   }
 
   async updateBlog(id: string, updateBlogDto: UpdateBlogDto) {
@@ -134,7 +155,15 @@ export class BlogService {
       updateBlogDto.publishedAt = new Date().toISOString();
     }
 
-    return this.blogRepository.update({ id }, updateBlogDto);
+    const updatedBlog = await this.blogRepository.update({ id }, updateBlogDto);
+    if (updatedBlog.status === BlogStatus.PUBLISHED) {
+      if (updatedBlog.content) {
+        this.dispatchEmbedding(updatedBlog.content, updatedBlog.id);
+      }
+    } else {
+      this.dispatchDeleteEmbedding(updatedBlog.id);
+    }
+    return updatedBlog;
   }
 
   async deleteBlog(id: string) {
@@ -143,7 +172,9 @@ export class BlogService {
       throw new NotFoundException('Blog not found');
     }
 
-    return this.blogRepository.delete({ id });
+    const result = await this.blogRepository.delete({ id });
+    this.dispatchDeleteEmbedding(id);
+    return result;
   }
 
   async bulkDeleteBlogs(ids: string[]) {
@@ -155,6 +186,11 @@ export class BlogService {
 
     if (result.count === 0) {
       throw new NotFoundException('No blogs found with the provided IDs');
+    }
+
+    // Trigger vector deletion for all bulk-deleted blogs
+    for (const id of ids) {
+      this.dispatchDeleteEmbedding(id);
     }
 
     return {
@@ -189,7 +225,18 @@ export class BlogService {
       }
     }
 
-    return this.blogRepository.update({ id }, updateData as UpdateBlogDto);
+    const updatedBlog = await this.blogRepository.update(
+      { id },
+      updateData as UpdateBlogDto,
+    );
+    if (updatedBlog.status === BlogStatus.PUBLISHED) {
+      if (updatedBlog.content) {
+        this.dispatchEmbedding(updatedBlog.content, updatedBlog.id);
+      }
+    } else {
+      this.dispatchDeleteEmbedding(updatedBlog.id);
+    }
+    return updatedBlog;
   }
 
   // ==========================================

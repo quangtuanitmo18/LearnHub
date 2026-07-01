@@ -72,7 +72,7 @@ function MainHeader() {
             <DesktopNavigation />
 
             {/* Actions */}
-            <div className="flex min-w-fit items-center gap-1 sm:gap-2 lg:gap-3">
+            <div className="flex min-w-fit items-center gap-1 sm:gap-2 lg:gap-2 xl:gap-3">
               <SearchDialog />
               <NotificationPopover />
               <WishlistTooltip />

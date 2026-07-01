@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import OpenAI from 'openai';
-import { PrismaClient } from 'src/generated/prisma/client';
+import { PrismaClient } from '../src/generated/prisma/client';
 
 import { PrismaPg } from '@prisma/adapter-pg';
 
@@ -52,6 +52,7 @@ async function main() {
     sourceType: string,
     courseId: string | null,
     lessonId: string | null,
+    blogId: string | null = null,
   ) => {
     const cleanText = stripHtml(content);
     if (cleanText.length < 20) return 0;
@@ -70,12 +71,13 @@ async function main() {
 
       await prisma.$queryRawUnsafe(
         `INSERT INTO "DocumentChunk" ("id", "content", "embedding", "sourceType", "courseId", "lessonId", "blogId", "chunkIndex", "createdAt")
-         VALUES (gen_random_uuid(), $1, $2::vector, $3::"DocumentSourceType", $4, $5, NULL, $6, NOW())`,
+         VALUES (gen_random_uuid(), $1, $2::vector, $3::"DocumentSourceType", $4, $5, $6, $7, NOW())`,
         chunks[i],
         vectorStr,
         sourceType,
         courseId,
         lessonId,
+        blogId,
         i,
       );
       inserted++;
@@ -83,6 +85,8 @@ async function main() {
     return inserted;
   };
 
+  console.log('🧹 Clearing existing DocumentChunk records...');
+  await prisma.$executeRawUnsafe('DELETE FROM "DocumentChunk";');
   console.log('🚀 Starting bulk embedding...\n');
 
   // 1. Embed course descriptions
@@ -138,6 +142,25 @@ async function main() {
       lesson.id,
     );
     console.log(`✅ Lesson desc "${lesson.title}" → ${count} chunks`);
+    total += count;
+  }
+
+  // 4. Embed published blogs
+  const blogs = await prisma.blog.findMany({
+    where: { status: 'PUBLISHED', content: { not: '' } },
+    select: { id: true, title: true, content: true },
+  });
+
+  for (const blog of blogs) {
+    if (!blog.content) continue;
+    const count = await embedAndInsert(
+      blog.content,
+      'BLOG',
+      null,
+      null,
+      blog.id,
+    );
+    console.log(`✅ Blog "${blog.title}" → ${count} chunks`);
     total += count;
   }
 
