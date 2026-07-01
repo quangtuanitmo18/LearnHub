@@ -8,8 +8,6 @@ import {
   Put,
   Query,
   UseGuards,
-} from '@nestjs/common';
-
   StreamableFile,
   Res,
 } from '@nestjs/common';
@@ -61,9 +59,6 @@ export class ContestController {
     @CurrentUser('sub') userId?: string,
   ) {
     return this.quizAttemptService.getLeaderboard(id, userId || '', true);
-
-  async getContestLeaderboard(@Param('id') id: string) {
-    return this.quizAttemptService.getLeaderboard(id, '', true);
   }
 
   @Post(':id/attempts/start')
@@ -152,7 +147,6 @@ export class ContestController {
       true,
     );
   }
-
 
   @Get('admin/:id/export')
   @RequirePermissions(PERMISSIONS.CONTEST_READ)

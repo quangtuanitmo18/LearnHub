@@ -487,8 +487,6 @@ export class CourseService {
           select: {
             id: true,
             username: true,
-            firstName: true,
-            lastName: true,
             avatar: true,
           },
         },
@@ -508,11 +506,11 @@ export class CourseService {
       },
     });
 
-    return related.map((c) => ({
+    return related.map((c: any) => ({
       ...c,
-      chaptersCount: c._count.chapters,
-      lessonsCount: c._count.lessons,
-      totalLessons: c._count.lessons,
+      chaptersCount: c._count?.chapters || 0,
+      lessonsCount: c._count?.lessons || 0,
+      totalLessons: c._count?.lessons || 0,
       _count: undefined,
     }));
   }

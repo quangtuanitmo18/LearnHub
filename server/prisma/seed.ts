@@ -126,7 +126,7 @@ async function main() {
   });
 
   // Multiple Students
-  const students = [];
+  const students: any[] = [];
   for (let i = 1; i <= 5; i++) {
     const student = await prisma.user.upsert({
       where: { email: `student${i}@example.com` },
@@ -591,7 +591,7 @@ async function main() {
       status: 'PUBLISHED',
       publishedAt: new Date(),
       authorId: instructor.id,
-      categoryId: categories.find((c) => c.slug === 'web-development')?.id,
+      categoryId: categories.find((c) => c.slug === 'web-development')?.id!,
     },
   });
 
@@ -608,7 +608,7 @@ async function main() {
       status: 'PUBLISHED',
       publishedAt: new Date(Date.now() - 86400000), // 1 day ago
       authorId: instructor2.id,
-      categoryId: categories.find((c) => c.slug === 'ui-ux-design')?.id,
+      categoryId: categories.find((c) => c.slug === 'ui-ux-design')?.id!,
     },
   });
 
